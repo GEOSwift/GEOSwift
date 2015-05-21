@@ -8,7 +8,7 @@ Handle all kind of geographic objects (points, linestrings, polygons etc.) and a
 
 ## Creator
 
-Andrea Cremaschi (@andreacremaschi)
+Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi))
 
 ## License
 
