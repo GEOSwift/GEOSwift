@@ -10,7 +10,7 @@ target 'HumboldtDemo' do
 
 end
 
-target 'HumboldtDemoTests' do
+target 'HumboldtTests' do
 
 end
 

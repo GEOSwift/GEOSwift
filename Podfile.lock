@@ -17,4 +17,4 @@ SPEC CHECKSUMS:
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   geos: 836ecf4b0d1baf6c3dda536126aaee6fdde0ebee
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.37.1

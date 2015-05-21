@@ -23,26 +23,53 @@ class HumboldtTests: XCTestCase {
     }
 
     func testCreatePointFromWKT() {
-        // This is an example of a functional test case.
-        let geom = Geometry(WKT: "POINT(45 9)")
-        XCTAssertNotNil(geom, "Geometry is nil")
-        XCTAssert(geom?.points[0].x == 45 && geom?.points[0].y == 9 , "Geometry is not a point or it has not been correctly valorized")
+        var result = false
+        if let point = Geometry.create("POINT(45 9)") as? Point {
+            result = point.coordinate.x == 45 && point.coordinate.y == 9
+        }
+        XCTAssert(result, "WKT parse failed (expected to receive a POINT)")
     }
 
     func testCreateLinestringFromWKT() {
-        // This is an example of a functional test case.
-        let geom = Geometry(WKT: "LINESTRING(3 4,10 50,20 25)")
-        XCTAssertNotNil(geom, "Geometry is nil")
-        XCTAssert(geom?.points.count() == 3 && geom?.points[0].x == 3 && geom?.points[0].y == 4 , "Geometry is not a point or it has not been correctly valorized")
+        var result = false
+        if let linestring = Geometry.create("LINESTRING(3 4,10 50,20 25)") as? LineString {
+            result = linestring.points.count() == 3 && linestring.points[0].x == 3 && linestring.points[0].y == 4
+        }
+        XCTAssert(result, "WKT parse failed (expected to receive a LINESTRING)")
     }
 
     func testCreatePolygonFromWKT() {
-        // This is an example of a functional test case.
-        let geom = Geometry(WKT: "POLYGON((1 1,5 1,5 5,1 5,1 1),(2 2, 3 2, 3 3, 2 3,2 2))")
-        XCTAssertNotNil(geom, "Geometry is nil")
-        XCTAssert(geom?.points.count() == 3 && geom?.points[0].x == 3 && geom?.points[0].y == 4 , "Geometry is not a point or it has not been correctly valorized")
+        var result = false
+        if let polygon = Geometry.create("POLYGON ((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as? Polygon {
+            if let exteriorRing = polygon.exteriorRing {
+                result = polygon.interiorRings.count == 1 && exteriorRing.points.count() == 5 && exteriorRing.points[0].x == 35 && exteriorRing.points[0].y == 10
+            }
+        }
+        XCTAssert(result, "WKT parse failed (expected to receive a POLYGON)")
     }
 
+    func testCreateGeometriesCollectionFromWKT() {
+        var result = false
+        if let geometryCollection = Geometry.create("GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))") as? GeometryCollection {
+            if geometryCollection.geometries.count == 2,
+                let polygon = geometryCollection.geometries[0] as? Point,
+                let linestring = geometryCollection.geometries[1] as? LineString {
+                    result = true
+            }
+        }
+        XCTAssert(result, "WKT parse failed (expected to receive a GEOMETRYCOLLECTION containing a POINT and a LINESTRING)")
+    }
+
+    func testCreateMultiPointFromWKT() {
+        var result = false
+        if let multiPoint = Geometry.create("MULTIPOINT(-2 0,-1 -1,0 0,1 -1,2 0,0 2,-2 0)") as? GeometryCollection<Point> {
+            if multiPoint.geometries.count == 7 {
+                result = true
+            }
+        }
+        XCTAssert(result, "WKT parse failed (expected to receive a MULTIPOINT)")
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measureBlock() {
