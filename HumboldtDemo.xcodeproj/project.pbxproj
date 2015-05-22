@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		71122C85C4642B074AEFD4EB /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		CD06D3DD1B0F294800451E02 /* HumboldtTopology.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD06D3DC1B0F294800451E02 /* HumboldtTopology.swift */; };
 		CD6533B71B0E0DFF00DE6D84 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6533B61B0E0DFF00DE6D84 /* AppDelegate.swift */; };
 		CD6533B91B0E0DFF00DE6D84 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6533B81B0E0DFF00DE6D84 /* ViewController.swift */; };
 		CD6533BC1B0E0DFF00DE6D84 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD6533BA1B0E0DFF00DE6D84 /* Main.storyboard */; };
@@ -33,6 +34,7 @@
 		5198B140D5CD4040E3A1FDA5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6E39C007F045ACC00B156A18 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		887537486B17EE0B1DC6F3A3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD06D3DC1B0F294800451E02 /* HumboldtTopology.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumboldtTopology.swift; sourceTree = "<group>"; };
 		CD6533B11B0E0DFF00DE6D84 /* HumboldtDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HumboldtDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD6533B51B0E0DFF00DE6D84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD6533B61B0E0DFF00DE6D84 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -141,9 +143,10 @@
 			isa = PBXGroup;
 			children = (
 				CD6533D91B0E0E9600DE6D84 /* Humboldt-Bridging-Header.h */,
-				CD6533DA1B0E0E9600DE6D84 /* Humboldt.swift */,
 				CD6533DB1B0E0E9600DE6D84 /* HumboldtCallback.h */,
 				CD6533DC1B0E0E9600DE6D84 /* HumboldtCallback.m */,
+				CD6533DA1B0E0E9600DE6D84 /* Humboldt.swift */,
+				CD06D3DC1B0F294800451E02 /* HumboldtTopology.swift */,
 				CD6533E31B0E5E3200DE6D84 /* HumboldtQuickLook.swift */,
 			);
 			path = Humboldt;
@@ -313,6 +316,7 @@
 				CD6533E41B0E5E3200DE6D84 /* HumboldtQuickLook.swift in Sources */,
 				CD6533B91B0E0DFF00DE6D84 /* ViewController.swift in Sources */,
 				CD6533B71B0E0DFF00DE6D84 /* AppDelegate.swift in Sources */,
+				CD06D3DD1B0F294800451E02 /* HumboldtTopology.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

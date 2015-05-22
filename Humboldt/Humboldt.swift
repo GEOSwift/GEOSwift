@@ -33,7 +33,7 @@ var GEOS_HANDLE: COpaquePointer = {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
 
-    private class func create(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) -> AnyObject? {
+    internal class func create(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) -> AnyObject? {
         if GEOSGeom == nil {
             return nil
         }
