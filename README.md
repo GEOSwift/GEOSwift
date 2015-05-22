@@ -6,6 +6,10 @@ Handle all kind of geographic objects (points, linestrings, polygons etc.) and a
 
 ## Usage
 
+## What is GEOS?
+
+[GEOS](http://trac.osgeo.org/geos/) stands for Geometry Engine - Open Source, and is a C++ library, ported from the [Java Topology Suite](http://sourceforge.net/projects/jts-topo-suite/). GEOS implements the OpenGIS [Simple Features for SQL](http://www.opengeospatial.org/standards/sfs) spatial predicate functions and spatial operators. GEOS, now an OSGeo project, was initially developed and maintained by [Refractions Research](http://www.refractions.net/) of Victoria, Canada.
+
 ## Creator
 
 Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi))
