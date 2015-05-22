@@ -16,6 +16,7 @@
 		CD6533DF1B0E0E9C00DE6D84 /* Humboldt.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6533DA1B0E0E9600DE6D84 /* Humboldt.swift */; };
 		CD6533E01B0E0E9C00DE6D84 /* HumboldtCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6533DC1B0E0E9600DE6D84 /* HumboldtCallback.m */; };
 		CD6533E21B0E0ECC00DE6D84 /* HumboldtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6533E11B0E0ECC00DE6D84 /* HumboldtTests.swift */; };
+		CD6533E41B0E5E3200DE6D84 /* HumboldtQuickLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6533E31B0E5E3200DE6D84 /* HumboldtQuickLook.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		CD6533DB1B0E0E9600DE6D84 /* HumboldtCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HumboldtCallback.h; sourceTree = "<group>"; };
 		CD6533DC1B0E0E9600DE6D84 /* HumboldtCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HumboldtCallback.m; sourceTree = "<group>"; };
 		CD6533E11B0E0ECC00DE6D84 /* HumboldtTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumboldtTests.swift; sourceTree = "<group>"; };
+		CD6533E31B0E5E3200DE6D84 /* HumboldtQuickLook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumboldtQuickLook.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 				CD6533DA1B0E0E9600DE6D84 /* Humboldt.swift */,
 				CD6533DB1B0E0E9600DE6D84 /* HumboldtCallback.h */,
 				CD6533DC1B0E0E9600DE6D84 /* HumboldtCallback.m */,
+				CD6533E31B0E5E3200DE6D84 /* HumboldtQuickLook.swift */,
 			);
 			path = Humboldt;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 			files = (
 				CD6533DF1B0E0E9C00DE6D84 /* Humboldt.swift in Sources */,
 				CD6533E01B0E0E9C00DE6D84 /* HumboldtCallback.m in Sources */,
+				CD6533E41B0E5E3200DE6D84 /* HumboldtQuickLook.swift in Sources */,
 				CD6533B91B0E0DFF00DE6D84 /* ViewController.swift in Sources */,
 				CD6533B71B0E0DFF00DE6D84 /* AppDelegate.swift in Sources */,
 			);

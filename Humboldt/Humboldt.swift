@@ -12,7 +12,7 @@ var GEOS_HANDLE: COpaquePointer = {
     return initGEOSWrapper_r();
 }()
 
-public class Geometry {
+@objc public class Geometry {
 
     let geometry: COpaquePointer
     let destroyOnDeinit: Bool
