@@ -17,15 +17,19 @@ protocol HumboldtQuickLook {
 extension Geometry : HumboldtQuickLook {
     func debugQuickLookObject() -> AnyObject? {
 
+        let centroid = self.centroid()
+        let buffer = self.envelope()
+        let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
+        let exteriorRing = buffer.exteriorRing
+        let upperLeft = exteriorRing.points[2]
+        let lowerRight = exteriorRing.points[0]
+        let span = MKCoordinateSpanMake(upperLeft.y - lowerRight.y, upperLeft.x - lowerRight.x)
+        let region = MKCoordinateRegionMake(center, span)
         var mapView = MKMapView()
-        
-        let annotation = MKPointAnnotation.new()
-        annotation.coordinate = CLLocationCoordinate2DMake(45, 9)
         
         mapView.mapType = .Standard
         mapView.frame = CGRectMake(0, 0, 200, 200)
-        mapView.addAnnotation(annotation)
-        mapView.showAnnotations([annotation], animated: false)
+        mapView.region = region
         
         var options = MKMapSnapshotOptions.new()
         options.region = mapView.region

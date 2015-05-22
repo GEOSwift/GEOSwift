@@ -10,3 +10,4 @@
 #import <geos/geos_c.h>
 
 extern GEOSContextHandle_t initGEOSWrapper_r();
+extern void GEOSGeom_destroyWrapper_r(GEOSContextHandle_t handle, GEOSGeometry* g);

@@ -25,7 +25,7 @@ var GEOS_HANDLE: COpaquePointer = {
     deinit {
         println("Destroying \(self)")
         if (self.destroyOnDeinit) {
-            GEOSGeom_destroy_r(GEOS_HANDLE, geometry);
+            GEOSGeom_destroyWrapper_r(GEOS_HANDLE, geometry);
         }
     }
     
@@ -38,35 +38,39 @@ var GEOS_HANDLE: COpaquePointer = {
             return nil
         }
         let geometryTypeId = GEOSGeomTypeId_r(GEOS_HANDLE, GEOSGeom)
+        var subclass: AnyClass!
+        
         switch geometryTypeId {
             
         case 0: // GEOS_POINT
-            return Point(GEOSGeom: GEOSGeom)
+            subclass = Point.self
             
         case 1: // GEOS_LINESTRING:
-            return LineString(GEOSGeom: GEOSGeom)
+            subclass = LineString.self
             
         case 2: // GEOS_LINEARRING:
-            return LinearRing(GEOSGeom: GEOSGeom)
+            subclass = LinearRing.self
             
         case 3: // GEOS_POLYGON:
-            return Polygon(GEOSGeom: GEOSGeom)
+            subclass = Polygon.self
             
         case 4: // GEOS_MULTIPOINT:
-            return MultiPoint(GEOSGeom: GEOSGeom)
+            subclass = MultiPoint.self
             
         case 5: // GEOS_MULTILINESTRING:
-            return MultiLineString(GEOSGeom: GEOSGeom)
+            subclass = MultiLineString.self
             
         case 6: // GEOS_MULTIPOLYGON:
-            return MultiPolygon(GEOSGeom: GEOSGeom)
+            subclass = MultiPolygon.self
             
         case 7: // GEOS_GEOMETRYCOLLECTION:
-            return GeometryCollection<Geometry>(GEOSGeom: GEOSGeom)
+            subclass = GeometryCollection<Geometry>.self
             
         default:
             return nil
         }
+        return subclass(GEOSGeom, destroyOnDeinit: destroyOnDeinit)
+        
     }
     
     private class func create(GEOSGeom: COpaquePointer) -> AnyObject? {
@@ -93,12 +97,12 @@ public struct CoordinatesCollection {
     init(geometry: COpaquePointer) {
         self.geometry = geometry
     }
-    public subscript(index: Int) -> Coordinate {
+    public subscript(index: UInt32) -> Coordinate {
         var x: Double = 0
         var y: Double = 0
         let sequence = GEOSGeom_getCoordSeq_r(GEOS_HANDLE, self.geometry)
-        GEOSCoordSeq_getX_r(GEOS_HANDLE, sequence, 0, &x);
-        GEOSCoordSeq_getY_r(GEOS_HANDLE, sequence, 0, &y);
+        GEOSCoordSeq_getX_r(GEOS_HANDLE, sequence, index, &x);
+        GEOSCoordSeq_getY_r(GEOS_HANDLE, sequence, index, &y);
 
         return Coordinate(x: x, y: y)
     }
@@ -152,14 +156,14 @@ public class Polygon : Geometry {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     
-    lazy public var exteriorRing: LineString? = {
+    lazy public var exteriorRing: LineString = {
         let exteriorRing = GEOSGetExteriorRing_r(GEOS_HANDLE, self.geometry)
-        let linestring = Geometry.create(exteriorRing) as? LineString
+        let linestring = Geometry.create(exteriorRing, destroyOnDeinit: false) as! LineString
         return linestring
     }()
 
-    lazy public var interiorRings: GeometriesCollection<LineString> = {
-        return GeometriesCollection<LineString>(geometry: self.geometry)
+    lazy public var interiorRings: GeometriesCollection<Polygon> = {
+        return GeometriesCollection<Polygon>(geometry: self.geometry)
         }()
 }
 

@@ -32,6 +32,9 @@
 @end
 
 @implementation NSString (FromVariadic)
+
+#pragma mark - Callbacks
+
 +(NSString *)stringFromVariadicArgumentsList:(const char *)fmt, ... NS_REQUIRES_NIL_TERMINATION {
     NSMutableString *newContentString = [NSMutableString string];
     va_list args;
@@ -64,6 +67,18 @@ void errorCallback(const char *args,...) {
 #endif
 };
 
+#pragma mark - Wrappers
+
 GEOSContextHandle_t initGEOSWrapper_r() {
     return initGEOS_r(noticeCallback, errorCallback);
+}
+
+void GEOSGeom_destroyWrapper_r(GEOSContextHandle_t handle, GEOSGeometry* g) {
+    @try {
+        GEOSGeom_destroy_r(handle, g);
+    }
+    @catch (NSException *exception) {
+    }
+    @finally {
+    }
 }

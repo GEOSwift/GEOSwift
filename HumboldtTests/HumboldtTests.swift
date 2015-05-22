@@ -41,9 +41,8 @@ class HumboldtTests: XCTestCase {
     func testCreatePolygonFromWKT() {
         var result = false
         if let polygon = Geometry.create("POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as? Polygon {
-            if let exteriorRing = polygon.exteriorRing {
-                result = polygon.interiorRings.count == 1 && exteriorRing.points.count() == 5 && exteriorRing.points[0].x == 35 && exteriorRing.points[0].y == 10
-            }
+            let exteriorRing = polygon.exteriorRing
+            result = polygon.interiorRings.count == 1 && exteriorRing.points.count() == 5 && exteriorRing.points[0].x == 35 && exteriorRing.points[0].y == 10
         }
         XCTAssert(result, "WKT parse failed (expected to receive a POLYGON)")
     }
