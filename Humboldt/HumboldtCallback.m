@@ -47,30 +47,18 @@
 @end
 
 void noticeCallback(const char *args,...) {
-    NSString *errorString= [NSString stringFromVariadicArgumentsList:args, nil];
+    NSString *noticeString= [NSString stringFromVariadicArgumentsList:args, nil];
 #if HumboldtLumberjack
-    if (failureCondition) {
-        HLogError(@"%@.", errorString);
-    } else if (informationMessage) {
-        HLogInfo(@"%@.", errorString);
-    } else {
-        HLogWarn(@"%@.", errorString);
-    }
+    HLogInfo(@"%@.", noticeString);
 #else
-    NSLog(@"--[Humboldt NOTICE] -- %@.", errorString);
+    NSLog(@"--[Humboldt NOTICE] -- %@.", noticeString);
 #endif
 };
 
 void errorCallback(const char *args,...) {
     NSString *errorString= [NSString stringFromVariadicArgumentsList:args, nil];
 #if HumboldtLumberjack
-    if (failureCondition) {
-        HLogError(@"%@.", errorString);
-    } else if (informationMessage) {
-        HLogInfo(@"%@.", errorString);
-    } else {
-        HLogWarn(@"%@.", errorString);
-    }
+    HLogError(@"%@.", errorString);
 #else
     NSLog(@"--[Humboldt ERROR] -- %@.", errorString);
 #endif

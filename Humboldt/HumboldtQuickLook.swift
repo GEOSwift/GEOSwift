@@ -72,12 +72,31 @@ extension Point : HumboldtQuickLook {
         let coord = CLLocationCoordinate2DMake(45, 9)
         var homePoint = snapshot.pointForCoordinate(coord)
         pinImage.drawAtPoint(homePoint)
-        println("\(homePoint)")
-        println("\(coord)")
+
+        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return finalImage
+    }
+}
+
+extension Polygon : HumboldtQuickLook {
+    override func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
+        var image = snapshot.image
+        
+        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
+        
+        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
+        
+        image.drawAtPoint(CGPointMake(0, 0))
+        
+        let coord = CLLocationCoordinate2DMake(45, 9)
+        var homePoint = snapshot.pointForCoordinate(coord)
+
         // draw polygon
-//        var path = UIBezierPath()
-//        
-//        for (i, coordinate) in enumerate(self.areaCoordinates) {
+        var path = UIBezierPath()
+        
+//        for (i, coordinate) in enumerate(self.exteriorRing?.points) {
 //            var point = snapshot.pointForCoordinate(coordinate)
 //            
 //            if (CGRectContainsPoint(finalImageRect, point)) {
@@ -88,15 +107,15 @@ extension Point : HumboldtQuickLook {
 //                }
 //            }
 //        }
-//        
-//        path.closePath()
-//        
-//        UIColor.blueColor().colorWithAlphaComponent(0.7).setStroke()
-//        UIColor.cyanColor().colorWithAlphaComponent(0.2).setFill()
-//        
-//        path.lineWidth = 2.0
-//        path.stroke()
-//        path.fill()
+        
+        path.closePath()
+        
+        UIColor.blueColor().colorWithAlphaComponent(0.7).setStroke()
+        UIColor.cyanColor().colorWithAlphaComponent(0.2).setFill()
+        
+        path.lineWidth = 2.0
+        path.stroke()
+        path.fill()
         
         let finalImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
