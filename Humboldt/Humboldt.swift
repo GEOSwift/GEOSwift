@@ -17,15 +17,15 @@ var GEOS_HANDLE: COpaquePointer = {
     let geometry: COpaquePointer
     let destroyOnDeinit: Bool
     
-    private init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
+    required public init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
         self.geometry = GEOSGeom
         self.destroyOnDeinit = destroyOnDeinit
     }
 
     deinit {
-        println("Destroying \(self)")
+//        println("Destroying \(self)")
         if (self.destroyOnDeinit) {
-            GEOSGeom_destroyWrapper_r(GEOS_HANDLE, geometry);
+            GEOSGeom_destroy_r(GEOS_HANDLE, geometry);
         }
     }
     
@@ -38,7 +38,7 @@ var GEOS_HANDLE: COpaquePointer = {
             return nil
         }
         let geometryTypeId = GEOSGeomTypeId_r(GEOS_HANDLE, GEOSGeom)
-        var subclass: AnyClass!
+        var subclass: Geometry.Type
         
         switch geometryTypeId {
             
@@ -69,7 +69,7 @@ var GEOS_HANDLE: COpaquePointer = {
         default:
             return nil
         }
-        return subclass(GEOSGeom, destroyOnDeinit: destroyOnDeinit)
+        return subclass(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
         
     }
     
@@ -143,7 +143,7 @@ public struct Coordinate {
 public class Point : Geometry {
     public let coordinate: Coordinate
     
-    private override init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
+    public required init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
         let points = CoordinatesCollection(geometry: GEOSGeom)
         self.coordinate = points[0]
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
@@ -152,7 +152,7 @@ public class Point : Geometry {
 
 public class Polygon : Geometry {
     
-    private override init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
+    public required init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     
@@ -181,7 +181,7 @@ public class GeometryCollection<T: Geometry> : Geometry {
     lazy public var geometries: GeometriesCollection<T> = {
         return GeometriesCollection<T>(geometry: self.geometry)
         }()
-    private override init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
+    public required init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     private convenience init(GEOSGeom: COpaquePointer) {
@@ -190,7 +190,7 @@ public class GeometryCollection<T: Geometry> : Geometry {
 }
 
 public class MultiLineString<T: LineString> : GeometryCollection<LineString> {
-    private override init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
+    public required init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     private convenience init(GEOSGeom: COpaquePointer) {
@@ -199,7 +199,7 @@ public class MultiLineString<T: LineString> : GeometryCollection<LineString> {
 }
 
 public class MultiPoint<T: Point> : GeometryCollection<Point> {
-    private override init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
+    public required init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     private convenience init(GEOSGeom: COpaquePointer) {
@@ -208,7 +208,7 @@ public class MultiPoint<T: Point> : GeometryCollection<Point> {
 }
 
 public class MultiPolygon<T: Polygon> : GeometryCollection<Polygon> {
-    private override init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
+    public required init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     private convenience init(GEOSGeom: COpaquePointer) {

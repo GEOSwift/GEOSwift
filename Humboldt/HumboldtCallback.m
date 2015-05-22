@@ -73,12 +73,12 @@ GEOSContextHandle_t initGEOSWrapper_r() {
     return initGEOS_r(noticeCallback, errorCallback);
 }
 
-void GEOSGeom_destroyWrapper_r(GEOSContextHandle_t handle, GEOSGeometry* g) {
-    @try {
-        GEOSGeom_destroy_r(handle, g);
-    }
-    @catch (NSException *exception) {
-    }
-    @finally {
-    }
-}
+//void GEOSGeom_destroyWrapper_r(GEOSContextHandle_t handle, GEOSGeometry* g) {
+//    @try {
+//        GEOSGeom_destroy_r(handle, g);
+//    }
+//    @catch (NSException *exception) {
+//    }
+//    @finally {
+//    }
+//}
