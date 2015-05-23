@@ -5,6 +5,7 @@ use_frameworks!
 
 pod 'geos' #, :podspec => 'geos/geos.podspec'
 pod 'CocoaLumberjack'
+# pod 'Humboldt', :path => 'Humboldt.podspec'
 
 target 'HumboldtDemo' do
 

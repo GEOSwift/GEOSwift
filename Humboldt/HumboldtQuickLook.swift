@@ -15,7 +15,7 @@ protocol HumboldtQuickLook {
 }
 
 extension Geometry : HumboldtQuickLook {
-    func debugQuickLookObject() -> AnyObject? {
+    public func debugQuickLookObject() -> AnyObject? {
 
         let centroid = self.centroid()
         let buffer = self.envelope()
@@ -59,7 +59,7 @@ extension Geometry : HumboldtQuickLook {
 }
 
 
-extension Point : HumboldtQuickLook {
+extension Waypoint : HumboldtQuickLook {
     override func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
         var image = snapshot.image
         

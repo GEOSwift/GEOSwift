@@ -24,7 +24,7 @@ class HumboldtTests: XCTestCase {
 
     func testCreatePointFromWKT() {
         var result = false
-        if let point = Geometry.create("POINT(45 9)") as? Point {
+        if let point = Geometry.create("POINT(45 9)") as? Waypoint {
             result = point.coordinate.x == 45 && point.coordinate.y == 9
         }
         XCTAssert(result, "WKT parse failed (expected to receive a POINT)")
@@ -51,7 +51,7 @@ class HumboldtTests: XCTestCase {
         var result = false
         if let geometryCollection = Geometry.create("GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))") as? GeometryCollection {
             if geometryCollection.geometries.count == 2,
-                let polygon = geometryCollection.geometries[0] as? Point,
+                let polygon = geometryCollection.geometries[0] as? Waypoint,
                 let linestring = geometryCollection.geometries[1] as? LineString {
                     result = true
             }
@@ -61,7 +61,7 @@ class HumboldtTests: XCTestCase {
 
     func testCreateMultiPointFromWKT() {
         var result = false
-        if let multiPoint = Geometry.create("MULTIPOINT(-2 0,-1 -1,0 0,1 -1,2 0,0 2,-2 0)") as? GeometryCollection<Point> {
+        if let multiPoint = Geometry.create("MULTIPOINT(-2 0,-1 -1,0 0,1 -1,2 0,0 2,-2 0)") as? GeometryCollection<Waypoint> {
             if multiPoint.geometries.count == 7 {
                 result = true
             }
