@@ -24,18 +24,25 @@ extension Geometry : HumboldtQuickLook {
 public extension Geometry {
     public func debugQuickLookObject() -> AnyObject? {
         
-        let centroid = self.centroid()
-        let buffer = self.envelope()
-        let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
-        let exteriorRing = buffer.exteriorRing
-        let upperLeft = exteriorRing.points[2]
-        let lowerRight = exteriorRing.points[0]
-        let span = MKCoordinateSpanMake(upperLeft.y - lowerRight.y, upperLeft.x - lowerRight.x)
-        let region = MKCoordinateRegionMake(center, span)
+        let region: MKCoordinateRegion
+        if let point = self as? Waypoint {
+            let center = CLLocationCoordinate2DMake(point.coordinate.y, point.coordinate.x)
+            let span = MKCoordinateSpanMake(0.1,0.1)
+            region = MKCoordinateRegionMake(center,span)
+        } else {
+            let centroid = self.centroid()
+            let buffer = self.envelope()
+            let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
+            let exteriorRing = buffer.exteriorRing
+            let upperLeft = exteriorRing.points[2]
+            let lowerRight = exteriorRing.points[0]
+            let span = MKCoordinateSpanMake(upperLeft.y - lowerRight.y, upperLeft.x - lowerRight.x)
+            region = MKCoordinateRegionMake(center, span)
+        }
         var mapView = MKMapView()
         
         mapView.mapType = .Standard
-        mapView.frame = CGRectMake(0, 0, 200, 200)
+        mapView.frame = CGRectMake(0, 0, 400, 400)
         mapView.region = region
         
         var options = MKMapSnapshotOptions.new()
@@ -75,8 +82,7 @@ extension Waypoint : HumboldtQuickLook {
         image.drawAtPoint(CGPointMake(0, 0))
         
         // draw center/home marker
-//        let coord = CLLocationCoordinate2DMake(self.coordinate.y, self.coordinate.x)
-        let coord = CLLocationCoordinate2DMake(45, 9)
+        let coord = CLLocationCoordinate2DMake(self.coordinate.y, self.coordinate.x)
         var homePoint = snapshot.pointForCoordinate(coord)
         pinImage.drawAtPoint(homePoint)
 

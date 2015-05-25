@@ -16,9 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        if let geom = Geometry.create("POINT(45 9)") as? Waypoint {
-            var x = geom.coordinate.x
-            var y = geom.coordinate.y
+        if let point = Geometry.create("POINT(10 45)") as? Waypoint {
+            point.debugQuickLookObject()
         }
         
         let point0 = Geometry.create("asdfg")
