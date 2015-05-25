@@ -16,6 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        if let geom = Geometry.create("POINT(45 9)") as? Waypoint {
+            var x = geom.coordinate.x
+            var y = geom.coordinate.y
+        }
+        
         let point0 = Geometry.create("asdfg")
         let point1 = Waypoint(WKT: "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
         if let point2 = Waypoint(WKT: "POINT(45 9)") {
@@ -24,7 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let polygon = Geometry.create("POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as? Polygon {
             let image: AnyObject? = polygon.debugQuickLookObject() as! UIImage
-            println("\(image)")
         }
         
         return true

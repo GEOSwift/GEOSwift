@@ -8,7 +8,7 @@
 
 import UIKit
 import XCTest
-import HumboldtDemo
+import Humboldt
 
 class HumboldtTests: XCTestCase {
 
@@ -33,7 +33,7 @@ class HumboldtTests: XCTestCase {
     func testCreateLinestringFromWKT() {
         var result = false
         if let linestring = Geometry.create("LINESTRING(3 4,10 50,20 25)") as? LineString {
-            result = linestring.points.count() == 3 && linestring.points[0].x == 3 && linestring.points[0].y == 4
+            result = linestring.points.count == 3 && linestring.points[0].x == 3 && linestring.points[0].y == 4
         }
         XCTAssert(result, "WKT parse failed (expected to receive a LINESTRING)")
     }
@@ -42,7 +42,7 @@ class HumboldtTests: XCTestCase {
         var result = false
         if let polygon = Geometry.create("POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as? Polygon {
             let exteriorRing = polygon.exteriorRing
-            result = polygon.interiorRings.count == 1 && exteriorRing.points.count() == 5 && exteriorRing.points[0].x == 35 && exteriorRing.points[0].y == 10
+            result = polygon.interiorRings.count == 1 && exteriorRing.points.count == 5 && exteriorRing.points[0].x == 35 && exteriorRing.points[0].y == 10
         }
         XCTAssert(result, "WKT parse failed (expected to receive a POLYGON)")
     }

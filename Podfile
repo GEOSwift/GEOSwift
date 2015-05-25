@@ -3,15 +3,16 @@
 
 use_frameworks!
 
-pod 'geos' #, :podspec => 'geos/geos.podspec'
+link_with 'HumboldtDemo', 'Humboldt', 'HumboldtTests'
+pod 'geos'
 pod 'CocoaLumberjack'
-# pod 'Humboldt', :path => 'Humboldt.podspec'
 
 target 'HumboldtDemo' do
+end
 
+target 'Humboldt' do
 end
 
 target 'HumboldtTests' do
-
 end
 

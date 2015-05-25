@@ -104,11 +104,19 @@ var GEOS_HANDLE: COpaquePointer = {
     }
 }
 
-public struct CoordinatesCollection {
+public struct CoordinatesCollection: SequenceType {
     let geometry: COpaquePointer
+    public let count: UInt32
+    
     init(geometry: COpaquePointer) {
         self.geometry = geometry
+
+        let sequence = GEOSGeom_getCoordSeq_r(GEOS_HANDLE, self.geometry)
+        var numCoordinates: UInt32 = 0
+        GEOSCoordSeq_getSize_r(GEOS_HANDLE, sequence, &numCoordinates);
+        self.count = numCoordinates
     }
+    
     public subscript(index: UInt32) -> Coordinate {
         var x: Double = 0
         var y: Double = 0
@@ -119,28 +127,41 @@ public struct CoordinatesCollection {
         return Coordinate(x: x, y: y)
     }
     
-    public func count() -> UInt32 {
-        let sequence = GEOSGeom_getCoordSeq_r(GEOS_HANDLE, self.geometry)
-        var count: UInt32 = 0
-        GEOSCoordSeq_getSize_r(GEOS_HANDLE, sequence, &count);
-        return count
+    public func generate() -> GeneratorOf<Coordinate> {
+        var index: UInt32 = 0
+        return GeneratorOf {
+            if index < self.count {
+                return self[index++]
+            }
+            return nil
+        }
     }
 }
 
-public struct GeometriesCollection<T: Geometry> {
+public struct GeometriesCollection<T: Geometry>: SequenceType {
     let geometry: COpaquePointer
+    public let count: Int32
+    
     init(geometry: COpaquePointer) {
         self.geometry = geometry
+        self.count = GEOSGetNumGeometries_r (GEOS_HANDLE, geometry)
     }
+
     public subscript(index: Int32) -> T {
         let GEOSGeom = GEOSGetGeometryN_r(GEOS_HANDLE, self.geometry, index)
         let geom = Geometry.create(GEOSGeom, destroyOnDeinit: false) as! T
         return geom
     }
     
-    public lazy var count: Int32 = {
-        return GEOSGetNumGeometries_r (GEOS_HANDLE, self.geometry)
-    }()
+    public func generate() -> GeneratorOf<T> {
+        var index: Int32 = 0
+        return GeneratorOf {
+            if index < self.count {
+                return self[index++]
+            }
+            return nil
+        }
+    }
 }
 
 public struct Coordinate {
