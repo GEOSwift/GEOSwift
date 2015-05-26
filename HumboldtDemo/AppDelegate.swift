@@ -7,19 +7,28 @@
 //
 
 import UIKit
+import Humboldt
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-//        if let polygon = Geometry.create("POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as? Polygon {
-//            let image: AnyObject? = polygon.debugQuickLookObject() as! UIImage
-//            println("\(image)")
-//        }
+        if let point = Geometry.create("POINT(10 45)") as? Waypoint {
+            point.debugQuickLookObject()
+        }
+        
+        let point0 = Geometry.create("asdfg")
+        let point1 = Waypoint(WKT: "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
+        if let point2 = Waypoint(WKT: "POINT(45 9)") {
+            println("\(point2)")
+        }
+        
+        if let polygon = Geometry.create("POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as? Polygon {
+            let image: AnyObject? = polygon.debugQuickLookObject() as! UIImage
+        }
         
         return true
     }

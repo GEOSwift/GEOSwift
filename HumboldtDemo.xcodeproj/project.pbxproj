@@ -7,34 +7,79 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		71122C85C4642B074AEFD4EB /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		CD06D3DD1B0F294800451E02 /* HumboldtTopology.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD06D3DC1B0F294800451E02 /* HumboldtTopology.swift */; };
+		A8E50C31F216D0C55CB64C73 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		CD2299891B10B506002C19AE /* Humboldt.h in Headers */ = {isa = PBXBuildFile; fileRef = CD2299881B10B506002C19AE /* Humboldt.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CD22998F1B10B506002C19AE /* Humboldt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD2299841B10B506002C19AE /* Humboldt.framework */; };
+		CD2299981B10B506002C19AE /* HumboldtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2299971B10B506002C19AE /* HumboldtTests.swift */; };
+		CD22999B1B10B506002C19AE /* Humboldt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD2299841B10B506002C19AE /* Humboldt.framework */; };
+		CD22999C1B10B506002C19AE /* Humboldt.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CD2299841B10B506002C19AE /* Humboldt.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CD2299A41B10B5C1002C19AE /* Humboldt.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2299761B10B39A002C19AE /* Humboldt.swift */; };
+		CD2299A51B10B5C2002C19AE /* HumboldtCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2299781B10B39A002C19AE /* HumboldtCallback.m */; };
+		CD2299A61B10B5C4002C19AE /* HumboldtQuickLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2299791B10B39A002C19AE /* HumboldtQuickLook.swift */; };
+		CD2299A71B10B5C5002C19AE /* HumboldtTopology.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD22997A1B10B39A002C19AE /* HumboldtTopology.swift */; };
 		CD6533B71B0E0DFF00DE6D84 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6533B61B0E0DFF00DE6D84 /* AppDelegate.swift */; };
 		CD6533B91B0E0DFF00DE6D84 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6533B81B0E0DFF00DE6D84 /* ViewController.swift */; };
 		CD6533BC1B0E0DFF00DE6D84 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD6533BA1B0E0DFF00DE6D84 /* Main.storyboard */; };
 		CD6533BE1B0E0DFF00DE6D84 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD6533BD1B0E0DFF00DE6D84 /* Images.xcassets */; };
 		CD6533C11B0E0DFF00DE6D84 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD6533BF1B0E0DFF00DE6D84 /* LaunchScreen.xib */; };
-		CD6533DF1B0E0E9C00DE6D84 /* Humboldt.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6533DA1B0E0E9600DE6D84 /* Humboldt.swift */; };
-		CD6533E01B0E0E9C00DE6D84 /* HumboldtCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6533DC1B0E0E9600DE6D84 /* HumboldtCallback.m */; };
-		CD6533E21B0E0ECC00DE6D84 /* HumboldtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6533E11B0E0ECC00DE6D84 /* HumboldtTests.swift */; };
-		CD6533E41B0E5E3200DE6D84 /* HumboldtQuickLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6533E31B0E5E3200DE6D84 /* HumboldtQuickLook.swift */; };
+		CDA8E5A71B10B924003AD4FB /* HumboldtCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = CD2299771B10B39A002C19AE /* HumboldtCallback.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D9FD4069549E86F37DBE1AF5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		E3D2C621843ABF1E9D77A29D /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		CD6533C71B0E0DFF00DE6D84 /* PBXContainerItemProxy */ = {
+		CD2299901B10B506002C19AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD6533A91B0E0DFF00DE6D84 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CD2299831B10B506002C19AE;
+			remoteInfo = Humboldt;
+		};
+		CD2299921B10B506002C19AE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CD6533A91B0E0DFF00DE6D84 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = CD6533B01B0E0DFF00DE6D84;
 			remoteInfo = HumboldtDemo;
 		};
+		CD2299991B10B506002C19AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD6533A91B0E0DFF00DE6D84 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CD2299831B10B506002C19AE;
+			remoteInfo = Humboldt;
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		CD2299A01B10B506002C19AE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CD22999C1B10B506002C19AE /* Humboldt.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		5198B140D5CD4040E3A1FDA5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		6E39C007F045ACC00B156A18 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		65898A06B1C2B665E1D01D97 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		887537486B17EE0B1DC6F3A3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CD06D3DC1B0F294800451E02 /* HumboldtTopology.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumboldtTopology.swift; sourceTree = "<group>"; };
+		CD2299751B10B39A002C19AE /* Humboldt-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Humboldt-Bridging-Header.h"; sourceTree = "<group>"; };
+		CD2299761B10B39A002C19AE /* Humboldt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Humboldt.swift; sourceTree = "<group>"; };
+		CD2299771B10B39A002C19AE /* HumboldtCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HumboldtCallback.h; sourceTree = "<group>"; };
+		CD2299781B10B39A002C19AE /* HumboldtCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HumboldtCallback.m; sourceTree = "<group>"; };
+		CD2299791B10B39A002C19AE /* HumboldtQuickLook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumboldtQuickLook.swift; sourceTree = "<group>"; };
+		CD22997A1B10B39A002C19AE /* HumboldtTopology.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumboldtTopology.swift; sourceTree = "<group>"; };
+		CD2299841B10B506002C19AE /* Humboldt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Humboldt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD2299871B10B506002C19AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD2299881B10B506002C19AE /* Humboldt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Humboldt.h; sourceTree = "<group>"; };
+		CD22998E1B10B506002C19AE /* HumboldtTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HumboldtTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD2299961B10B506002C19AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD2299971B10B506002C19AE /* HumboldtTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HumboldtTests.swift; sourceTree = "<group>"; };
 		CD6533B11B0E0DFF00DE6D84 /* HumboldtDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HumboldtDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD6533B51B0E0DFF00DE6D84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD6533B61B0E0DFF00DE6D84 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -42,53 +87,108 @@
 		CD6533BB1B0E0DFF00DE6D84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD6533BD1B0E0DFF00DE6D84 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CD6533C01B0E0DFF00DE6D84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		CD6533C61B0E0DFF00DE6D84 /* HumboldtTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HumboldtTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CD6533CB1B0E0DFF00DE6D84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CD6533D91B0E0E9600DE6D84 /* Humboldt-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Humboldt-Bridging-Header.h"; sourceTree = "<group>"; };
-		CD6533DA1B0E0E9600DE6D84 /* Humboldt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Humboldt.swift; sourceTree = "<group>"; };
-		CD6533DB1B0E0E9600DE6D84 /* HumboldtCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HumboldtCallback.h; sourceTree = "<group>"; };
-		CD6533DC1B0E0E9600DE6D84 /* HumboldtCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HumboldtCallback.m; sourceTree = "<group>"; };
-		CD6533E11B0E0ECC00DE6D84 /* HumboldtTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumboldtTests.swift; sourceTree = "<group>"; };
-		CD6533E31B0E5E3200DE6D84 /* HumboldtQuickLook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumboldtQuickLook.swift; sourceTree = "<group>"; };
+		CD669B001B10C0930091750F /* HumboldtPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HumboldtPlayground.playground; sourceTree = "<group>"; };
+		EB142415C818B97BA72B8134 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		CD2299801B10B506002C19AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9FD4069549E86F37DBE1AF5 /* Pods.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD22998B1B10B506002C19AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD22998F1B10B506002C19AE /* Humboldt.framework in Frameworks */,
+				E3D2C621843ABF1E9D77A29D /* Pods.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CD6533AE1B0E0DFF00DE6D84 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71122C85C4642B074AEFD4EB /* Pods.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CD6533C31B0E0DFF00DE6D84 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				CD22999B1B10B506002C19AE /* Humboldt.framework in Frameworks */,
+				A8E50C31F216D0C55CB64C73 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A104CCE5DEEA43821936333D /* Pods */ = {
+		47285D22765E751B377D58D7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5198B140D5CD4040E3A1FDA5 /* Pods.debug.xcconfig */,
-				6E39C007F045ACC00B156A18 /* Pods.release.xcconfig */,
+				65898A06B1C2B665E1D01D97 /* Pods.debug.xcconfig */,
+				EB142415C818B97BA72B8134 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		CD2299741B10B399002C19AE /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				CD2299751B10B39A002C19AE /* Humboldt-Bridging-Header.h */,
+				CD2299761B10B39A002C19AE /* Humboldt.swift */,
+				CD2299771B10B39A002C19AE /* HumboldtCallback.h */,
+				CD2299781B10B39A002C19AE /* HumboldtCallback.m */,
+				CD2299791B10B39A002C19AE /* HumboldtQuickLook.swift */,
+				CD22997A1B10B39A002C19AE /* HumboldtTopology.swift */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		CD2299851B10B506002C19AE /* Humboldt Framework */ = {
+			isa = PBXGroup;
+			children = (
+				CD2299741B10B399002C19AE /* Source */,
+				CD2299881B10B506002C19AE /* Humboldt.h */,
+				CD2299861B10B506002C19AE /* Supporting Files */,
+			);
+			name = "Humboldt Framework";
+			path = Humboldt;
+			sourceTree = "<group>";
+		};
+		CD2299861B10B506002C19AE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CD2299871B10B506002C19AE /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CD2299941B10B506002C19AE /* HumboldtTests */ = {
+			isa = PBXGroup;
+			children = (
+				CD2299971B10B506002C19AE /* HumboldtTests.swift */,
+				CD2299951B10B506002C19AE /* Supporting Files */,
+			);
+			path = HumboldtTests;
+			sourceTree = "<group>";
+		};
+		CD2299951B10B506002C19AE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CD2299961B10B506002C19AE /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		CD6533A81B0E0DFF00DE6D84 = {
 			isa = PBXGroup;
 			children = (
-				CD6533D81B0E0E9600DE6D84 /* Humboldt */,
+				CD669B001B10C0930091750F /* HumboldtPlayground.playground */,
 				CD6533B31B0E0DFF00DE6D84 /* HumboldtDemo */,
-				CD6533C91B0E0DFF00DE6D84 /* HumboldtTests */,
+				CD2299851B10B506002C19AE /* Humboldt Framework */,
+				CD2299941B10B506002C19AE /* HumboldtTests */,
 				CD6533B21B0E0DFF00DE6D84 /* Products */,
-				A104CCE5DEEA43821936333D /* Pods */,
 				F249FE82CF1F95FBFCF62C71 /* Frameworks */,
+				47285D22765E751B377D58D7 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -96,7 +196,8 @@
 			isa = PBXGroup;
 			children = (
 				CD6533B11B0E0DFF00DE6D84 /* HumboldtDemo.app */,
-				CD6533C61B0E0DFF00DE6D84 /* HumboldtTests.xctest */,
+				CD2299841B10B506002C19AE /* Humboldt.framework */,
+				CD22998E1B10B506002C19AE /* HumboldtTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,36 +223,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		CD6533C91B0E0DFF00DE6D84 /* HumboldtTests */ = {
-			isa = PBXGroup;
-			children = (
-				CD6533E11B0E0ECC00DE6D84 /* HumboldtTests.swift */,
-				CD6533CA1B0E0DFF00DE6D84 /* Supporting Files */,
-			);
-			path = HumboldtTests;
-			sourceTree = "<group>";
-		};
-		CD6533CA1B0E0DFF00DE6D84 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				CD6533CB1B0E0DFF00DE6D84 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		CD6533D81B0E0E9600DE6D84 /* Humboldt */ = {
-			isa = PBXGroup;
-			children = (
-				CD6533D91B0E0E9600DE6D84 /* Humboldt-Bridging-Header.h */,
-				CD6533DB1B0E0E9600DE6D84 /* HumboldtCallback.h */,
-				CD6533DC1B0E0E9600DE6D84 /* HumboldtCallback.m */,
-				CD6533DA1B0E0E9600DE6D84 /* Humboldt.swift */,
-				CD06D3DC1B0F294800451E02 /* HumboldtTopology.swift */,
-				CD6533E31B0E5E3200DE6D84 /* HumboldtQuickLook.swift */,
-			);
-			path = Humboldt;
-			sourceTree = "<group>";
-		};
 		F249FE82CF1F95FBFCF62C71 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,44 +233,82 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		CD2299811B10B506002C19AE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD2299891B10B506002C19AE /* Humboldt.h in Headers */,
+				CDA8E5A71B10B924003AD4FB /* HumboldtCallback.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		CD6533B01B0E0DFF00DE6D84 /* HumboldtDemo */ = {
+		CD2299831B10B506002C19AE /* Humboldt */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CD6533D01B0E0DFF00DE6D84 /* Build configuration list for PBXNativeTarget "HumboldtDemo" */;
+			buildConfigurationList = CD22999D1B10B506002C19AE /* Build configuration list for PBXNativeTarget "Humboldt" */;
 			buildPhases = (
-				1D40C4A9EDA470A27754101E /* Check Pods Manifest.lock */,
-				CD6533AD1B0E0DFF00DE6D84 /* Sources */,
-				CD6533AE1B0E0DFF00DE6D84 /* Frameworks */,
-				CD6533AF1B0E0DFF00DE6D84 /* Resources */,
-				24544CD8C3CB2B90D0D9ABB1 /* Embed Pods Frameworks */,
-				00027654668971B5E7437B09 /* Copy Pods Resources */,
+				B94C28B745E6E48859EEA7CE /* Check Pods Manifest.lock */,
+				CD22997F1B10B506002C19AE /* Sources */,
+				CD2299801B10B506002C19AE /* Frameworks */,
+				CD2299811B10B506002C19AE /* Headers */,
+				CD2299821B10B506002C19AE /* Resources */,
+				925A0778266CD5C72B1A47BF /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+			);
+			name = Humboldt;
+			productName = Humboldt;
+			productReference = CD2299841B10B506002C19AE /* Humboldt.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		CD22998D1B10B506002C19AE /* HumboldtTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD2299A11B10B506002C19AE /* Build configuration list for PBXNativeTarget "HumboldtTests" */;
+			buildPhases = (
+				E55D6E34CD04E967EC04A55A /* Check Pods Manifest.lock */,
+				CD22998A1B10B506002C19AE /* Sources */,
+				CD22998B1B10B506002C19AE /* Frameworks */,
+				CD22998C1B10B506002C19AE /* Resources */,
+				CBC21AD2F7E02C1C28FF0CFC /* Embed Pods Frameworks */,
+				0B54C8C9C804089A297932CF /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CD2299911B10B506002C19AE /* PBXTargetDependency */,
+				CD2299931B10B506002C19AE /* PBXTargetDependency */,
+			);
+			name = HumboldtTests;
+			productName = HumboldtTests;
+			productReference = CD22998E1B10B506002C19AE /* HumboldtTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CD6533B01B0E0DFF00DE6D84 /* HumboldtDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CD6533D01B0E0DFF00DE6D84 /* Build configuration list for PBXNativeTarget "HumboldtDemo" */;
+			buildPhases = (
+				EF1038E4F08C78B8A964A4B7 /* Check Pods Manifest.lock */,
+				CD6533AD1B0E0DFF00DE6D84 /* Sources */,
+				CD6533AE1B0E0DFF00DE6D84 /* Frameworks */,
+				CD6533AF1B0E0DFF00DE6D84 /* Resources */,
+				CD2299A01B10B506002C19AE /* Embed Frameworks */,
+				384F62A116AD440986BD84E6 /* Embed Pods Frameworks */,
+				5A5576FC7016757FF5F8860D /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CD22999A1B10B506002C19AE /* PBXTargetDependency */,
 			);
 			name = HumboldtDemo;
 			productName = HumboldtDemo;
 			productReference = CD6533B11B0E0DFF00DE6D84 /* HumboldtDemo.app */;
 			productType = "com.apple.product-type.application";
-		};
-		CD6533C51B0E0DFF00DE6D84 /* HumboldtTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CD6533D31B0E0DFF00DE6D84 /* Build configuration list for PBXNativeTarget "HumboldtTests" */;
-			buildPhases = (
-				CD6533C21B0E0DFF00DE6D84 /* Sources */,
-				CD6533C31B0E0DFF00DE6D84 /* Frameworks */,
-				CD6533C41B0E0DFF00DE6D84 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				CD6533C81B0E0DFF00DE6D84 /* PBXTargetDependency */,
-			);
-			name = HumboldtTests;
-			productName = HumboldtDemoTests;
-			productReference = CD6533C61B0E0DFF00DE6D84 /* HumboldtTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -210,12 +319,14 @@
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = andreacremaschi;
 				TargetAttributes = {
-					CD6533B01B0E0DFF00DE6D84 = {
+					CD2299831B10B506002C19AE = {
 						CreatedOnToolsVersion = 6.3.2;
 					};
-					CD6533C51B0E0DFF00DE6D84 = {
+					CD22998D1B10B506002C19AE = {
 						CreatedOnToolsVersion = 6.3.2;
-						TestTargetID = CD6533B01B0E0DFF00DE6D84;
+					};
+					CD6533B01B0E0DFF00DE6D84 = {
+						CreatedOnToolsVersion = 6.3.2;
 					};
 				};
 			};
@@ -233,12 +344,27 @@
 			projectRoot = "";
 			targets = (
 				CD6533B01B0E0DFF00DE6D84 /* HumboldtDemo */,
-				CD6533C51B0E0DFF00DE6D84 /* HumboldtTests */,
+				CD2299831B10B506002C19AE /* Humboldt */,
+				CD22998D1B10B506002C19AE /* HumboldtTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		CD2299821B10B506002C19AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD22998C1B10B506002C19AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CD6533AF1B0E0DFF00DE6D84 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -249,17 +375,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CD6533C41B0E0DFF00DE6D84 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		00027654668971B5E7437B09 /* Copy Pods Resources */ = {
+		0B54C8C9C804089A297932CF /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -274,22 +393,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1D40C4A9EDA470A27754101E /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		24544CD8C3CB2B90D0D9ABB1 /* Embed Pods Frameworks */ = {
+		384F62A116AD440986BD84E6 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -304,37 +408,144 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		5A5576FC7016757FF5F8860D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		925A0778266CD5C72B1A47BF /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B94C28B745E6E48859EEA7CE /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CBC21AD2F7E02C1C28FF0CFC /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E55D6E34CD04E967EC04A55A /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		EF1038E4F08C78B8A964A4B7 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		CD22997F1B10B506002C19AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD2299A71B10B5C5002C19AE /* HumboldtTopology.swift in Sources */,
+				CD2299A41B10B5C1002C19AE /* Humboldt.swift in Sources */,
+				CD2299A51B10B5C2002C19AE /* HumboldtCallback.m in Sources */,
+				CD2299A61B10B5C4002C19AE /* HumboldtQuickLook.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CD22998A1B10B506002C19AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD2299981B10B506002C19AE /* HumboldtTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CD6533AD1B0E0DFF00DE6D84 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD6533DF1B0E0E9C00DE6D84 /* Humboldt.swift in Sources */,
-				CD6533E01B0E0E9C00DE6D84 /* HumboldtCallback.m in Sources */,
-				CD6533E41B0E5E3200DE6D84 /* HumboldtQuickLook.swift in Sources */,
 				CD6533B91B0E0DFF00DE6D84 /* ViewController.swift in Sources */,
 				CD6533B71B0E0DFF00DE6D84 /* AppDelegate.swift in Sources */,
-				CD06D3DD1B0F294800451E02 /* HumboldtTopology.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CD6533C21B0E0DFF00DE6D84 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CD6533E21B0E0ECC00DE6D84 /* HumboldtTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		CD6533C81B0E0DFF00DE6D84 /* PBXTargetDependency */ = {
+		CD2299911B10B506002C19AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CD2299831B10B506002C19AE /* Humboldt */;
+			targetProxy = CD2299901B10B506002C19AE /* PBXContainerItemProxy */;
+		};
+		CD2299931B10B506002C19AE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CD6533B01B0E0DFF00DE6D84 /* HumboldtDemo */;
-			targetProxy = CD6533C71B0E0DFF00DE6D84 /* PBXContainerItemProxy */;
+			targetProxy = CD2299921B10B506002C19AE /* PBXContainerItemProxy */;
+		};
+		CD22999A1B10B506002C19AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CD2299831B10B506002C19AE /* Humboldt */;
+			targetProxy = CD2299991B10B506002C19AE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -358,6 +569,82 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		CD22999E1B10B506002C19AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65898A06B1C2B665E1D01D97 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Humboldt/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		CD22999F1B10B506002C19AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB142415C818B97BA72B8134 /* Pods.release.xcconfig */;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Humboldt/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		CD2299A21B10B506002C19AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65898A06B1C2B665E1D01D97 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = HumboldtTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CD2299A31B10B506002C19AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB142415C818B97BA72B8134 /* Pods.release.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = HumboldtTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		CD6533CE1B0E0DFF00DE6D84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -441,65 +728,47 @@
 		};
 		CD6533D11B0E0DFF00DE6D84 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5198B140D5CD4040E3A1FDA5 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 65898A06B1C2B665E1D01D97 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = HumboldtDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Humboldt/Humboldt-Bridging-Header.h";
 			};
 			name = Debug;
 		};
 		CD6533D21B0E0DFF00DE6D84 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E39C007F045ACC00B156A18 /* Pods.release.xcconfig */;
+			baseConfigurationReference = EB142415C818B97BA72B8134 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = HumboldtDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Humboldt/Humboldt-Bridging-Header.h";
-			};
-			name = Release;
-		};
-		CD6533D41B0E0DFF00DE6D84 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = HumboldtTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HumboldtDemo.app/HumboldtDemo";
-			};
-			name = Debug;
-		};
-		CD6533D51B0E0DFF00DE6D84 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = HumboldtTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HumboldtDemo.app/HumboldtDemo";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		CD22999D1B10B506002C19AE /* Build configuration list for PBXNativeTarget "Humboldt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD22999E1B10B506002C19AE /* Debug */,
+				CD22999F1B10B506002C19AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CD2299A11B10B506002C19AE /* Build configuration list for PBXNativeTarget "HumboldtTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD2299A21B10B506002C19AE /* Debug */,
+				CD2299A31B10B506002C19AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		CD6533AC1B0E0DFF00DE6D84 /* Build configuration list for PBXProject "HumboldtDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -514,15 +783,6 @@
 			buildConfigurations = (
 				CD6533D11B0E0DFF00DE6D84 /* Debug */,
 				CD6533D21B0E0DFF00DE6D84 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CD6533D31B0E0DFF00DE6D84 /* Build configuration list for PBXNativeTarget "HumboldtTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CD6533D41B0E0DFF00DE6D84 /* Debug */,
-				CD6533D51B0E0DFF00DE6D84 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

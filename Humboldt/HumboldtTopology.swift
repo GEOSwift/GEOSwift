@@ -23,14 +23,14 @@ public extension Geometry {
     /** Returns the boundary as a newly allocated Geometry object. */
     func boundary() -> Geometry  {
         let boundaryGEOM = GEOSBoundary_r(GEOS_HANDLE, self.geometry)
-        let boundary = Geometry.create(boundaryGEOM, destroyOnDeinit: true) as! Geometry
-        return boundary
+        let boundary = Geometry.create(boundaryGEOM, destroyOnDeinit: true)
+        return boundary!
     }
     
-    /** Returns a Point representing the geometric center of the geometry. The point is not guaranteed to be on the interior of the geometry. */
-    func centroid() -> Point {
+    /** Returns a Waypoint representing the geometric center of the geometry. The point is not guaranteed to be on the interior of the geometry. */
+    func centroid() -> Waypoint {
         let centroidGEOM = GEOSGetCentroid_r(GEOS_HANDLE, self.geometry)
-        let centroid = Geometry.create(centroidGEOM, destroyOnDeinit: true) as! Point
+        let centroid = Geometry.create(centroidGEOM, destroyOnDeinit: true) as! Waypoint
         return centroid
     }
     
@@ -51,9 +51,9 @@ public extension Geometry {
     }
     
     /** TODO: missing description */
-    func pointOnSurface() -> Point {
+    func pointOnSurface() -> Waypoint {
         let pointOnSurfaceGEOM = GEOSPointOnSurface_r(GEOS_HANDLE, self.geometry)
-        let pointOnSurface = Geometry.create(pointOnSurfaceGEOM, destroyOnDeinit: true) as! Point
+        let pointOnSurface = Geometry.create(pointOnSurfaceGEOM, destroyOnDeinit: true) as! Waypoint
         return pointOnSurface
     }
     
@@ -67,21 +67,21 @@ public extension Geometry {
     /** Returns a Geometry representing the points shared by this geometry and other. */
     func intersection(geometry: Geometry) -> Geometry  {
         let intersectionGEOM = GEOSIntersection_r(GEOS_HANDLE, self.geometry, geometry.geometry)
-        let intersection = Geometry.create(intersectionGEOM, destroyOnDeinit: true) as! Geometry
-        return intersection
+        let intersection = Geometry.create(intersectionGEOM, destroyOnDeinit: true)
+        return intersection!
     }
     
     /** Returns a Geometry representing the points making up this geometry that do not make up other. */
     func difference(geometry: Geometry) -> Geometry  {
         let differenceGEOM = GEOSDifference_r(GEOS_HANDLE, self.geometry, geometry.geometry)
-        let difference = Geometry.create(differenceGEOM, destroyOnDeinit: true) as! Geometry
-        return difference
+        let difference = Geometry.create(differenceGEOM, destroyOnDeinit: true)
+        return difference!
     }
     
     /** Returns a Geometry representing all the points in this geometry and the other. */
     func union(geometry: Geometry) -> Geometry  {
         let unionGEOM = GEOSIntersection_r(GEOS_HANDLE, self.geometry, geometry.geometry)
-        let union = Geometry.create(unionGEOM, destroyOnDeinit: true) as! Geometry
-        return union
+        let union = Geometry.create(unionGEOM, destroyOnDeinit: true)
+        return union!
     }
 }

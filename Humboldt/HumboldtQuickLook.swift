@@ -15,20 +15,34 @@ protocol HumboldtQuickLook {
 }
 
 extension Geometry : HumboldtQuickLook {
-    func debugQuickLookObject() -> AnyObject? {
+    func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
+        return snapshot.image
+    }
+}
 
-        let centroid = self.centroid()
-        let buffer = self.envelope()
-        let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
-        let exteriorRing = buffer.exteriorRing
-        let upperLeft = exteriorRing.points[2]
-        let lowerRight = exteriorRing.points[0]
-        let span = MKCoordinateSpanMake(upperLeft.y - lowerRight.y, upperLeft.x - lowerRight.x)
-        let region = MKCoordinateRegionMake(center, span)
+
+public extension Geometry {
+    public func debugQuickLookObject() -> AnyObject? {
+        
+        let region: MKCoordinateRegion
+        if let point = self as? Waypoint {
+            let center = CLLocationCoordinate2DMake(point.coordinate.y, point.coordinate.x)
+            let span = MKCoordinateSpanMake(0.1,0.1)
+            region = MKCoordinateRegionMake(center,span)
+        } else {
+            let centroid = self.centroid()
+            let buffer = self.envelope()
+            let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
+            let exteriorRing = buffer.exteriorRing
+            let upperLeft = exteriorRing.points[2]
+            let lowerRight = exteriorRing.points[0]
+            let span = MKCoordinateSpanMake(upperLeft.y - lowerRight.y, upperLeft.x - lowerRight.x)
+            region = MKCoordinateRegionMake(center, span)
+        }
         var mapView = MKMapView()
         
         mapView.mapType = .Standard
-        mapView.frame = CGRectMake(0, 0, 200, 200)
+        mapView.frame = CGRectMake(0, 0, 400, 400)
         mapView.region = region
         
         var options = MKMapSnapshotOptions.new()
@@ -52,14 +66,10 @@ extension Geometry : HumboldtQuickLook {
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
         return mapViewImage
     }
-    
-    func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
-        return snapshot.image
-    }
 }
 
 
-extension Point : HumboldtQuickLook {
+extension Waypoint : HumboldtQuickLook {
     override func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
         var image = snapshot.image
         
@@ -72,8 +82,7 @@ extension Point : HumboldtQuickLook {
         image.drawAtPoint(CGPointMake(0, 0))
         
         // draw center/home marker
-//        let coord = CLLocationCoordinate2DMake(self.coordinate.y, self.coordinate.x)
-        let coord = CLLocationCoordinate2DMake(45, 9)
+        let coord = CLLocationCoordinate2DMake(self.coordinate.y, self.coordinate.x)
         var homePoint = snapshot.pointForCoordinate(coord)
         pinImage.drawAtPoint(homePoint)
 
@@ -84,7 +93,7 @@ extension Point : HumboldtQuickLook {
     }
 }
 
-extension Polygon : HumboldtQuickLook {
+extension LineString : HumboldtQuickLook {
     override func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
         var image = snapshot.image
         
@@ -94,23 +103,92 @@ extension Polygon : HumboldtQuickLook {
         
         image.drawAtPoint(CGPointMake(0, 0))
         
-        let coord = CLLocationCoordinate2DMake(45, 9)
-        var homePoint = snapshot.pointForCoordinate(coord)
+        // draw linestring
+        var path = UIBezierPath()
+        
+        for (i, coordinate) in enumerate(self.points) {
+            let coord = CLLocationCoordinate2DMake(coordinate.y, coordinate.x)
+            var point = snapshot.pointForCoordinate(coord)
+            
+            if (CGRectContainsPoint(finalImageRect, point)) {
+                if i == 0 {
+                    path.moveToPoint(point)
+                } else {
+                    path.addLineToPoint(point)
+                }
+            }
+        }
+        
+        UIColor.blueColor().colorWithAlphaComponent(0.7).setStroke()
+        
+        path.lineWidth = 2.0
+        path.stroke()
+        
+        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return finalImage
+    }
+}
 
+extension Polygon : HumboldtQuickLook {
+    override func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
+        var image = snapshot.image
+
+        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
+        
+        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
+        
+        image.drawAtPoint(CGPointMake(0, 0))
+        
         // draw polygon
         var path = UIBezierPath()
         
-//        for (i, coordinate) in enumerate(self.exteriorRing?.points) {
-//            var point = snapshot.pointForCoordinate(coordinate)
-//            
-//            if (CGRectContainsPoint(finalImageRect, point)) {
-//                if i == 0 {
-//                    path.moveToPoint(point)
-//                } else {
-//                    path.addLineToPoint(point)
-//                }
-//            }
-//        }
+        for (i, coordinate) in enumerate(self.exteriorRing.points) {
+            let coord = CLLocationCoordinate2DMake(coordinate.y, coordinate.x)
+            var point = snapshot.pointForCoordinate(coord)
+            
+            if (CGRectContainsPoint(finalImageRect, point)) {
+                if i == 0 {
+                    path.moveToPoint(point)
+                } else {
+                    path.addLineToPoint(point)
+                }
+            }
+        }
+        
+        path.closePath()
+        
+        UIColor.blueColor().colorWithAlphaComponent(0.7).setStroke()
+        UIColor.cyanColor().colorWithAlphaComponent(0.2).setFill()
+        
+        path.lineWidth = 2.0
+        path.stroke()
+        path.fill()
+        
+        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return finalImage
+    }
+}
+
+extension GeometryCollection : HumboldtQuickLook {
+    override func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
+        var image = snapshot.image
+        
+        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
+        
+        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
+        
+        image.drawAtPoint(CGPointMake(0, 0))
+        
+        // draw geometry collection
+        var path = UIBezierPath()
+        
+        for (i, geometry) in enumerate(self.geometries) {
+            // TODO: draw geometry
+        }
         
         path.closePath()
         
