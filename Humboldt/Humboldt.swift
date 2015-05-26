@@ -136,6 +136,14 @@ public struct CoordinatesCollection: SequenceType {
             return nil
         }
     }
+    
+    func map<U>(transform: (Coordinate) -> U) -> [U] {
+        var array = Array<U>()
+        for coord in self {
+            array.append(transform(coord))
+        }
+        return array
+    }
 }
 
 public struct GeometriesCollection<T: Geometry>: SequenceType {
