@@ -23,7 +23,7 @@ import MapKit
 if  let point = Waypoint(WKT: "POINT(10 45)"),
 
     // A geometry can be created even using the constructor `Geometry.create(WKT)` and casting the returned value to the desired subclass
-    let polygon = Geometry.create("POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as? Polygon
+    let polygon = Geometry.create("POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as? Polygon
 
     // Examples of other valid WKT geometries representations are:
     // LINESTRING(35 10, 45 45, 15 40, 10 20, 35 10)

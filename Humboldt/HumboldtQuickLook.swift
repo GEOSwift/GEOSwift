@@ -11,12 +11,12 @@ import UIKit
 import MapKit
 
 protocol HumboldtQuickLook {
-    func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage
+    func drawInSnapshot(snapshot: MKMapSnapshot)
 }
 
 extension Geometry : HumboldtQuickLook {
-    func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
-        return snapshot.image
+    func drawInSnapshot(snapshot: MKMapSnapshot) {
+        // Do nothing
     }
 }
 
@@ -31,13 +31,16 @@ public extension Geometry {
             region = MKCoordinateRegionMake(center,span)
         } else {
             let centroid = self.centroid()
-            let buffer = self.envelope()
-            let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
-            let exteriorRing = buffer.exteriorRing
-            let upperLeft = exteriorRing.points[2]
-            let lowerRight = exteriorRing.points[0]
-            let span = MKCoordinateSpanMake(upperLeft.y - lowerRight.y, upperLeft.x - lowerRight.x)
-            region = MKCoordinateRegionMake(center, span)
+            if let buffer = self.envelope() as? Polygon {
+                let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
+                let exteriorRing = buffer.exteriorRing
+                let upperLeft = exteriorRing.points[2]
+                let lowerRight = exteriorRing.points[0]
+                let span = MKCoordinateSpanMake(upperLeft.y - lowerRight.y, upperLeft.x - lowerRight.x)
+                region = MKCoordinateRegionMake(center, span)
+            } else {
+                return nil
+            }
         }
         var mapView = MKMapView()
         
@@ -60,7 +63,21 @@ public extension Geometry {
         snapshotter.startWithQueue(backgroundQueue, completionHandler: { (snapshot: MKMapSnapshot!, error: NSError!) -> Void in
             
             // let the single geometry draw itself on the map
-            mapViewImage = self.drawInSnapshot(snapshot)
+            
+            var image = snapshot.image
+            let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
+            
+            UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
+            
+            image.drawAtPoint(CGPointMake(0, 0))
+            
+            self.drawInSnapshot(snapshot)
+            
+            let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            mapViewImage = finalImage
+
             dispatch_semaphore_signal(semaphore)
         })
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
@@ -70,7 +87,7 @@ public extension Geometry {
 
 
 extension Waypoint : HumboldtQuickLook {
-    override func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
+    override func drawInSnapshot(snapshot: MKMapSnapshot) {
         var image = snapshot.image
         
         let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
@@ -85,24 +102,13 @@ extension Waypoint : HumboldtQuickLook {
         let coord = CLLocationCoordinate2DMake(self.coordinate.y, self.coordinate.x)
         var homePoint = snapshot.pointForCoordinate(coord)
         pinImage.drawAtPoint(homePoint)
-
-        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
         
-        return finalImage
     }
 }
 
 extension LineString : HumboldtQuickLook {
-    override func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
-        var image = snapshot.image
-        
-        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
-        
-        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
-        
-        image.drawAtPoint(CGPointMake(0, 0))
-        
+    override func drawInSnapshot(snapshot: MKMapSnapshot) {
+
         // draw linestring
         var path = UIBezierPath()
         
@@ -110,12 +116,10 @@ extension LineString : HumboldtQuickLook {
             let coord = CLLocationCoordinate2DMake(coordinate.y, coordinate.x)
             var point = snapshot.pointForCoordinate(coord)
             
-            if (CGRectContainsPoint(finalImageRect, point)) {
-                if i == 0 {
-                    path.moveToPoint(point)
-                } else {
-                    path.addLineToPoint(point)
-                }
+            if i == 0 {
+                path.moveToPoint(point)
+            } else {
+                path.addLineToPoint(point)
             }
         }
         
@@ -123,23 +127,11 @@ extension LineString : HumboldtQuickLook {
         
         path.lineWidth = 2.0
         path.stroke()
-        
-        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return finalImage
     }
 }
 
 extension Polygon : HumboldtQuickLook {
-    override func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
-        var image = snapshot.image
-
-        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
-        
-        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
-        
-        image.drawAtPoint(CGPointMake(0, 0))
+    override func drawInSnapshot(snapshot: MKMapSnapshot) {
         
         // draw polygon
         var path = UIBezierPath()
@@ -148,12 +140,10 @@ extension Polygon : HumboldtQuickLook {
             let coord = CLLocationCoordinate2DMake(coordinate.y, coordinate.x)
             var point = snapshot.pointForCoordinate(coord)
             
-            if (CGRectContainsPoint(finalImageRect, point)) {
-                if i == 0 {
-                    path.moveToPoint(point)
-                } else {
-                    path.addLineToPoint(point)
-                }
+            if i == 0 {
+                path.moveToPoint(point)
+            } else {
+                path.addLineToPoint(point)
             }
         }
         
@@ -165,16 +155,11 @@ extension Polygon : HumboldtQuickLook {
         path.lineWidth = 2.0
         path.stroke()
         path.fill()
-        
-        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return finalImage
     }
 }
 
 extension GeometryCollection : HumboldtQuickLook {
-    override func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage {
+    override func drawInSnapshot(snapshot: MKMapSnapshot) {
         var image = snapshot.image
         
         let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
@@ -184,24 +169,14 @@ extension GeometryCollection : HumboldtQuickLook {
         image.drawAtPoint(CGPointMake(0, 0))
         
         // draw geometry collection
-        var path = UIBezierPath()
-        
-        for (i, geometry) in enumerate(self.geometries) {
-            // TODO: draw geometry
-        }
-        
-        path.closePath()
-        
-        UIColor.blueColor().colorWithAlphaComponent(0.7).setStroke()
-        UIColor.cyanColor().colorWithAlphaComponent(0.2).setFill()
-        
-        path.lineWidth = 2.0
-        path.stroke()
-        path.fill()
-        
-        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return finalImage
+        for geometry in geometries {
+            geometry.drawInSnapshot(snapshot)
+        }        
     }
 }
+
+//extension MultiPoint : HumboldtQuickLook {
+//    override func drawInSnapshot(snapshot: MKMapSnapshot) {
+//        super.drawInSnapshot(snapshot)
+//    }
+//}

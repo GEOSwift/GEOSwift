@@ -24,7 +24,8 @@ class HumboldtTests: XCTestCase {
 
     func testCreatePointFromWKT() {
         var result = false
-        if let point = Geometry.create("POINT(45 9)") as? Waypoint {
+        if let point = Geometry.create("POINT(45 9)") as? Waypoint,
+            let point2 = Waypoint(WKT: "POINT(45 9)") {
             result = point.coordinate.x == 45 && point.coordinate.y == 9
         }
         XCTAssert(result, "WKT parse failed (expected to receive a POINT)")
@@ -32,7 +33,9 @@ class HumboldtTests: XCTestCase {
 
     func testCreateLinestringFromWKT() {
         var result = false
-        if let linestring = Geometry.create("LINESTRING(3 4,10 50,20 25)") as? LineString {
+        let WKT = "LINESTRING(3 4,10 50,20 25)"
+        if let linestring = Geometry.create(WKT) as? LineString,
+            let linestring2 = LineString(WKT: WKT) {
             result = linestring.points.count == 3 && linestring.points[0].x == 3 && linestring.points[0].y == 4
         }
         XCTAssert(result, "WKT parse failed (expected to receive a LINESTRING)")
@@ -40,7 +43,9 @@ class HumboldtTests: XCTestCase {
 
     func testCreatePolygonFromWKT() {
         var result = false
-        if let polygon = Geometry.create("POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as? Polygon {
+        let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
+        if let polygon = Geometry.create(WKT) as? Polygon,
+            let polygon2 = Polygon(WKT: WKT){
             let exteriorRing = polygon.exteriorRing
             result = polygon.interiorRings.count == 1 && exteriorRing.points.count == 5 && exteriorRing.points[0].x == 35 && exteriorRing.points[0].y == 10
         }
@@ -49,7 +54,9 @@ class HumboldtTests: XCTestCase {
 
     func testCreateGeometriesCollectionFromWKT() {
         var result = false
-        if let geometryCollection = Geometry.create("GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))") as? GeometryCollection {
+        let WKT = "GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))"
+        if let geometryCollection = Geometry.create(WKT) as? GeometryCollection,
+        let geometryCollection2 = GeometryCollection(WKT: WKT) {
             if geometryCollection.geometries.count == 2,
                 let polygon = geometryCollection.geometries[0] as? Waypoint,
                 let linestring = geometryCollection.geometries[1] as? LineString {
@@ -61,7 +68,9 @@ class HumboldtTests: XCTestCase {
 
     func testCreateMultiPointFromWKT() {
         var result = false
-        if let multiPoint = Geometry.create("MULTIPOINT(-2 0,-1 -1,0 0,1 -1,2 0,0 2,-2 0)") as? GeometryCollection<Waypoint> {
+        let WKT = "MULTIPOINT(-2 0,-1 -1,0 0,1 -1,2 0,0 2,-2 0)"
+        if let multiPoint = Geometry.create(WKT) as? MultiPoint,
+            let multiPoint2 = MultiPoint(WKT: WKT) {
             if multiPoint.geometries.count == 7 {
                 result = true
             }
@@ -69,11 +78,16 @@ class HumboldtTests: XCTestCase {
         XCTAssert(result, "WKT parse failed (expected to receive a MULTIPOINT)")
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
+    func testGeoJSON() {
+        if let geoJSONURL = NSBundle(forClass: HumboldtTests.self).URLForResource("multipoint", withExtension: "geojson"),
+            let geometries = Geometry.fromGeoJSON(geoJSONURL)  {
+                geometries[0].debugQuickLookObject()
+                let geometry: MultiPoint = geometries[0] as! MultiPoint
+                XCTAssert(true, "GeoJSON correctly parsed")
+                println("\(geometries)")
+        } else {
+            XCTAssert(false, "GeoJSON parse failed")
+            
         }
     }
-
 }

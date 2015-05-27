@@ -15,8 +15,8 @@ public func CLLocationCoordinateFromCoordinate(coord: Coordinate) -> CLLocationC
     return coord
 }
 
-protocol HumboldtMapKit {
-    func drawInSnapshot(snapshot: MKMapSnapshot) -> UIImage
+public protocol HumboldtMapKit {
+    func mapShape() -> MKShape
 }
 
 extension Geometry : HumboldtMapKit {
@@ -26,7 +26,7 @@ extension Geometry : HumboldtMapKit {
 }
 
 extension Waypoint : HumboldtMapKit {
-    override public func mapShape() -> MKPointAnnotation {
+    override public func mapShape() -> MKShape {
         let pointAnno = MKPointAnnotation()
         pointAnno.coordinate = CLLocationCoordinateFromCoordinate(self.coordinate)
         return pointAnno
@@ -34,7 +34,7 @@ extension Waypoint : HumboldtMapKit {
 }
 
 extension LineString : HumboldtMapKit {
-    override public func mapShape() -> MKPolyline {
+    override public func mapShape() -> MKShape {
         let pointAnno: MKPolyline = MKPolyline()
         var coordinates = self.points.map({ (point: Coordinate) ->
             CLLocationCoordinate2D in
@@ -47,7 +47,7 @@ extension LineString : HumboldtMapKit {
 }
 
 extension Polygon : HumboldtMapKit {
-    override public func mapShape() -> MKPolygon {
+    override public func mapShape() -> MKShape {
         let pointAnno: MKPolygon = MKPolygon()
         var coordinates = self.exteriorRing.points.map({ (point: Coordinate) ->
             CLLocationCoordinate2D in

@@ -202,7 +202,11 @@ public class Waypoint : Geometry {
             coordinate = Coordinate(x: 0, y: 0)
         } else {
             let points = CoordinatesCollection(geometry: GEOSGeom)
-            self.coordinate = points[0]
+            if points.count>0 {
+                self.coordinate = points[0]
+            } else {
+                coordinate = Coordinate(x: 0, y: 0)
+            }
         }
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
@@ -363,5 +367,13 @@ public class MultiPolygon<T: Polygon> : GeometryCollection<Polygon> {
             return nil
         }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
+    public convenience init?(polygons: Array<Polygon>) {
+        var GEOSGeomArray: Array<COpaquePointer> = polygons.map {
+            (var geometry) -> COpaquePointer in
+            return geometry.geometry
+        }
+        let geometry = GEOSGeom_createCollection_r(GEOS_HANDLE, self.dynamicType.geometryTypeId(), &GEOSGeomArray, UInt32(GEOSGeomArray.count))
+        self.init(GEOSGeom: geometry, destroyOnDeinit: true)
     }
 }

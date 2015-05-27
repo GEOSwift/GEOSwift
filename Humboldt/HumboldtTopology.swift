@@ -44,10 +44,9 @@ public extension Geometry {
     
     /** Returns a Polygon that represents the bounding envelope of this geometry.
     */
-    func envelope() -> Polygon {
+    func envelope() -> Geometry? {
         let envelopeGEOM = GEOSEnvelope_r(GEOS_HANDLE, self.geometry)
-        let envelope = Geometry.create(envelopeGEOM, destroyOnDeinit: true) as! Polygon
-        return envelope
+        return Geometry.create(envelopeGEOM, destroyOnDeinit: true) 
     }
     
     /** TODO: missing description */

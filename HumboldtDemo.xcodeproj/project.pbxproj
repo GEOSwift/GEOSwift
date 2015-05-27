@@ -24,6 +24,10 @@
 		CD6533BE1B0E0DFF00DE6D84 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD6533BD1B0E0DFF00DE6D84 /* Images.xcassets */; };
 		CD6533C11B0E0DFF00DE6D84 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD6533BF1B0E0DFF00DE6D84 /* LaunchScreen.xib */; };
 		CDA8E5A71B10B924003AD4FB /* HumboldtCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = CD2299771B10B39A002C19AE /* HumboldtCallback.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CDB71B381B15FC560044B3DD /* HumboldtGeoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB71B371B15FC560044B3DD /* HumboldtGeoJSON.swift */; };
+		CDB71B3A1B15FFEC0044B3DD /* test.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB71B391B15FFEC0044B3DD /* test.geojson */; };
+		CDB71B3C1B16210C0044B3DD /* italy.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB71B3B1B16210C0044B3DD /* italy.geojson */; };
+		CDB71B3E1B16459A0044B3DD /* multipoint.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB71B3D1B16459A0044B3DD /* multipoint.geojson */; };
 		D9FD4069549E86F37DBE1AF5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		E3D2C621843ABF1E9D77A29D /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -91,6 +95,10 @@
 		CD6533BD1B0E0DFF00DE6D84 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CD6533C01B0E0DFF00DE6D84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		CD669B001B10C0930091750F /* HumboldtPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = HumboldtPlayground.playground; sourceTree = "<group>"; };
+		CDB71B371B15FC560044B3DD /* HumboldtGeoJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HumboldtGeoJSON.swift; sourceTree = "<group>"; };
+		CDB71B391B15FFEC0044B3DD /* test.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.geojson; sourceTree = "<group>"; };
+		CDB71B3B1B16210C0044B3DD /* italy.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = italy.geojson; sourceTree = "<group>"; };
+		CDB71B3D1B16459A0044B3DD /* multipoint.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multipoint.geojson; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +150,7 @@
 				CD2299791B10B39A002C19AE /* HumboldtQuickLook.swift */,
 				CD22997A1B10B39A002C19AE /* HumboldtTopology.swift */,
 				CD0C58CD1B14BC0D00CCCCAA /* HumboldMapKit.swift */,
+				CDB71B371B15FC560044B3DD /* HumboldtGeoJSON.swift */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -169,6 +178,9 @@
 			isa = PBXGroup;
 			children = (
 				CD2299971B10B506002C19AE /* HumboldtTests.swift */,
+				CDB71B3B1B16210C0044B3DD /* italy.geojson */,
+				CDB71B3D1B16459A0044B3DD /* multipoint.geojson */,
+				CDB71B391B15FFEC0044B3DD /* test.geojson */,
 				CD2299951B10B506002C19AE /* Supporting Files */,
 			);
 			path = HumboldtTests;
@@ -357,6 +369,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDB71B3E1B16459A0044B3DD /* multipoint.geojson in Resources */,
+				CDB71B3A1B15FFEC0044B3DD /* test.geojson in Resources */,
+				CDB71B3C1B16210C0044B3DD /* italy.geojson in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +394,7 @@
 			files = (
 				CD2299A71B10B5C5002C19AE /* HumboldtTopology.swift in Sources */,
 				CD2299A41B10B5C1002C19AE /* Humboldt.swift in Sources */,
+				CDB71B381B15FC560044B3DD /* HumboldtGeoJSON.swift in Sources */,
 				CD0C58CF1B14BC1700CCCCAA /* HumboldMapKit.swift in Sources */,
 				CD2299A51B10B5C2002C19AE /* HumboldtCallback.m in Sources */,
 				CD2299A61B10B5C4002C19AE /* HumboldtQuickLook.swift in Sources */,
