@@ -37,7 +37,8 @@ if  let point = Waypoint(WKT: "POINT(10 45)"),
     let shape2 = polygon.mapShape()
     let annotations = [shape1, shape2]
 
-    // Humboldt geometries can be previewed while debugging! Just stop on the variable with the mouse cursor to see a preview
+    // Humboldt geometries is integrated with Quicklook!
+    // Just stop on the variable with the mouse cursor to see a preview while debugging.
     polygon
 }
 

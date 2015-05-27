@@ -104,6 +104,13 @@ var GEOS_HANDLE: COpaquePointer = {
     }
 }
 
+func GEOSGeomFromWKT(handle: GEOSContextHandle_t, WKT: String) -> COpaquePointer {
+    let WKTReader = GEOSWKTReader_create_r(handle)
+    let GEOSGeom = GEOSWKTReader_read_r(handle, WKTReader, (WKT as NSString).UTF8String)
+    GEOSWKTReader_destroy_r(handle, WKTReader)
+    return GEOSGeom
+}
+
 public struct CoordinatesCollection: SequenceType {
     let geometry: COpaquePointer
     public let count: UInt32
@@ -201,9 +208,7 @@ public class Waypoint : Geometry {
     }
     
     public convenience init?(WKT: String) {
-        let WKTReader = GEOSWKTReader_create_r(GEOS_HANDLE)
-        let GEOSGeom = GEOSWKTReader_read_r(GEOS_HANDLE, WKTReader, (WKT as NSString).UTF8String)
-        GEOSWKTReader_destroy_r(GEOS_HANDLE, WKTReader)
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
         
         if Geometry.classForGEOSGeom(GEOSGeom) !== Waypoint.self {
             self.init(GEOSGeom: nil)
@@ -232,6 +237,16 @@ public class Polygon : Geometry {
     lazy public var interiorRings: GeometriesCollection<Polygon> = {
         return GeometriesCollection<Polygon>(geometry: self.geometry)
         }()
+    
+    public convenience init?(WKT: String) {
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        
+        if Geometry.classForGEOSGeom(GEOSGeom) !== Polygon.self {
+            self.init(GEOSGeom: nil)
+            return nil
+        }
+        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
 }
 
 public class LineString : Geometry {
@@ -243,6 +258,16 @@ public class LineString : Geometry {
     lazy public var points: CoordinatesCollection = {
         return CoordinatesCollection(geometry: self.geometry)
         }()
+    
+    public convenience init?(WKT: String) {
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        
+        if Geometry.classForGEOSGeom(GEOSGeom) !== LineString.self {
+            self.init(GEOSGeom: nil)
+            return nil
+        }
+        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
 }
 
 public class LinearRing : LineString {
@@ -264,6 +289,16 @@ public class GeometryCollection<T: Geometry> : Geometry {
     private convenience init(GEOSGeom: COpaquePointer) {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
+    
+    public convenience init?(WKT: String) {
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        
+        if Geometry.classForGEOSGeom(GEOSGeom) !== GeometryCollection.self {
+            self.init(GEOSGeom: nil)
+            return nil
+        }
+        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
 }
 
 public class MultiLineString<T: LineString> : GeometryCollection<LineString> {
@@ -278,6 +313,15 @@ public class MultiLineString<T: LineString> : GeometryCollection<LineString> {
     private convenience init(GEOSGeom: COpaquePointer) {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
+    public convenience init?(WKT: String) {
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        
+        if Geometry.classForGEOSGeom(GEOSGeom) !== MultiLineString.self {
+            self.init(GEOSGeom: nil)
+            return nil
+        }
+        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
 }
 
 public class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
@@ -290,6 +334,15 @@ public class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
     private convenience init(GEOSGeom: COpaquePointer) {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
+    public convenience init?(WKT: String) {
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        
+        if Geometry.classForGEOSGeom(GEOSGeom) !== MultiPoint.self {
+            self.init(GEOSGeom: nil)
+            return nil
+        }
+        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
 }
 
 public class MultiPolygon<T: Polygon> : GeometryCollection<Polygon> {
@@ -300,6 +353,15 @@ public class MultiPolygon<T: Polygon> : GeometryCollection<Polygon> {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     private convenience init(GEOSGeom: COpaquePointer) {
+        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
+    public convenience init?(WKT: String) {
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        
+        if Geometry.classForGEOSGeom(GEOSGeom) !== MultiPolygon.self {
+            self.init(GEOSGeom: nil)
+            return nil
+        }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
 }
