@@ -251,6 +251,25 @@ public class Polygon : Geometry {
         }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
+    public convenience init?(shell: LinearRing, holes: Array<LinearRing>?) {
+        // clone shell
+        let shellGEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, shell.geometry)
+
+        // clone holes
+        if let holes = holes {
+            var geometriesPointer = UnsafeMutablePointer<COpaquePointer>.alloc(holes.count)
+            for (i, geom) in enumerate(holes) {
+                let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
+                geometriesPointer[i] = GEOSGeom
+            }
+            let geometry = GEOSGeom_createPolygon_r(GEOS_HANDLE, shellGEOSGeom, geometriesPointer, UInt32(holes.count))
+            self.init(GEOSGeom: geometry, destroyOnDeinit: true)
+            geometriesPointer.dealloc(holes.count)
+        } else {
+            let geometry = GEOSGeom_createPolygon_r(GEOS_HANDLE, shellGEOSGeom, nil, 0)
+            self.init(GEOSGeom: geometry, destroyOnDeinit: true)
+        }
+    }
 }
 
 public class LineString : Geometry {
@@ -303,6 +322,17 @@ public class GeometryCollection<T: Geometry> : Geometry {
         }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
+    public convenience init?(geometries: Array<Geometry>) {
+        var geometriesPointer = UnsafeMutablePointer<COpaquePointer>.alloc(geometries.count)
+        for (i, geom) in enumerate(geometries) {
+            let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
+            geometriesPointer[i] = GEOSGeom
+        }
+        
+        let geometry = GEOSGeom_createCollection_r(GEOS_HANDLE, self.dynamicType.geometryTypeId(), geometriesPointer, UInt32(geometries.count))
+        self.init(GEOSGeom: geometry, destroyOnDeinit: true)
+        geometriesPointer.dealloc(geometries.count)
+    }
 }
 
 public class MultiLineString<T: LineString> : GeometryCollection<LineString> {
@@ -326,6 +356,17 @@ public class MultiLineString<T: LineString> : GeometryCollection<LineString> {
         }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
+    public convenience init?(linestrings: Array<LineString>) {
+        var geometriesPointer = UnsafeMutablePointer<COpaquePointer>.alloc(linestrings.count)
+        for (i, geom) in enumerate(linestrings) {
+            let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
+            geometriesPointer[i] = GEOSGeom
+        }
+        
+        let geometry = GEOSGeom_createCollection_r(GEOS_HANDLE, self.dynamicType.geometryTypeId(), geometriesPointer, UInt32(linestrings.count))
+        self.init(GEOSGeom: geometry, destroyOnDeinit: true)
+        geometriesPointer.dealloc(linestrings.count)
+    }
 }
 
 public class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
@@ -347,6 +388,18 @@ public class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
         }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
+    public convenience init?(points: Array<Waypoint>) {
+        var coordsPointer = UnsafeMutablePointer<COpaquePointer>.alloc(points.count)
+        for (i, geom) in enumerate(points) {
+            let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
+            coordsPointer[i] = GEOSGeom
+        }
+
+        let geometry = GEOSGeom_createCollection_r(GEOS_HANDLE, self.dynamicType.geometryTypeId(), coordsPointer, UInt32(points.count))
+        self.init(GEOSGeom: geometry, destroyOnDeinit: true)
+        coordsPointer.dealloc(points.count)
+    }
+
 }
 
 public class MultiPolygon<T: Polygon> : GeometryCollection<Polygon> {
@@ -369,11 +422,14 @@ public class MultiPolygon<T: Polygon> : GeometryCollection<Polygon> {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     public convenience init?(polygons: Array<Polygon>) {
-        var GEOSGeomArray: Array<COpaquePointer> = polygons.map {
-            (var geometry) -> COpaquePointer in
-            return geometry.geometry
+        var coordsPointer = UnsafeMutablePointer<COpaquePointer>.alloc(polygons.count)
+        for (i, geom) in enumerate(polygons) {
+            let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
+            coordsPointer[i] = GEOSGeom
         }
-        let geometry = GEOSGeom_createCollection_r(GEOS_HANDLE, self.dynamicType.geometryTypeId(), &GEOSGeomArray, UInt32(GEOSGeomArray.count))
+        
+        let geometry = GEOSGeom_createCollection_r(GEOS_HANDLE, self.dynamicType.geometryTypeId(), coordsPointer, UInt32(polygons.count))
         self.init(GEOSGeom: geometry, destroyOnDeinit: true)
+        coordsPointer.dealloc(polygons.count)
     }
 }

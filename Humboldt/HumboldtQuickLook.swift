@@ -16,7 +16,32 @@ protocol HumboldtQuickLook {
 
 extension Geometry : HumboldtQuickLook {
     func drawInSnapshot(snapshot: MKMapSnapshot) {
-        // Do nothing
+        
+        // This is a workaround for a Swift bug (IMO):
+        // drawInSnapshot is not called if implemenented as an override function in GeometryCollection subclass
+        var image = snapshot.image
+        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
+        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
+        image.drawAtPoint(CGPointMake(0, 0))
+
+        if let geometryCollection = self as? GeometryCollection {
+            for geometry in geometryCollection.geometries {
+                geometry.drawInSnapshot(snapshot)
+            }
+        } else if let geometryCollection = self as? MultiPoint {
+            for geometry in geometryCollection.geometries {
+                geometry.drawInSnapshot(snapshot)
+            }
+        } else if let geometryCollection = self as? MultiLineString {
+            for geometry in geometryCollection.geometries {
+                geometry.drawInSnapshot(snapshot)
+            }
+        } else if let geometryCollection = self as? MultiPolygon {
+            for geometry in geometryCollection.geometries {
+                geometry.drawInSnapshot(snapshot)
+            }
+        }
+
     }
 }
 
@@ -27,11 +52,12 @@ public extension Geometry {
         let region: MKCoordinateRegion
         if let point = self as? Waypoint {
             let center = CLLocationCoordinate2DMake(point.coordinate.y, point.coordinate.x)
-            let span = MKCoordinateSpanMake(0.1,0.1)
+            let span = MKCoordinateSpanMake(0.1, 0.1)
             region = MKCoordinateRegionMake(center,span)
         } else {
             let centroid = self.centroid()
-            if let buffer = self.envelope() as? Polygon {
+            if let envelope = self.envelope() as? Polygon {
+                let buffer = envelope.bufferWithWidth(-0.1)
                 let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
                 let exteriorRing = buffer.exteriorRing
                 let upperLeft = exteriorRing.points[2]
@@ -101,8 +127,9 @@ extension Waypoint : HumboldtQuickLook {
         // draw center/home marker
         let coord = CLLocationCoordinate2DMake(self.coordinate.y, self.coordinate.x)
         var homePoint = snapshot.pointForCoordinate(coord)
-        pinImage.drawAtPoint(homePoint)
-        
+        var rect = CGRectMake(0, 0, pinImage.size.width, pinImage.size.height)
+        rect = CGRectOffset(rect, homePoint.x-rect.size.width/2.0, homePoint.y-rect.size.height)
+        pinImage.drawInRect(rect)
     }
 }
 
@@ -158,25 +185,19 @@ extension Polygon : HumboldtQuickLook {
     }
 }
 
-extension GeometryCollection : HumboldtQuickLook {
-    override func drawInSnapshot(snapshot: MKMapSnapshot) {
-        var image = snapshot.image
-        
-        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
-        
-        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
-        
-        image.drawAtPoint(CGPointMake(0, 0))
-        
-        // draw geometry collection
-        for geometry in geometries {
-            geometry.drawInSnapshot(snapshot)
-        }        
-    }
-}
-
-//extension MultiPoint : HumboldtQuickLook {
+//extension GeometryCollection : HumboldtQuickLook {
 //    override func drawInSnapshot(snapshot: MKMapSnapshot) {
-//        super.drawInSnapshot(snapshot)
+//        var image = snapshot.image
+//        
+//        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
+//        
+//        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
+//        
+//        image.drawAtPoint(CGPointMake(0, 0))
+//        
+//        // draw geometry collection
+//        for geometry in geometries {
+//            geometry.drawInSnapshot(snapshot)
+//        }
 //    }
 //}

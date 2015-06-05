@@ -79,15 +79,17 @@ class HumboldtTests: XCTestCase {
     }
     
     func testGeoJSON() {
-        if let geoJSONURL = NSBundle(forClass: HumboldtTests.self).URLForResource("multipoint", withExtension: "geojson"),
-            let geometries = Geometry.fromGeoJSON(geoJSONURL)  {
-                geometries[0].debugQuickLookObject()
-                let geometry: MultiPoint = geometries[0] as! MultiPoint
-                XCTAssert(true, "GeoJSON correctly parsed")
-                println("\(geometries)")
-        } else {
-            XCTAssert(false, "GeoJSON parse failed")
-            
+        let bundle = NSBundle(forClass: HumboldtTests.self)
+        if let geojsons = bundle.URLsForResourcesWithExtension("geojson", subdirectory: nil) as? Array<NSURL> {
+            for geoJSONURL in geojsons {
+                if let geometries = Geometry.fromGeoJSON(geoJSONURL)  {
+                    geometries[0].debugQuickLookObject()
+                    XCTAssert(true, "GeoJSON correctly parsed")
+                    println("\(geoJSONURL.path?.lastPathComponent): \(geometries)")
+                } else {
+                    XCTAssert(false, "Can't extract geometry from GeoJSON: \(geoJSONURL.path?.lastPathComponent)")
+                }
+            }
         }
     }
 }

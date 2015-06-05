@@ -27,7 +27,7 @@ if  let point = Waypoint(WKT: "POINT(10 45)"),
 
     // Examples of other valid WKT geometries representations are:
     // LINESTRING(35 10, 45 45, 15 40, 10 20, 35 10)
-    // TODO: other WKT examples...
+    // TODO: other WKT examples... 
 
     // TODO: example of WKB initialization
     
@@ -37,7 +37,7 @@ if  let point = Waypoint(WKT: "POINT(10 45)"),
     let shape2 = polygon.mapShape()
     let annotations = [shape1, shape2]
 
-    // Humboldt geometries is integrated with Quicklook!
+    // Humboldt geometries are integrated with Quicklook!
     // Just stop on the variable with the mouse cursor to see a preview while debugging.
     polygon
 }
