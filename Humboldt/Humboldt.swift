@@ -177,6 +177,13 @@ public struct GeometriesCollection<T: Geometry>: SequenceType {
             return nil
         }
     }
+    func map<U>(transform: (T) -> U) -> [U] {
+        var array = Array<U>()
+        for geom in self {
+            array.append(transform(geom))
+        }
+        return array
+    }
 }
 
 public struct Coordinate {
@@ -232,15 +239,23 @@ public class Polygon : Geometry {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     
-    lazy public var exteriorRing: LineString = {
+    lazy public var exteriorRing: LinearRing = {
         let exteriorRing = GEOSGetExteriorRing_r(GEOS_HANDLE, self.geometry)
-        let linestring = Geometry.create(exteriorRing, destroyOnDeinit: false) as! LineString
+        let linestring = Geometry.create(exteriorRing, destroyOnDeinit: false) as! LinearRing
         return linestring
     }()
 
-    lazy public var interiorRings: GeometriesCollection<Polygon> = {
-        return GeometriesCollection<Polygon>(geometry: self.geometry)
-        }()
+    lazy public var interiorRings: [LinearRing] = {
+        var interiorRings = [LinearRing]()
+        let numInteriorRings = GEOSGetNumInteriorRings_r(GEOS_HANDLE, self.geometry)
+        for index in 0...numInteriorRings-1 {
+            let interiorRingGEOSGeom = GEOSGetInteriorRingN_r(GEOS_HANDLE, self.geometry, index)
+            if let ring = Geometry.create(interiorRingGEOSGeom, destroyOnDeinit: false) as? LinearRing {
+                interiorRings.append(ring)
+            }
+        }
+        return interiorRings
+    }()
     
     public convenience init?(WKT: String) {
         let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)

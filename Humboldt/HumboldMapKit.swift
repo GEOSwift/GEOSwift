@@ -48,13 +48,27 @@ extension LineString : HumboldtMapKit {
 
 extension Polygon : HumboldtMapKit {
     override public func mapShape() -> MKShape {
-        let pointAnno: MKPolygon = MKPolygon()
-        var coordinates = self.exteriorRing.points.map({ (point: Coordinate) ->
+        var exteriorRingCoordinates = self.exteriorRing.points.map({ (point: Coordinate) ->
             CLLocationCoordinate2D in
             return CLLocationCoordinateFromCoordinate(point)
         })
-        var polygon = MKPolygon(coordinates: &coordinates,
-            count: coordinates.count)
-        return polygon  
+
+        let interiorRings = self.interiorRings.map({ (linearRing: LinearRing) ->
+            MKPolygon in
+            return MKPolygonWithCoordinatesSequence(linearRing.points)
+        })
+        
+        var polygon = MKPolygon(coordinates: &exteriorRingCoordinates, count: exteriorRingCoordinates.count, interiorPolygons: interiorRings)
+        return polygon
     }
+}
+
+private func MKPolygonWithCoordinatesSequence(coordinates: CoordinatesCollection) -> MKPolygon {
+    var coordinates = coordinates.map({ (point: Coordinate) ->
+        CLLocationCoordinate2D in
+        return CLLocationCoordinateFromCoordinate(point)
+    })
+    return MKPolygon(coordinates: &coordinates,
+        count: coordinates.count)
+    
 }
