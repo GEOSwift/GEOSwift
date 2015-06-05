@@ -248,10 +248,12 @@ public class Polygon : Geometry {
     lazy public var interiorRings: [LinearRing] = {
         var interiorRings = [LinearRing]()
         let numInteriorRings = GEOSGetNumInteriorRings_r(GEOS_HANDLE, self.geometry)
-        for index in 0...numInteriorRings-1 {
-            let interiorRingGEOSGeom = GEOSGetInteriorRingN_r(GEOS_HANDLE, self.geometry, index)
-            if let ring = Geometry.create(interiorRingGEOSGeom, destroyOnDeinit: false) as? LinearRing {
-                interiorRings.append(ring)
+        if numInteriorRings>0 {
+            for index in 0...numInteriorRings-1 {
+                let interiorRingGEOSGeom = GEOSGetInteriorRingN_r(GEOS_HANDLE, self.geometry, index)
+                if let ring = Geometry.create(interiorRingGEOSGeom, destroyOnDeinit: false) as? LinearRing {
+                    interiorRings.append(ring)
+                }
             }
         }
         return interiorRings
