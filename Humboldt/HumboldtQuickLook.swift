@@ -11,37 +11,36 @@ import UIKit
 import MapKit
 
 protocol HumboldtQuickLook {
-    func drawInSnapshot(snapshot: MKMapSnapshot)
+    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect)
 }
 
 extension Geometry : HumboldtQuickLook {
-    func drawInSnapshot(snapshot: MKMapSnapshot) {
+    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
         
         // This is a workaround for a Swift bug (IMO):
         // drawInSnapshot is not called if implemenented as an override function in GeometryCollection subclass
-        var image = snapshot.image
-        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
-        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
-        image.drawAtPoint(CGPointMake(0, 0))
+//        var image = snapshot.image
+//        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
+//        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
+//        image.drawAtPoint(CGPointMake(0, 0))
 
         if let geometryCollection = self as? GeometryCollection {
             for geometry in geometryCollection.geometries {
-                geometry.drawInSnapshot(snapshot)
+                geometry.drawInSnapshot(snapshot, mapRect: mapRect)
             }
         } else if let geometryCollection = self as? MultiPoint {
             for geometry in geometryCollection.geometries {
-                geometry.drawInSnapshot(snapshot)
+                geometry.drawInSnapshot(snapshot, mapRect: mapRect)
             }
         } else if let geometryCollection = self as? MultiLineString {
             for geometry in geometryCollection.geometries {
-                geometry.drawInSnapshot(snapshot)
+                geometry.drawInSnapshot(snapshot, mapRect: mapRect)
             }
         } else if let geometryCollection = self as? MultiPolygon {
             for geometry in geometryCollection.geometries {
-                geometry.drawInSnapshot(snapshot)
+                geometry.drawInSnapshot(snapshot, mapRect: mapRect)
             }
         }
-
     }
 }
 
@@ -86,18 +85,23 @@ public extension Geometry {
         let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
         let snapshotter = MKMapSnapshotter(options: options)
         let semaphore = dispatch_semaphore_create(0);
+        let mapRect = mapView.visibleMapRect
+        let boundingBox = MKMapRect(region)
         snapshotter.startWithQueue(backgroundQueue, completionHandler: { (snapshot: MKMapSnapshot!, error: NSError!) -> Void in
             
             // let the single geometry draw itself on the map
-            
             var image = snapshot.image
             let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
             
             UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
-            
             image.drawAtPoint(CGPointMake(0, 0))
             
-            self.drawInSnapshot(snapshot)
+            let context = UIGraphicsGetCurrentContext()
+            let scaleX = image.size.width / CGFloat(mapRect.size.width)
+            let scaleY = image.size.height / CGFloat(mapRect.size.height)
+//            CGContextTranslateCTM(context, (image.size.width - CGFloat(boundingBox.size.width) * scaleX) / 2, (image.size.height - CGFloat(boundingBox.size.height) * scaleY) / 2)
+            CGContextScaleCTM(context, scaleX, scaleY)
+            self.drawInSnapshot(snapshot, mapRect: mapRect)
             
             let finalImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
@@ -111,9 +115,19 @@ public extension Geometry {
     }
 }
 
+private func MKMapRect(region: MKCoordinateRegion) ->MKMapRect
+{
+    let a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+        region.center.latitude + region.span.latitudeDelta / 2,
+        region.center.longitude - region.span.longitudeDelta / 2));
+    let b = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
+        region.center.latitude - region.span.latitudeDelta / 2,
+        region.center.longitude + region.span.longitudeDelta / 2));
+    return MKMapRectMake(min(a.x,b.x), min(a.y,b.y), abs(a.x-b.x), abs(a.y-b.y));
+}
 
 extension Waypoint : HumboldtQuickLook {
-    override func drawInSnapshot(snapshot: MKMapSnapshot) {
+    override func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
         var image = snapshot.image
         
         let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
@@ -134,54 +148,49 @@ extension Waypoint : HumboldtQuickLook {
 }
 
 extension LineString : HumboldtQuickLook {
-    override func drawInSnapshot(snapshot: MKMapSnapshot) {
+    override func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
 
-        // draw linestring
-        var path = UIBezierPath()
-        
-        for (i, coordinate) in enumerate(self.points) {
-            let coord = CLLocationCoordinate2DMake(coordinate.y, coordinate.x)
-            var point = snapshot.pointForCoordinate(coord)
+        if let overlay = self.mapShape() as? MKOverlay {
+            let zoomScale = snapshot.image.size.width / CGFloat(mapRect.size.width)
+
+            var renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.lineWidth = 2
+            renderer.strokeColor = UIColor.blueColor().colorWithAlphaComponent(0.7)
             
-            if i == 0 {
-                path.moveToPoint(point)
-            } else {
-                path.addLineToPoint(point)
-            }
+            let context = UIGraphicsGetCurrentContext()
+            CGContextSaveGState(context);
+            
+            // the renderer will draw the geometry at 0;0, so offset CoreGraphics by the right measure
+            let upperCorner = renderer.mapPointForPoint(CGPointZero)
+            CGContextTranslateCTM(context, CGFloat(upperCorner.x - mapRect.origin.x), CGFloat(upperCorner.y - mapRect.origin.y));
+            
+            renderer.drawMapRect(mapRect, zoomScale: zoomScale, inContext: context)
+            CGContextRestoreGState(context);
         }
-        
-        UIColor.blueColor().colorWithAlphaComponent(0.7).setStroke()
-        
-        path.lineWidth = 2.0
-        path.stroke()
     }
 }
 
 extension Polygon : HumboldtQuickLook {
-    override func drawInSnapshot(snapshot: MKMapSnapshot) {
+    override func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
         
-        // draw polygon
-        var path = UIBezierPath()
-        
-        for (i, coordinate) in enumerate(self.exteriorRing.points) {
-            let coord = CLLocationCoordinate2DMake(coordinate.y, coordinate.x)
-            var point = snapshot.pointForCoordinate(coord)
+        if let overlay = self.mapShape() as? MKOverlay {
+            let zoomScale = snapshot.image.size.width / CGFloat(mapRect.size.width)
+
+            var polygonRenderer = MKPolygonRenderer(overlay: overlay)
+            polygonRenderer.lineWidth = 2
+            polygonRenderer.strokeColor = UIColor.blueColor().colorWithAlphaComponent(0.7)
+            polygonRenderer.fillColor = UIColor.cyanColor().colorWithAlphaComponent(0.2)
             
-            if i == 0 {
-                path.moveToPoint(point)
-            } else {
-                path.addLineToPoint(point)
-            }
+            let context = UIGraphicsGetCurrentContext()
+            CGContextSaveGState(context);
+
+            // the renderer will draw the geometry at 0;0, so offset CoreGraphics by the right measure
+            let upperCorner = polygonRenderer.mapPointForPoint(CGPointZero)
+            CGContextTranslateCTM(context, CGFloat(upperCorner.x - mapRect.origin.x), CGFloat(upperCorner.y - mapRect.origin.y));
+            
+            polygonRenderer.drawMapRect(mapRect, zoomScale: zoomScale, inContext: context)
+            CGContextRestoreGState(context);
         }
-        
-        path.closePath()
-        
-        UIColor.blueColor().colorWithAlphaComponent(0.7).setStroke()
-        UIColor.cyanColor().colorWithAlphaComponent(0.2).setFill()
-        
-        path.lineWidth = 2.0
-        path.stroke()
-        path.fill()
     }
 }
 

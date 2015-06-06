@@ -8,11 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A8E50C31F216D0C55CB64C73 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		CD0850651B21B04E008B7A28 /* multipolygon.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB71B3B1B16210C0044B3DD /* multipolygon.geojson */; };
-		CD0850661B21B04E008B7A28 /* geometrycollection.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB0A9D51B21A5FD00AB2F46 /* geometrycollection.geojson */; };
-		CD0850671B21B04E008B7A28 /* polygon.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CD0C44321B20368600E7B24E /* polygon.geojson */; };
-		CD0850681B21B04E008B7A28 /* multipoint.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB71B3D1B16459A0044B3DD /* multipoint.geojson */; };
-		CD0850691B21B04E008B7A28 /* featurecollection.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB71B391B15FFEC0044B3DD /* featurecollection.geojson */; };
 		CD0C58CF1B14BC1700CCCCAA /* HumboldMapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD0C58CD1B14BC0D00CCCCAA /* HumboldMapKit.swift */; };
 		CD2299891B10B506002C19AE /* Humboldt.h in Headers */ = {isa = PBXBuildFile; fileRef = CD2299881B10B506002C19AE /* Humboldt.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CD22998F1B10B506002C19AE /* Humboldt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD2299841B10B506002C19AE /* Humboldt.framework */; };
@@ -30,6 +25,11 @@
 		CD6533C11B0E0DFF00DE6D84 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD6533BF1B0E0DFF00DE6D84 /* LaunchScreen.xib */; };
 		CDA8E5A71B10B924003AD4FB /* HumboldtCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = CD2299771B10B39A002C19AE /* HumboldtCallback.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CDB71B381B15FC560044B3DD /* HumboldtGeoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB71B371B15FC560044B3DD /* HumboldtGeoJSON.swift */; };
+		CDD57FF91B2345BB000B3D55 /* multipolygon.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB71B3B1B16210C0044B3DD /* multipolygon.geojson */; };
+		CDD57FFA1B2345BB000B3D55 /* geometrycollection.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB0A9D51B21A5FD00AB2F46 /* geometrycollection.geojson */; };
+		CDD57FFB1B2345BB000B3D55 /* polygon.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CD0C44321B20368600E7B24E /* polygon.geojson */; };
+		CDD57FFC1B2345BB000B3D55 /* multipoint.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB71B3D1B16459A0044B3DD /* multipoint.geojson */; };
+		CDD57FFD1B2345BB000B3D55 /* featurecollection.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB71B391B15FFEC0044B3DD /* featurecollection.geojson */; };
 		D9FD4069549E86F37DBE1AF5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		E3D2C621843ABF1E9D77A29D /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -375,11 +375,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD0850651B21B04E008B7A28 /* multipolygon.geojson in Resources */,
-				CD0850661B21B04E008B7A28 /* geometrycollection.geojson in Resources */,
-				CD0850681B21B04E008B7A28 /* multipoint.geojson in Resources */,
-				CD0850671B21B04E008B7A28 /* polygon.geojson in Resources */,
-				CD0850691B21B04E008B7A28 /* featurecollection.geojson in Resources */,
+				CDD57FF91B2345BB000B3D55 /* multipolygon.geojson in Resources */,
+				CDD57FFA1B2345BB000B3D55 /* geometrycollection.geojson in Resources */,
+				CDD57FFC1B2345BB000B3D55 /* multipoint.geojson in Resources */,
+				CDD57FFB1B2345BB000B3D55 /* polygon.geojson in Resources */,
+				CDD57FFD1B2345BB000B3D55 /* featurecollection.geojson in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
