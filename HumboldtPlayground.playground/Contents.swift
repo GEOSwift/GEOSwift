@@ -7,7 +7,6 @@ import MapKit
 //: Handle all kind of geographical objects (points, linestrings, polygons etc.) and all related topographic operations (intersections, overlapping etc.) easily.
 //: Humboldt is basically a MIT-licensed Swift interface to the OSGeo's GEOS library routines*, plus some convenience features for iOS developers as:
 //: * MapKit integration
-//: * Quicklook integration
 //: * GEOJSON parsing
 //:
 //: ### Handle a geographical data model
@@ -40,12 +39,6 @@ let polygon = Geometry.create("POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20
 let shape1 = point!.mapShape()
 let shape2 = polygon!.mapShape()
 let annotations = [shape1, shape2]
-//: ### Quicklook integration
-//:
-//: Humboldt geometries are integrated with Quicklook!  
-//: This means that while debugging you can inspect complex geometries and see what they represent: just stop on the variable with the mouse cursor or select the Geometry instance and press backspace in the Debug Area to see a preview.
-//: In Playgrounds you can display them just as any other object, like this:
-let polygon2 = Geometry.create("POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
 
 //: ### GEOJSON parsing
 //:
