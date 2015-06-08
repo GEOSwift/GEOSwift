@@ -1,13 +1,6 @@
 import UIKit
 import Humboldt
 import MapKit
-
-// NOTE: to make the playground work, you have to open the Terminal to Derived Data/Humboldt-Demo...
-// and create these symbolic links:
-//
-//     ln -s Pods/geos.framework geos.framework
-//     ln -s Pods/CocoaLumberjack.framework CocoaLumberjack.framework 
-
 //: # Humboldt
 //: _Topography made simple, in Swift._
 //:
