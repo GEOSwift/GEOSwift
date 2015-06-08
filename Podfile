@@ -3,16 +3,7 @@
 
 use_frameworks!
 
-link_with 'HumboldtDemo', 'Humboldt', 'HumboldtTests'
+link_with 'Humboldt', 'HumboldtTests'
+
 pod 'geos'
 pod 'CocoaLumberjack'
-
-target 'HumboldtDemo' do
-end
-
-target 'Humboldt' do
-end
-
-target 'HumboldtTests' do
-end
-

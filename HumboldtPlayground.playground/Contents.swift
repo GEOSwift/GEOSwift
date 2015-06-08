@@ -17,8 +17,7 @@ import MapKit
 
 // Create a POINT from its WKT representation
 let point = Waypoint(WKT: "POINT(10 45)")
-  
-// This was easy, uh?
+
 // A geometry can be created even using the constructor `Geometry.create(WKT)` and casting the returned value to the desired subclass
 let polygon = Geometry.create("POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
 
