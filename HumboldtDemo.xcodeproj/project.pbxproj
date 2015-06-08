@@ -276,6 +276,7 @@
 				CD2299811B10B506002C19AE /* Headers */,
 				CD2299821B10B506002C19AE /* Resources */,
 				36BA490CD3061F30F02CD17A /* Frameworks */,
+				CD88C37D1B25AA4B00A5BEA1 /* ShellScript */,
 				10E3123C9FFCE1EF22947063 /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -320,6 +321,8 @@
 				CD2299A01B10B506002C19AE /* Embed Frameworks */,
 				EB7CCABCC851F48DA43E48A1 /* Embed Pods Frameworks */,
 				4C68AE2EBA1E6FBBB937FDC3 /* Copy Pods Resources */,
+				CD88C37C1B25A70A00A5BEA1 /* Symlink geos for Playground */,
+				CD88C37E1B25AAAF00A5BEA1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -508,6 +511,46 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		CD88C37C1B25A70A00A5BEA1 /* Symlink geos for Playground */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Symlink geos for Playground";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SYM_LINK=\"${CONFIGURATION_BUILD_DIR}/geos.framework\"\nPODS_PATH=\"${CONFIGURATION_BUILD_DIR}/Pods/geos.framework\"\nif [ ! -f $SYM_LINK ]; then\nln -s $PODS_PATH $SYM_LINK\nfi";
+		};
+		CD88C37D1B25AA4B00A5BEA1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+		};
+		CD88C37E1B25AAAF00A5BEA1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SYM_LINK=\"${CONFIGURATION_BUILD_DIR}/CocoaLumberjack.framework\"\nPODS_PATH=\"${CONFIGURATION_BUILD_DIR}/Pods/CocoaLumberjack.framework\"\nif [ ! -f $SYM_LINK ]; then\nln -s $PODS_PATH $SYM_LINK\nfi";
 		};
 		EB7CCABCC851F48DA43E48A1 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
