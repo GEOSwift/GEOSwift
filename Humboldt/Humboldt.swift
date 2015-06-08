@@ -12,7 +12,7 @@ var GEOS_HANDLE: COpaquePointer = {
     return initGEOSWrapper_r();
 }()
 
-@objc public class Geometry {
+@objc public class Geometry : Equatable {
 
     let geometry: COpaquePointer
     let destroyOnDeinit: Bool
@@ -96,9 +96,9 @@ var GEOS_HANDLE: COpaquePointer = {
         return self.create(GEOSGeom)
     }
 
-    public class func create(WKB: UnsafePointer<UInt8>, size: Int)  -> AnyObject? {
+    public class func create(WKB: UnsafePointer<Void>, size: Int)  -> Geometry? {
         let WKBReader = GEOSWKBReader_create_r(GEOS_HANDLE)
-        let GEOSGeom = GEOSWKBReader_read_r(GEOS_HANDLE, WKBReader, WKB, size)
+        let GEOSGeom = GEOSWKBReader_read_r(GEOS_HANDLE, WKBReader, UnsafePointer<UInt8>(WKB), size)
         GEOSWKBReader_destroy_r(GEOS_HANDLE, WKBReader)
         return self.create(GEOSGeom)
     }
@@ -112,6 +112,10 @@ var GEOS_HANDLE: COpaquePointer = {
         GEOSWKTWriter_destroy_r(GEOS_HANDLE, WKTWriter)
         return wkt
     }()
+}
+
+public func ==(lhs: Geometry, rhs: Geometry) -> Bool {
+    return GEOSEquals_r(GEOS_HANDLE, lhs.geometry, rhs.geometry) > 0
 }
 
 func GEOSGeomFromWKT(handle: GEOSContextHandle_t, WKT: String) -> COpaquePointer {

@@ -18,26 +18,33 @@ import MapKit
 let point = Waypoint(WKT: "POINT(10 45)")
 
 // A geometry can be created even using the constructor `Geometry.create(WKT)` and casting the returned value to the desired subclass
-let polygon = Geometry.create("POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
+let geometry1 = Geometry.create("POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
 
-    // Examples of valid WKT geometries representations are:
-    // POINT(6 10)
-    // LINESTRING(35 10, 45 45, 15 40, 10 20, 35 10)
-    // LINESTRING(3 4,10 50,20 25)
-    // POLYGON((1 1,5 1,5 5,1 5,1 1),(2 2, 3 2, 3 3, 2 3,2 2))
-    // MULTIPOINT(3.5 5.6,4.8 10.5)
-    // MULTILINESTRING((3 4,10 50,20 25),(-5 -8,-10 -8,-15 -4))
-    // MULTIPOLYGON(((1 1,5 1,5 5,1 5,1 1),(2 2, 3 2, 3 3, 2 3,2 2)),((3 3,6 2,6 4,3 3)))
-    // GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))
+// The same geometry can be represented in binary form as a Well Known Binary.
+// Let's create one from a hex string:
+let wkb = NSData.fromHexString("010300000002000000050000000000000000804140000000000000244000000000008046400000000000C046400000000000002E40000000000000444000000000000024400000000000003440000000000080414000000000000024400400000000000000000034400000000000003E40000000000080414000000000008041400000000000003E40000000000000344000000000000034400000000000003E40")
+let geometry2 = Geometry.create(wkb.bytes, size: wkb.length)
 
-    // TODO: example of WKB initialization
+if geometry1 == geometry2 && geometry1 != point {
+    println("The two geometries are equal!\nAh, and geometry objects conform to the Equatable protocol.")
+}
+
+// Examples of valid WKT geometries representations are:
+// POINT(6 10)
+// LINESTRING(35 10, 45 45, 15 40, 10 20, 35 10)
+// LINESTRING(3 4,10 50,20 25)
+// POLYGON((1 1,5 1,5 5,1 5,1 1),(2 2, 3 2, 3 3, 2 3,2 2))
+// MULTIPOINT(3.5 5.6,4.8 10.5)
+// MULTILINESTRING((3 4,10 50,20 25),(-5 -8,-10 -8,-15 -4))
+// MULTIPOLYGON(((1 1,5 1,5 5,1 5,1 1),(2 2, 3 2, 3 3, 2 3,2 2)),((3 3,6 2,6 4,3 3)))
+// GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))
 
 //: ### Mapkit integration
 //:
 //: Convert the geometries to a MKShape subclass, ready to be added as annotations to a MKMapView
 //:
 let shape1 = point!.mapShape()
-let shape2 = polygon!.mapShape()
+let shape2 = geometry1!.mapShape()
 let annotations = [shape1, shape2]
 
 //: ### GEOJSON parsing
