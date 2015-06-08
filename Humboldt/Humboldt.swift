@@ -102,6 +102,16 @@ var GEOS_HANDLE: COpaquePointer = {
         GEOSWKBReader_destroy_r(GEOS_HANDLE, WKBReader)
         return self.create(GEOSGeom)
     }
+    
+    private(set) lazy var WKT : String? = {
+        let WKTWriter = GEOSWKTWriter_create_r(GEOS_HANDLE)
+        GEOSWKTWriter_setTrim_r(GEOS_HANDLE, WKTWriter, 1)
+        let wktString = GEOSWKTWriter_write_r(GEOS_HANDLE, WKTWriter, self.geometry)
+        let wkt = String.fromCString(wktString)
+        free(wktString)
+        GEOSWKTWriter_destroy_r(GEOS_HANDLE, WKTWriter)
+        return wkt
+    }()
 }
 
 func GEOSGeomFromWKT(handle: GEOSContextHandle_t, WKT: String) -> COpaquePointer {
@@ -239,13 +249,13 @@ public class Polygon : Geometry {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     
-    lazy public var exteriorRing: LinearRing = {
+    private(set) lazy var exteriorRing: LinearRing = {
         let exteriorRing = GEOSGetExteriorRing_r(GEOS_HANDLE, self.geometry)
         let linestring = Geometry.create(exteriorRing, destroyOnDeinit: false) as! LinearRing
         return linestring
     }()
 
-    lazy public var interiorRings: [LinearRing] = {
+    private(set) lazy var interiorRings: [LinearRing] = {
         var interiorRings = [LinearRing]()
         let numInteriorRings = GEOSGetNumInteriorRings_r(GEOS_HANDLE, self.geometry)
         if numInteriorRings>0 {
@@ -295,7 +305,7 @@ public class LineString : Geometry {
         return 1 // GEOS_LINESTRING
     }
     
-    lazy public var points: CoordinatesCollection = {
+    private(set) lazy var points: CoordinatesCollection = {
         return CoordinatesCollection(geometry: self.geometry)
         }()
     
@@ -320,7 +330,7 @@ public class GeometryCollection<T: Geometry> : Geometry {
         return 7 // GEOS_LINESTRING
     }
 
-    lazy public var geometries: GeometriesCollection<T> = {
+    private(set) lazy var geometries: GeometriesCollection<T> = {
         return GeometriesCollection<T>(geometry: self.geometry)
         }()
     public required init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
