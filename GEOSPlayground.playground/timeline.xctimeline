@@ -177,5 +177,17 @@
          selectedRepresentationIndex = "0"
          shouldTrackSuperviewWidth = "NO">
       </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "#CharacterRangeLen=5&amp;CharacterRangeLoc=1831&amp;EndingColumnNumber=10&amp;EndingLineNumber=37&amp;StartingColumnNumber=5&amp;StartingLineNumber=37&amp;Timestamp=455557212.638224"
+         lockedSize = "{302, 309}"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
+      <LoggerValueHistoryTimelineItem
+         documentLocation = "#CharacterRangeLen=9&amp;CharacterRangeLoc=859&amp;EndingColumnNumber=14&amp;EndingLineNumber=13&amp;StartingColumnNumber=5&amp;StartingLineNumber=13&amp;Timestamp=455557212.638224"
+         lockedSize = "{293, 291}"
+         selectedRepresentationIndex = "0"
+         shouldTrackSuperviewWidth = "NO">
+      </LoggerValueHistoryTimelineItem>
    </TimelineItems>
 </Timeline>
