@@ -1,7 +1,7 @@
 # GEOSwift
 *The Open Source Geographic Engine, in Swift.*
 
-[![Build Status](https://travis-ci.org/andreacremaschi/GEOSwift.svg)](https://travis-ci.org/andreacremaschi/GEOSwift)
+[![Build Status](https://travis-ci.org/andreacremaschi/GEOSwift.svg?branch=develop)](https://travis-ci.org/andreacremaschi/GEOSwift.svg?branch=develop)
 [![Cocoapods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://img.shields.io/cocoapods/v/GEOSwift.svg)
 
 Handle all kind of geographic objects (points, linestrings, polygons etc.) and all related topographic operations (intersections, overlapping etc.). GEOSwift is basically a MIT-licensed Swift interface to the OSGeo's GEOS library routines*, plus some convenience features for iOS developers.
