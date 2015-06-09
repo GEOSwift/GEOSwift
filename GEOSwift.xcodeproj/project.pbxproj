@@ -202,6 +202,8 @@
 				CD2299821B10B506002C19AE /* Resources */,
 				36BA490CD3061F30F02CD17A /* Frameworks */,
 				CD88C37D1B25AA4B00A5BEA1 /* ShellScript */,
+				CD9F03561B27434400C67976 /* Create symbolic link for GEOS Pod */,
+				CD9F03571B2743D300C67976 /* Create symbolic link for CocoaLumberjack Pod */,
 			);
 			buildRules = (
 			);
@@ -301,6 +303,34 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+		};
+		CD9F03561B27434400C67976 /* Create symbolic link for GEOS Pod */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Create symbolic link for GEOS Pod";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "GEOS_SYM_LINK=\"${CONFIGURATION_BUILD_DIR}/geos.framework\"\nGEOS_PATH=\"${CONFIGURATION_BUILD_DIR}/Pods/geos.framework\"\nif [ ! -f $GEOS_SYM_LINK ]; then\nln -s $GEOS_PATH $GEOS_SYM_LINK\nfi\n";
+		};
+		CD9F03571B2743D300C67976 /* Create symbolic link for CocoaLumberjack Pod */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Create symbolic link for CocoaLumberjack Pod";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "COCOALUMBERJACK_SYM_LINK=\"${CONFIGURATION_BUILD_DIR}/CocoaLumberjack.framework\"\nCOCOALUMBERJACK_PATH=\"${CONFIGURATION_BUILD_DIR}/Pods/CocoaLumberjack.framework\"\nif [ ! -f $COCOALUMBERJACK_SYM_LINK ]; then\nln -s $COCOALUMBERJACK_PATH $COCOALUMBERJACK_SYM_LINK\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
