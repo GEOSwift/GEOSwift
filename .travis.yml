@@ -1,0 +1,4 @@
+language: objective-c
+script:
+  - xctool clean build -workspace HumboldtDemo.xcworkspace -scheme Humboldt -destination 'platform=iOS Simulator,name=iPhone 6,OS=8.3'
+  - xctool test -workspace HumboldtDemo.xcworkspace -scheme Humboldt -destination 'platform=iOS Simulator,name=iPhone 6,OS=8.3'
