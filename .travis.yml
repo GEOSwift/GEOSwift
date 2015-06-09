@@ -2,5 +2,5 @@ language: objective-c
 before_install:
   - gem install cocoapods -v '0.37.2'
 script:
-  - xctool clean build -workspace GEOSwift.xcworkspace -scheme GEOSwift
-  - xctool test -workspace GEOSwift.xcworkspace -scheme GEOSwift
+  - xctool clean build -workspace GEOSwift.xcworkspace -scheme GEOSwift  -destination 'platform=iOS Simulator,name=iPhone 6'
+  - xctool test -workspace GEOSwift.xcworkspace -scheme GEOSwift  -destination 'platform=iOS Simulator,name=iPhone 6'
