@@ -1,0 +1,6 @@
+language: objective-c
+before_install:
+  - gem install cocoapods -v '0.37.2'
+script:
+  - xctool clean build -workspace HumboldtDemo.xcworkspace -scheme Humboldt -destination 'platform=iOS Simulator,name=iPhone 6,OS=8.1'
+  - xctool test -workspace HumboldtDemo.xcworkspace -scheme Humboldt -destination 'platform=iOS Simulator,name=iPhone 6,OS=8.1'
