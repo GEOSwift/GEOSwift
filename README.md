@@ -66,7 +66,7 @@ let annotations = [shape1, shape2]
 
 CocoaPods is a dependency manager for Cocoa projects. To install GEOS.swift with CocoaPods:
 
-* Make sure CocoaPods is installed (SQLite.swift requires version 0.37 or greater).
+* Make sure CocoaPods is installed (GEOS.swift requires version 0.37 or greater).
 
 * Update your `Podfile` to include the following:
 
