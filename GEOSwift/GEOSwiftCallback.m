@@ -1,30 +1,29 @@
 //
-//  HumboldtCallback.m
-//  geosswifttest2
+//  GEOSwiftCallback.m
 //
 //  Created by Andrea Cremaschi on 20/05/15.
 //  Copyright (c) 2015 andreacremaschi. All rights reserved.
 //
 
-#import "HumboldtCallback.h"
+#import "GEOSwiftCallback.h"
 #import <geos/geos_c.h>
 
 #ifdef LOG_VERBOSE
-#define HLogInfo(fmt, ...) DDLogInfo((@"--[Humboldt INFO]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#define HLogWarn(fmt, ...) DDLogWarn((@"--[Humboldt WARNING]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#define HLogError(fmt, ...) DDLogError((@"--[Humboldt ERROR]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#define HLogVerbose(fmt, ...) DDLogVerbose((@"--[Humboldt]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define HLogInfo(fmt, ...) DDLogInfo((@"--[GEOSwift INFO]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define HLogWarn(fmt, ...) DDLogWarn((@"--[GEOSwift WARNING]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define HLogError(fmt, ...) DDLogError((@"--[GEOSwift ERROR]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define HLogVerbose(fmt, ...) DDLogVerbose((@"--[GEOSwift]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #else
-#define HLogInfo(fmt, ...) NSLog((@"--[Humboldt INFO]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#define HLogWarn(fmt, ...) NSLog((@"--[Humboldt WARNING]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#define HLogError(fmt, ...) NSLog((@"--[Humboldt ERROR]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#define HLogVerbose(fmt, ...) NSLog((@"--[Humboldt]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define HLogInfo(fmt, ...) NSLog((@"--[GEOSwift INFO]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define HLogWarn(fmt, ...) NSLog((@"--[GEOSwift WARNING]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define HLogError(fmt, ...) NSLog((@"--[GEOSwift ERROR]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define HLogVerbose(fmt, ...) NSLog((@"--[GEOSwift]-- %s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 #endif
 
 #ifdef LOG_VERBOSE
-#define HumboldtLumberjack 1
+#define GEOSwiftLumberjack 1
 #else
-#define HumboldtLumberjack 0
+#define GEOSwiftLumberjack 0
 #endif
 
 @interface NSString (FromVariadic)
@@ -51,19 +50,19 @@
 
 void noticeCallback(const char *args,...) {
     NSString *noticeString= [NSString stringFromVariadicArgumentsList:args, nil];
-#if HumboldtLumberjack
+#if GEOSwiftLumberjack
     HLogInfo(@"%@.", noticeString);
 #else
-    NSLog(@"--[Humboldt NOTICE] -- %@.", noticeString);
+    NSLog(@"--[GEOSwift NOTICE] -- %@.", noticeString);
 #endif
 };
 
 void errorCallback(const char *args,...) {
     NSString *errorString= [NSString stringFromVariadicArgumentsList:args, nil];
-#if HumboldtLumberjack
+#if GEOSwiftLumberjack
     HLogError(@"%@.", errorString);
 #else
-    NSLog(@"--[Humboldt ERROR] -- %@.", errorString);
+    NSLog(@"--[GEOSwift ERROR] -- %@.", errorString);
 #endif
 };
 

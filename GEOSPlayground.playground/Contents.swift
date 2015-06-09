@@ -1,11 +1,11 @@
 import UIKit
-import Humboldt
+import GEOSwift
 import MapKit
-//: # Humboldt
+//: # GEOSwift
 //: _Topography made simple, in Swift._
 //:
 //: Handle all kind of geographical objects (points, linestrings, polygons etc.) and all related topographic operations (intersections, overlapping etc.) easily.
-//: Humboldt is basically a MIT-licensed Swift interface to the OSGeo's GEOS library routines*, plus some convenience features for iOS developers as:
+//: GEOSwift is basically a MIT-licensed Swift interface to the OSGeo's GEOS library routines*, plus some convenience features for iOS developers as:
 //: * MapKit integration
 //: * GEOJSON parsing
 //:
@@ -72,4 +72,4 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExt
 
 //: * [GEOS](http://trac.osgeo.org/geos/) stands for Geometry Engine - Open Source, and is a C++ library, ported from the [Java Topology Suite](http://sourceforge.net/projects/jts-topo-suite/). GEOS implements the OpenGIS [Simple Features for SQL](http://www.opengeospatial.org/standards/sfs) spatial predicate functions and spatial operators. GEOS, now an OSGeo project, was initially developed and maintained by [Refractions Research](http://www.refractions.net/) of Victoria, Canada.
 //:
-//: Humboldt was released by Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi)) under a MIT license. See LICENSE for more information.
+//: GEOSwift was released by Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi)) under a MIT license. See LICENSE for more information.

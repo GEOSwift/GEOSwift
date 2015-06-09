@@ -1,10 +1,10 @@
-# GEOS.swift
+# GEOSwift
 *The Open Source Geographic Engine, in Swift.*
 
-[![Build Status](https://travis-ci.org/andreacremaschi/GEOS.swift.svg)](https://travis-ci.org/andreacremaschi/GEOS.swift)
-[![Cocoapods Compatible](https://img.shields.io/cocoapods/v/GEOS.swift.svg)](https://img.shields.io/cocoapods/v/GEOS.swift.svg)
+[![Build Status](https://travis-ci.org/andreacremaschi/GEOSwift.svg)](https://travis-ci.org/andreacremaschi/GEOSwift)
+[![Cocoapods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://img.shields.io/cocoapods/v/GEOSwift.svg)
 
-Handle all kind of geographic objects (points, linestrings, polygons etc.) and all related topographic operations (intersections, overlapping etc.). GEOS.swift is basically a MIT-licensed Swift interface to the OSGeo's GEOS library routines*, plus some convenience features for iOS developers.
+Handle all kind of geographic objects (points, linestrings, polygons etc.) and all related topographic operations (intersections, overlapping etc.). GEOSwift is basically a MIT-licensed Swift interface to the OSGeo's GEOS library routines*, plus some convenience features for iOS developers.
 
 ## Features
 
@@ -60,19 +60,19 @@ let annotations = [shape1, shape2]
 ## Installation
 
 > **Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks.**
-> GEOS is a configure/install project licensed under LGPL 2.1: it is difficult to build for iOS and its compatibility with static linking is at least controversial. Use of GEOS.swift without CocoaPods and with a project targeting iOS 7, even if possible, is advised against.
+> GEOS is a configure/install project licensed under LGPL 2.1: it is difficult to build for iOS and its compatibility with static linking is at least controversial. Use of GEOSwift without CocoaPods and with a project targeting iOS 7, even if possible, is advised against.
 
 ### CocoaPods
 
-CocoaPods is a dependency manager for Cocoa projects. To install GEOS.swift with CocoaPods:
+CocoaPods is a dependency manager for Cocoa projects. To install GEOSwift with CocoaPods:
 
-* Make sure CocoaPods is installed (GEOS.swift requires version 0.37 or greater).
+* Make sure CocoaPods is installed (GEOSwift requires version 0.37 or greater).
 
 * Update your `Podfile` to include the following:
 
 ```
 use_frameworks!
-pod 'GEOS.swift'
+pod 'GEOSwift'
 ```
 
 * Run `pod install`.
@@ -83,5 +83,5 @@ Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi))
 
 ## License
 
-* GEOS.swift was released by Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi)) under a MIT license. See LICENSE for more information.
+* GEOSwift was released by Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi)) under a MIT license. See LICENSE for more information.
 * [GEOS](http://trac.osgeo.org/geos/) stands for Geometry Engine - Open Source, and is a C++ library, ported from the [Java Topology Suite](http://sourceforge.net/projects/jts-topo-suite/). GEOS implements the OpenGIS [Simple Features for SQL](http://www.opengeospatial.org/standards/sfs) spatial predicate functions and spatial operators. GEOS, now an OSGeo project, was initially developed and maintained by [Refractions Research](http://www.refractions.net/) of Victoria, Canada.

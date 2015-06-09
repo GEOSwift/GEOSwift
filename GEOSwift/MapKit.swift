@@ -1,6 +1,5 @@
 //
 //  HumboldMapKit.swift
-//  HumboldtDemo
 //
 //  Created by Andrea Cremaschi on 26/05/15.
 //  Copyright (c) 2015 andreacremaschi. All rights reserved.
@@ -15,17 +14,17 @@ public func CLLocationCoordinateFromCoordinate(coord: Coordinate) -> CLLocationC
     return coord
 }
 
-public protocol HumboldtMapKit {
+public protocol GEOSwiftMapKit {
     func mapShape() -> MKShape
 }
 
-extension Geometry : HumboldtMapKit {
+extension Geometry : GEOSwiftMapKit {
     public func mapShape() -> MKShape {
         return MKShape()
     }
 }
 
-extension Waypoint : HumboldtMapKit {
+extension Waypoint : GEOSwiftMapKit {
     override public func mapShape() -> MKShape {
         let pointAnno = MKPointAnnotation()
         pointAnno.coordinate = CLLocationCoordinateFromCoordinate(self.coordinate)
@@ -33,7 +32,7 @@ extension Waypoint : HumboldtMapKit {
     }
 }
 
-extension LineString : HumboldtMapKit {
+extension LineString : GEOSwiftMapKit {
     override public func mapShape() -> MKShape {
         let pointAnno: MKPolyline = MKPolyline()
         var coordinates = self.points.map({ (point: Coordinate) ->
@@ -46,7 +45,7 @@ extension LineString : HumboldtMapKit {
     }
 }
 
-extension Polygon : HumboldtMapKit {
+extension Polygon : GEOSwiftMapKit {
     override public func mapShape() -> MKShape {
         var exteriorRingCoordinates = self.exteriorRing.points.map({ (point: Coordinate) ->
             CLLocationCoordinate2D in

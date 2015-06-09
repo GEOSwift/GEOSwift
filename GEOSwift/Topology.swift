@@ -1,6 +1,5 @@
 //
-//  HumboldtTopology.swift
-//  HumboldtDemo
+//  Topology.swift
 //
 //  Created by Andrea Cremaschi on 22/05/15.
 //  Copyright (c) 2015 andreacremaschi. All rights reserved.

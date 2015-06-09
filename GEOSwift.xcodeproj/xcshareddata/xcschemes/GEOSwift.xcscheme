@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CD6533B01B0E0DFF00DE6D84"
-               BuildableName = "HumboldtDemo.app"
-               BlueprintName = "HumboldtDemo"
-               ReferencedContainer = "container:HumboldtDemo.xcodeproj">
+               BlueprintIdentifier = "CD2299831B10B506002C19AE"
+               BuildableName = "GEOSwift.framework"
+               BlueprintName = "GEOSwift"
+               ReferencedContainer = "container:GEOSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CD22998D1B10B506002C19AE"
-               BuildableName = "HumboldtTests.xctest"
-               BlueprintName = "HumboldtTests"
-               ReferencedContainer = "container:HumboldtDemo.xcodeproj">
+               BuildableName = "GEOSwiftTests.xctest"
+               BlueprintName = "GEOSwiftTests"
+               ReferencedContainer = "container:GEOSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,19 +47,19 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CD22998D1B10B506002C19AE"
-               BuildableName = "HumboldtTests.xctest"
-               BlueprintName = "HumboldtTests"
-               ReferencedContainer = "container:HumboldtDemo.xcodeproj">
+               BuildableName = "GEOSwiftTests.xctest"
+               BlueprintName = "GEOSwiftTests"
+               ReferencedContainer = "container:GEOSwift.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CD6533B01B0E0DFF00DE6D84"
-            BuildableName = "HumboldtDemo.app"
-            BlueprintName = "HumboldtDemo"
-            ReferencedContainer = "container:HumboldtDemo.xcodeproj">
+            BlueprintIdentifier = "CD2299831B10B506002C19AE"
+            BuildableName = "GEOSwift.framework"
+            BlueprintName = "GEOSwift"
+            ReferencedContainer = "container:GEOSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -72,16 +72,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CD6533B01B0E0DFF00DE6D84"
-            BuildableName = "HumboldtDemo.app"
-            BlueprintName = "HumboldtDemo"
-            ReferencedContainer = "container:HumboldtDemo.xcodeproj">
+            BlueprintIdentifier = "CD2299831B10B506002C19AE"
+            BuildableName = "GEOSwift.framework"
+            BlueprintName = "GEOSwift"
+            ReferencedContainer = "container:GEOSwift.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -91,16 +90,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CD6533B01B0E0DFF00DE6D84"
-            BuildableName = "HumboldtDemo.app"
-            BlueprintName = "HumboldtDemo"
-            ReferencedContainer = "container:HumboldtDemo.xcodeproj">
+            BlueprintIdentifier = "CD2299831B10B506002C19AE"
+            BuildableName = "GEOSwift.framework"
+            BlueprintName = "GEOSwift"
+            ReferencedContainer = "container:GEOSwift.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

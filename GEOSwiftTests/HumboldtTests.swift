@@ -1,6 +1,5 @@
 //
-//  HumboldtTests.swift
-//  geosswifttest2
+//  GEOSwiftTests.swift
 //
 //  Created by Andrea Cremaschi on 21/05/15.
 //  Copyright (c) 2015 andreacremaschi. All rights reserved.
@@ -8,9 +7,9 @@
 
 import UIKit
 import XCTest
-import Humboldt
+import GEOSwift
 
-class HumboldtTests: XCTestCase {
+class GEOSwiftTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
@@ -79,7 +78,7 @@ class HumboldtTests: XCTestCase {
     }
     
     func testGeoJSON() {
-        let bundle = NSBundle(forClass: HumboldtTests.self)
+        let bundle = NSBundle(forClass: GEOSwiftTests.self)
         if let geojsons = bundle.URLsForResourcesWithExtension("geojson", subdirectory: nil) as? Array<NSURL> {
             for geoJSONURL in geojsons {
                 if let geometries = Geometry.fromGeoJSON(geoJSONURL)  {

@@ -1,6 +1,5 @@
 //
-//  HumboldtCallback.h
-//  geosswifttest2
+//  GEOSwiftCallback.h
 //
 //  Created by Andrea Cremaschi on 20/05/15.
 //  Copyright (c) 2015 andreacremaschi. All rights reserved.
