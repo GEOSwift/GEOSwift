@@ -28,15 +28,15 @@ Easily handle geographical objects (points, linestrings, polygons etc.) and the 
 ### Geometry creation
 
 ```swift
-// From Well Known Text (WKT) representation
+// 1. From Well Known Text (WKT) representation
 let point = Waypoint(WKT: "POINT(10 45)")
 let polygon = Geometry.create("POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
 
-// The same geometry can be represented in binary form as a Well Known Binary.
+// 2. From a Well Known Binary (WKB)
 let WKB: NSData = geometryWKB()
 let geometry2 = Geometry.create(WKB.bytes, size: WKB.length)
 
-// From a GeoJSON file:
+// 3. From a GeoJSON file:
 if let geoJSONURL = NSBundle.mainBundle().URLForResource("italy", withExtension: "geojson"),
     let geometries = Geometry.fromGeoJSON(geoJSONURL),
     let italy = geometries[0] as? MultiPolygon
