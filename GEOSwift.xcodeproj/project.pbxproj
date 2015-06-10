@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BA1E59B45D92C3FD11C4CE0B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		7DF3A6F13BA744362BEF2CBF /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		8623CFAE42B6C6303968777E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		CD20F1DD1B2830700045D8FD /* GEOSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD2299841B10B506002C19AE /* GEOSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD22998F1B10B506002C19AE /* GEOSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD2299841B10B506002C19AE /* GEOSwift.framework */; };
 		CD2299981B10B506002C19AE /* HumboldtTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2299971B10B506002C19AE /* HumboldtTests.swift */; };
 		CD25D72F1B2732FE008B3FB3 /* GeoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD25D7251B2732FE008B3FB3 /* GeoJSON.swift */; };
@@ -23,7 +25,6 @@
 		CDD57FFB1B2345BB000B3D55 /* polygon.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CD0C44321B20368600E7B24E /* polygon.geojson */; };
 		CDD57FFC1B2345BB000B3D55 /* multipoint.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB71B3D1B16459A0044B3DD /* multipoint.geojson */; };
 		CDD57FFD1B2345BB000B3D55 /* featurecollection.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDB71B391B15FFEC0044B3DD /* featurecollection.geojson */; };
-		D3DDA1F0930B4203655856B7 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887537486B17EE0B1DC6F3A3 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,10 +37,24 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		CD20F1DC1B2830600045D8FD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CD20F1DD1B2830700045D8FD /* GEOSwift.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		4C33EEA1B4C17CA16CE23C36 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		20502951D700E13BF0D03965 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		887537486B17EE0B1DC6F3A3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD0C44321B20368600E7B24E /* polygon.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = polygon.geojson; sourceTree = "<group>"; };
+		CD20F1DA1B282CC40045D8FD /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		CD2299841B10B506002C19AE /* GEOSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GEOSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD2299871B10B506002C19AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = ../Humboldt.bak/Humboldt/Info.plist; sourceTree = "<group>"; };
 		CD22998E1B10B506002C19AE /* GEOSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GEOSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,7 +74,7 @@
 		CDB71B391B15FFEC0044B3DD /* featurecollection.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = featurecollection.geojson; sourceTree = "<group>"; };
 		CDB71B3B1B16210C0044B3DD /* multipolygon.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multipolygon.geojson; sourceTree = "<group>"; };
 		CDB71B3D1B16459A0044B3DD /* multipoint.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multipoint.geojson; sourceTree = "<group>"; };
-		F5827B5E3BBDEDCFBF97EE55 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		F11A4EEE11BBEA6574C3B06D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3DDA1F0930B4203655856B7 /* Pods.framework in Frameworks */,
+				8623CFAE42B6C6303968777E /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,13 +91,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD22998F1B10B506002C19AE /* GEOSwift.framework in Frameworks */,
-				BA1E59B45D92C3FD11C4CE0B /* Pods.framework in Frameworks */,
+				7DF3A6F13BA744362BEF2CBF /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4169D4F8A87EC62AFC3BE28A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				20502951D700E13BF0D03965 /* Pods.debug.xcconfig */,
+				F11A4EEE11BBEA6574C3B06D /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		CD2299851B10B506002C19AE /* GEOSwift */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,7 +172,7 @@
 				CD2299941B10B506002C19AE /* GEOSwiftTests */,
 				CD6533B21B0E0DFF00DE6D84 /* Products */,
 				F249FE82CF1F95FBFCF62C71 /* Frameworks */,
-				E700001F75ED4FCA74B0A214 /* Pods */,
+				4169D4F8A87EC62AFC3BE28A /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -161,18 +185,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E700001F75ED4FCA74B0A214 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				F5827B5E3BBDEDCFBF97EE55 /* Pods.debug.xcconfig */,
-				4C33EEA1B4C17CA16CE23C36 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		F249FE82CF1F95FBFCF62C71 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CD20F1DA1B282CC40045D8FD /* Pods.framework */,
 				887537486B17EE0B1DC6F3A3 /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -197,13 +213,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD22999D1B10B506002C19AE /* Build configuration list for PBXNativeTarget "GEOSwift" */;
 			buildPhases = (
+				D4B00962538E798551F5FFCB /* Check Pods Manifest.lock */,
 				CD22997F1B10B506002C19AE /* Sources */,
 				CD2299811B10B506002C19AE /* Headers */,
 				CD2299821B10B506002C19AE /* Resources */,
 				36BA490CD3061F30F02CD17A /* Frameworks */,
-				CD88C37D1B25AA4B00A5BEA1 /* ShellScript */,
 				CD9F03561B27434400C67976 /* Create symbolic link for GEOS Pod */,
 				CD9F03571B2743D300C67976 /* Create symbolic link for CocoaLumberjack Pod */,
+				C683067849EB588F02BBF419 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -218,9 +235,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD2299A11B10B506002C19AE /* Build configuration list for PBXNativeTarget "GEOSwiftTests" */;
 			buildPhases = (
+				B574CCEACE639CD265253477 /* Check Pods Manifest.lock */,
 				CD22998A1B10B506002C19AE /* Sources */,
 				CD22998B1B10B506002C19AE /* Frameworks */,
 				CD22998C1B10B506002C19AE /* Resources */,
+				CD20F1DC1B2830600045D8FD /* CopyFiles */,
+				5BBA48D6BC5592EBCB5C8665 /* Embed Pods Frameworks */,
+				82BFEDA72B80B9F602936BB9 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -291,18 +312,65 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		CD88C37D1B25AA4B00A5BEA1 /* ShellScript */ = {
+		5BBA48D6BC5592EBCB5C8665 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		82BFEDA72B80B9F602936BB9 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B574CCEACE639CD265253477 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C683067849EB588F02BBF419 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		CD9F03561B27434400C67976 /* Create symbolic link for GEOS Pod */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -316,7 +384,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "GEOS_SYM_LINK=\"${CONFIGURATION_BUILD_DIR}/geos.framework\"\nGEOS_PATH=\"${CONFIGURATION_BUILD_DIR}/Pods/geos.framework\"\nif [ ! -f $GEOS_SYM_LINK ]; then\nln -s $GEOS_PATH $GEOS_SYM_LINK\nfi\n";
+			shellScript = "GEOS_SYM_LINK=\"${CONFIGURATION_BUILD_DIR}/geos.framework\"\nGEOS_PATH=\"${CONFIGURATION_BUILD_DIR}/Pods/geos.framework\"\nif [ ! -L $GEOS_SYM_LINK ]; then\nln -s $GEOS_PATH $GEOS_SYM_LINK\nfi\n";
 		};
 		CD9F03571B2743D300C67976 /* Create symbolic link for CocoaLumberjack Pod */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -330,7 +398,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "COCOALUMBERJACK_SYM_LINK=\"${CONFIGURATION_BUILD_DIR}/CocoaLumberjack.framework\"\nCOCOALUMBERJACK_PATH=\"${CONFIGURATION_BUILD_DIR}/Pods/CocoaLumberjack.framework\"\nif [ ! -f $COCOALUMBERJACK_SYM_LINK ]; then\nln -s $COCOALUMBERJACK_PATH $COCOALUMBERJACK_SYM_LINK\nfi\n";
+			shellScript = "COCOALUMBERJACK_SYM_LINK=\"${CONFIGURATION_BUILD_DIR}/CocoaLumberjack.framework\"\nCOCOALUMBERJACK_PATH=\"${CONFIGURATION_BUILD_DIR}/Pods/CocoaLumberjack.framework\"\nif [ ! -L $COCOALUMBERJACK_SYM_LINK ]; then\nln -s $COCOALUMBERJACK_PATH $COCOALUMBERJACK_SYM_LINK\nfi\n";
+		};
+		D4B00962538E798551F5FFCB /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -369,7 +452,7 @@
 /* Begin XCBuildConfiguration section */
 		CD22999E1B10B506002C19AE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F5827B5E3BBDEDCFBF97EE55 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 20502951D700E13BF0D03965 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -393,7 +476,7 @@
 		};
 		CD22999F1B10B506002C19AE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C33EEA1B4C17CA16CE23C36 /* Pods.release.xcconfig */;
+			baseConfigurationReference = F11A4EEE11BBEA6574C3B06D /* Pods.release.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -413,11 +496,12 @@
 		};
 		CD2299A21B10B506002C19AE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F5827B5E3BBDEDCFBF97EE55 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 20502951D700E13BF0D03965 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -431,11 +515,12 @@
 		};
 		CD2299A31B10B506002C19AE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C33EEA1B4C17CA16CE23C36 /* Pods.release.xcconfig */;
+			baseConfigurationReference = F11A4EEE11BBEA6574C3B06D /* Pods.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = GEOSwiftTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
