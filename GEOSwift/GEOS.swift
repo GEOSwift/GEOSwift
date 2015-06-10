@@ -12,6 +12,7 @@ var GEOS_HANDLE: COpaquePointer = {
     return initGEOSWrapper_r();
 }()
 
+/// A base abstract geometry class
 @objc public class Geometry : Equatable {
 
     let geometry: COpaquePointer
@@ -89,6 +90,13 @@ var GEOS_HANDLE: COpaquePointer = {
         return self.create(GEOSGeom, destroyOnDeinit: true)
     }
 
+    /**
+    Create a Geometry subclass from its Well Known Text representation.
+    
+    :param: WKT The geometry representation in Well Known Text format (i.e. `POINT(10 45)`).
+    
+    :returns: The proper Geometry subclass as parsed from the string (i.e. `Waypoint`).
+    */
     public class func create(WKT: String) -> Geometry? {
         let WKTReader = GEOSWKTReader_create_r(GEOS_HANDLE)
         let GEOSGeom = GEOSWKTReader_read_r(GEOS_HANDLE, WKTReader, (WKT as NSString).UTF8String)
@@ -96,6 +104,14 @@ var GEOS_HANDLE: COpaquePointer = {
         return self.create(GEOSGeom)
     }
 
+    /**
+    Create a Geometry subclass from its Well Known Binary representation.
+    
+    :param: WKB The geometry representation in Well Known Binary format.
+    :param: size The size of the binary representation in bytes.
+    
+    :returns: The proper Geometry subclass as parsed from the binary data (i.e. `Waypoint`).
+    */
     public class func create(WKB: UnsafePointer<Void>, size: Int)  -> Geometry? {
         let WKBReader = GEOSWKBReader_create_r(GEOS_HANDLE)
         let GEOSGeom = GEOSWKBReader_read_r(GEOS_HANDLE, WKBReader, UnsafePointer<UInt8>(WKB), size)
@@ -103,6 +119,7 @@ var GEOS_HANDLE: COpaquePointer = {
         return self.create(GEOSGeom)
     }
     
+    /// The Well Known Text (WKT) representation of the Geometry.
     private(set) public lazy var WKT : String? = {
         let WKTWriter = GEOSWKTWriter_create_r(GEOS_HANDLE)
         GEOSWKTWriter_setTrim_r(GEOS_HANDLE, WKTWriter, 1)
@@ -111,6 +128,7 @@ var GEOS_HANDLE: COpaquePointer = {
         free(wktString)
         GEOSWKTWriter_destroy_r(GEOS_HANDLE, WKTWriter)
         return wkt
+        
     }()
 }
 

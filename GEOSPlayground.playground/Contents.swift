@@ -15,16 +15,15 @@ import MapKit
 //:     Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection
 //:
 
-// Create a POINT from its WKT representation
+// Create a POINT from its WKT representation.
 let point = Waypoint(WKT: "POINT(10 45)")
 
-// A geometry can be created even using the constructor `Geometry.create(WKT)` and casting the returned value to the desired subclass
+// A geometry can be created even using the constructor `Geometry.create(WKT)` and casting the returned value to the desired subclass.
 let geometry1 = Geometry.create("POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
 
 // The same geometry can be represented in binary form as a Well Known Binary.
-// Let's create one from a hex string:
-let wkb = NSData.fromHexString("010300000002000000050000000000000000804140000000000000244000000000008046400000000000C046400000000000002E40000000000000444000000000000024400000000000003440000000000080414000000000000024400400000000000000000034400000000000003E40000000000080414000000000008041400000000000003E40000000000000344000000000000034400000000000003E40")
-let geometry2 = Geometry.create(wkb.bytes, size: wkb.length)
+let WKB: NSData = geometryWKB()
+let geometry2 = Geometry.create(WKB.bytes, size: WKB.length)
 
 if geometry1 == geometry2 && geometry1 != point {
     println("The two geometries are equal!\nAh, and geometry objects conform to the Equatable protocol.")
@@ -86,7 +85,7 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExt
     italy.contains(geometry2!)
     italy.overlaps(geometry2!)
     italy.equal(geometry2!)
-    italy.isRelated(geometry2!,pattern: "TF0")
+    italy.isRelated(geometry2!, pattern: "TF0")
 
 }
 //: * [GEOS](http://trac.osgeo.org/geos/) stands for Geometry Engine - Open Source, and is a C++ library, ported from the [Java Topology Suite](http://sourceforge.net/projects/jts-topo-suite/). GEOS implements the OpenGIS [Simple Features for SQL](http://www.opengeospatial.org/standards/sfs) spatial predicate functions and spatial operators. GEOS, now an OSGeo project, was initially developed and maintained by [Refractions Research](http://www.refractions.net/) of Victoria, Canada.
