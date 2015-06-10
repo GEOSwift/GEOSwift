@@ -4,9 +4,10 @@ import MapKit
 //: # GEOSwift
 //: _Topography made simple, in Swift._
 //:
-//: Handle all kind of geographical objects (points, linestrings, polygons etc.) and all related topographic operations (intersections, overlapping etc.) easily.
+//: Easily handle all kind of geographical objects (points, linestrings, polygons etc.) and all related topographic operations (intersections, overlapping etc.).
 //: GEOSwift is basically a MIT-licensed Swift interface to the OSGeo's GEOS library routines*, plus some convenience features for iOS developers as:
 //: * MapKit integration
+//: * Quicklook integration
 //: * GEOJSON parsing
 //:
 //: ### Handle a geographical data model
@@ -47,6 +48,12 @@ let shape1 = point!.mapShape()
 let shape2 = geometry1!.mapShape()
 let annotations = [shape1, shape2]
 
+//: ### Quicklook integration
+//:
+//: Humboldt geometries are integrated with Quicklook!
+//: This means that while debugging you can inspect complex geometries and see what they represent: just stop on the variable with the mouse cursor or select the Geometry instance and press backspace in the Debug Area to see a preview.
+//: In Playgrounds you can display them just as any other object, like this:
+geometry2
 //: ### GEOJSON parsing
 //:
 //: Your geometries can be loaded from a GEOJSON file.
@@ -56,20 +63,32 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExt
     let italy = geometries[0] as? MultiPolygon
 {
     italy
-}
 
 //: ### Topological operations:
 //:
-//: Buffer, Boundary, Centroid, ConvexHull, Envelope, PointOnSurface, Intersection, Difference, Union
-
-// TODO: examples
+    italy.buffer(width: 1)
+    italy.boundary()
+    italy.centroid()
+    italy.convexHull()
+    italy.envelope()
+    italy.pointOnSurface()
+    italy.intersection(geometry2!)
+    italy.difference(geometry2!)
+    italy.union(geometry2!)    
 
 //: ### Predicates:
 //: 
-//: Intersects, Touches, Disjoint, Crosses, Within, Contains, Overlaps, Equals, Covers
+    italy.isDisjoint(geometry2!)
+    italy.touches(geometry2!)
+    italy.intersects(geometry2!)
+    italy.crosses(geometry2!)
+    italy.isWithin(geometry2!)
+    italy.contains(geometry2!)
+    italy.overlaps(geometry2!)
+    italy.equal(geometry2!)
+    italy.isRelated(geometry2!,pattern: "TF0")
 
-// TODO: examples
-
+}
 //: * [GEOS](http://trac.osgeo.org/geos/) stands for Geometry Engine - Open Source, and is a C++ library, ported from the [Java Topology Suite](http://sourceforge.net/projects/jts-topo-suite/). GEOS implements the OpenGIS [Simple Features for SQL](http://www.opengeospatial.org/standards/sfs) spatial predicate functions and spatial operators. GEOS, now an OSGeo project, was initially developed and maintained by [Refractions Research](http://www.refractions.net/) of Victoria, Canada.
 //:
 //: GEOSwift was released by Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi)) under a MIT license. See LICENSE for more information.

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import MapKit
 
 public func CLLocationCoordinateFromCoordinate(coord: Coordinate) -> CLLocationCoordinate2D {

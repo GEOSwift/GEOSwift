@@ -5,7 +5,7 @@
 //  Copyright (c) 2015 andreacremaschi. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import geos
 
 public extension Geometry {
@@ -13,9 +13,9 @@ public extension Geometry {
     
     /** Returns a Polygon that represents all points whose distance from this geometry is less than or equal to the given width.
     */
-    func bufferWithWidth(width: Double) -> Polygon {
+    func buffer(#width: Double) -> Geometry? {
         let bufferGEOM = GEOSBuffer_r(GEOS_HANDLE, self.geometry, width, 0)
-        let buffer = Geometry.create(bufferGEOM, destroyOnDeinit: true) as! Polygon
+        let buffer = Geometry.create(bufferGEOM, destroyOnDeinit: true)
         return buffer
     }
     
@@ -78,7 +78,13 @@ public extension Geometry {
     
     /** Returns a Geometry representing all the points in this geometry and the other. */
     func union(geometry: Geometry) -> Geometry  {
-        let unionGEOM = GEOSIntersection_r(GEOS_HANDLE, self.geometry, geometry.geometry)
+        let unionGEOM = GEOSUnion_r(GEOS_HANDLE, self.geometry, geometry.geometry)
+        let union = Geometry.create(unionGEOM, destroyOnDeinit: true)
+        return union!
+    }
+
+    func unaryUnion() -> Geometry  {
+        let unionGEOM = GEOSUnaryUnion_r(GEOS_HANDLE, self.geometry)
         let union = Geometry.create(unionGEOM, destroyOnDeinit: true)
         return union!
     }

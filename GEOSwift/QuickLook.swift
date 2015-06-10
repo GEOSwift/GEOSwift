@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import MapKit
 
 protocol GEOSwiftQuickLook {
@@ -52,8 +51,8 @@ public extension Geometry {
             let span = MKCoordinateSpanMake(0.1, 0.1)
             region = MKCoordinateRegionMake(center,span)
         } else {
-            if let envelope = self.envelope() as? Polygon {
-                let buffer = envelope.bufferWithWidth(-0.1)
+            if let envelope = self.envelope() as? Polygon,
+                let buffer = envelope.buffer(width: -0.1) as? Polygon {
                 let centroid = buffer.centroid()
                 let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
                 let exteriorRing = buffer.exteriorRing
