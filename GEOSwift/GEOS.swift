@@ -16,7 +16,7 @@ var GEOS_HANDLE: COpaquePointer = {
 @objc public class Geometry : Equatable {
 
     let geometry: COpaquePointer
-    let destroyOnDeinit: Bool
+    internal let destroyOnDeinit: Bool
     
     required public init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
         self.geometry = GEOSGeom
@@ -132,6 +132,7 @@ var GEOS_HANDLE: COpaquePointer = {
     }()
 }
 
+/// Returns true if the two Geometries are exactly equal.
 public func ==(lhs: Geometry, rhs: Geometry) -> Bool {
     return GEOSEquals_r(GEOS_HANDLE, lhs.geometry, rhs.geometry) > 0
 }

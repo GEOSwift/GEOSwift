@@ -9,6 +9,13 @@ import Foundation
 import geos
 
 public extension Geometry {
+/** 
+    Creates an `Array` of `Geometry` instances from a GeoJSON file.
+    
+    :param: URL the URL pointing to the GeoJSON file.
+    
+    :returns: An optional `Array` of `Geometry` instances.
+*/
     public class func fromGeoJSON(URL: NSURL) -> Array<Geometry>? {
         var parseError: NSError?
         
