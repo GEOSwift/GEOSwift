@@ -11,9 +11,9 @@ import MapKit
 /**
 A convenience method to convert coordinates in the CoreLocation format.
 
-:param: coord the `Coordinate` object
+- parameter coord: the `Coordinate` object
 
-:returns: A CLLocationCoordinate2D
+- returns: A CLLocationCoordinate2D
 */
 public func CLLocationCoordinateFromCoordinate(coord: Coordinate) -> CLLocationCoordinate2D {
     let coord = CLLocationCoordinate2DMake(coord.y, coord.x)
@@ -26,23 +26,13 @@ public protocol GEOSwiftMapKit {
     /**
     A convenience method to create a `MKShape` ready to be added to a `MKMapView`.
     
-    :returns: A MKShape representing this geometry.
+    - returns: A MKShape representing this geometry.
     */
     func mapShape() -> MKShape
 }
 
-extension Geometry : GEOSwiftMapKit {
-    public func mapShape() -> MKShape {
-        if let geom = self as? GeometryCollection<Geometry> {
-            let geometryCollectionOverlay = MKShapesCollection(geometryCollection: geom)
-            return geometryCollectionOverlay
-        }
-        return MKShape()
-    }
-}
-
 extension Waypoint : GEOSwiftMapKit {
-    override public func mapShape() -> MKShape {
+    public func mapShape() -> MKShape {
         let pointAnno = MKPointAnnotation()
         pointAnno.coordinate = CLLocationCoordinateFromCoordinate(self.coordinate)
         return pointAnno
@@ -50,20 +40,20 @@ extension Waypoint : GEOSwiftMapKit {
 }
 
 extension LineString : GEOSwiftMapKit {
-    override public func mapShape() -> MKShape {
+    public func mapShape() -> MKShape {
         let pointAnno: MKPolyline = MKPolyline()
         var coordinates = self.points.map({ (point: Coordinate) ->
             CLLocationCoordinate2D in
             return CLLocationCoordinateFromCoordinate(point)
         })
-        var polyline = MKPolyline(coordinates: &coordinates,
+        let polyline = MKPolyline(coordinates: &coordinates,
             count: coordinates.count)
         return polyline
     }
 }
 
 extension Polygon : GEOSwiftMapKit {
-    override public func mapShape() -> MKShape {
+    public func mapShape() -> MKShape {
         var exteriorRingCoordinates = self.exteriorRing.points.map({ (point: Coordinate) ->
             CLLocationCoordinate2D in
             return CLLocationCoordinateFromCoordinate(point)
@@ -79,12 +69,12 @@ extension Polygon : GEOSwiftMapKit {
     }
 }
 
-//extension GeometryCollection : GEOSwiftMapKit {
-//    override public func mapShape() -> MKShape {
-//        let geometryCollectionOverlay = MKShapesCollection(geometryCollection: self as! GeometryCollection<Geometry>)
-//        return geometryCollectionOverlay
-//    }
-//}
+extension GeometryCollection<Geometry> : GEOSwiftMapKit {
+    public func mapShape() -> MKShape {
+        let geometryCollectionOverlay = MKShapesCollection(geometryCollection: self as! GeometryCollection<Geometry>)
+        return geometryCollectionOverlay
+    }
+}
 
 private func MKPolygonWithCoordinatesSequence(coordinates: CoordinatesCollection) -> MKPolygon {
     var coordinates = coordinates.map({ (point: Coordinate) ->
@@ -100,7 +90,7 @@ private func MKPolygonWithCoordinatesSequence(coordinates: CoordinatesCollection
 MKShape subclass for GeometryCollections.
 The property `shapes` contains MKShape subclasses instances. When drawing shapes on a map be careful to the fact that that these shapes could be overlays OR annotations.
 */
-public class MKShapesCollection : MKShape, MKAnnotation, MKOverlay  {
+public class MKShapesCollection : MKShape, MKOverlay  {
     let shapes: Array<MKShape>
     public let centroid: CLLocationCoordinate2D
     public let boundingMapRect: MKMapRect

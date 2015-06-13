@@ -62,7 +62,7 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExt
     let italy = geometries[0] as? MultiPolygon
 {
     italy
-
+    
 //: ### Topological operations:
 //:
     italy.buffer(width: 1)
@@ -73,10 +73,10 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExt
     italy.pointOnSurface()
     italy.intersection(geometry2!)
     italy.difference(geometry2!)
-    italy.union(geometry2!)    
-
+    italy.union(geometry2!)
+    
 //: ### Predicates:
-//: 
+//:
     italy.isDisjoint(geometry2!)
     italy.touches(geometry2!)
     italy.intersects(geometry2!)
@@ -86,8 +86,8 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExt
     italy.overlaps(geometry2!)
     italy.equal(geometry2!)
     italy.isRelated(geometry2!, pattern: "TF0")
-
+    
 }
-//: * [GEOS](http://trac.osgeo.org/geos/) stands for Geometry Engine - Open Source, and is a C++ library, ported from the [Java Topology Suite](http://sourceforge.net/projects/jts-topo-suite/). GEOS implements the OpenGIS [Simple Features for SQL](http://www.opengeospatial.org/standards/sfs) spatial predicate functions and spatial operators. GEOS, now an OSGeo project, was initially developed and maintained by [Refractions Research](http://www.refractions.net/) of Victoria, Canada.
+//: [GEOS](http://trac.osgeo.org/geos/) stands for Geometry Engine - Open Source, and is a C++ library, ported from the [Java Topology Suite](http://sourceforge.net/projects/jts-topo-suite/). GEOS implements the OpenGIS [Simple Features for SQL](http://www.opengeospatial.org/standards/sfs) spatial predicate functions and spatial operators. GEOS, now an OSGeo project, was initially developed and maintained by [Refractions Research](http://www.refractions.net/) of Victoria, Canada.
 //:
 //: GEOSwift was released by Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi)) under a MIT license. See LICENSE for more information.

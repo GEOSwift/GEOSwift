@@ -9,45 +9,47 @@ import Foundation
 import geos
 
 public extension Geometry {
-/** 
+    /**
     Creates an `Array` of `Geometry` instances from a GeoJSON file.
     
-    :param: URL the URL pointing to the GeoJSON file.
+    - parameter URL: the URL pointing to the GeoJSON file.
     
-    :returns: An optional `Array` of `Geometry` instances.
-*/
-    public class func fromGeoJSON(URL: NSURL) -> Array<Geometry>? {
-        var parseError: NSError?
-        
-        if let JSONData = NSData(contentsOfURL: URL),
-
-            // read JSON file
-            let parsedObject = NSJSONSerialization.JSONObjectWithData(JSONData,
-                options: NSJSONReadingOptions.AllowFragments,
-                error:&parseError) as? NSDictionary,
-
-            // is the root a Dictionary with a "type" key of value "FeatureCollection"?
-            let rootFeature = parsedObject as? Dictionary<String, AnyObject>,
-            let type = rootFeature["type"] as? String {
-                if type == "FeatureCollection",
-                    
-                    // is there a "features" key of type NSArray?
-                    let featureCollection = rootFeature["features"] as? NSArray {
-
-                        // map every geometry representation to a GEOS geometry
-                        let features = featureCollection as Array
-                        var geometries = Array<Geometry>()
-                        for feature in features {
-                            if let feat1 = feature as? NSDictionary,
-                                let feat2 = feat1 as? Dictionary<String,AnyObject>,
-                                let geom = GEOJSONGeometryFromDictionaryRepresentation(feat2) {
-                                    geometries.append(geom)
-                            } else {
-                                return nil
+    - returns: An optional `Array` of `Geometry` instances.
+    */
+    public class func fromGeoJSON(URL: NSURL) -> Array<Geometry>? {       
+        do {
+            
+            if let JSONData = NSData(contentsOfURL: URL),
+                
+                // read JSON file
+                let parsedObject = try NSJSONSerialization.JSONObjectWithData(JSONData,
+                    options: NSJSONReadingOptions.AllowFragments) as? NSDictionary,
+                
+                // is the root a Dictionary with a "type" key of value "FeatureCollection"?
+                let rootFeature = parsedObject as? Dictionary<String, AnyObject>,
+                let type = rootFeature["type"] as? String {
+                    if type == "FeatureCollection",
+                        
+                        // is there a "features" key of type NSArray?
+                        let featureCollection = rootFeature["features"] as? NSArray {
+                            
+                            // map every geometry representation to a GEOS geometry
+                            let features = featureCollection as Array
+                            var geometries = Array<Geometry>()
+                            for feature in features {
+                                if let feat1 = feature as? NSDictionary,
+                                    let feat2 = feat1 as? Dictionary<String,AnyObject>,
+                                    let geom = GEOJSONGeometryFromDictionaryRepresentation(feat2) {
+                                        geometries.append(geom)
+                                } else {
+                                    return nil
+                                }
                             }
-                        }
-                        return geometries
-                }
+                            return geometries
+                    }
+            }
+        } catch _ {
+            
         }
         return nil
     }
@@ -151,7 +153,7 @@ private func GEOJSONGeometryFromDictionaryRepresentation(dictionary: Dictionary<
                         for geometryNSDictionary in geometriesArray {
                             if let geometryType = geometryNSDictionary["type"] as? String,
                                 let coordinatesNSArray = geometryNSDictionary["coordinates"] as? NSArray,
-                                let geometry = GEOJSONGeometry(geometryType, coordinatesNSArray) {
+                                let geometry = GEOJSONGeometry(geometryType, coordinatesNSArray: coordinatesNSArray) {
                                     geometries.append(geometry)
                             } else {
                                 return nil
@@ -162,7 +164,7 @@ private func GEOJSONGeometryFromDictionaryRepresentation(dictionary: Dictionary<
                 
                 default:
                     if let coordinatesNSArray = geometryDict["coordinates"] as? NSArray {
-                        return GEOJSONGeometry(geometryType, coordinatesNSArray)
+                        return GEOJSONGeometry(geometryType, coordinatesNSArray: coordinatesNSArray)
                 }
             }
             
@@ -179,8 +181,8 @@ private func GEOJSONCoordinatesFromArrayRepresentation(array: [[Double]]) -> [Co
 
 private func GEOJSONSequenceFromArrayRepresentation(representation: [[Double]]) -> COpaquePointer? {
     if let coordinates = GEOJSONCoordinatesFromArrayRepresentation(representation) {
-        var sequence = GEOSCoordSeq_create_r(GEOS_HANDLE, UInt32(coordinates.count), 2)
-        for (index, coord) in enumerate(coordinates) {
+        let sequence = GEOSCoordSeq_create_r(GEOS_HANDLE, UInt32(coordinates.count), 2)
+        for (index, coord) in coordinates.enumerate() {
             if (GEOSCoordSeq_setX_r(GEOS_HANDLE, sequence, UInt32(index), coord.x) == 0) ||
                 (GEOSCoordSeq_setY_r(GEOS_HANDLE, sequence, UInt32(index), coord.y) == 0) {
                     return nil
@@ -203,14 +205,14 @@ private func GEOJSONCreatePolygonFromRepresentation(representation: NSArray) -> 
     
     // For type "Polygon", the "coordinates" member must be an array of LinearRing coordinate arrays. For Polygons with multiple rings, the first must be the exterior ring and any others must be interior rings or holes.
     
-    if var coordinates = representation as? [[Double]] {
+    if let coordinates = representation as? [[Double]] {
         // array of LinearRing coordinate arrays
         if let shell = GEOJSONCreateLinearRingFromRepresentation(coordinates) {
             let polygon = Polygon(shell: shell, holes: nil)
             return polygon
         }
     } else {
-        if var ringsCoords = representation as? [[[Double]]] {
+        if let ringsCoords = representation as? [[[Double]]] {
             if ringsCoords.count == 0 { return nil }
             // Polygons with multiple rings
             var rings: Array<LinearRing> = ringsCoords.map({

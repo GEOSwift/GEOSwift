@@ -12,36 +12,6 @@ protocol GEOSwiftQuickLook {
     func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect)
 }
 
-extension Geometry : GEOSwiftQuickLook {
-    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
-        
-        // This is a workaround for a Swift bug (IMO):
-        // drawInSnapshot is not called if implemenented as an override function in GeometryCollection subclass
-        //        var image = snapshot.image
-        //        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
-        //        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
-        //        image.drawAtPoint(CGPointMake(0, 0))
-        
-        if let geometryCollection = self as? GeometryCollection {
-            for geometry in geometryCollection.geometries {
-                geometry.drawInSnapshot(snapshot, mapRect: mapRect)
-            }
-        } else if let geometryCollection = self as? MultiPoint {
-            for geometry in geometryCollection.geometries {
-                geometry.drawInSnapshot(snapshot, mapRect: mapRect)
-            }
-        } else if let geometryCollection = self as? MultiLineString {
-            for geometry in geometryCollection.geometries {
-                geometry.drawInSnapshot(snapshot, mapRect: mapRect)
-            }
-        } else if let geometryCollection = self as? MultiPolygon {
-            for geometry in geometryCollection.geometries {
-                geometry.drawInSnapshot(snapshot, mapRect: mapRect)
-            }
-        }
-    }
-}
-
 public extension Geometry {
     public func debugQuickLookObject() -> AnyObject? {
         
@@ -131,33 +101,34 @@ private func MKMapRect(region: MKCoordinateRegion) ->MKMapRect
 }
 
 extension Waypoint : GEOSwiftQuickLook {
-    override func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
+    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
         var image = snapshot.image
         
         let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
         let pin = MKPinAnnotationView(annotation: nil, reuseIdentifier: "")
-        let pinImage = pin.image
+        if let pinImage = pin.image {
         
-        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
-        
-        image.drawAtPoint(CGPointMake(0, 0))
-        
-        // draw center/home marker
-        let coord = CLLocationCoordinate2DMake(self.coordinate.y, self.coordinate.x)
-        var homePoint = snapshot.pointForCoordinate(coord)
-        var rect = CGRectMake(0, 0, pinImage.size.width, pinImage.size.height)
-        rect = CGRectOffset(rect, homePoint.x-rect.size.width/2.0, homePoint.y-rect.size.height)
-        pinImage.drawInRect(rect)
+            UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
+            
+            image.drawAtPoint(CGPointMake(0, 0))
+            
+            // draw center/home marker
+            let coord = CLLocationCoordinate2DMake(self.coordinate.y, self.coordinate.x)
+            let homePoint = snapshot.pointForCoordinate(coord)
+            var rect = CGRectMake(0, 0, pinImage.size.width, pinImage.size.height)
+            rect = CGRectOffset(rect, homePoint.x-rect.size.width/2.0, homePoint.y-rect.size.height)
+            pinImage.drawInRect(rect)
+        }
     }
 }
 
 extension LineString : GEOSwiftQuickLook {
-    override func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
+    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
         
         if let overlay = self.mapShape() as? MKOverlay {
             let zoomScale = snapshot.image.size.width / CGFloat(mapRect.size.width)
             
-            var renderer = MKPolylineRenderer(overlay: overlay)
+            let renderer = MKPolylineRenderer(overlay: overlay)
             renderer.lineWidth = 2
             renderer.strokeColor = UIColor.blueColor().colorWithAlphaComponent(0.7)
             
@@ -175,12 +146,12 @@ extension LineString : GEOSwiftQuickLook {
 }
 
 extension Polygon : GEOSwiftQuickLook {
-    override func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
+    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
         
         if let overlay = self.mapShape() as? MKOverlay {
             let zoomScale = snapshot.image.size.width / CGFloat(mapRect.size.width)
             
-            var polygonRenderer = MKPolygonRenderer(overlay: overlay)
+            let polygonRenderer = MKPolygonRenderer(overlay: overlay)
             polygonRenderer.lineWidth = 2
             polygonRenderer.strokeColor = UIColor.blueColor().colorWithAlphaComponent(0.7)
             polygonRenderer.fillColor = UIColor.cyanColor().colorWithAlphaComponent(0.2)
@@ -198,19 +169,10 @@ extension Polygon : GEOSwiftQuickLook {
     }
 }
 
-//extension GeometryCollection : GEOSwiftQuickLook {
-//    override func drawInSnapshot(snapshot: MKMapSnapshot) {
-//        var image = snapshot.image
-//
-//        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
-//
-//        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
-//
-//        image.drawAtPoint(CGPointMake(0, 0))
-//
-//        // draw geometry collection
-//        for geometry in geometries {
-//            geometry.drawInSnapshot(snapshot)
-//        }
-//    }
-//}
+extension GeometryCollection : GEOSwiftQuickLook {
+    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
+        for geometry in self.geometries {
+            geometry.drawInSnapshot(snapshot, mapRect: mapRect)
+        }
+    }
+}
