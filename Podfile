@@ -3,14 +3,7 @@
 
 use_frameworks!
 
-pod 'geos' #, :podspec => 'geos/geos.podspec'
+link_with 'GEOSwift', 'GEOSwiftTests'
+
+pod 'geos'
 pod 'CocoaLumberjack'
-
-target 'HumboldtDemo' do
-
-end
-
-target 'HumboldtTests' do
-
-end
-
