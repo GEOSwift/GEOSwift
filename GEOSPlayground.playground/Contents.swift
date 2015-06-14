@@ -1,6 +1,7 @@
 import UIKit
 import GEOSwift
 import MapKit
+//: > _Note:_ Build the GEOSwift framework scheme targeting an iOS Simulator prior to use this Playground. You may have to close and reopen the project after building it.
 //: # GEOSwift
 //: _The Swift Geographic Engine._
 //:
