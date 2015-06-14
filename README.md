@@ -14,7 +14,6 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 * *MapKit* integration
 * *Quicklook* integration
 * A lightweight *GEOJSON* parser
-* Well-documented
 * Extensively tested
 
 ## Requirements

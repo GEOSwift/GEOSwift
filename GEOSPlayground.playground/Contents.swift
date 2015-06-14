@@ -13,7 +13,6 @@ import MapKit
 //: * MapKit integration
 //: * Quicklook integration
 //: * A lightweight GEOJSON parser
-//: * Well-documented
 //: * Extensively tested
 //:
 //: ### Handle a geographical data model
