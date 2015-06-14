@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-  s.name         = "GEOS.swift"
+  s.name         = "GEOSwift"
   s.version      = "0.1"
   s.summary      = "The Swift Geographic Engine."
 
@@ -9,7 +9,7 @@ Easily handle a geographical object model (points, linestrings, polygons etc.) a
 A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, nicely integrated with MapKit and Quicklook.
 DESC
 
-  s.homepage     = "https://github.com/andreacremaschi/GEOS.swift"
+  s.homepage     = "https://github.com/andreacremaschi/GEOSwift"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "Andrea Cremaschi" => "andreacremaschi@libero.it" }
