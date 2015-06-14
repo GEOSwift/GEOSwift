@@ -1,19 +1,34 @@
 import UIKit
 import GEOSwift
 import MapKit
+//: > _Note:_ Build the GEOSwift framework scheme targeting an iOS Simulator prior to use this Playground. You may have to close and reopen the project after building it.
 //: # GEOSwift
-//: _Topography made simple, in Swift._
+//: _The Swift Geographic Engine._
 //:
-//: Easily handle all kind of geographical objects (points, linestrings, polygons etc.) and all related topographic operations (intersections, overlapping etc.).
+//: Easily handle geographical objects (points, linestrings, polygons etc.) and the main related topographical operations (intersections, overlapping etc.).
 //: GEOSwift is basically a MIT-licensed Swift interface to the OSGeo's GEOS library routines*, plus some convenience features for iOS developers as:
+//:
+//: * A pure-Swift, type-safe, optional-aware programming interface
+//: * Automatically-typed geometry deserialization from WKT and WKB representations
 //: * MapKit integration
 //: * Quicklook integration
-//: * GEOJSON parsing
+//: * A lightweight GEOJSON parser
+//: * Extensively tested
 //:
 //: ### Handle a geographical data model
 //:
-//:     Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, GeometryCollection
-//:
+//: GEOSwift let you easily create geometry objects for all the geometry types supported by GEOS:
+//: 
+//: * Point
+//: * LineString
+//: * Polygon
+//: * MultiPoint
+//: * MultiLineString
+//: * MultiPolygon
+//: * GeometryCollection
+//: 
+//: Geometries can be deserialized from and serialized back to their Well Known Text (WKT) or Well Known Binary (WKB) representations, as they are defined in the _[Simple features for SQL](http://www.opengeospatial.org/standards/sfa)_ specification.  
+//: The default spatial reference system for geometry fields is WGS84 (meaning the SRID is 4326) – in other words, the geometry coordinates are in longitude, latitude pairs in units of degrees.
 
 // Create a POINT from its WKT representation.
 let point = Waypoint(WKT: "POINT(10 45)")
@@ -61,7 +76,7 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExt
     let geometries = Geometry.fromGeoJSON(geoJSONURL),
     let italy = geometries[0] as? MultiPolygon
 {
-    italy
+    italy 
 
 //: ### Topological operations:
 //:
@@ -77,17 +92,17 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExt
 
 //: ### Predicates:
 //: 
-    italy.isDisjoint(geometry2!)
+    italy.disjoint(geometry2!)
     italy.touches(geometry2!)
     italy.intersects(geometry2!)
     italy.crosses(geometry2!)
-    italy.isWithin(geometry2!)
+    italy.within(geometry2!)
     italy.contains(geometry2!)
     italy.overlaps(geometry2!)
-    italy.equal(geometry2!)
-    italy.isRelated(geometry2!, pattern: "TF0")
+    italy.equals(geometry2!)
+    italy.relate(geometry2!, pattern: "T*****FF*")
 
 }
-//: * [GEOS](http://trac.osgeo.org/geos/) stands for Geometry Engine - Open Source, and is a C++ library, ported from the [Java Topology Suite](http://sourceforge.net/projects/jts-topo-suite/). GEOS implements the OpenGIS [Simple Features for SQL](http://www.opengeospatial.org/standards/sfs) spatial predicate functions and spatial operators. GEOS, now an OSGeo project, was initially developed and maintained by [Refractions Research](http://www.refractions.net/) of Victoria, Canada.
+//: [GEOS](http://trac.osgeo.org/geos/) stands for Geometry Engine - Open Source, and is a C++ library, ported from the [Java Topology Suite](http://sourceforge.net/projects/jts-topo-suite/). GEOS implements the OpenGIS [Simple Features for SQL](http://www.opengeospatial.org/standards/sfs) spatial predicate functions and spatial operators. GEOS, now an OSGeo project, was initially developed and maintained by [Refractions Research](http://www.refractions.net/) of Victoria, Canada.
 //:
 //: GEOSwift was released by Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi)) under a MIT license. See LICENSE for more information.
