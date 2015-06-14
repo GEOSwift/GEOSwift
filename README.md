@@ -77,6 +77,13 @@ GEOSwift let you perform a set of operations on these two geometries:
 * _overlaps_: returns true if this geometric object “spatially overlaps” another geometry.
 * _relate_: returns true if this geometric object is spatially related to another geometry by testing for intersections between the interior, boundary and exterior of the two geometric objects as specified by the values in the intersectionPatternMatrix. 
 
+
+### Playground
+
+Explore more, interactively, from the Xcode project’s playground.
+
+![Playground](/README-images/playground.png)
+
 ## Installation
 
 > **Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks.**
