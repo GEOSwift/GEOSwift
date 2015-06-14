@@ -1,4 +1,4 @@
-![GEOSwift](/README-images/GEOSwift.png)
+![GEOSwift](/README-images/GEOSwift.png)  
 *The Swift Geographic Engine.*
 
 [![Build Status](https://travis-ci.org/andreacremaschi/GEOSwift.svg?branch=develop)](https://travis-ci.org/andreacremaschi/GEOSwift.svg?branch=develop)
