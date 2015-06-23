@@ -47,13 +47,25 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("italy", withExtension:
 
 ### MapKit integration
 
-On each Geometry instance you can call the convenience func `mapShape()`, that will return a MKShape subclass ready to be added as annotations to a MKMapView:
+On each Geometry instance you can call the convenience func `mapShape()`, that will return a `MKShape` subclass ready to be added as annotations to a `MKMapView`:
 
 ```swift
 let shape1 = point!.mapShape()
 let shape2 = polygon!.mapShape()
 let annotations = [shape1, shape2]
 ```
+
+In this table you can find which MKShape subclass you should expect when calling `mapShape()` on a geometry:
+
+| WKT Feature | GEOSwift class | MKShape subclass |
+|------------------|:-------------:|-----------------:|
+| `POINT` | `WayPoint` | ? |
+| `LINESTRING` | `LineString` | MKPolyline |
+| `POLYGON` | `Polygon` |    MKPolygon |
+| `MULTIPOINT` | `MultiPoint` |    MKShapesCollection |
+| `MULTILINESTRING` | `MultiLineString` |    MKShapesCollection |
+| `MULTIPOLYGON` | `MultiPolygon` |    MKShapesCollection |
+| `GEOMETRYCOLLECTION` | `GeometryCollection` |    MKShapesCollection |
 
 ### Topological operations
 
