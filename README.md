@@ -59,13 +59,15 @@ In this table you can find which MKShape subclass you should expect when calling
 
 | WKT Feature | GEOSwift class | MKShape subclass |
 |:------------------:|:-------------:|:-----------------:|
-| `POINT` | `WayPoint` | ? |
+| `POINT` | `WayPoint` | `MKPointAnnotation` |
 | `LINESTRING` | `LineString` | `MKPolyline` |
 | `POLYGON` | `Polygon` |    `MKPolygon` |
 | `MULTIPOINT` | `MultiPoint` |    `MKShapesCollection` |
 | `MULTILINESTRING` | `MultiLineString` |    `MKShapesCollection` |
 | `MULTIPOLYGON` | `MultiPolygon` |    `MKShapesCollection` |
 | `GEOMETRYCOLLECTION` | `GeometryCollection` |    `MKShapesCollection` |
+
+Of course you should provide your implementation of the `MKMapViewDelegate` protocol. Be aware that MapKit treats differently point representations, handled via the `mapView:annotation:` delegate method, and other geometries for which you should implement `mapView:rendererForOverlay:`.
 
 ### Topological operations
 
