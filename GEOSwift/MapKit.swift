@@ -33,10 +33,23 @@ public protocol GEOSwiftMapKit {
 
 extension Geometry : GEOSwiftMapKit {
     public func mapShape() -> MKShape {
-        if let geom = self as? GeometryCollection<Geometry> {
+        if let geom = self as? MultiPolygon {
             let geometryCollectionOverlay = MKShapesCollection(geometryCollection: geom)
             return geometryCollectionOverlay
+        } else
+            if let geom = self as? MultiLineString {
+                let geometryCollectionOverlay = MKShapesCollection(geometryCollection: geom)
+                return geometryCollectionOverlay
+        } else
+                if let geom = self as? MultiPoint {
+                    let geometryCollectionOverlay = MKShapesCollection(geometryCollection: geom)
+                    return geometryCollectionOverlay
+            } else
+                    if let geom = self as? GeometryCollection {
+                        let geometryCollectionOverlay = MKShapesCollection(geometryCollection: geom)
+                        return geometryCollectionOverlay
         }
+        
         return MKShape()
     }
 }
@@ -105,8 +118,8 @@ public class MKShapesCollection : MKShape, MKAnnotation, MKOverlay  {
     public let centroid: CLLocationCoordinate2D
     public let boundingMapRect: MKMapRect
     
-    required public init(geometryCollection: GeometryCollection<Geometry>) {
-        let shapes = geometryCollection.geometries.map({ (geometry: Geometry) ->
+    required public init<T>(geometryCollection: GeometryCollection<T>) {
+        let shapes = geometryCollection.geometries.map({ (geometry: T) ->
             MKShape in
             return geometry.mapShape()
         })
