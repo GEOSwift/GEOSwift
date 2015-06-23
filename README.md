@@ -58,14 +58,14 @@ let annotations = [shape1, shape2]
 In this table you can find which MKShape subclass you should expect when calling `mapShape()` on a geometry:
 
 | WKT Feature | GEOSwift class | MKShape subclass |
-|------------------|:-------------:|-----------------:|
+|:------------------:|:-------------:|:-----------------:|
 | `POINT` | `WayPoint` | ? |
-| `LINESTRING` | `LineString` | MKPolyline |
-| `POLYGON` | `Polygon` |    MKPolygon |
-| `MULTIPOINT` | `MultiPoint` |    MKShapesCollection |
-| `MULTILINESTRING` | `MultiLineString` |    MKShapesCollection |
-| `MULTIPOLYGON` | `MultiPolygon` |    MKShapesCollection |
-| `GEOMETRYCOLLECTION` | `GeometryCollection` |    MKShapesCollection |
+| `LINESTRING` | `LineString` | `MKPolyline` |
+| `POLYGON` | `Polygon` |    `MKPolygon` |
+| `MULTIPOINT` | `MultiPoint` |    `MKShapesCollection` |
+| `MULTILINESTRING` | `MultiLineString` |    `MKShapesCollection` |
+| `MULTIPOLYGON` | `MultiPolygon` |    `MKShapesCollection` |
+| `GEOMETRYCOLLECTION` | `GeometryCollection` |    `MKShapesCollection` |
 
 ### Topological operations
 
