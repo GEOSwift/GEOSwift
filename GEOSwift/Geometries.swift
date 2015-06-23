@@ -101,9 +101,10 @@ public class Polygon : Geometry {
     }
     
     public convenience init?(shell: LinearRing, holes: Array<LinearRing>?) {
+
         // clone shell
         let shellGEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, shell.geometry)
-        
+
         // clone holes
         if let holes = holes {
             var geometriesPointer = UnsafeMutablePointer<COpaquePointer>.alloc(holes.count)
@@ -111,7 +112,7 @@ public class Polygon : Geometry {
                 let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
                 geometriesPointer[i] = GEOSGeom
             }
-            let geometry = GEOSGeom_createPolygon_r(GEOS_HANDLE, shellGEOSGeom, geometriesPointer, UInt32(holes.count))
+            let geometry = GEOSGeom_createPolygon_r(GEOS_HANDLE, shellGEOSGeom, holes.count > 0 ? geometriesPointer : nil, UInt32(holes.count))
             self.init(GEOSGeom: geometry, destroyOnDeinit: true)
             geometriesPointer.dealloc(holes.count)
         } else {

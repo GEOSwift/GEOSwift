@@ -51,11 +51,10 @@ public extension Geometry {
             let span = MKCoordinateSpanMake(0.1, 0.1)
             region = MKCoordinateRegionMake(center,span)
         } else {
-            if let envelope = self.envelope() as? Polygon,
-                let buffer = envelope.buffer(width: -0.1) as? Polygon {
-                let centroid = buffer.centroid()
+            if let envelope = self.envelope() as? Polygon {
+                let centroid = envelope.centroid()
                 let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
-                let exteriorRing = buffer.exteriorRing
+                let exteriorRing = envelope.exteriorRing
                 let upperLeft = exteriorRing.points[2]
                 let lowerRight = exteriorRing.points[0]
                 let span = MKCoordinateSpanMake(upperLeft.y - lowerRight.y, upperLeft.x - lowerRight.x)

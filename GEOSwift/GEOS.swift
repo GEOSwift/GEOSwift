@@ -160,6 +160,8 @@ public struct CoordinatesCollection: SequenceType {
     public subscript(index: UInt32) -> Coordinate {
         var x: Double = 0
         var y: Double = 0
+
+        assert(self.count>index, "Index out of bounds")
         let sequence = GEOSGeom_getCoordSeq_r(GEOS_HANDLE, self.geometry)
         GEOSCoordSeq_getX_r(GEOS_HANDLE, sequence, index, &x);
         GEOSCoordSeq_getY_r(GEOS_HANDLE, sequence, index, &y);
