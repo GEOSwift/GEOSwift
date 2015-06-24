@@ -10,7 +10,7 @@ import MapKit
 //:
 //: * A pure-Swift, type-safe, optional-aware programming interface
 //: * Automatically-typed geometry deserialization from WKT and WKB representations
-//: * MapKit integration
+//: * MapKit and MapboxGL integration
 //: * Quicklook integration
 //: * A lightweight GEOJSON parser
 //: * Extensively tested

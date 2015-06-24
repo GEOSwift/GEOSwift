@@ -11,7 +11,7 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 
 * A pure-Swift, type-safe, optional-aware programming interface
 * Automatically-typed geometry deserialization from WKT and WKB representations
-* *MapKit* integration
+* *MapKit* and *MapboxGL* integration
 * *Quicklook* integration
 * A lightweight *GEOJSON* parser
 * Extensively tested
@@ -62,7 +62,7 @@ Example for MapboxGL:
 let shape1 = linestring.mapboxShape() // will return a MGLPolyline
 ```
 
-In this table you can find which annotation class you should expect when calling `mapShape()` or ``mapboxShape()` on a geometry:
+In this table you can find which annotation class you should expect when calling `mapShape()` or `mapboxShape()` on a geometry:
 
 | WKT Feature | GEOSwift class | MapKit | MapboxGL |
 |:------------------:|:-------------:|:-----------------:|:-----------------:|
