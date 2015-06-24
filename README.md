@@ -45,29 +45,38 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("italy", withExtension:
 }
 ```
 
-### MapKit integration
+### MapKit and MapboxGL integration
 
-On each Geometry instance you can call the convenience func `mapShape()`, that will return a `MKShape` subclass ready to be added as annotations to a `MKMapView`:
+GEOSwift makes it easy generate annotations to display on a mapview using Apple MapKit and [MapboxGL](https://github.com/mapbox/mapbox-gl-native/).
+On each Geometry instance you can call one of the related convenience func `mapShape()` or `mapboxShape()`, that will return an annotation object ready to be added as annotations to a `MKMapView` (for MapKit) or `MGLMapView` (for MapboxGL):
+
+Example for MapKit:
 
 ```swift
-let shape1 = point!.mapShape()
-let shape2 = polygon!.mapShape()
-let annotations = [shape1, shape2]
+let shape1 = point.mapShape() // will return a MKPointAnnotation
 ```
 
-In this table you can find which MKShape subclass you should expect when calling `mapShape()` on a geometry:
+Example for MapboxGL:
 
-| WKT Feature | GEOSwift class | MKShape subclass |
-|:------------------:|:-------------:|:-----------------:|
-| `POINT` | `WayPoint` | `MKPointAnnotation` |
-| `LINESTRING` | `LineString` | `MKPolyline` |
-| `POLYGON` | `Polygon` |    `MKPolygon` |
-| `MULTIPOINT` | `MultiPoint` |    `MKShapesCollection` |
-| `MULTILINESTRING` | `MultiLineString` |    `MKShapesCollection` |
-| `MULTIPOLYGON` | `MultiPolygon` |    `MKShapesCollection` |
-| `GEOMETRYCOLLECTION` | `GeometryCollection` |    `MKShapesCollection` |
+```swift
+let shape1 = linestring.mapboxShape() // will return a MGLPolyline
+```
 
-Of course you should provide your implementation of the `MKMapViewDelegate` protocol. Be aware that MapKit treats differently point representations, handled via the `mapView:annotation:` delegate method, and other geometries for which you should implement `mapView:rendererForOverlay:`.
+In this table you can find which annotation class you should expect when calling `mapShape()` or ``mapboxShape()` on a geometry:
+
+| WKT Feature | GEOSwift class | MapKit | MapboxGL |
+|:------------------:|:-------------:|:-----------------:|:-----------------:|
+| `POINT` | `WayPoint` | `MKPointAnnotation` | `MGLPointAnnotation` |
+| `LINESTRING` | `LineString` | `MKPolyline` | `MGLPolyline` |
+| `POLYGON` | `Polygon` | `MKPolygon` | `MGLPolygon` |
+| `MULTIPOINT` | `MultiPoint` | `MKShapesCollection` | `not supported` |
+| `MULTILINESTRING` | `MultiLineString` | `MKShapesCollection` | `not supported` |
+| `MULTIPOLYGON` | `MultiPolygon` | `MKShapesCollection` | `not supported` |
+| `GEOMETRYCOLLECTION` | `GeometryCollection` | `MKShapesCollection` | `not supported` |
+
+Of course you should provide your implementation of the mapview delegate protocol (`MKMapViewDelegate` or `MGLMapViewDelegate`). 
+In MapKit, when dealing with geometry collections you have to define your own `MKOverlayRenderer` subclass.
+Currently geometry collections are not supported when using `MapboxGL`. 
 
 ### Topological operations
 
