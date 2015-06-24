@@ -179,7 +179,7 @@ public struct CoordinatesCollection: SequenceType {
         }
     }
     
-    func map<U>(transform: (Coordinate) -> U) -> [U] {
+    public func map<U>(transform: (Coordinate) -> U) -> [U] {
         var array = Array<U>()
         for coord in self {
             array.append(transform(coord))
@@ -212,7 +212,7 @@ public struct GeometriesCollection<T: Geometry>: SequenceType {
             return nil
         }
     }
-    func map<U>(transform: (T) -> U) -> [U] {
+    public func map<U>(transform: (T) -> U) -> [U] {
         var array = Array<U>()
         for geom in self {
             array.append(transform(geom))
