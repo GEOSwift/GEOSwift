@@ -160,6 +160,8 @@ public struct CoordinatesCollection: SequenceType {
     public subscript(index: UInt32) -> Coordinate {
         var x: Double = 0
         var y: Double = 0
+
+        assert(self.count>index, "Index out of bounds")
         let sequence = GEOSGeom_getCoordSeq_r(GEOS_HANDLE, self.geometry)
         GEOSCoordSeq_getX_r(GEOS_HANDLE, sequence, index, &x);
         GEOSCoordSeq_getY_r(GEOS_HANDLE, sequence, index, &y);
@@ -177,7 +179,7 @@ public struct CoordinatesCollection: SequenceType {
         }
     }
     
-    func map<U>(transform: (Coordinate) -> U) -> [U] {
+    public func map<U>(transform: (Coordinate) -> U) -> [U] {
         var array = Array<U>()
         for coord in self {
             array.append(transform(coord))
@@ -210,7 +212,7 @@ public struct GeometriesCollection<T: Geometry>: SequenceType {
             return nil
         }
     }
-    func map<U>(transform: (T) -> U) -> [U] {
+    public func map<U>(transform: (T) -> U) -> [U] {
         var array = Array<U>()
         for geom in self {
             array.append(transform(geom))
