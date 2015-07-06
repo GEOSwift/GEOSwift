@@ -280,26 +280,27 @@ private func GEOJSONCreatePolygonFromRepresentation(representation: NSArray) -> 
             return polygon
         }
     } else {
-        if let ringsCoords = representation as? [[[Double]]] {
-            if ringsCoords.count == 0 { return nil }
-            // Polygons with multiple rings
-            var rings: Array<LinearRing> = ringsCoords.map({
-                (ringCoords: [[Double]]) -> LinearRing in
-                let linearRing: LinearRing
-                if let sequence = GEOJSONSequenceFromArrayRepresentation(ringCoords) {
-                    let GEOSGeom = GEOSGeom_createLinearRing_r(GEOS_HANDLE, sequence)
-                    linearRing = LinearRing(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-                } else {
-                    let GEOSGeom = GEOSGeom_createEmptyLineString_r(GEOS_HANDLE)
-                    linearRing = LinearRing(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-                }
-                return linearRing
-            })
-            let shell = rings[0]
-            rings.removeAtIndex(0)
-            let polygon = Polygon(shell: shell, holes: rings)
-            return polygon
-        }
+        guard let ringsCoords = representation as? [[[Double]]]
+            where ringsCoords.count > 0 else { return nil }
+        
+        // Polygons with multiple rings
+        var rings: Array<LinearRing> = ringsCoords.map({
+            (ringCoords: [[Double]]) -> LinearRing in
+            let linearRing: LinearRing
+            if let sequence = GEOJSONSequenceFromArrayRepresentation(ringCoords) {
+                let GEOSGeom = GEOSGeom_createLinearRing_r(GEOS_HANDLE, sequence)
+                linearRing = LinearRing(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+            } else {
+                let GEOSGeom = GEOSGeom_createEmptyLineString_r(GEOS_HANDLE)
+                linearRing = LinearRing(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+            }
+            return linearRing
+        })
+        let shell = rings[0]
+        rings.removeAtIndex(0)
+        let polygon = Polygon(shell: shell, holes: rings)
+        return polygon
+    
     }
     return nil
 }
