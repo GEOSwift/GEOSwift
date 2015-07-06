@@ -21,11 +21,10 @@ public extension Geometry {
             let span = MKCoordinateSpanMake(0.1, 0.1)
             region = MKCoordinateRegionMake(center,span)
         } else {
-            if let envelope = self.envelope() as? Polygon,
-                let buffer = envelope.buffer(width: -0.1) as? Polygon {
-                let centroid = buffer.centroid()
+            if let envelope = self.envelope() as? Polygon {
+                let centroid = envelope.centroid()
                 let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
-                let exteriorRing = buffer.exteriorRing
+                let exteriorRing = envelope.exteriorRing
                 let upperLeft = exteriorRing.points[2]
                 let lowerRight = exteriorRing.points[0]
                 let span = MKCoordinateSpanMake(upperLeft.y - lowerRight.y, upperLeft.x - lowerRight.x)
@@ -34,13 +33,13 @@ public extension Geometry {
                 return nil
             }
         }
-        var mapView = MKMapView()
+        let mapView = MKMapView()
         
         mapView.mapType = .Standard
         mapView.frame = CGRectMake(0, 0, 400, 400)
         mapView.region = region
         
-        var options = MKMapSnapshotOptions.new()
+        let options = MKMapSnapshotOptions.new()
         options.region = mapView.region
         options.scale = UIScreen.mainScreen().scale
         options.size = mapView.frame.size
@@ -53,12 +52,17 @@ public extension Geometry {
         let snapshotter = MKMapSnapshotter(options: options)
         let semaphore = dispatch_semaphore_create(0);
         let mapRect = mapView.visibleMapRect
-        let boundingBox = MKMapRect(region)
-        snapshotter.startWithQueue(backgroundQueue, completionHandler: { (snapshot: MKMapSnapshot!, error: NSError!) -> Void in
+//        let boundingBox = MKMapRect(region)
+        snapshotter.startWithQueue(backgroundQueue, completionHandler: { (snapshot: MKMapSnapshot?, error: NSError?) -> Void in
+            
+            guard (snapshot != nil) else {
+                dispatch_semaphore_signal(semaphore)
+                return
+            }
             
             // let the single geometry draw itself on the map
-            var image = snapshot.image
-            let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
+            let image = snapshot!.image
+//            let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
             
             UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
             image.drawAtPoint(CGPointMake(0, 0))
@@ -68,8 +72,9 @@ public extension Geometry {
             let scaleY = image.size.height / CGFloat(mapRect.size.height)
             //            CGContextTranslateCTM(context, (image.size.width - CGFloat(boundingBox.size.width) * scaleX) / 2, (image.size.height - CGFloat(boundingBox.size.height) * scaleY) / 2)
             CGContextScaleCTM(context, scaleX, scaleY)
-            self.drawInSnapshot(snapshot, mapRect: mapRect)
-            
+            if let geom = self as? GEOSwiftQuickLook {
+                geom.drawInSnapshot(snapshot!, mapRect: mapRect)
+            }
             let finalImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
@@ -102,9 +107,9 @@ private func MKMapRect(region: MKCoordinateRegion) ->MKMapRect
 
 extension Waypoint : GEOSwiftQuickLook {
     func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
-        var image = snapshot.image
+        let image = snapshot.image
         
-        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
+//        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
         let pin = MKPinAnnotationView(annotation: nil, reuseIdentifier: "")
         if let pinImage = pin.image {
         
@@ -172,7 +177,9 @@ extension Polygon : GEOSwiftQuickLook {
 extension GeometryCollection : GEOSwiftQuickLook {
     func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
         for geometry in self.geometries {
-            geometry.drawInSnapshot(snapshot, mapRect: mapRect)
+            if let geom = geometry as? GEOSwiftQuickLook {
+                geom.drawInSnapshot(snapshot, mapRect: mapRect)
+            }
         }
     }
 }

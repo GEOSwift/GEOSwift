@@ -1,19 +1,18 @@
-# GEOSwift
-*The Open Source Geographic Engine, in Swift.*
+![GEOSwift](/README-images/GEOSwift-header.png)  
 
 [![Build Status](https://travis-ci.org/andreacremaschi/GEOSwift.svg?branch=develop)](https://travis-ci.org/andreacremaschi/GEOSwift.svg?branch=develop)
 [![Cocoapods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://img.shields.io/cocoapods/v/GEOSwift.svg)
 
-Handle all kind of geographic objects (points, linestrings, polygons etc.) and all related topographic operations (intersections, overlapping etc.). GEOSwift is basically a MIT-licensed Swift interface to the OSGeo's GEOS library routines*, plus some convenience features for iOS developers.
+Easily handle a geographical object model (points, linestrings, polygons etc.) and related topographical operations (intersections, overlapping etc.).  
+A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, nicely integrated with MapKit and Quicklook.
 
 ## Features
 
 * A pure-Swift, type-safe, optional-aware programming interface
 * Automatically-typed geometry deserialization from WKT and WKB representations
-* *MapKit* integration
+* *MapKit* and *MapboxGL* integration
 * *Quicklook* integration
 * A lightweight *GEOJSON* parser
-* Well-documented
 * Extensively tested
 
 ## Requirements
@@ -28,12 +27,15 @@ Handle all kind of geographic objects (points, linestrings, polygons etc.) and a
 ### Geometry creation
 
 ```swift
-// From Well Known Text (WKT) representation
+// 1. From Well Known Text (WKT) representation
 let point = Waypoint(WKT: "POINT(10 45)")
 let polygon = Geometry.create("POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
-// From Well Known Binary (WKB) representation
-// TODO:
-// From a GeoJSON file:
+
+// 2. From a Well Known Binary (WKB)
+let WKB: NSData = geometryWKB()
+let geometry2 = Geometry.create(WKB.bytes, size: WKB.length)
+
+// 3. From a GeoJSON file:
 if let geoJSONURL = NSBundle.mainBundle().URLForResource("italy", withExtension: "geojson"),
     let geometries = Geometry.fromGeoJSON(geoJSONURL),
     let italy = geometries[0] as? MultiPolygon
@@ -42,20 +44,67 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("italy", withExtension:
 }
 ```
 
-### MapKit integration
+### MapKit and MapboxGL integration
+
+GEOSwift makes it easy generate annotations to display on a mapview using Apple MapKit and [MapboxGL](https://github.com/mapbox/mapbox-gl-native/).
+On each Geometry instance you can call one of the related convenience func `mapShape()` or `mapboxShape()`, that will return an annotation object ready to be added as annotations to a `MKMapView` (for MapKit) or `MGLMapView` (for MapboxGL):
+
+Example for MapKit:
 
 ```swift
-let shape1 = point!.mapShape()
-let shape2 = polygon!.mapShape()
-let annotations = [shape1, shape2]
+let shape1 = point.mapShape() // will return a MKPointAnnotation
 ```
+
+Example for MapboxGL:
+
+```swift
+let shape1 = linestring.mapboxShape() // will return a MGLPolyline
+```
+
+In this table you can find which annotation class you should expect when calling `mapShape()` or `mapboxShape()` on a geometry:
+
+| WKT Feature | GEOSwift class | MapKit | MapboxGL |
+|:------------------:|:-------------:|:-----------------:|:-----------------:|
+| `POINT` | `WayPoint` | `MKPointAnnotation` | `MGLPointAnnotation` |
+| `LINESTRING` | `LineString` | `MKPolyline` | `MGLPolyline` |
+| `POLYGON` | `Polygon` | `MKPolygon` | `MGLPolygon` |
+| `MULTIPOINT` | `MultiPoint` | `MKShapesCollection` | `not supported` |
+| `MULTILINESTRING` | `MultiLineString` | `MKShapesCollection` | `not supported` |
+| `MULTIPOLYGON` | `MultiPolygon` | `MKShapesCollection` | `not supported` |
+| `GEOMETRYCOLLECTION` | `GeometryCollection` | `MKShapesCollection` | `not supported` |
+
+Of course you should provide your implementation of the mapview delegate protocol (`MKMapViewDelegate` or `MGLMapViewDelegate`). 
+In MapKit, when dealing with geometry collections you have to define your own `MKOverlayRenderer` subclass.
+Currently geometry collections are not supported when using `MapboxGL`. 
 
 ### Topological operations
 
-` Buffer, Boundary, Centroid, ConvexHull, Envelope, PointOnSurface, Intersection, Difference, Union`
+Let's say we have two geometries:
+
+![Example geometries](/README-images/geometries.png)
+
+GEOSwift let you perform a set of operations on these two geometries:
+
+![Topological operations](/README-images/topological-operations.png)
 
 ### Predicates:
-`Intersects, Touches, Disjoint, Crosses, Within, Contains, Overlaps, Equals, Covers`
+
+* _equals_: returns true if this geometric object is “spatially equal” to another geometry.
+* _disjoint_: returns true if this geometric object is “spatially disjoint” from another geometry.
+* _intersects_: returns true if this geometric object “spatially intersects” another geometry.
+* _touches_: returns true if this geometric object “spatially touches” another geometry.
+* _crosses_: returns true if this geometric object “spatially crosses’ another geometry.
+* _within_: returns true if this geometric object is “spatially within” another geometry.
+* _contains_: returns true if this geometric object “spatially contains” another geometry.
+* _overlaps_: returns true if this geometric object “spatially overlaps” another geometry.
+* _relate_: returns true if this geometric object is spatially related to another geometry by testing for intersections between the interior, boundary and exterior of the two geometric objects as specified by the values in the intersectionPatternMatrix. 
+
+
+### Playground
+
+Explore more, interactively, from the Xcode project’s playground.
+
+![Playground](/README-images/playground.png)
 
 ## Installation
 
