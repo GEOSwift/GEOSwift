@@ -126,6 +126,8 @@ pod 'GEOSwift'
 
 * Run `pod install`.
 
+NOTE: running `pod install` may cause some errors if your machine does not have autoconf, automake and glibtool, if you encounter those errors you can run `brew install autoconf automake libtool` to install those packages and run again `pod install`.
+
 ## Creator
 
 Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi))
