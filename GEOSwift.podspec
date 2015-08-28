@@ -25,7 +25,7 @@ DESC
   s.subspec 'MapboxGL' do |cs|
     cs.source_files = "GEOSwift/MapboxGL"
     cs.dependency "GEOSwift/Core"
-    cs.dependency "MapboxGL"
+    cs.dependency "Mapbox-iOS-SDK"
   end
 
   s.default_subspec = 'Core'
