@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import MapboxGL
+import Mapbox
 import MapKit
 
 // MARK: - MGLShape creation convenience function

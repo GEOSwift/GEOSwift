@@ -31,6 +31,7 @@
 		CD2DE3A41B39750200E7BCD4 /* linestring.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDA09FFC1B3968B00092C6C6 /* linestring.geojson */; };
 		CD2DE3A51B39750200E7BCD4 /* multilinestring.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDA09FFD1B3968B00092C6C6 /* multilinestring.geojson */; };
 		CD2DE3A61B39750200E7BCD4 /* point.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDA09FFE1B3968B00092C6C6 /* point.geojson */; };
+		CD81DB6D1B91C13D0085F772 /* MapboxGLAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD81DB6C1B91C13D0085F772 /* MapboxGLAnnotations.swift */; };
 		CDB7EC051B287CE70055835C /* MapKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB7EC041B287CE70055835C /* MapKitTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		CD25D72E1B2732FE008B3FB3 /* SpatialAnalysis.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpatialAnalysis.swift; sourceTree = "<group>"; };
 		CD25D73D1B27364E008B3FB3 /* GEOSwift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEOSwift.h; path = GEOSwift/GEOSwift.h; sourceTree = SOURCE_ROOT; };
 		CD669B001B10C0930091750F /* GEOSPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = GEOSPlayground.playground; sourceTree = "<group>"; };
+		CD81DB6C1B91C13D0085F772 /* MapboxGLAnnotations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapboxGLAnnotations.swift; sourceTree = "<group>"; };
 		CDA09FFB1B3968B00092C6C6 /* feature.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = feature.geojson; sourceTree = "<group>"; };
 		CDA09FFC1B3968B00092C6C6 /* linestring.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linestring.geojson; sourceTree = "<group>"; };
 		CDA09FFD1B3968B00092C6C6 /* multilinestring.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multilinestring.geojson; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				CD25D7251B2732FE008B3FB3 /* GeoJSON.swift */,
 				CD25D72C1B2732FE008B3FB3 /* MapKit.swift */,
 				CD25D72D1B2732FE008B3FB3 /* QuickLook.swift */,
+				CD81DB6B1B91C13D0085F772 /* MapboxGL */,
 			);
 			name = Source;
 			path = GEOSwift;
@@ -204,6 +207,14 @@
 				CD22998E1B10B506002C19AE /* GEOSwiftTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CD81DB6B1B91C13D0085F772 /* MapboxGL */ = {
+			isa = PBXGroup;
+			children = (
+				CD81DB6C1B91C13D0085F772 /* MapboxGLAnnotations.swift */,
+			);
+			path = MapboxGL;
 			sourceTree = "<group>";
 		};
 		F249FE82CF1F95FBFCF62C71 /* Frameworks */ = {
@@ -455,6 +466,7 @@
 				CD25D7371B2732FE008B3FB3 /* QuickLook.swift in Sources */,
 				CD25D7341B2732FE008B3FB3 /* GEOSwiftCallback.m in Sources */,
 				CD25D7301B2732FE008B3FB3 /* GEOS.swift in Sources */,
+				CD81DB6D1B91C13D0085F772 /* MapboxGLAnnotations.swift in Sources */,
 				CD20F1E11B2844210045D8FD /* Geometries.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
