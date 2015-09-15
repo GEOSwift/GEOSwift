@@ -89,7 +89,7 @@ MKShape subclass for GeometryCollections.
 The property `shapes` contains MKShape subclasses instances. When drawing shapes on a map be careful to the fact that that these shapes could be overlays OR annotations.
 */
 public class MKShapesCollection : MKShape, MKOverlay  {
-    let shapes: Array<MKShape>
+    public let shapes: Array<MKShape>
     public let centroid: CLLocationCoordinate2D
     public let boundingMapRect: MKMapRect
     
