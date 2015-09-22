@@ -41,7 +41,7 @@ let WKB: NSData = geometryWKB()
 let geometry2 = Geometry.create(WKB.bytes, size: WKB.length)
 
 if geometry1 == geometry2 && geometry1 != point {
-    println("The two geometries are equal!\nAh, and geometry objects conform to the Equatable protocol.")
+    print("The two geometries are equal!\nAh, and geometry objects conform to the Equatable protocol.")
 }
 
 // Examples of valid WKT geometries representations are:
@@ -59,8 +59,8 @@ if geometry1 == geometry2 && geometry1 != point {
 //: Convert the geometries to a MKShape subclass, ready to be added as annotations to a MKMapView
 //:
 let shape1 = point!.mapShape()
-let shape2 = geometry1!.mapShape()
-let annotations = [shape1, shape2]
+// let shape2 = geometry1!.mapShape()
+// let annotations = [shape1, shape2]
 
 //: ### Quicklook integration
 //:
@@ -73,7 +73,7 @@ geometry2
 //: Your geometries can be loaded from a GEOJSON file.
 //:
 if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExtension: "geojson"),
-    let geometries = Geometry.fromGeoJSON(geoJSONURL),
+    let geometries = try! Geometry.fromGeoJSON(geoJSONURL),
     let italy = geometries[0] as? MultiPolygon
 {
     italy 

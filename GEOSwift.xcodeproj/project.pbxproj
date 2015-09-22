@@ -32,6 +32,7 @@
 		CD2DE3A51B39750200E7BCD4 /* multilinestring.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDA09FFD1B3968B00092C6C6 /* multilinestring.geojson */; };
 		CD2DE3A61B39750200E7BCD4 /* point.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDA09FFE1B3968B00092C6C6 /* point.geojson */; };
 		CDB7EC051B287CE70055835C /* MapKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB7EC041B287CE70055835C /* MapKitTests.swift */; };
+		CDCA5D361BB1660700BEBA9B /* MapboxGLAnnotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD81DB6C1B91C13D0085F772 /* MapboxGLAnnotations.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		CD25D72E1B2732FE008B3FB3 /* SpatialAnalysis.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpatialAnalysis.swift; sourceTree = "<group>"; };
 		CD25D73D1B27364E008B3FB3 /* GEOSwift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEOSwift.h; path = GEOSwift/GEOSwift.h; sourceTree = SOURCE_ROOT; };
 		CD669B001B10C0930091750F /* GEOSPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = GEOSPlayground.playground; sourceTree = "<group>"; };
+		CD81DB6C1B91C13D0085F772 /* MapboxGLAnnotations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapboxGLAnnotations.swift; sourceTree = "<group>"; };
 		CDA09FFB1B3968B00092C6C6 /* feature.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = feature.geojson; sourceTree = "<group>"; };
 		CDA09FFC1B3968B00092C6C6 /* linestring.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linestring.geojson; sourceTree = "<group>"; };
 		CDA09FFD1B3968B00092C6C6 /* multilinestring.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multilinestring.geojson; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				CD25D7251B2732FE008B3FB3 /* GeoJSON.swift */,
 				CD25D72C1B2732FE008B3FB3 /* MapKit.swift */,
 				CD25D72D1B2732FE008B3FB3 /* QuickLook.swift */,
+				CD81DB6B1B91C13D0085F772 /* MapboxGL */,
 			);
 			name = Source;
 			path = GEOSwift;
@@ -204,6 +207,14 @@
 				CD22998E1B10B506002C19AE /* GEOSwiftTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CD81DB6B1B91C13D0085F772 /* MapboxGL */ = {
+			isa = PBXGroup;
+			children = (
+				CD81DB6C1B91C13D0085F772 /* MapboxGLAnnotations.swift */,
+			);
+			path = MapboxGL;
 			sourceTree = "<group>";
 		};
 		F249FE82CF1F95FBFCF62C71 /* Frameworks */ = {
@@ -239,8 +250,6 @@
 				CD2299811B10B506002C19AE /* Headers */,
 				CD2299821B10B506002C19AE /* Resources */,
 				36BA490CD3061F30F02CD17A /* Frameworks */,
-				CD9F03561B27434400C67976 /* Create symbolic link for GEOS Pod */,
-				CD9F03571B2743D300C67976 /* Create symbolic link for CocoaLumberjack Pod */,
 				C683067849EB588F02BBF419 /* Copy Pods Resources */,
 			);
 			buildRules = (
@@ -398,34 +407,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CD9F03561B27434400C67976 /* Create symbolic link for GEOS Pod */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Create symbolic link for GEOS Pod";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "GEOS_SYM_LINK=\"${CONFIGURATION_BUILD_DIR}/geos.framework\"\nGEOS_PATH=\"${CONFIGURATION_BUILD_DIR}/Pods/geos.framework\"\nif [ ! -L $GEOS_SYM_LINK ]; then\nln -s $GEOS_PATH $GEOS_SYM_LINK\nfi\n";
-		};
-		CD9F03571B2743D300C67976 /* Create symbolic link for CocoaLumberjack Pod */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Create symbolic link for CocoaLumberjack Pod";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "COCOALUMBERJACK_SYM_LINK=\"${CONFIGURATION_BUILD_DIR}/CocoaLumberjack.framework\"\nCOCOALUMBERJACK_PATH=\"${CONFIGURATION_BUILD_DIR}/Pods/CocoaLumberjack.framework\"\nif [ ! -L $COCOALUMBERJACK_SYM_LINK ]; then\nln -s $COCOALUMBERJACK_PATH $COCOALUMBERJACK_SYM_LINK\nfi\n";
-		};
 		D4B00962538E798551F5FFCB /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -455,6 +436,7 @@
 				CD25D7371B2732FE008B3FB3 /* QuickLook.swift in Sources */,
 				CD25D7341B2732FE008B3FB3 /* GEOSwiftCallback.m in Sources */,
 				CD25D7301B2732FE008B3FB3 /* GEOS.swift in Sources */,
+				CDCA5D361BB1660700BEBA9B /* MapboxGLAnnotations.swift in Sources */,
 				CD20F1E11B2844210045D8FD /* Geometries.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -483,6 +465,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 20502951D700E13BF0D03965 /* Pods.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -508,6 +491,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F11A4EEE11BBEA6574C3B06D /* Pods.release.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;

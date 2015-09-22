@@ -13,7 +13,7 @@ var GEOS_HANDLE: COpaquePointer = {
 }()
 
 /// A base abstract geometry class
-@objc public class Geometry : Equatable {
+public class Geometry : Equatable {
 
     let geometry: COpaquePointer
     internal let destroyOnDeinit: Bool

@@ -32,7 +32,7 @@ public extension Geometry {
                 
                 // is the root a Dictionary with a "type" key of value "FeatureCollection"?
                 if let rootObject = parsedObject as? Dictionary<String, AnyObject> {
-                    return ParseGEOJSONObject(rootObject)
+                    return Geometry.fromGeoJSONDictionary(rootObject)
                 } else {
                     throw GEOJSONParseError.InvalidGEOJSON
                 }
@@ -41,6 +41,17 @@ public extension Geometry {
             }
         }
         return nil
+    }
+    
+    /**
+    Creates an `Array` of `Geometry` instances from a GeoJSON dictionary.
+    
+    :param: dictionary a dictionary following GeoJSON format specification.
+    
+    :returns: An optional `Array` of `Geometry` instances.
+    */
+    public class func fromGeoJSONDictionary(dictionary: Dictionary<String, AnyObject>) -> Array<Geometry>? {
+        return ParseGEOJSONObject(dictionary)
     }
 }
 
@@ -77,7 +88,6 @@ private func ParseGEOJSONObject(GEOJSONObject: Dictionary<String, AnyObject>) ->
     }
     return nil
 }
-
 
 private func ParseGEOJSONFeatureCollection(features: NSArray) -> [Geometry]? {
     // map every feature representation to a GEOS geometry

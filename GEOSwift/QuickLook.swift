@@ -39,7 +39,7 @@ public extension Geometry {
         mapView.frame = CGRectMake(0, 0, 400, 400)
         mapView.region = region
         
-        let options = MKMapSnapshotOptions.new()
+        let options = MKMapSnapshotOptions()
         options.region = mapView.region
         options.scale = UIScreen.mainScreen().scale
         options.size = mapView.frame.size
@@ -137,15 +137,16 @@ extension LineString : GEOSwiftQuickLook {
             renderer.lineWidth = 2
             renderer.strokeColor = UIColor.blueColor().colorWithAlphaComponent(0.7)
             
-            let context = UIGraphicsGetCurrentContext()
-            CGContextSaveGState(context);
-            
-            // the renderer will draw the geometry at 0;0, so offset CoreGraphics by the right measure
-            let upperCorner = renderer.mapPointForPoint(CGPointZero)
-            CGContextTranslateCTM(context, CGFloat(upperCorner.x - mapRect.origin.x), CGFloat(upperCorner.y - mapRect.origin.y));
-            
-            renderer.drawMapRect(mapRect, zoomScale: zoomScale, inContext: context)
-            CGContextRestoreGState(context);
+            if let context = UIGraphicsGetCurrentContext() {
+                CGContextSaveGState(context);
+                
+                // the renderer will draw the geometry at 0;0, so offset CoreGraphics by the right measure
+                let upperCorner = renderer.mapPointForPoint(CGPointZero)
+                CGContextTranslateCTM(context, CGFloat(upperCorner.x - mapRect.origin.x), CGFloat(upperCorner.y - mapRect.origin.y));
+                
+                renderer.drawMapRect(mapRect, zoomScale: zoomScale, inContext: context)
+                CGContextRestoreGState(context);
+            }
         }
     }
 }
@@ -161,15 +162,17 @@ extension Polygon : GEOSwiftQuickLook {
             polygonRenderer.strokeColor = UIColor.blueColor().colorWithAlphaComponent(0.7)
             polygonRenderer.fillColor = UIColor.cyanColor().colorWithAlphaComponent(0.2)
             
-            let context = UIGraphicsGetCurrentContext()
-            CGContextSaveGState(context);
-            
-            // the renderer will draw the geometry at 0;0, so offset CoreGraphics by the right measure
-            let upperCorner = polygonRenderer.mapPointForPoint(CGPointZero)
-            CGContextTranslateCTM(context, CGFloat(upperCorner.x - mapRect.origin.x), CGFloat(upperCorner.y - mapRect.origin.y));
-            
-            polygonRenderer.drawMapRect(mapRect, zoomScale: zoomScale, inContext: context)
-            CGContextRestoreGState(context);
+            if let context = UIGraphicsGetCurrentContext() {
+                CGContextSaveGState(context);
+                
+                // the renderer will draw the geometry at 0;0, so offset CoreGraphics by the right measure
+                let upperCorner = polygonRenderer.mapPointForPoint(CGPointZero)
+                CGContextTranslateCTM(context, CGFloat(upperCorner.x - mapRect.origin.x), CGFloat(upperCorner.y - mapRect.origin.y));
+                
+                polygonRenderer.drawMapRect(mapRect, zoomScale: zoomScale, inContext: context)
+
+                CGContextRestoreGState(context);
+            }
         }
     }
 }

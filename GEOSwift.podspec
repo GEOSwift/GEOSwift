@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "GEOSwift"
-  s.version      = "0.2"
+  s.version      = "0.2.1"
   s.summary      = "The Swift Geographic Engine."
 
   s.description  = <<-DESC
@@ -15,7 +15,7 @@ DESC
   s.author       = { "Andrea Cremaschi" => "andreacremaschi@libero.it" }
   s.social_media_url   = "http://twitter.com/andreacremaschi"
   s.platform     = :ios, "8.0"
-  s.source       = { :git => "https://github.com/andreacremaschi/GEOSwift.git", :tag => "0.2" }
+  s.source       = { :git => "https://github.com/andreacremaschi/GEOSwift.git", :tag => "0.2.1" }
   
   s.subspec 'Core' do |cs|
     cs.source_files = "GEOSwift/*"
@@ -25,7 +25,7 @@ DESC
   s.subspec 'MapboxGL' do |cs|
     cs.source_files = "GEOSwift/MapboxGL"
     cs.dependency "GEOSwift/Core"
-    cs.dependency "MapboxGL"
+    cs.dependency "Mapbox-iOS-SDK"
   end
 
   s.default_subspec = 'Core'
