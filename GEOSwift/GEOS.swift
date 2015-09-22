@@ -55,29 +55,29 @@ public class Geometry : Equatable {
         let geometryTypeId = GEOSGeomTypeId_r(GEOS_HANDLE, GEOSGeom)
         var subclass: Geometry.Type
 
-        switch geometryTypeId {
-        case 0: // GEOS_POINT
+        switch UInt32(geometryTypeId) {
+        case GEOS_POINT.rawValue:
             subclass = Waypoint.self
             
-        case 1: // GEOS_LINESTRING:
+        case GEOS_LINESTRING.rawValue:
             subclass = LineString.self
             
-        case 2: // GEOS_LINEARRING:
+        case GEOS_LINEARRING.rawValue:
             subclass = LinearRing.self
             
-        case 3: // GEOS_POLYGON:
+        case GEOS_POLYGON.rawValue:
             subclass = Polygon.self
             
-        case 4: // GEOS_MULTIPOINT:
+        case GEOS_MULTIPOINT.rawValue:
             subclass = MultiPoint.self
             
-        case 5: // GEOS_MULTILINESTRING:
+        case GEOS_MULTILINESTRING.rawValue:
             subclass = MultiLineString.self
             
-        case 6: // GEOS_MULTIPOLYGON:
+        case GEOS_MULTIPOLYGON.rawValue:
             subclass = MultiPolygon.self
             
-        case 7: // GEOS_GEOMETRYCOLLECTION:
+        case GEOS_GEOMETRYCOLLECTION.rawValue:
             subclass = GeometryCollection<Geometry>.self
             
         default:
