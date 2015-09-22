@@ -59,8 +59,8 @@ if geometry1 == geometry2 && geometry1 != point {
 //: Convert the geometries to a MKShape subclass, ready to be added as annotations to a MKMapView
 //:
 let shape1 = point!.mapShape()
-// let shape2 = geometry1!.mapShape()
-// let annotations = [shape1, shape2]
+ let shape2 = geometry1?.mapShape()
+ let annotations = [shape1, shape2]
 
 //: ### Quicklook integration
 //:

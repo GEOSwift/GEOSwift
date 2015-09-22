@@ -31,70 +31,46 @@ public protocol GEOSwiftMapKit {
     func mapShape() -> MKShape
 }
 
-//extension Geometry : GEOSwiftMapKit {
-//    public func mapShape() -> MKShape {
-//        if let geom = self as? MultiPolygon {
-//            let geometryCollectionOverlay = MKShapesCollection(geometryCollection: geom)
-//            return geometryCollectionOverlay
-//        } else
-//            if let geom = self as? MultiLineString {
-//                let geometryCollectionOverlay = MKShapesCollection(geometryCollection: geom)
-//                return geometryCollectionOverlay
-//        } else
-//                if let geom = self as? MultiPoint {
-//                    let geometryCollectionOverlay = MKShapesCollection(geometryCollection: geom)
-//                    return geometryCollectionOverlay
-//            } else
-//                    if let geom = self as? GeometryCollection {
-//                        let geometryCollectionOverlay = MKShapesCollection(geometryCollection: geom)
-//                        return geometryCollectionOverlay
-//        }
-//        
-//        return MKShape()
-//    }
-//}
+// Declarations in extensions cannot override yet (in Swift 2.0)!
+// Solve conformance to protocol with an inelegant (but effective) switch case.
 
-extension Waypoint : GEOSwiftMapKit {
+extension Geometry : GEOSwiftMapKit {
     public func mapShape() -> MKShape {
-        let pointAnno = MKPointAnnotation()
-        pointAnno.coordinate = CLLocationCoordinateFromCoordinate(self.coordinate)
-        return pointAnno
-    }
-}
-
-extension LineString : GEOSwiftMapKit {
-    public func mapShape() -> MKShape {
-        var coordinates = self.points.map({ (point: Coordinate) ->
-            CLLocationCoordinate2D in
-            return CLLocationCoordinateFromCoordinate(point)
-        })
-        let polyline = MKPolyline(coordinates: &coordinates,
-            count: coordinates.count)
-        return polyline
-    }
-}
-
-extension Polygon : GEOSwiftMapKit {
-    public func mapShape() -> MKShape {
-        var exteriorRingCoordinates = self.exteriorRing.points.map({ (point: Coordinate) ->
-            CLLocationCoordinate2D in
-            return CLLocationCoordinateFromCoordinate(point)
-        })
-
-        let interiorRings = self.interiorRings.map({ (linearRing: LinearRing) ->
-            MKPolygon in
-            return MKPolygonWithCoordinatesSequence(linearRing.points)
-        })
         
-        let polygon = MKPolygon(coordinates: &exteriorRingCoordinates, count: exteriorRingCoordinates.count, interiorPolygons: interiorRings)
-        return polygon
-    }
-}
-
-extension GeometryCollection : GEOSwiftMapKit {
-    public func mapShape() -> MKShape {
-        let geometryCollectionOverlay = MKShapesCollection(geometryCollection: self)
-        return geometryCollectionOverlay
+        switch self {
+            
+        case is Waypoint:
+            let pointAnno = MKPointAnnotation()
+            pointAnno.coordinate = CLLocationCoordinateFromCoordinate((self as! Waypoint).coordinate)
+            return pointAnno
+            
+        case is LineString:
+            var coordinates = (self as! LineString).points.map({ (point: Coordinate) ->
+                CLLocationCoordinate2D in
+                return CLLocationCoordinateFromCoordinate(point)
+            })
+            let polyline = MKPolyline(coordinates: &coordinates,
+                count: coordinates.count)
+            return polyline
+            
+        case is Polygon:
+            var exteriorRingCoordinates = (self as! Polygon).exteriorRing.points.map({ (point: Coordinate) ->
+                CLLocationCoordinate2D in
+                return CLLocationCoordinateFromCoordinate(point)
+            })
+            
+            let interiorRings = (self as! Polygon).interiorRings.map({ (linearRing: LinearRing) ->
+                MKPolygon in
+                return MKPolygonWithCoordinatesSequence(linearRing.points)
+            })
+            
+            let polygon = MKPolygon(coordinates: &exteriorRingCoordinates, count: exteriorRingCoordinates.count, interiorPolygons: interiorRings)
+            return polygon
+            
+        default:
+            let geometryCollectionOverlay = MKShapesCollection(geometryCollection: (self as! GeometryCollection))
+            return geometryCollectionOverlay
+        }
     }
 }
 
@@ -117,13 +93,10 @@ public class MKShapesCollection : MKShape, MKOverlay  {
     public let centroid: CLLocationCoordinate2D
     public let boundingMapRect: MKMapRect
     
-    required public init<T>(geometryCollection: GeometryCollection<T>) {
-        let shapes = geometryCollection.geometries.map({ (geometry: T) ->
+    required public init<GEOSwiftMapkit>(geometryCollection: GeometryCollection<GEOSwiftMapkit>) {
+        let shapes = geometryCollection.geometries.map({ (geometry: GEOSwiftMapkit) ->
             MKShape in
-            if let geom = geometry as? GEOSwiftMapKit {
-                return geom.mapShape()
-            }
-            return MKShape()
+                return geometry.mapShape()
         })
         self.centroid = CLLocationCoordinateFromCoordinate(geometryCollection.centroid().coordinate)
         self.shapes = shapes
