@@ -6,6 +6,10 @@
 Easily handle a geographical object model (points, linestrings, polygons etc.) and related topographical operations (intersections, overlapping etc.).  
 A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, nicely integrated with MapKit and Quicklook.
 
+> Swift 2 support is ready to merge on branch ```feature/Swift-2.0```, but there are still some integration issue with current version of CocoaPods that will prevent you from using the debugger.  
+> You can try it switching you pod definition like this:  
+> ```pod 'GEOSwift', :git => 'https://github.com/andreacremaschi/GEOSwift.git',:branch => 'feature/Swift-2.0'```
+
 ## Features
 
 * A pure-Swift, type-safe, optional-aware programming interface
