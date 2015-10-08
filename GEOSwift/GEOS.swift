@@ -23,7 +23,10 @@ var GEOS_HANDLE: COpaquePointer = {
 }()
 
 /// A base abstract geometry class
-public class Geometry : Equatable {
+// Geometry is a model data type, so a struct would be a better fit, but it is actually a wrapper of GEOS native objects,
+// that are in fact C pointers, and structs in Swift don't have a dealloc where one can release allocated memory.
+// Furthermore, being a class Geometry can inherit from NSObject so that debugQuickLookObject() can be implemented
+@objc public class Geometry : NSObject {
 
     let geometry: COpaquePointer
     internal let destroyOnDeinit: Bool

@@ -29,7 +29,6 @@ import MapKit
 //: 
 //: Geometries can be deserialized from and serialized back to their Well Known Text (WKT) or Well Known Binary (WKB) representations, as they are defined in the _[Simple features for SQL](http://www.opengeospatial.org/standards/sfa)_ specification.  
 //: The default spatial reference system for geometry fields is WGS84 (meaning the SRID is 4326) – in other words, the geometry coordinates are in longitude, latitude pairs in units of degrees.
-
 // Create a POINT from its WKT representation.
 let point = Waypoint(WKT: "POINT(10 45)")
 
@@ -68,6 +67,7 @@ let shape1 = point!.mapShape()
 //: This means that while debugging you can inspect complex geometries and see what they represent: just stop on the variable with the mouse cursor or select the Geometry instance and press backspace in the Debug Area to see a preview.
 //: In Playgrounds you can display them just as any other object, like this:
 geometry2
+
 //: ### GEOJSON parsing
 //:
 //: Your geometries can be loaded from a GEOJSON file.
