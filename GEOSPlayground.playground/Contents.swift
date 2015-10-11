@@ -64,7 +64,7 @@ let shape1 = point!.mapShape()
 
 //: ### Quicklook integration
 //:
-//: Humboldt geometries are integrated with Quicklook!
+//: GEOSwift geometries are integrated with Quicklook!
 //: This means that while debugging you can inspect complex geometries and see what they represent: just stop on the variable with the mouse cursor or select the Geometry instance and press backspace in the Debug Area to see a preview.
 //: In Playgrounds you can display them just as any other object, like this:
 geometry2

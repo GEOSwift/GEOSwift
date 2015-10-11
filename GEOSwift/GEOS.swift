@@ -8,8 +8,18 @@
 import Foundation
 import geos
 
+typealias GEOSCallbackFunction = @convention(c) (UnsafeMutablePointer<Void>) -> Void
+
+let swiftCallback : GEOSCallbackFunction = { args -> Void in
+    if let string = String.fromCString(unsafeBitCast(args, UnsafeMutablePointer<CChar>.self)) {
+        print("GEOSwift # " + string + ".")
+    }
+}
+
 var GEOS_HANDLE: COpaquePointer = {
-    return initGEOSWrapper_r();
+//    return initGEOSWrapper_r();
+    return initGEOS_r(unsafeBitCast(swiftCallback, GEOSMessageHandler.self),
+        unsafeBitCast(swiftCallback, GEOSMessageHandler.self))
 }()
 
 /// A base abstract geometry class

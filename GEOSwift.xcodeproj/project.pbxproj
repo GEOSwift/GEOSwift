@@ -16,8 +16,6 @@
 		CD2299981B10B506002C19AE /* GEOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2299971B10B506002C19AE /* GEOSTests.swift */; };
 		CD25D72F1B2732FE008B3FB3 /* GeoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD25D7251B2732FE008B3FB3 /* GeoJSON.swift */; };
 		CD25D7301B2732FE008B3FB3 /* GEOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD25D7261B2732FE008B3FB3 /* GEOS.swift */; };
-		CD25D7331B2732FE008B3FB3 /* GEOSwiftCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = CD25D7291B2732FE008B3FB3 /* GEOSwiftCallback.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CD25D7341B2732FE008B3FB3 /* GEOSwiftCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = CD25D72A1B2732FE008B3FB3 /* GEOSwiftCallback.m */; };
 		CD25D7361B2732FE008B3FB3 /* MapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD25D72C1B2732FE008B3FB3 /* MapKit.swift */; };
 		CD25D7371B2732FE008B3FB3 /* QuickLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD25D72D1B2732FE008B3FB3 /* QuickLook.swift */; };
 		CD25D7381B2732FE008B3FB3 /* SpatialAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD25D72E1B2732FE008B3FB3 /* SpatialAnalysis.swift */; };
@@ -60,7 +58,6 @@
 
 /* Begin PBXFileReference section */
 		20502951D700E13BF0D03965 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		887537486B17EE0B1DC6F3A3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD0C44321B20368600E7B24E /* polygon.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = polygon.geojson; sourceTree = "<group>"; };
 		CD20F1DA1B282CC40045D8FD /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		CD20F1DE1B283F580045D8FD /* SpatialRelations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpatialRelations.swift; sourceTree = "<group>"; };
@@ -72,9 +69,6 @@
 		CD2299971B10B506002C19AE /* GEOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GEOSTests.swift; sourceTree = "<group>"; };
 		CD25D7251B2732FE008B3FB3 /* GeoJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoJSON.swift; sourceTree = "<group>"; };
 		CD25D7261B2732FE008B3FB3 /* GEOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GEOS.swift; sourceTree = "<group>"; };
-		CD25D7271B2732FE008B3FB3 /* GEOSwift-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GEOSwift-Bridging-Header.h"; sourceTree = "<group>"; };
-		CD25D7291B2732FE008B3FB3 /* GEOSwiftCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEOSwiftCallback.h; sourceTree = "<group>"; };
-		CD25D72A1B2732FE008B3FB3 /* GEOSwiftCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEOSwiftCallback.m; sourceTree = "<group>"; };
 		CD25D72C1B2732FE008B3FB3 /* MapKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapKit.swift; sourceTree = "<group>"; };
 		CD25D72D1B2732FE008B3FB3 /* QuickLook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickLook.swift; sourceTree = "<group>"; };
 		CD25D72E1B2732FE008B3FB3 /* SpatialAnalysis.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpatialAnalysis.swift; sourceTree = "<group>"; };
@@ -174,9 +168,6 @@
 			children = (
 				CD25D7261B2732FE008B3FB3 /* GEOS.swift */,
 				CD20F1E01B2844210045D8FD /* Geometries.swift */,
-				CD25D7271B2732FE008B3FB3 /* GEOSwift-Bridging-Header.h */,
-				CD25D7291B2732FE008B3FB3 /* GEOSwiftCallback.h */,
-				CD25D72A1B2732FE008B3FB3 /* GEOSwiftCallback.m */,
 				CD25D72E1B2732FE008B3FB3 /* SpatialAnalysis.swift */,
 				CD20F1DE1B283F580045D8FD /* SpatialRelations.swift */,
 				CD25D7251B2732FE008B3FB3 /* GeoJSON.swift */,
@@ -234,7 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD25D73E1B27364E008B3FB3 /* GEOSwift.h in Headers */,
-				CD25D7331B2732FE008B3FB3 /* GEOSwiftCallback.h in Headers */,
+				CD0F41631B2F0A770004D2A8 /* geos_c.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,7 +425,6 @@
 				CD25D7361B2732FE008B3FB3 /* MapKit.swift in Sources */,
 				CD25D7381B2732FE008B3FB3 /* SpatialAnalysis.swift in Sources */,
 				CD25D7371B2732FE008B3FB3 /* QuickLook.swift in Sources */,
-				CD25D7341B2732FE008B3FB3 /* GEOSwiftCallback.m in Sources */,
 				CD25D7301B2732FE008B3FB3 /* GEOS.swift in Sources */,
 				CDCA5D361BB1660700BEBA9B /* MapboxGLAnnotations.swift in Sources */,
 				CD20F1E11B2844210045D8FD /* Geometries.swift in Sources */,
