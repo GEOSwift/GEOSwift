@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import geos
 
 /**
 A `Waypoint` is a 0-dimensional geometry and represents a single location in coordinate space. A `Waypoint` has a x- coordinate value and a y-coordinate value.
