@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+@import geos;
 
 //! Project version number for GEOSwift.
 FOUNDATION_EXPORT double HumboldtVersionNumber;

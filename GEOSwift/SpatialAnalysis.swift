@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import geos
 
 /// Topological operations
 public extension Geometry {

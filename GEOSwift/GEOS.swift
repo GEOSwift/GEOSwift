@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import geos
 
 typealias GEOSCallbackFunction = @convention(c) (UnsafeMutablePointer<Void>) -> Void
 
