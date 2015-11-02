@@ -6,14 +6,26 @@
 //
 
 import Foundation
-import geos
+
+typealias GEOSCallbackFunction = @convention(c) (UnsafeMutablePointer<Void>) -> Void
+
+let swiftCallback : GEOSCallbackFunction = { args -> Void in
+    if let string = String.fromCString(unsafeBitCast(args, UnsafeMutablePointer<CChar>.self)) {
+        print("GEOSwift # " + string + ".")
+    }
+}
 
 var GEOS_HANDLE: COpaquePointer = {
-    return initGEOSWrapper_r();
+//    return initGEOSWrapper_r();
+    return initGEOS_r(unsafeBitCast(swiftCallback, GEOSMessageHandler.self),
+        unsafeBitCast(swiftCallback, GEOSMessageHandler.self))
 }()
 
 /// A base abstract geometry class
-@objc public class Geometry : Equatable {
+// Geometry is a model data type, so a struct would be a better fit, but it is actually a wrapper of GEOS native objects,
+// that are in fact C pointers, and structs in Swift don't have a dealloc where one can release allocated memory.
+// Furthermore, being a class Geometry can inherit from NSObject so that debugQuickLookObject() can be implemented
+@objc public class Geometry : NSObject {
 
     let geometry: COpaquePointer
     internal let destroyOnDeinit: Bool
@@ -39,7 +51,7 @@ var GEOS_HANDLE: COpaquePointer = {
             return nil
         }
         if let subclass = Geometry.classForGEOSGeom(GEOSGeom) {
-            return subclass(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
+            return subclass.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
         }
         return nil
     }
@@ -55,29 +67,29 @@ var GEOS_HANDLE: COpaquePointer = {
         let geometryTypeId = GEOSGeomTypeId_r(GEOS_HANDLE, GEOSGeom)
         var subclass: Geometry.Type
 
-        switch geometryTypeId {
-        case 0: // GEOS_POINT
+        switch UInt32(geometryTypeId) {
+        case GEOS_POINT.rawValue:
             subclass = Waypoint.self
             
-        case 1: // GEOS_LINESTRING:
+        case GEOS_LINESTRING.rawValue:
             subclass = LineString.self
             
-        case 2: // GEOS_LINEARRING:
+        case GEOS_LINEARRING.rawValue:
             subclass = LinearRing.self
             
-        case 3: // GEOS_POLYGON:
+        case GEOS_POLYGON.rawValue:
             subclass = Polygon.self
             
-        case 4: // GEOS_MULTIPOINT:
+        case GEOS_MULTIPOINT.rawValue:
             subclass = MultiPoint.self
             
-        case 5: // GEOS_MULTILINESTRING:
+        case GEOS_MULTILINESTRING.rawValue:
             subclass = MultiLineString.self
             
-        case 6: // GEOS_MULTIPOLYGON:
+        case GEOS_MULTIPOLYGON.rawValue:
             subclass = MultiPolygon.self
             
-        case 7: // GEOS_GEOMETRYCOLLECTION:
+        case GEOS_GEOMETRYCOLLECTION.rawValue:
             subclass = GeometryCollection<Geometry>.self
             
         default:
@@ -93,9 +105,9 @@ var GEOS_HANDLE: COpaquePointer = {
     /**
     Create a Geometry subclass from its Well Known Text representation.
     
-    :param: WKT The geometry representation in Well Known Text format (i.e. `POINT(10 45)`).
+    - parameter WKT: The geometry representation in Well Known Text format (i.e. `POINT(10 45)`).
     
-    :returns: The proper Geometry subclass as parsed from the string (i.e. `Waypoint`).
+    - returns: The proper Geometry subclass as parsed from the string (i.e. `Waypoint`).
     */
     public class func create(WKT: String) -> Geometry? {
         let WKTReader = GEOSWKTReader_create_r(GEOS_HANDLE)
@@ -107,10 +119,10 @@ var GEOS_HANDLE: COpaquePointer = {
     /**
     Create a Geometry subclass from its Well Known Binary representation.
     
-    :param: WKB The geometry representation in Well Known Binary format.
-    :param: size The size of the binary representation in bytes.
+    - parameter WKB: The geometry representation in Well Known Binary format.
+    - parameter size: The size of the binary representation in bytes.
     
-    :returns: The proper Geometry subclass as parsed from the binary data (i.e. `Waypoint`).
+    - returns: The proper Geometry subclass as parsed from the binary data (i.e. `Waypoint`).
     */
     public class func create(WKB: UnsafePointer<Void>, size: Int)  -> Geometry? {
         let WKBReader = GEOSWKBReader_create_r(GEOS_HANDLE)
@@ -169,9 +181,9 @@ public struct CoordinatesCollection: SequenceType {
         return Coordinate(x: x, y: y)
     }
     
-    public func generate() -> GeneratorOf<Coordinate> {
+    public func generate() -> AnyGenerator<Coordinate> {
         var index: UInt32 = 0
-        return GeneratorOf {
+        return anyGenerator {
             if index < self.count {
                 return self[index++]
             }
@@ -203,9 +215,9 @@ public struct GeometriesCollection<T: Geometry>: SequenceType {
         return geom
     }
     
-    public func generate() -> GeneratorOf<T> {
+    public func generate() -> AnyGenerator<T> {
         var index: Int32 = 0
-        return GeneratorOf {
+        return anyGenerator {
             if index < self.count {
                 return self[index++]
             }

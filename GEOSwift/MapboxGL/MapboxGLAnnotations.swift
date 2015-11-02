@@ -13,8 +13,9 @@ import MapKit
 
 public protocol GEOSwiftMapboxGL {
     /**
-    A convenience method to create a `MGLShape` ready to be added to a `MKMapView`.
-    
+    A convenience method to create a `MGLShape` ready to be added to a `MGLMapView`.
+    Mapbox has limited support to GEOS geometry types: be aware that when dealing with polygons, interior rings are not handled by MapBoxGL, we must drop this information while building a polygon shape.
+
     :returns: A MGLShape representing this geometry.
     */
     func mapboxShape() -> MGLShape
@@ -22,75 +23,44 @@ public protocol GEOSwiftMapboxGL {
 
 extension Geometry : GEOSwiftMapboxGL {
     public func mapboxShape() -> MGLShape {
-        if let geom = self as? MultiPolygon {
-            let geometryCollectionOverlay = MGLShapesCollection(geometryCollection: geom)
+        
+        switch self {
+            
+        case is Waypoint:
+            let pointAnno = MGLPointAnnotation()
+            pointAnno.coordinate = CLLocationCoordinateFromCoordinate((self as! Waypoint).coordinate)
+            return pointAnno
+            
+        case is LineString:
+            var coordinates = (self as! LineString).points.map({ (point: Coordinate) ->
+                CLLocationCoordinate2D in
+                return CLLocationCoordinateFromCoordinate(point)
+            })
+            let polyline = MGLPolyline(coordinates: &coordinates,
+                count: UInt(coordinates.count))
+            return polyline
+            
+        case is Polygon:
+            var exteriorRingCoordinates = (self as! Polygon).exteriorRing.points.map({ (point: Coordinate) ->
+                CLLocationCoordinate2D in
+                return CLLocationCoordinateFromCoordinate(point)
+            })
+            
+            // interior rings are not handled by MapBoxGL, we must drop this info!
+//            let interiorRings = (self as! Polygon).interiorRings.map({ (linearRing: LinearRing) ->
+//                MKPolygon in
+//                return MKPolygonWithCoordinatesSequence(linearRing.points)
+//            })
+            
+            let polygon = MGLPolygon(coordinates: &exteriorRingCoordinates, count: UInt(exteriorRingCoordinates.count) /*, interiorPolygons: interiorRings*/)
+            return polygon
+            
+        default:
+            let geometryCollectionOverlay = MGLShapesCollection(geometryCollection: (self as! GeometryCollection))
             return geometryCollectionOverlay
-        } else
-            if let geom = self as? MultiLineString {
-                let geometryCollectionOverlay = MGLShapesCollection(geometryCollection: geom)
-                return geometryCollectionOverlay
-            } else
-                if let geom = self as? MultiPoint {
-                    let geometryCollectionOverlay = MGLShapesCollection(geometryCollection: geom)
-                    return geometryCollectionOverlay
-                } else
-                    if let geom = self as? GeometryCollection {
-                        let geometryCollectionOverlay = MGLShapesCollection(geometryCollection: geom)
-                        return geometryCollectionOverlay
         }
-        
-        // this method is just a workaround for limited extension capabilities in Swift 1.2
-        // and should NEVER actually return MGLShape()
-        return MGLShape()
     }
 }
-
-extension Waypoint : GEOSwiftMapboxGL {
-    override public func mapboxShape() -> MGLShape {
-        let pointAnno = MGLPointAnnotation()
-        pointAnno.coordinate = CLLocationCoordinateFromCoordinate(self.coordinate)
-        return pointAnno
-    }
-}
-
-extension LineString : GEOSwiftMapboxGL {
-    override public func mapboxShape() -> MGLShape {
-        let pointAnno: MGLPolyline = MGLPolyline()
-        var coordinates = self.points.map({ (point: Coordinate) ->
-            CLLocationCoordinate2D in
-            return CLLocationCoordinateFromCoordinate(point)
-        })
-        var polyline = MGLPolyline(coordinates: &coordinates,
-            count: UInt(coordinates.count))
-        return polyline
-    }
-}
-
-extension Polygon : GEOSwiftMapboxGL {
-    override public func mapboxShape() -> MGLShape {
-        var exteriorRingCoordinates = self.exteriorRing.points.map({ (point: Coordinate) ->
-            CLLocationCoordinate2D in
-            return CLLocationCoordinateFromCoordinate(point)
-        })
-        
-        let interiorRings = self.interiorRings.map({ (linearRing: LinearRing) ->
-            MGLPolygon in
-            return MGLPolygonWithCoordinatesSequence(linearRing.points)
-        })
-        
-        let polygon = MGLPolygon(coordinates: &exteriorRingCoordinates, count: UInt(exteriorRingCoordinates.count)/*, interiorPolygons: interiorRings*/)
-        return polygon
-    }
-}
-
-// TODO: restore this in Swift 2.0
-
-//extension GeometryCollection : GEOSwiftMapKit {
-//    override public func mapboxShape() -> MGLShape {
-//        let geometryCollectionOverlay = MGLShapesCollection(geometryCollection: self as! GeometryCollection<Geometry>)
-//        return geometryCollectionOverlay
-//    }
-//}
 
 private func MGLPolygonWithCoordinatesSequence(coordinates: CoordinatesCollection) -> MGLPolygon {
     var coordinates = coordinates.map({ (point: Coordinate) ->
@@ -106,13 +76,16 @@ private func MGLPolygonWithCoordinatesSequence(coordinates: CoordinatesCollectio
 MGLShape subclass for GeometryCollections.
 The property `shapes` contains MGLShape subclasses instances. When drawing shapes on a map be careful to the fact that that these shapes could be overlays OR annotations.
 */
-public class MGLShapesCollection : MGLShape, MGLAnnotation, MGLOverlay {
+public class MGLShapesCollection : MGLShape, MGLOverlay {
     let shapes: Array<MGLShape>
     public let centroid: CLLocationCoordinate2D
     public let overlayBounds: MGLCoordinateBounds
     
-    required public init<T>(geometryCollection: GeometryCollection<T>) {
-        let shapes = geometryCollection.geometries.map({ (geometry: T) ->
+    // inserting the where clause in the following generic create some confusion in the precompiler that raise the following error:
+    // Cannot invoke initializer for type ... with an argument list of type (geometryCollection: GeometryCollection<T>)
+    // 1. Expected an argument list of type (geometryCollection: GeometryCollection<T>)
+    required public init<GEOSwiftMapboxGL>(geometryCollection: GeometryCollection<GEOSwiftMapboxGL>) {
+        let shapes = geometryCollection.geometries.map({ (geometry: GEOSwiftMapboxGL) ->
             MGLShape in
             return geometry.mapboxShape()
         })

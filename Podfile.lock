@@ -20,4 +20,4 @@ SPEC CHECKSUMS:
   geos: 836ecf4b0d1baf6c3dda536126aaee6fdde0ebee
   Mapbox-iOS-SDK: 07b84769693242f0e20eeed03d38515beca93c5b
 
-COCOAPODS: 0.39.0.beta.3
+COCOAPODS: 0.39.0.beta.4
