@@ -29,7 +29,6 @@ import MapKit
 //: 
 //: Geometries can be deserialized from and serialized back to their Well Known Text (WKT) or Well Known Binary (WKB) representations, as they are defined in the _[Simple features for SQL](http://www.opengeospatial.org/standards/sfa)_ specification.  
 //: The default spatial reference system for geometry fields is WGS84 (meaning the SRID is 4326) – in other words, the geometry coordinates are in longitude, latitude pairs in units of degrees.
-
 // Create a POINT from its WKT representation.
 let point = Waypoint(WKT: "POINT(10 45)")
 
@@ -41,7 +40,7 @@ let WKB: NSData = geometryWKB()
 let geometry2 = Geometry.create(WKB.bytes, size: WKB.length)
 
 if geometry1 == geometry2 && geometry1 != point {
-    println("The two geometries are equal!\nAh, and geometry objects conform to the Equatable protocol.")
+    print("The two geometries are equal!\nAh, and geometry objects conform to the Equatable protocol.")
 }
 
 // Examples of valid WKT geometries representations are:
@@ -59,21 +58,22 @@ if geometry1 == geometry2 && geometry1 != point {
 //: Convert the geometries to a MKShape subclass, ready to be added as annotations to a MKMapView
 //:
 let shape1 = point!.mapShape()
-let shape2 = geometry1!.mapShape()
-let annotations = [shape1, shape2]
+ let shape2 = geometry1?.mapShape()
+ let annotations = [shape1, shape2]
 
 //: ### Quicklook integration
 //:
-//: Humboldt geometries are integrated with Quicklook!
+//: GEOSwift geometries are integrated with Quicklook!
 //: This means that while debugging you can inspect complex geometries and see what they represent: just stop on the variable with the mouse cursor or select the Geometry instance and press backspace in the Debug Area to see a preview.
 //: In Playgrounds you can display them just as any other object, like this:
 geometry2
+
 //: ### GEOJSON parsing
 //:
 //: Your geometries can be loaded from a GEOJSON file.
 //:
 if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExtension: "geojson"),
-    let geometries = Geometry.fromGeoJSON(geoJSONURL),
+    let geometries = try! Geometry.fromGeoJSON(geoJSONURL),
     let italy = geometries[0] as? MultiPolygon
 {
     italy 
@@ -88,8 +88,8 @@ if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExt
     italy.pointOnSurface()
     italy.intersection(geometry2!)
     italy.difference(geometry2!)
-    italy.union(geometry2!)    
-
+    italy.union(geometry2!)
+    
 //: ### Predicates:
 //: 
     italy.disjoint(geometry2!)

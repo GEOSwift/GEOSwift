@@ -8,13 +8,13 @@ import Foundation
 extension NSData {
     public class func fromHexString (string: String) -> NSData {
         // Based on: http://stackoverflow.com/a/2505561/313633
-        var data = NSMutableData()
+        let data = NSMutableData()
         
         var temp = ""
         
-        for char in string {
+        for char in string.characters {
             temp+=String(char)
-            if(count(temp) == 2) {
+            if(temp.characters.count == 2) {
                 let scanner = NSScanner(string: temp)
                 var value: CUnsignedInt = 0
                 scanner.scanHexInt(&value)

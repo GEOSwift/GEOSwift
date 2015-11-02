@@ -56,9 +56,9 @@ class GEOSwiftTests: XCTestCase {
         let WKT = "GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))"
         if let geometryCollection = Geometry.create(WKT) as? GeometryCollection,
         let geometryCollection2 = GeometryCollection(WKT: WKT) {
-            if geometryCollection.geometries.count == 2,
-                let polygon = geometryCollection.geometries[0] as? Waypoint,
-                let linestring = geometryCollection.geometries[1] as? LineString {
+            if geometryCollection.geometries.count == 2 && geometryCollection2 == geometryCollection,
+                let _ = geometryCollection.geometries[0] as? Waypoint,
+                let _ = geometryCollection.geometries[1] as? LineString {
                     result = true
             }
         }
@@ -70,7 +70,7 @@ class GEOSwiftTests: XCTestCase {
         let WKT = "MULTIPOINT(-2 0,-1 -1,0 0,1 -1,2 0,0 2,-2 0)"
         if let multiPoint = Geometry.create(WKT) as? MultiPoint,
             let multiPoint2 = MultiPoint(WKT: WKT) {
-            if multiPoint.geometries.count == 7 {
+            if multiPoint.geometries.count == 7 && multiPoint == multiPoint2 {
                 result = true
             }
         }
@@ -79,14 +79,14 @@ class GEOSwiftTests: XCTestCase {
     
     func testGeoJSON() {
         let bundle = NSBundle(forClass: GEOSwiftTests.self)
-        if let geojsons = bundle.URLsForResourcesWithExtension("geojson", subdirectory: nil) as? Array<NSURL> {
+        if let geojsons = bundle.URLsForResourcesWithExtension("geojson", subdirectory: nil) {
             for geoJSONURL in geojsons {
-                if let geometries = Geometry.fromGeoJSON(geoJSONURL)  {
+                if let geometries = try! Geometry.fromGeoJSON(geoJSONURL)  {
 //                    geometries[0].debugQuickLookObject()
                     XCTAssert(true, "GeoJSON correctly parsed")
-                    println("\(geoJSONURL.path?.lastPathComponent): \(geometries)")
+                    print("\(geoJSONURL.lastPathComponent): \(geometries)")
                 } else {
-                    XCTAssert(false, "Can't extract geometry from GeoJSON: \(geoJSONURL.path?.lastPathComponent)")
+                    XCTAssert(false, "Can't extract geometry from GeoJSON: \(geoJSONURL.lastPathComponent)")
                 }
             }
         }

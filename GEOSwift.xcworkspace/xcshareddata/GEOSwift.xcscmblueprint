@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8D3AAB6EBC7EC5B08E85D630342328ECF681A6BE+++3FBD24E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8D3AAB6EBC7EC5B08E85D630342328ECF681A6BE+++A82541F" : 0,
+    "8D3AAB6EBC7EC5B08E85D630342328ECF681A6BE+++3FBD24E" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "12CE1D7A-B96B-4241-84B8-96105CE59FA6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8D3AAB6EBC7EC5B08E85D630342328ECF681A6BE+++A82541F" : "GEOSwift-2.0",
+    "8D3AAB6EBC7EC5B08E85D630342328ECF681A6BE+++3FBD24E" : "GEOSwift-2.0"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "GEOSwift",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "GEOSwift.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/andreacremaschi\/Humboldt.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8D3AAB6EBC7EC5B08E85D630342328ECF681A6BE+++3FBD24E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/andreacremaschi\/Humboldt.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8D3AAB6EBC7EC5B08E85D630342328ECF681A6BE+++A82541F"
+    }
+  ]
+}

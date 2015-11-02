@@ -36,7 +36,7 @@ public class Waypoint : Geometry {
     }
     
     public convenience init?(WKT: String) {
-        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT)
         
         if Geometry.classForGEOSGeom(GEOSGeom) !== Waypoint.self {
             self.init(GEOSGeom: nil)
@@ -68,14 +68,14 @@ public class Polygon : Geometry {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     
-    /// :returns: the exterior ring of this Polygon.
+    /// - returns: the exterior ring of this Polygon.
     private(set) public lazy var exteriorRing: LinearRing = {
         let exteriorRing = GEOSGetExteriorRing_r(GEOS_HANDLE, self.geometry)
         let linestring = Geometry.create(exteriorRing, destroyOnDeinit: false) as! LinearRing
         return linestring
         }()
     
-    /// :returns: an array with the interior rings of this Polygon.
+    /// - returns: an array with the interior rings of this Polygon.
     private(set) public lazy var interiorRings: [LinearRing] = {
         var interiorRings = [LinearRing]()
         let numInteriorRings = GEOSGetNumInteriorRings_r(GEOS_HANDLE, self.geometry)
@@ -91,7 +91,7 @@ public class Polygon : Geometry {
         }()
     
     public convenience init?(WKT: String) {
-        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT)
         
         if Geometry.classForGEOSGeom(GEOSGeom) !== Polygon.self {
             self.init(GEOSGeom: nil)
@@ -107,8 +107,8 @@ public class Polygon : Geometry {
 
         // clone holes
         if let holes = holes {
-            var geometriesPointer = UnsafeMutablePointer<COpaquePointer>.alloc(holes.count)
-            for (i, geom) in enumerate(holes) {
+            let geometriesPointer = UnsafeMutablePointer<COpaquePointer>.alloc(holes.count)
+            for (i, geom) in holes.enumerate() {
                 let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
                 geometriesPointer[i] = GEOSGeom
             }
@@ -136,7 +136,7 @@ public class LineString : Geometry {
         }()
     
     public convenience init?(WKT: String) {
-        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT)
         
         if Geometry.classForGEOSGeom(GEOSGeom) !== LineString.self {
             self.init(GEOSGeom: nil)
@@ -173,7 +173,7 @@ public class GeometryCollection<T: Geometry> : Geometry {
     }
     
     public convenience init?(WKT: String) {
-        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT)
         
         if Geometry.classForGEOSGeom(GEOSGeom) !== GeometryCollection.self {
             self.init(GEOSGeom: nil)
@@ -183,11 +183,11 @@ public class GeometryCollection<T: Geometry> : Geometry {
     }
 
 /**
-    :returns: An Array of geometries in this GeometryCollection.
+    - returns: An Array of geometries in this GeometryCollection.
 */
     public convenience init?(geometries: Array<Geometry>) {
-        var geometriesPointer = UnsafeMutablePointer<COpaquePointer>.alloc(geometries.count)
-        for (i, geom) in enumerate(geometries) {
+        let geometriesPointer = UnsafeMutablePointer<COpaquePointer>.alloc(geometries.count)
+        for (i, geom) in geometries.enumerate() {
             let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
             geometriesPointer[i] = GEOSGeom
         }
@@ -214,7 +214,7 @@ public class MultiLineString<T: LineString> : GeometryCollection<LineString> {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     public convenience init?(WKT: String) {
-        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT)
         
         if Geometry.classForGEOSGeom(GEOSGeom) !== MultiLineString.self {
             self.init(GEOSGeom: nil)
@@ -223,8 +223,8 @@ public class MultiLineString<T: LineString> : GeometryCollection<LineString> {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     public convenience init?(linestrings: Array<LineString>) {
-        var geometriesPointer = UnsafeMutablePointer<COpaquePointer>.alloc(linestrings.count)
-        for (i, geom) in enumerate(linestrings) {
+        let geometriesPointer = UnsafeMutablePointer<COpaquePointer>.alloc(linestrings.count)
+        for (i, geom) in linestrings.enumerate() {
             let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
             geometriesPointer[i] = GEOSGeom
         }
@@ -249,7 +249,7 @@ public class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     public convenience init?(WKT: String) {
-        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT)
         
         if Geometry.classForGEOSGeom(GEOSGeom) !== MultiPoint.self {
             self.init(GEOSGeom: nil)
@@ -258,8 +258,8 @@ public class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     public convenience init?(points: Array<Waypoint>) {
-        var coordsPointer = UnsafeMutablePointer<COpaquePointer>.alloc(points.count)
-        for (i, geom) in enumerate(points) {
+        let coordsPointer = UnsafeMutablePointer<COpaquePointer>.alloc(points.count)
+        for (i, geom) in points.enumerate() {
             let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
             coordsPointer[i] = GEOSGeom
         }
@@ -285,7 +285,7 @@ public class MultiPolygon<T: Polygon> : GeometryCollection<Polygon> {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     public convenience init?(WKT: String) {
-        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT)
+        let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT)
         
         if Geometry.classForGEOSGeom(GEOSGeom) !== MultiPolygon.self {
             self.init(GEOSGeom: nil)
@@ -294,8 +294,8 @@ public class MultiPolygon<T: Polygon> : GeometryCollection<Polygon> {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     public convenience init?(polygons: Array<Polygon>) {
-        var coordsPointer = UnsafeMutablePointer<COpaquePointer>.alloc(polygons.count)
-        for (i, geom) in enumerate(polygons) {
+        let coordsPointer = UnsafeMutablePointer<COpaquePointer>.alloc(polygons.count)
+        for (i, geom) in polygons.enumerate() {
             let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
             coordsPointer[i] = GEOSGeom
         }

@@ -26,7 +26,7 @@ class MapKitTests: XCTestCase {
     func testCreateMKPointAnnotationFromPoint() {
         var result = false
         if let point = Geometry.create("POINT(45 9)") as? Waypoint,
-            let shape = point.mapShape() as? MKPointAnnotation {
+            let _ = point.mapShape() as? MKPointAnnotation {
                 result = true
         }
         XCTAssert(result, "MKPoint test failed")
@@ -36,7 +36,7 @@ class MapKitTests: XCTestCase {
         var result = false
         let WKT = "LINESTRING(3 4,10 50,20 25)"
         if let linestring = Geometry.create(WKT) as? LineString,
-            let shape = linestring.mapShape() as? MKPolyline {
+            let _ = linestring.mapShape() as? MKPolyline {
                 result = true
         }
         XCTAssert(result, "MKPolyline test failed")
@@ -46,7 +46,7 @@ class MapKitTests: XCTestCase {
         var result = false
         let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
         if let polygon = Geometry.create(WKT) as? Polygon,
-            let shape = polygon.mapShape() as? MKPolygon {
+            let mapShape = polygon.mapShape() as? MKPolygon {
                 result = true
         }
         XCTAssert(result, "MKPolygon test failed")
@@ -56,7 +56,7 @@ class MapKitTests: XCTestCase {
         var result = false
         let WKT = "GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))"
         if let geometryCollection = Geometry.create(WKT) as? GeometryCollection,
-            let shape = geometryCollection.mapShape() as? MKShapesCollection {
+            let _ = geometryCollection.mapShape() as? MKShapesCollection {
                 result = true
         }
         XCTAssert(result, "MKShapesCollection test failed")

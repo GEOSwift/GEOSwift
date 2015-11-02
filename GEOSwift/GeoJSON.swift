@@ -6,27 +6,38 @@
 //
 
 import Foundation
-import geos
+
+public enum GEOJSONParseError: ErrorType {
+    case InvalidJSON
+    case InvalidGEOJSON
+}
 
 public extension Geometry {
-/** 
+    /**
     Creates an `Array` of `Geometry` instances from a GeoJSON file.
     
-    :param: URL the URL pointing to the GeoJSON file.
+    - parameter URL: the URL pointing to the GeoJSON file.
     
     :returns: An optional `Array` of `Geometry` instances.
 */
-    public class func fromGeoJSON(URL: NSURL) -> Array<Geometry>? {
-        var parseError: NSError?
+    public class func fromGeoJSON(URL: NSURL) throws -> Array<Geometry>? {
         
-        if let JSONData = NSData(contentsOfURL: URL),
-
-            // read JSON file
-            let parsedObject = NSJSONSerialization.JSONObjectWithData(JSONData,
-                options: NSJSONReadingOptions.AllowFragments,
-                error:&parseError) as? NSDictionary,
-            let rootObject = parsedObject as? Dictionary<String, AnyObject> {
-                return Geometry.fromGeoJSONDictionary(rootObject)
+        if let JSONData = NSData(contentsOfURL: URL) {
+            
+            do {
+                // read JSON file
+                let parsedObject = try NSJSONSerialization.JSONObjectWithData(JSONData,
+                    options: NSJSONReadingOptions.AllowFragments) as? NSDictionary
+                
+                // is the root a Dictionary with a "type" key of value "FeatureCollection"?
+                if let rootObject = parsedObject as? Dictionary<String, AnyObject> {
+                    return Geometry.fromGeoJSONDictionary(rootObject)
+                } else {
+                    throw GEOJSONParseError.InvalidGEOJSON
+                }
+            } catch _ {
+                throw GEOJSONParseError.InvalidJSON
+            }
         }
         return nil
     }
@@ -39,8 +50,6 @@ public extension Geometry {
     :returns: An optional `Array` of `Geometry` instances.
     */
     public class func fromGeoJSONDictionary(dictionary: Dictionary<String, AnyObject>) -> Array<Geometry>? {
-        var parseError: NSError?
-
         return ParseGEOJSONObject(dictionary)
     }
 }
@@ -58,19 +67,19 @@ private func ParseGEOJSONObject(GEOJSONObject: Dictionary<String, AnyObject>) ->
                 return [geom]
             }
             
-        case "FeatureCollection" :
+        case "FeatureCollection":
             if let featureCollection = GEOJSONObject["features"] as? NSArray {
                 return ParseGEOJSONFeatureCollection(featureCollection)
             }
             
-        case "GeometryCollection" :
+        case "GeometryCollection":
             if let geometryCollection = GEOJSONObject["geometries"] as? NSArray {
                 return ParseGEOJSONGeometryCollection(geometryCollection)
             }
             
         default:
             if let coordinates = GEOJSONObject["coordinates"] as? NSArray,
-                let geometry = ParseGEOJSONGeometry(type, coordinates)
+                let geometry = ParseGEOJSONGeometry(type, coordinatesNSArray: coordinates)
             {
                 return [geometry]
             }
@@ -96,11 +105,11 @@ private func ParseGEOJSONFeatureCollection(features: NSArray) -> [Geometry]? {
 
 private func ParseGEOJSONFeature(GEOJSONFeature: Dictionary<String, AnyObject>) -> Geometry? {
     if let geometry = GEOJSONFeature["geometry"] as? Dictionary<String,AnyObject>,
-        let properties = GEOJSONFeature["properties"] as? NSDictionary,
+//        let properties = GEOJSONFeature["properties"] as? NSDictionary,
 
         let geometryType = geometry["type"] as? String,
         let geometryCoordinates = geometry["coordinates"] as? NSArray {
-        return ParseGEOJSONGeometry(geometryType, geometryCoordinates)
+        return ParseGEOJSONGeometry(geometryType, coordinatesNSArray: geometryCoordinates)
     }
     return nil
 }
@@ -113,7 +122,7 @@ private func ParseGEOJSONGeometryCollection(geometries: NSArray) -> [Geometry]? 
             let geom2 = geom1 as? Dictionary<String,AnyObject>,
             let geomType = geom2["type"] as? String,
             let geomCoordinates = geom2["coordinates"] as? NSArray,
-            let geom = ParseGEOJSONGeometry(geomType, geomCoordinates) {
+            let geom = ParseGEOJSONGeometry(geomType, coordinatesNSArray: geomCoordinates) {
                 GEOSGeometries.append(geom)
         } else {
             return nil
@@ -221,7 +230,7 @@ private func GEOJSONGeometryFromDictionaryRepresentation(dictionary: Dictionary<
                         for geometryNSDictionary in geometriesArray {
                             if let geometryType = geometryNSDictionary["type"] as? String,
                                 let coordinatesNSArray = geometryNSDictionary["coordinates"] as? NSArray,
-                                let geometry = ParseGEOJSONGeometry(geometryType, coordinatesNSArray) {
+                                let geometry = ParseGEOJSONGeometry(geometryType, coordinatesNSArray: coordinatesNSArray) {
                                     geometries.append(geometry)
                             } else {
                                 return nil
@@ -232,7 +241,7 @@ private func GEOJSONGeometryFromDictionaryRepresentation(dictionary: Dictionary<
                 
                 default:
                     if let coordinatesNSArray = geometryDict["coordinates"] as? NSArray {
-                        return ParseGEOJSONGeometry(geometryType, coordinatesNSArray)
+                        return ParseGEOJSONGeometry(geometryType, coordinatesNSArray: coordinatesNSArray)
                 }
             }
             
@@ -249,8 +258,8 @@ private func GEOJSONCoordinatesFromArrayRepresentation(array: [[Double]]) -> [Co
 
 private func GEOJSONSequenceFromArrayRepresentation(representation: [[Double]]) -> COpaquePointer? {
     if let coordinates = GEOJSONCoordinatesFromArrayRepresentation(representation) {
-        var sequence = GEOSCoordSeq_create_r(GEOS_HANDLE, UInt32(coordinates.count), 2)
-        for (index, coord) in enumerate(coordinates) {
+        let sequence = GEOSCoordSeq_create_r(GEOS_HANDLE, UInt32(coordinates.count), 2)
+        for (index, coord) in coordinates.enumerate() {
             if (GEOSCoordSeq_setX_r(GEOS_HANDLE, sequence, UInt32(index), coord.x) == 0) ||
                 (GEOSCoordSeq_setY_r(GEOS_HANDLE, sequence, UInt32(index), coord.y) == 0) {
                     return nil
@@ -273,33 +282,34 @@ private func GEOJSONCreatePolygonFromRepresentation(representation: NSArray) -> 
     
     // For type "Polygon", the "coordinates" member must be an array of LinearRing coordinate arrays. For Polygons with multiple rings, the first must be the exterior ring and any others must be interior rings or holes.
     
-    if var coordinates = representation as? [[Double]] {
+    if let coordinates = representation as? [[Double]] {
         // array of LinearRing coordinate arrays
         if let shell = GEOJSONCreateLinearRingFromRepresentation(coordinates) {
             let polygon = Polygon(shell: shell, holes: nil)
             return polygon
         }
     } else {
-        if var ringsCoords = representation as? [[[Double]]] {
-            if ringsCoords.count == 0 { return nil }
-            // Polygons with multiple rings
-            var rings: Array<LinearRing> = ringsCoords.map({
-                (ringCoords: [[Double]]) -> LinearRing in
-                let linearRing: LinearRing
-                if let sequence = GEOJSONSequenceFromArrayRepresentation(ringCoords) {
-                    let GEOSGeom = GEOSGeom_createLinearRing_r(GEOS_HANDLE, sequence)
-                    linearRing = LinearRing(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-                } else {
-                    let GEOSGeom = GEOSGeom_createEmptyLineString_r(GEOS_HANDLE)
-                    linearRing = LinearRing(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-                }
-                return linearRing
-            })
-            let shell = rings[0]
-            rings.removeAtIndex(0)
-            let polygon = Polygon(shell: shell, holes: rings)
-            return polygon
-        }
+        guard let ringsCoords = representation as? [[[Double]]]
+            where ringsCoords.count > 0 else { return nil }
+        
+        // Polygons with multiple rings
+        var rings: Array<LinearRing> = ringsCoords.map({
+            (ringCoords: [[Double]]) -> LinearRing in
+            let linearRing: LinearRing
+            if let sequence = GEOJSONSequenceFromArrayRepresentation(ringCoords) {
+                let GEOSGeom = GEOSGeom_createLinearRing_r(GEOS_HANDLE, sequence)
+                linearRing = LinearRing(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+            } else {
+                let GEOSGeom = GEOSGeom_createEmptyLineString_r(GEOS_HANDLE)
+                linearRing = LinearRing(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+            }
+            return linearRing
+        })
+        let shell = rings[0]
+        rings.removeAtIndex(0)
+        let polygon = Polygon(shell: shell, holes: rings)
+        return polygon
+    
     }
     return nil
 }
