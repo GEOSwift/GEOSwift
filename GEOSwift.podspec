@@ -19,7 +19,7 @@ DESC
   
   s.subspec 'Core' do |cs|
     cs.source_files = "GEOSwift/*"
-    cs.dependency "geos", "~> 3.4.2a"
+    cs.dependency "geos", "3.4.2a"
   end
 
   s.subspec 'MapboxGL' do |cs|
