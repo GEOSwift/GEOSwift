@@ -102,8 +102,8 @@ public class MKShapesCollection : MKShape, MKOverlay  {
     public let centroid: CLLocationCoordinate2D
     public let boundingMapRect: MKMapRect
     
-    required public init<GEOSwiftMapkit>(geometryCollection: GeometryCollection<GEOSwiftMapkit>) {
-        let shapes = geometryCollection.geometries.map({ (geometry: GEOSwiftMapkit) ->
+    required public init<GEOSwiftMapKit>(geometryCollection: GeometryCollection<GEOSwiftMapKit>) {
+        let shapes = geometryCollection.geometries.map({ (geometry: GEOSwiftMapKit) ->
             MKShape in
                 return geometry.mapShape()
         })
