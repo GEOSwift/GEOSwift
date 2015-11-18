@@ -236,7 +236,7 @@ public class MultiLineString<T: LineString> : GeometryCollection<LineString> {
 }
 
 /**
-A `MultiLineString` is a `GeometryCollection` of `Point`s.
+A `MultiPoint` is a `GeometryCollection` of `Point`s.
 */
 public class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
     public override class func geometryTypeId() -> Int32 {
