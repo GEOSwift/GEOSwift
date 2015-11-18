@@ -67,6 +67,15 @@ extension Geometry : GEOSwiftMapKit {
             let polygon = MKPolygon(coordinates: &exteriorRingCoordinates, count: exteriorRingCoordinates.count, interiorPolygons: interiorRings)
             return polygon
             
+        case let gc as GeometryCollection<Waypoint>:
+            return MKShapesCollection(geometryCollection: gc)
+
+        case let gc as GeometryCollection<LineString>:
+            return MKShapesCollection(geometryCollection: gc)
+
+        case let gc as GeometryCollection<Polygon>:
+            return MKShapesCollection(geometryCollection: gc)
+
         default:
             let geometryCollectionOverlay = MKShapesCollection(geometryCollection: (self as! GeometryCollection))
             return geometryCollectionOverlay
@@ -93,8 +102,8 @@ public class MKShapesCollection : MKShape, MKOverlay  {
     public let centroid: CLLocationCoordinate2D
     public let boundingMapRect: MKMapRect
     
-    required public init<GEOSwiftMapkit>(geometryCollection: GeometryCollection<GEOSwiftMapkit>) {
-        let shapes = geometryCollection.geometries.map({ (geometry: GEOSwiftMapkit) ->
+    required public init<T: GEOSwiftMapKit>(geometryCollection: GeometryCollection<T>) {
+        let shapes = geometryCollection.geometries.map({ (geometry: T) ->
             MKShape in
                 return geometry.mapShape()
         })

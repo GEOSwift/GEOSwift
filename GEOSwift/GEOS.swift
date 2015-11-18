@@ -36,7 +36,6 @@ var GEOS_HANDLE: COpaquePointer = {
     }
 
     deinit {
-//        println("Destroying \(self)")
         if (self.destroyOnDeinit) {
             GEOSGeom_destroy_r(GEOS_HANDLE, geometry);
         }

@@ -159,7 +159,7 @@ A GeometryCollection is a geometry that is a collection of 1 or more geometries.
 public class GeometryCollection<T: Geometry> : Geometry {
     
     public override class func geometryTypeId() -> Int32 {
-        return 7 // GEOS_LINESTRING
+        return 7 // GEOS_GEOMETRYCOLLECTION
     }
     
     private(set) public lazy var geometries: GeometriesCollection<T> = {
@@ -236,7 +236,7 @@ public class MultiLineString<T: LineString> : GeometryCollection<LineString> {
 }
 
 /**
-A `MultiLineString` is a `GeometryCollection` of `Point`s.
+A `MultiPoint` is a `GeometryCollection` of `Point`s.
 */
 public class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
     public override class func geometryTypeId() -> Int32 {
