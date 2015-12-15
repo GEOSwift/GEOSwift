@@ -22,11 +22,16 @@ DESC
     cs.dependency "geos", "3.5.0"
   end
 
-  s.subspec 'MapboxGL' do |cs|
-    cs.source_files = "GEOSwift/MapboxGL"
-    cs.dependency "GEOSwift/Core"
-    cs.dependency "Mapbox-iOS-SDK"
-  end
+  # Mapbox support is disabled: MapboxGL is distributed as a static framework and Cocoapods 0.37 doesn't allow to add a static framework as a dependency,
+  # failing with this error: "The 'Pods' target has transitive dependencies that include static binaries".
+  # This is due to the fact that if a static library gets linked against multiple dynamic frameworks, 
+  # we would end up getting duplicate symbols in each of those frameworks.
+  # This will be restored when Mapbox will provide a dynamic version of the framework
+  # s.subspec 'MapboxGL' do |cs|
+  #   cs.source_files = "GEOSwift/MapboxGL"
+  #   cs.dependency "GEOSwift/Core"
+  #   cs.dependency "Mapbox-iOS-SDK"
+  # end
 
   s.default_subspec = 'Core'
 
