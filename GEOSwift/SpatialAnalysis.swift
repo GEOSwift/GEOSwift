@@ -76,7 +76,6 @@ public extension Geometry {
     func pointOnSurface() -> Waypoint {
         let pointOnSurfaceGEOM = GEOSPointOnSurface_r(GEOS_HANDLE, self.geometry)
         let pointOnSurface = Geometry.create(pointOnSurfaceGEOM, destroyOnDeinit: true) as! Waypoint
-        
         return pointOnSurface
     }
     
