@@ -76,16 +76,20 @@ public extension Geometry {
     func pointOnSurface() -> Waypoint {
         let pointOnSurfaceGEOM = GEOSPointOnSurface_r(GEOS_HANDLE, self.geometry)
         let pointOnSurface = Geometry.create(pointOnSurfaceGEOM, destroyOnDeinit: true) as! Waypoint
+        
         return pointOnSurface
     }
     
     /// - returns: The nearest points of this geometry with respect to `geometry`.
     func nearestPoint(geometry: Geometry) -> Coordinate {
         let nearestPointsCoordinateList = GEOSNearestPoints_r(GEOS_HANDLE, self.geometry, geometry.geometry)
-        let lineStringGEOM = GEOSGeom_createLineString_r(GEOS_HANDLE, nearestPointsCoordinateList)
-        let nearestPoints = Geometry.create(lineStringGEOM, destroyOnDeinit: true) as! LineString
-        return nearestPoints.points[0]
+        var x : Double = 0
+        var y : Double = 0
+        GEOSCoordSeq_getX_r(GEOS_HANDLE, nearestPointsCoordinateList, 0, &x)
+        GEOSCoordSeq_getY_r(GEOS_HANDLE, nearestPointsCoordinateList, 0, &y)
+        return Coordinate(x: x, y: y)
     }
+
     
     /// - returns: The DE-9IM intersection matrix (a string) representing the topological relationship between this geometry and the other.
     func relationship(geometry: Geometry) -> String {
