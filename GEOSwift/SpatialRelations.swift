@@ -54,7 +54,12 @@ public extension Geometry {
         return GEOSOverlaps_r(GEOS_HANDLE, self.geometry, geometry.geometry) > 0;
     }
     
-    /** 
+    /// - returns: TRUE if the geometry spatially covers `geometry`
+    public func covers(geometry : Geometry) -> Bool {
+        return GEOSCovers_r(GEOS_HANDLE, self.geometry, geometry.geometry) > 0
+    }
+
+    /**
     - parameter pattern: A String following the Dimensionally Extended Nine-Intersection Model (DE-9IM).
     
     - returns: TRUE if the geometry spatially relates `geometry`, by testing for intersections between the Interior, Boundary and Exterior of the two geometries as specified by the values in the pattern.
