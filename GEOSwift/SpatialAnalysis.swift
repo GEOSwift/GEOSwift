@@ -79,7 +79,7 @@ public extension Geometry {
         return pointOnSurface
     }
     
-    /// - returns: The nearest points of this geometry with respect to `geometry`.
+    /// - returns: The nearest point of this geometry with respect to `geometry`.
     func nearestPoint(geometry: Geometry) -> Coordinate {
         let nearestPointsCoordinateList = GEOSNearestPoints_r(GEOS_HANDLE, self.geometry, geometry.geometry)
         var x : Double = 0
