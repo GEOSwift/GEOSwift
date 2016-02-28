@@ -237,7 +237,7 @@ public struct GeometriesCollection<T: Geometry>: SequenceType {
 public struct Coordinate {
     public let x: CoordinateDegrees
     public let y: CoordinateDegrees
-    init(x: CoordinateDegrees, y: CoordinateDegrees) {
+    public init(x: CoordinateDegrees, y: CoordinateDegrees) {
         self.x = x
         self.y = y
     }
