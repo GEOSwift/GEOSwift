@@ -184,11 +184,11 @@ public struct CoordinatesCollection: SequenceType {
     
     public func generate() -> AnyGenerator<Coordinate> {
         var index: UInt32 = 0
-        return anyGenerator {
-            if index < self.count {
-                return self[index++]
-            }
-            return nil
+        return AnyGenerator {
+            guard index < self.count else { return nil }
+            let item = self[index]
+            index += 1
+            return item
         }
     }
     
@@ -218,13 +218,14 @@ public struct GeometriesCollection<T: Geometry>: SequenceType {
     
     public func generate() -> AnyGenerator<T> {
         var index: Int32 = 0
-        return anyGenerator {
-            if index < self.count {
-                return self[index++]
-            }
-            return nil
+        return AnyGenerator {
+            guard index < self.count else { return nil }
+            let item = self[index]
+            index += 1
+            return item
         }
     }
+    
     public func map<U>(transform: (T) -> U) -> [U] {
         var array = Array<U>()
         for geom in self {

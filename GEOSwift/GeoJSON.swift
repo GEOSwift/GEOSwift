@@ -251,7 +251,7 @@ private func GEOJSONGeometryFromDictionaryRepresentation(dictionary: Dictionary<
 
 private func GEOJSONCoordinatesFromArrayRepresentation(array: [[Double]]) -> [Coordinate]? {
     return array.map {
-        (var coordinatePair) -> Coordinate in
+        coordinatePair in
         return Coordinate(x: coordinatePair[0], y: coordinatePair[1])
     }
 }
