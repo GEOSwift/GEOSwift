@@ -22,6 +22,7 @@ DESC
     cs.dependency "geos", "3.5.0"
   end
 
+  # Mapbox support
   s.subspec 'MapboxGL' do |cs|
     cs.source_files = "GEOSwift/MapboxGL"
     cs.dependency "GEOSwift/Core"

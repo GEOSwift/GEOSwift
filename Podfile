@@ -3,8 +3,16 @@
 
 use_frameworks!
 
-link_with 'GEOSwift', 'GEOSwiftTests'
+target 'GEOSwift' do 
+  pod 'geos'
+  pod 'CocoaLumberjack'
+  pod 'Mapbox-iOS-SDK'
+end
 
-pod 'geos', "~> 3.4.2a"
-pod 'CocoaLumberjack'
-pod 'Mapbox-iOS-SDK'
+target 'GEOSwiftTests' do
+  pod 'geos'
+  pod 'CocoaLumberjack'
+  pod 'Mapbox-iOS-SDK'
+end
+
+

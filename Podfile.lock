@@ -1,23 +1,51 @@
-PODS:
-  - CocoaLumberjack (2.0.0):
-    - CocoaLumberjack/Default (= 2.0.0)
-    - CocoaLumberjack/Extensions (= 2.0.0)
-  - CocoaLumberjack/Core (2.0.0)
-  - CocoaLumberjack/Default (2.0.0):
-    - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.0.0):
-    - CocoaLumberjack/Default
-  - geos (3.4.2)
-  - Mapbox-iOS-SDK (2.0.0)
+>-
+  PODS:
+  - >-
+    CocoaLumberjack (2.2.0):
+    - >-
+      CocoaLumberjack/Default (= 2.2.0)
+    - >-
+      CocoaLumberjack/Extensions (= 2.2.0)
+  - >-
+    CocoaLumberjack/Core (2.2.0)
+  - >-
+    CocoaLumberjack/Default (2.2.0):
+    - >-
+      CocoaLumberjack/Core
+  - >-
+    CocoaLumberjack/Extensions (2.2.0):
+    - >-
+      CocoaLumberjack/Default
+  - >-
+    geos (3.5.0)
+  - >-
+    Mapbox-iOS-SDK (3.1.2)
 
-DEPENDENCIES:
-  - CocoaLumberjack
-  - geos
-  - Mapbox-iOS-SDK
+>-
+  DEPENDENCIES:
+  - >-
+    CocoaLumberjack
+  - >-
+    geos
+  - >-
+    Mapbox-iOS-SDK
 
-SPEC CHECKSUMS:
-  CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
-  geos: 836ecf4b0d1baf6c3dda536126aaee6fdde0ebee
-  Mapbox-iOS-SDK: 07b84769693242f0e20eeed03d38515beca93c5b
+>-
+  SPEC CHECKSUMS:
+  >-
+    CocoaLumberjack: >-
+    17fe8581f84914d5d7e6360f7c70022b173c3ae0
+  >-
+    geos: >-
+    e96c6ca3f3ce02d20feaa8d90d4af383e11e7198
+  >-
+    Mapbox-iOS-SDK: >-
+    0a910c2cce1aa8cff5b9ec2a990e7a32332a776a
 
-COCOAPODS: 0.39.0.beta.4
+>-
+  PODFILE CHECKSUM: >-
+  3884c60f46eac4a78ad4f02b45acadae55f10fe3
+
+>-
+  COCOAPODS: >-
+  1.0.0.beta.4

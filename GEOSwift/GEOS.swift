@@ -21,6 +21,8 @@ var GEOS_HANDLE: COpaquePointer = {
         unsafeBitCast(swiftCallback, GEOSMessageHandler.self))
 }()
 
+public typealias CoordinateDegrees = Double
+
 /// A base abstract geometry class
 // Geometry is a model data type, so a struct would be a better fit, but it is actually a wrapper of GEOS native objects,
 // that are in fact C pointers, and structs in Swift don't have a dealloc where one can release allocated memory.
@@ -182,11 +184,11 @@ public struct CoordinatesCollection: SequenceType {
     
     public func generate() -> AnyGenerator<Coordinate> {
         var index: UInt32 = 0
-        return anyGenerator {
-            if index < self.count {
-                return self[index++]
-            }
-            return nil
+        return AnyGenerator {
+            guard index < self.count else { return nil }
+            let item = self[index]
+            index += 1
+            return item
         }
     }
     
@@ -216,13 +218,14 @@ public struct GeometriesCollection<T: Geometry>: SequenceType {
     
     public func generate() -> AnyGenerator<T> {
         var index: Int32 = 0
-        return anyGenerator {
-            if index < self.count {
-                return self[index++]
-            }
-            return nil
+        return AnyGenerator {
+            guard index < self.count else { return nil }
+            let item = self[index]
+            index += 1
+            return item
         }
     }
+    
     public func map<U>(transform: (T) -> U) -> [U] {
         var array = Array<U>()
         for geom in self {
@@ -233,9 +236,9 @@ public struct GeometriesCollection<T: Geometry>: SequenceType {
 }
 
 public struct Coordinate {
-    public let x: Double
-    public let y: Double
-    init(x: Double, y: Double) {
+    public let x: CoordinateDegrees
+    public let y: CoordinateDegrees
+    public init(x: CoordinateDegrees, y: CoordinateDegrees) {
         self.x = x
         self.y = y
     }

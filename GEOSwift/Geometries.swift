@@ -18,7 +18,7 @@ public class Waypoint : Geometry {
     public override class func geometryTypeId() -> Int32 {
         return 0 // GEOS_POINT
     }
-    
+
     public required init(GEOSGeom: COpaquePointer, destroyOnDeinit: Bool) {
         let isValid = GEOSGeom != nil && GEOSGeomTypeId_r(GEOS_HANDLE, GEOSGeom) == Waypoint.geometryTypeId() // GEOS_POINT
         
@@ -34,7 +34,7 @@ public class Waypoint : Geometry {
         }
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
-    
+
     public convenience init?(WKT: String) {
         let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT)
         
@@ -43,6 +43,14 @@ public class Waypoint : Geometry {
             return nil
         }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
+    
+    public convenience init(latitude: CoordinateDegrees, longitude: CoordinateDegrees) {
+        let seq = GEOSCoordSeq_create_r(GEOS_HANDLE, 1,2)
+        GEOSCoordSeq_setX_r(GEOS_HANDLE, seq, 0, longitude)
+        GEOSCoordSeq_setY_r(GEOS_HANDLE, seq, 0, latitude)
+        let geosGeom = GEOSGeom_createPoint_r(GEOS_HANDLE, seq)
+        self.init(GEOSGeom: geosGeom, destroyOnDeinit: true)
     }
 }
 
@@ -143,6 +151,19 @@ public class LineString : Geometry {
             return nil
         }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
+    
+    public convenience init(points: [Coordinate]) {
+        
+        let seq = GEOSCoordSeq_create_r(GEOS_HANDLE, UInt32(points.count), 2)
+        
+        for (i,coord) in points.enumerate() {
+            GEOSCoordSeq_setX_r(GEOS_HANDLE, seq, UInt32(i), coord.x);
+            GEOSCoordSeq_setY_r(GEOS_HANDLE, seq, UInt32(i), coord.y);
+        }
+        let geosGeom = GEOSGeom_createLineString_r(GEOS_HANDLE, seq);
+        
+        self.init(GEOSGeom: geosGeom, destroyOnDeinit: true)
     }
 }
 
