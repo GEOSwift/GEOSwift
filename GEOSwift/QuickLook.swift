@@ -67,7 +67,9 @@ public extension Geometry {
             UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
             image.drawAtPoint(CGPointMake(0, 0))
             
-            let context = UIGraphicsGetCurrentContext()
+            guard let context = UIGraphicsGetCurrentContext() else {
+                fatalError("Could not get current context")
+            }
             let scaleX = image.size.width / CGFloat(mapRect.size.width)
             let scaleY = image.size.height / CGFloat(mapRect.size.height)
             //            CGContextTranslateCTM(context, (image.size.width - CGFloat(boundingBox.size.width) * scaleX) / 2, (image.size.height - CGFloat(boundingBox.size.height) * scaleY) / 2)
