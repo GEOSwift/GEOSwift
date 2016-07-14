@@ -20,7 +20,7 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 * iOS 8.0+ / Mac OS X 10.10+
 * Xcode 7.1
 * Swift 2.0+
-* CocoaPods 0.39.0+
+* CocoaPods 1.0.1+
 
 ## Usage
 
