@@ -1,6 +1,8 @@
 import UIKit
 import GEOSwift
 import MapKit
+
+Waypoint(WKT: "POINT(10 45)")
 //: > _Note:_ Build the GEOSwift framework scheme targeting an iOS Simulator prior to use this Playground. You may have to close and reopen the project after building it.
 //: # GEOSwift
 //: _The Swift Geographic Engine._
@@ -37,7 +39,7 @@ let geometry1 = Geometry.create("POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(
 
 // The same geometry can be represented in binary form as a Well Known Binary.
 let WKB: NSData = geometryWKB()
-let geometry2 = Geometry.create(WKB.bytes, size: WKB.length)
+let geometry2 = Geometry.create(WKB.bytes.assumingMemoryBound(to: UInt8.self), size: WKB.length)
 
 if geometry1 == geometry2 && geometry1 != point {
     print("The two geometries are equal!\nAh, and geometry objects conform to the Equatable protocol.")
@@ -72,7 +74,7 @@ geometry2
 //:
 //: Your geometries can be loaded from a GEOJSON file.
 //:
-if let geoJSONURL = NSBundle.mainBundle().URLForResource("multipolygon", withExtension: "geojson"),
+if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: "geojson"),
     let geometries = try! Geometry.fromGeoJSON(geoJSONURL),
     let italy = geometries[0] as? MultiPolygon
 {

@@ -18,8 +18,8 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 ## Requirements
 
 * iOS 8.0+ / Mac OS X 10.10+
-* Xcode 7 & 8
-* Swift 2.*
+* Xcode 8
+* Swift 3
 * CocoaPods 1.0.1+
 
 ## Usage
@@ -103,10 +103,6 @@ GEOSwift let you perform a set of operations on these two geometries:
 ### Playground
 
 Explore more, interactively, from the Xcode project’s playground. It can be found inside `GEOSwiftPlayground` folder.
-
-> **Playgrounds do not work on Xcode 8 and Swift 2.3.**
-> Swift 3 is the primary development language supported within Xcode 8 so there are a couple notes to consider if you chose to continue using Swift 2.3. First, Swift 2.3 and Swift 3 are not binary compatible so your app's entire code base needs to pick one version of Swift. Both versions are fully supported by the compiler, SDKs, and debugger, but other features of the IDE may not work with Swift 2.3. For instance, Playgrounds in Xcode only work with Swift 3, and notably the Swift Playgrounds app for iPad also uses Swift 3. Xcode project templates all use Swift 3, and all documentation is presented in a format appropriate for Swift 3.
-> Source: https://developer.apple.com/swift/blog/?id=36
 
 ![Playground](/README-images/playground.png)
 

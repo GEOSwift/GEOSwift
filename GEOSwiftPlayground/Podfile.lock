@@ -1,8 +1,8 @@
 PODS:
   - geos (3.5.0)
-  - GEOSwift (0.3.2):
-    - GEOSwift/Core (= 0.3.2)
-  - GEOSwift/Core (0.3.2):
+  - GEOSwift (0.4):
+    - GEOSwift/Core (= 0.4)
+  - GEOSwift/Core (0.4):
     - geos (= 3.5.0)
 
 DEPENDENCIES:
@@ -14,7 +14,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   geos: e96c6ca3f3ce02d20feaa8d90d4af383e11e7198
-  GEOSwift: e19f4c11922d7265e999e058efe5e1c98473e07a
+  GEOSwift: 3b9ffbf4c6a627a666830c9fc59d13a746759ceb
 
 PODFILE CHECKSUM: 78447cfceb476f32f0b3c5261dbc736ab2b7d7bb
 

@@ -55,11 +55,11 @@ class GEOSwiftTests: XCTestCase {
         var result = false
         let WKT = "GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))"
         if let geometryCollection = Geometry.create(WKT) as? GeometryCollection,
-        let geometryCollection2 = GeometryCollection(WKT: WKT) {
+            let geometryCollection2 = GeometryCollection(WKT: WKT) {
             if geometryCollection.geometries.count == 2 && geometryCollection2 == geometryCollection,
                 let _ = geometryCollection.geometries[0] as? Waypoint,
                 let _ = geometryCollection.geometries[1] as? LineString {
-                    result = true
+                result = true
             }
         }
         XCTAssert(result, "WKT parse failed (expected to receive a GEOMETRYCOLLECTION containing a POINT and a LINESTRING)")
@@ -78,8 +78,8 @@ class GEOSwiftTests: XCTestCase {
     }
     
     func testGeoJSON() {
-        let bundle = NSBundle(forClass: GEOSwiftTests.self)
-        if let geojsons = bundle.URLsForResourcesWithExtension("geojson", subdirectory: nil) {
+        let bundle = Bundle(for: GEOSwiftTests.self)
+        if let geojsons = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) {
             for geoJSONURL in geojsons {
                 if let geometries = try! Geometry.fromGeoJSON(geoJSONURL)  {
 //                    geometries[0].debugQuickLookObject()

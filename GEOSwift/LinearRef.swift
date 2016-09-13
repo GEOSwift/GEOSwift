@@ -22,14 +22,14 @@ public extension LineString {
     }
     
     /// Return closest point to given distance within geometry
-    public func interpolatePoint(distance distance: Double) -> Waypoint {
+    public func interpolatePoint(distance: Double) -> Waypoint {
         let interpolatedPoint = GEOSInterpolate_r(GEOS_HANDLE, geometry, distance)
-        return Waypoint(GEOSGeom: interpolatedPoint)
+        return Waypoint(GEOSGeom: interpolatedPoint!)
     }
     
-    public func interpolatePoint(fraction fraction: Double) -> Waypoint {
+    public func interpolatePoint(fraction: Double) -> Waypoint {
         let interpolatedPoint = GEOSInterpolateNormalized_r(GEOS_HANDLE, geometry, fraction)
-        return Waypoint(GEOSGeom: interpolatedPoint)
+        return Waypoint(GEOSGeom: interpolatedPoint!)
     }
     
     public func middlePoint() -> Waypoint {
