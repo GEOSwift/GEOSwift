@@ -18,8 +18,8 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 ## Requirements
 
 * iOS 8.0+ / Mac OS X 10.10+
-* Xcode 7.1
-* Swift 2.0+
+* Xcode 7 & 8
+* Swift 2.*
 * CocoaPods 1.0.1+
 
 ## Usage
@@ -73,9 +73,9 @@ In this table you can find which annotation class you should expect when calling
 | `MULTIPOLYGON` | `MultiPolygon` | `MKShapesCollection` | `not supported` |
 | `GEOMETRYCOLLECTION` | `GeometryCollection` | `MKShapesCollection` | `not supported` |
 
-Of course you should provide your implementation of the mapview delegate protocol (`MKMapViewDelegate` or `MGLMapViewDelegate`). 
+Of course you should provide your implementation of the mapview delegate protocol (`MKMapViewDelegate` or `MGLMapViewDelegate`).
 In MapKit, when dealing with geometry collections you have to define your own `MKOverlayRenderer` subclass.
-Currently geometry collections are not supported when using `MapboxGL`. 
+Currently geometry collections are not supported when using `MapboxGL`.
 
 ### Topological operations
 
@@ -97,12 +97,16 @@ GEOSwift let you perform a set of operations on these two geometries:
 * _within_: returns true if this geometric object is “spatially within” another geometry.
 * _contains_: returns true if this geometric object “spatially contains” another geometry.
 * _overlaps_: returns true if this geometric object “spatially overlaps” another geometry.
-* _relate_: returns true if this geometric object is spatially related to another geometry by testing for intersections between the interior, boundary and exterior of the two geometric objects as specified by the values in the intersectionPatternMatrix. 
+* _relate_: returns true if this geometric object is spatially related to another geometry by testing for intersections between the interior, boundary and exterior of the two geometric objects as specified by the values in the intersectionPatternMatrix.
 
 
 ### Playground
 
 Explore more, interactively, from the Xcode project’s playground. It can be found inside `GEOSwiftPlayground` folder.
+
+> **Playgrounds do not work on Xcode 8 and Swift 2.3.**
+> Swift 3 is the primary development language supported within Xcode 8 so there are a couple notes to consider if you chose to continue using Swift 2.3. First, Swift 2.3 and Swift 3 are not binary compatible so your app's entire code base needs to pick one version of Swift. Both versions are fully supported by the compiler, SDKs, and debugger, but other features of the IDE may not work with Swift 2.3. For instance, Playgrounds in Xcode only work with Swift 3, and notably the Swift Playgrounds app for iPad also uses Swift 3. Xcode project templates all use Swift 3, and all documentation is presented in a format appropriate for Swift 3.
+> Source: https://developer.apple.com/swift/blog/?id=36
 
 ![Playground](/README-images/playground.png)
 
