@@ -1,3 +1,7 @@
+# Mac
+#
+.DS_Store
+
 # Xcode
 #
 build/
@@ -16,6 +20,7 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
+*.xctimeline
 
 # CocoaPods
 #

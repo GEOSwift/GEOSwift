@@ -102,7 +102,7 @@ GEOSwift let you perform a set of operations on these two geometries:
 
 ### Playground
 
-Explore more, interactively, from the Xcode project’s playground.
+Explore more, interactively, from the Xcode project’s playground. It can be found inside `GEOSwiftPlayground` folder.
 
 ![Playground](/README-images/playground.png)
 
