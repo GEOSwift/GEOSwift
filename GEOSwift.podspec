@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "GEOSwift"
-  s.version      = "0.4"
+  s.version      = "0.5.0"
   s.summary      = "The Swift Geographic Engine."
 
   s.description  = <<-DESC
@@ -15,7 +15,7 @@ DESC
   s.author       = { "Andrea Cremaschi" => "andreacremaschi@libero.it" }
   s.social_media_url   = "http://twitter.com/andreacremaschi"
   s.platform     = :ios, "8.0"
-  s.source       = { :git => "https://github.com/andreacremaschi/GEOSwift.git", :tag => "0.4" }
+  s.source       = { :git => "https://github.com/andreacremaschi/GEOSwift.git", :tag => "0.5.0" }
 
   s.subspec 'Core' do |cs|
     cs.source_files = "GEOSwift/*"

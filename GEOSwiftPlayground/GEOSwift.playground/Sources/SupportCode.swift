@@ -15,10 +15,10 @@ extension NSData {
         for char in string.characters {
             temp+=String(char)
             if(temp.characters.count == 2) {
-                let scanner = NSScanner(string: temp)
+                let scanner = Scanner(string: temp)
                 var value: CUnsignedInt = 0
-                scanner.scanHexInt(&value)
-                data.appendBytes(&value, length: 1)
+                scanner.scanHexInt32(&value)
+                data.append(&value, length: 1)
                 temp = ""
             }
         }
@@ -27,4 +27,4 @@ extension NSData {
 }
 
 let geometryWKBHexString = "010300000002000000050000000000000000804140000000000000244000000000008046400000000000C046400000000000002E40000000000000444000000000000024400000000000003440000000000080414000000000000024400400000000000000000034400000000000003E40000000000080414000000000008041400000000000003E40000000000000344000000000000034400000000000003E40"
-public func geometryWKB() -> NSData { return NSData.fromHexString(geometryWKBHexString) }
+public func geometryWKB() -> NSData { return NSData.fromHexString(string: geometryWKBHexString) }

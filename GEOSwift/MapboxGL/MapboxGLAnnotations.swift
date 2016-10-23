@@ -108,7 +108,7 @@ public class MGLShapesCollection : MGLShape, MGLOverlay {
         }}
     
     // TODO: implement using "intersect" method (actually it seems that mapboxgl never calls it...)
-    public func intersectsOverlayBounds(overlayBounds: MGLCoordinateBounds) -> Bool {
+    public func intersects(_ overlayBounds: MGLCoordinateBounds) -> Bool {
         return true
     }
 }

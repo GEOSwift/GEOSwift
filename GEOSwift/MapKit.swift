@@ -15,7 +15,7 @@ A convenience method to convert coordinates in the CoreLocation format.
 
 :returns: A CLLocationCoordinate2D
 */
-public func CLLocationCoordinate2DFromCoordinate(coord: Coordinate) -> CLLocationCoordinate2D {
+public func CLLocationCoordinate2DFromCoordinate(_ coord: Coordinate) -> CLLocationCoordinate2D {
     let coord = CLLocationCoordinate2DMake(coord.y, coord.x)
     return coord
 }
@@ -27,7 +27,7 @@ public func CLLocationCoordinate2DFromCoordinate(coord: Coordinate) -> CLLocatio
  
  :returns: A Coordinate
  */
-public func CoordinateFromCLLocationCoordinate2D(coord: CLLocationCoordinate2D) -> Coordinate {
+public func CoordinateFromCLLocationCoordinate2D(_ coord: CLLocationCoordinate2D) -> Coordinate {
     let coord = Coordinate(x: coord.longitude, y: coord.latitude)
     return coord
 }
@@ -95,7 +95,7 @@ extension Geometry : GEOSwiftMapKit {
     }
 }
 
-private func MKPolygonWithCoordinatesSequence(coordinates: CoordinatesCollection) -> MKPolygon {
+private func MKPolygonWithCoordinatesSequence(_ coordinates: CoordinatesCollection) -> MKPolygon {
     var coordinates = coordinates.map({ (point: Coordinate) ->
         CLLocationCoordinate2D in
         return CLLocationCoordinate2DFromCoordinate(point)
@@ -109,10 +109,10 @@ private func MKPolygonWithCoordinatesSequence(coordinates: CoordinatesCollection
 MKShape subclass for GeometryCollections.
 The property `shapes` contains MKShape subclasses instances. When drawing shapes on a map be careful to the fact that that these shapes could be overlays OR annotations.
 */
-public class MKShapesCollection : MKShape, MKOverlay  {
-    public let shapes: Array<MKShape>
-    public let centroid: CLLocationCoordinate2D
-    public let boundingMapRect: MKMapRect
+open class MKShapesCollection : MKShape, MKOverlay  {
+    open let shapes: Array<MKShape>
+    open let centroid: CLLocationCoordinate2D
+    open let boundingMapRect: MKMapRect
     
     required public init<T: GEOSwiftMapKit>(geometryCollection: GeometryCollection<T>) {
         let shapes = geometryCollection.geometries.map({ (geometry: T) ->

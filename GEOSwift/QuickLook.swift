@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 
 protocol GEOSwiftQuickLook {
-    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect)
+    func drawInSnapshot(_ snapshot: MKMapSnapshot, mapRect: MKMapRect)
 }
 
 public extension Geometry {
@@ -35,37 +35,37 @@ public extension Geometry {
         }
         let mapView = MKMapView()
         
-        mapView.mapType = .Standard
-        mapView.frame = CGRectMake(0, 0, 400, 400)
+        mapView.mapType = .standard
+        mapView.frame = CGRect(x: 0, y: 0, width: 400, height: 400)
         mapView.region = region
         
         let options = MKMapSnapshotOptions()
         options.region = mapView.region
-        options.scale = UIScreen.mainScreen().scale
+        options.scale = UIScreen.main.scale
         options.size = mapView.frame.size
         
         // take a snapshot of the map with MKMapSnapshot:
         // it is designed to work in background, so we have to block the main thread using a semaphore
         var mapViewImage: UIImage?
-        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
-        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+        let qualityOfServiceClass = DispatchQoS.QoSClass.background
+        let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
         let snapshotter = MKMapSnapshotter(options: options)
-        let semaphore = dispatch_semaphore_create(0);
+        let semaphore = DispatchSemaphore(value: 0);
         let mapRect = mapView.visibleMapRect
 //        let boundingBox = MKMapRect(region)
-        snapshotter.startWithQueue(backgroundQueue, completionHandler: { (snapshot: MKMapSnapshot?, error: NSError?) -> Void in
+        snapshotter.start(with: backgroundQueue, completionHandler: { (snapshot: MKMapSnapshot?, error: NSError?) -> Void in
             
-            guard (snapshot != nil) else {
-                dispatch_semaphore_signal(semaphore)
+            guard let snapshot = snapshot else {
+                semaphore.signal()
                 return
             }
             
             // let the single geometry draw itself on the map
-            let image = snapshot!.image
+            let image = snapshot.image
 //            let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
             
             UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
-            image.drawAtPoint(CGPointMake(0, 0))
+            image.draw(at: CGPoint(x: 0, y: 0))
             
             guard let context = UIGraphicsGetCurrentContext() else {
                 fatalError("Could not get current context")
@@ -73,30 +73,30 @@ public extension Geometry {
             let scaleX = image.size.width / CGFloat(mapRect.size.width)
             let scaleY = image.size.height / CGFloat(mapRect.size.height)
             //            CGContextTranslateCTM(context, (image.size.width - CGFloat(boundingBox.size.width) * scaleX) / 2, (image.size.height - CGFloat(boundingBox.size.height) * scaleY) / 2)
-            CGContextScaleCTM(context, scaleX, scaleY)
+            context.scaleBy(x: scaleX, y: scaleY)
             if let geom = self as? GEOSwiftQuickLook {
-                geom.drawInSnapshot(snapshot!, mapRect: mapRect)
+                geom.drawInSnapshot(snapshot, mapRect: mapRect)
             }
             let finalImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
             mapViewImage = finalImage
             
-            dispatch_semaphore_signal(semaphore)
-        })
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
-        dispatch_semaphore_wait(semaphore, delayTime)
+            semaphore.signal()
+        } as! MKMapSnapshotCompletionHandler)
+        let delayTime = DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        let _ = semaphore.wait(timeout: delayTime)
 
         // Sometimes this fails.. Fallback to WKT representation
         if let mapViewImage = mapViewImage {
             return mapViewImage
         } else {
-            return self.WKT
+            return self.WKT as AnyObject?
         }
     }
 }
 
-private func MKMapRect(region: MKCoordinateRegion) ->MKMapRect
+private func MKMapRect(_ region: MKCoordinateRegion) ->MKMapRect
 {
     let a = MKMapPointForCoordinate(CLLocationCoordinate2DMake(
         region.center.latitude + region.span.latitudeDelta / 2,
@@ -108,7 +108,7 @@ private func MKMapRect(region: MKCoordinateRegion) ->MKMapRect
 }
 
 extension Waypoint : GEOSwiftQuickLook {
-    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
+    func drawInSnapshot(_ snapshot: MKMapSnapshot, mapRect: MKMapRect) {
         let image = snapshot.image
         
 //        let finalImageRect = CGRectMake(0, 0, image.size.width, image.size.height)
@@ -117,70 +117,70 @@ extension Waypoint : GEOSwiftQuickLook {
         
             UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
             
-            image.drawAtPoint(CGPointMake(0, 0))
+            image.draw(at: CGPoint(x: 0, y: 0))
             
             // draw center/home marker
             let coord = CLLocationCoordinate2DMake(self.coordinate.y, self.coordinate.x)
-            let homePoint = snapshot.pointForCoordinate(coord)
-            var rect = CGRectMake(0, 0, pinImage.size.width, pinImage.size.height)
-            rect = CGRectOffset(rect, homePoint.x-rect.size.width/2.0, homePoint.y-rect.size.height)
-            pinImage.drawInRect(rect)
+            let homePoint = snapshot.point(for: coord)
+            var rect = CGRect(x: 0, y: 0, width: pinImage.size.width, height: pinImage.size.height)
+            rect = rect.offsetBy(dx: homePoint.x-rect.size.width/2.0, dy: homePoint.y-rect.size.height)
+            pinImage.draw(in: rect)
         }
     }
 }
 
 extension LineString : GEOSwiftQuickLook {
-    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
+    func drawInSnapshot(_ snapshot: MKMapSnapshot, mapRect: MKMapRect) {
         
         if let overlay = self.mapShape() as? MKOverlay {
             let zoomScale = snapshot.image.size.width / CGFloat(mapRect.size.width)
             
             let renderer = MKPolylineRenderer(overlay: overlay)
             renderer.lineWidth = 2
-            renderer.strokeColor = UIColor.blueColor().colorWithAlphaComponent(0.7)
+            renderer.strokeColor = UIColor.blue.withAlphaComponent(0.7)
             
             if let context = UIGraphicsGetCurrentContext() {
-                CGContextSaveGState(context);
+                context.saveGState();
                 
                 // the renderer will draw the geometry at 0;0, so offset CoreGraphics by the right measure
-                let upperCorner = renderer.mapPointForPoint(CGPointZero)
-                CGContextTranslateCTM(context, CGFloat(upperCorner.x - mapRect.origin.x), CGFloat(upperCorner.y - mapRect.origin.y));
+                let upperCorner = renderer.mapPoint(for: CGPoint.zero)
+                context.translateBy(x: CGFloat(upperCorner.x - mapRect.origin.x), y: CGFloat(upperCorner.y - mapRect.origin.y));
                 
-                renderer.drawMapRect(mapRect, zoomScale: zoomScale, inContext: context)
-                CGContextRestoreGState(context);
+                renderer.draw(mapRect, zoomScale: zoomScale, in: context)
+                context.restoreGState();
             }
         }
     }
 }
 
 extension Polygon : GEOSwiftQuickLook {
-    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
+    func drawInSnapshot(_ snapshot: MKMapSnapshot, mapRect: MKMapRect) {
         
         if let overlay = self.mapShape() as? MKOverlay {
             let zoomScale = snapshot.image.size.width / CGFloat(mapRect.size.width)
             
             let polygonRenderer = MKPolygonRenderer(overlay: overlay)
             polygonRenderer.lineWidth = 2
-            polygonRenderer.strokeColor = UIColor.blueColor().colorWithAlphaComponent(0.7)
-            polygonRenderer.fillColor = UIColor.cyanColor().colorWithAlphaComponent(0.2)
+            polygonRenderer.strokeColor = UIColor.blue.withAlphaComponent(0.7)
+            polygonRenderer.fillColor = UIColor.cyan.withAlphaComponent(0.2)
             
             if let context = UIGraphicsGetCurrentContext() {
-                CGContextSaveGState(context);
+                context.saveGState();
                 
                 // the renderer will draw the geometry at 0;0, so offset CoreGraphics by the right measure
-                let upperCorner = polygonRenderer.mapPointForPoint(CGPointZero)
-                CGContextTranslateCTM(context, CGFloat(upperCorner.x - mapRect.origin.x), CGFloat(upperCorner.y - mapRect.origin.y));
+                let upperCorner = polygonRenderer.mapPoint(for: CGPoint.zero)
+                context.translateBy(x: CGFloat(upperCorner.x - mapRect.origin.x), y: CGFloat(upperCorner.y - mapRect.origin.y));
                 
-                polygonRenderer.drawMapRect(mapRect, zoomScale: zoomScale, inContext: context)
+                polygonRenderer.draw(mapRect, zoomScale: zoomScale, in: context)
 
-                CGContextRestoreGState(context);
+                context.restoreGState();
             }
         }
     }
 }
 
 extension GeometryCollection : GEOSwiftQuickLook {
-    func drawInSnapshot(snapshot: MKMapSnapshot, mapRect: MKMapRect) {
+    func drawInSnapshot(_ snapshot: MKMapSnapshot, mapRect: MKMapRect) {
         for geometry in self.geometries {
             if let geom = geometry as? GEOSwiftQuickLook {
                 geom.drawInSnapshot(snapshot, mapRect: mapRect)
