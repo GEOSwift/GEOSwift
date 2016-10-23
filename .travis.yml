@@ -3,6 +3,7 @@ language: objective-c
 before_install:
   - gem install xcpretty
   - gem install cocoapods -v '1.1.1'
+  - pod repo update
 
 osx_image: xcode8
 
