@@ -128,6 +128,19 @@ pod 'GEOSwift'
 
 NOTE: running `pod install` may cause some errors if your machine does not have autoconf, automake and glibtool, if you encounter those errors you can run `brew install autoconf automake libtool` to install those packages and run again `pod install`.
 
+### Swift Package Manager
+
+The [Swift Package Manager](https://swift.org/package-manager/) is a tool for automating the distribution of Swift code and is integrated into the `swift` compiler.
+
+Once you have your Swift package set up, adding GEOSwift as a dependency is as easy as adding it to the `dependencies` value of your `Package.swift`.
+
+```swift
+dependencies: [
+    .Package(url: "https://github.com/petrpavlik/GeoSwift.git", majorVersion: 1)
+]
+```
+
+
 ## Creator
 
 Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi))
