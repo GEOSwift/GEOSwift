@@ -1,34 +1,40 @@
 Pod::Spec.new do |s|
 
-  s.name         = "GEOSwift"
-  s.version      = "0.5.1"
-  s.summary      = "The Swift Geographic Engine."
+# 1
+s.platform = :ios
+s.ios.deployment_target = '10.0'
+s.name = "XNNGEOSwift"
+s.summary = "geoJSON Parser"
+s.requires_arc = true
 
-  s.description  = <<-DESC
-Easily handle a geographical object model (points, linestrings, polygons etc.) and related topographical operations (intersections, overlapping etc.).
-A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, nicely integrated with MapKit and Quicklook.
-DESC
+# 2
+s.version = "0.1.0"
 
-  s.homepage     = "https://github.com/andreacremaschi/GEOSwift"
-  # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
-  s.license      = { :type => "MIT", :file => "LICENSE" }
-  s.author       = { "Andrea Cremaschi" => "andreacremaschi@libero.it" }
-  s.social_media_url   = "http://twitter.com/andreacremaschi"
-  s.platform     = :ios, "8.0"
-  s.source       = { :git => "https://github.com/andreacremaschi/GEOSwift.git", :tag => "0.5.1" }
+# 3
+s.license = { :type => "MIT", :file => "LICENSE" }
 
-  s.subspec 'Core' do |cs|
-    cs.source_files = "GEOSwift/*"
-    cs.dependency "geos", "3.5.0"
-  end
+# 4 - Replace with your name and e-mail address
+s.author = { "Claudio Barbera" => "barbera.claudio@gmail.com" }
 
-  # Mapbox support
-  s.subspec 'MapboxGL' do |cs|
-    cs.source_files = "GEOSwift/MapboxGL"
-    cs.dependency "GEOSwift/Core"
-    cs.dependency "Mapbox-iOS-SDK"
-  end
+# 5 - Replace this URL with your own Github page's URL (from the address bar)
+s.homepage = "https://github.com/cbarbera80/GEOSwift"
 
-  s.default_subspec = 'Core'
 
+# 6 - Replace this URL with your own Git URL from "Quick Setup"
+s.source = { :git => "https://github.com/cbarbera80/GEOSwift", :tag => "#{s.version}"}
+
+# For example,
+# s.source = { :git => "https://github.com/JRG-Developer/RWPickFlavor.git", :tag => "#{s.version}"}
+
+
+# 7
+s.framework = "geos"
+s.dependency 'CocoaLumberjack'
+s.dependency 'Mapbox-iOS-SDK
+
+# 8
+s.source_files = "GEOSwift/**/*.{swift}"
+
+# 9
+s.resources = "RWPickFlavor/**/*.{png,jpeg,jpg,storyboard,xib}"
 end
