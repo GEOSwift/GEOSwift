@@ -36,5 +36,5 @@ s.dependency 'Mapbox-iOS-SDK'
 s.source_files = "GEOSwift/**/*.{swift}"
 
 # 9
-s.resources = "GEOSwift/**/*.{png,jpeg,jpg,storyboard,xib}"
+#s.resources = "GEOSwift/**/*.{png,jpeg,jpg,storyboard,xib}"
 end
