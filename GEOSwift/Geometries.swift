@@ -118,7 +118,9 @@ open class Polygon : Geometry {
                 let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
                 geometriesPointer?[i] = GEOSGeom
             }
-            defer {
+        }
+        defer {
+            if let holes = holes, holes.count > 0 {
                 geometriesPointer?.deallocate(capacity: holes.count)
             }
         }
