@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		335C11A98B9F38F1FD0BADB2 /* Pods_GEOSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC30B2E0DB51B308F3F23D7D /* Pods_GEOSwiftTests.framework */; };
-		7DF3A6F13BA744362BEF2CBF /* (null) in Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Weak, ); }; };
+		7DF3A6F13BA744362BEF2CBF /* BuildFile in Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Weak, ); }; };
 		CD20F1DD1B2830700045D8FD /* GEOSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD2299841B10B506002C19AE /* GEOSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD20F1DF1B283F580045D8FD /* SpatialRelations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD20F1DE1B283F580045D8FD /* SpatialRelations.swift */; };
 		CD20F1E11B2844210045D8FD /* Geometries.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD20F1E01B2844210045D8FD /* Geometries.swift */; };
@@ -106,7 +106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD22998F1B10B506002C19AE /* GEOSwift.framework in Frameworks */,
-				7DF3A6F13BA744362BEF2CBF /* (null) in Frameworks */,
+				7DF3A6F13BA744362BEF2CBF /* BuildFile in Frameworks */,
 				335C11A98B9F38F1FD0BADB2 /* Pods_GEOSwiftTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,7 +363,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		62A7A265A251663EAA88D507 /* [CP] Check Pods Manifest.lock */ = {
@@ -378,7 +378,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		899F3C1F74F9FFEA3B25EDE1 /* [CP] Copy Pods Resources */ = {
