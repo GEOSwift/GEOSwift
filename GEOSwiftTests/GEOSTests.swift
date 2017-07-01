@@ -39,6 +39,16 @@ class GEOSwiftTests: XCTestCase {
         }
         XCTAssert(result, "WKT parse failed (expected to receive a LINESTRING)")
     }
+    
+    func testCreateLinearRingFromWKT() {
+        var result = false
+        let WKT = "LINEARRING(3 4,10 50,20 25,3 4)"
+        if let linearring = Geometry.create(WKT) as? LinearRing,
+            let linearring2 = LinearRing(WKT: WKT) {
+            result = linearring.points.count == 4 && linearring.points[0].x == 3 && linearring.points[0].y == 4 && linearring == linearring2
+        }
+        XCTAssert(result, "WKT parse failed (expected to receive a LINEARRING)")
+    }
 
     func testCreatePolygonFromWKT() {
         var result = false
@@ -49,6 +59,19 @@ class GEOSwiftTests: XCTestCase {
             result = polygon.interiorRings.count == 1 && exteriorRing.points.count == 5 && exteriorRing.points[0].x == 35 && exteriorRing.points[0].y == 10 && polygon == polygon2
         }
         XCTAssert(result, "WKT parse failed (expected to receive a POLYGON)")
+    }
+    
+    // Test case for Issue #37
+    // https://github.com/andreacremaschi/GEOSwift/issues/37
+    func testCreatePolygonFromLinearRing() {
+        let lr = LinearRing(points: [Coordinate(x:-10, y:10), Coordinate(x:10, y:10), Coordinate(x:10, y:-10), Coordinate(x:-10, y:-10), Coordinate(x:-10, y:10)])
+        XCTAssertNotNil(lr, "Failed to create LinearRing")
+        
+        if let lr = lr
+        {
+            let polygon1 = Polygon(shell: lr, holes: nil)
+            XCTAssertNotNil(polygon1, "Failed to create polygon from LinearRing")
+        }
     }
 
     func testCreateGeometriesCollectionFromWKT() {
