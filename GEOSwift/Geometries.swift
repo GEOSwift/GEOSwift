@@ -156,10 +156,14 @@ open class LineString : Geometry {
             GEOSCoordSeq_setX_r(GEOS_HANDLE, seq, UInt32(i), coord.x)
             GEOSCoordSeq_setY_r(GEOS_HANDLE, seq, UInt32(i), coord.y)
         }
-        guard let GEOSGeom = GEOSGeom_createLineString_r(GEOS_HANDLE, seq) else {
+        guard let GEOSGeom = type(of: self).GEOSGeom(from: seq) else {
             return nil
         }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
+
+    public class func GEOSGeom(from seq: OpaquePointer?) -> OpaquePointer? {
+        return GEOSGeom_createLineString_r(GEOS_HANDLE, seq)
     }
 }
 
@@ -175,17 +179,9 @@ open class LinearRing : LineString {
         }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
-    
-    public convenience init?(points: [Coordinate]) {
-        let seq = GEOSCoordSeq_create_r(GEOS_HANDLE, UInt32(points.count), 2)
-        for (i,coord) in points.enumerated() {
-            GEOSCoordSeq_setX_r(GEOS_HANDLE, seq, UInt32(i), coord.x)
-            GEOSCoordSeq_setY_r(GEOS_HANDLE, seq, UInt32(i), coord.y)
-        }
-        guard let GEOSGeom = GEOSGeom_createLinearRing_r(GEOS_HANDLE, seq) else {
-            return nil
-        }
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+
+    override public class func GEOSGeom(from seq: OpaquePointer?) -> OpaquePointer? {
+        return GEOSGeom_createLinearRing_r(GEOS_HANDLE, seq)
     }
 
 }
