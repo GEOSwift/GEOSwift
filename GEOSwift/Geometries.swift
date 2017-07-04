@@ -20,7 +20,7 @@ open class Waypoint : Geometry {
     }
 
     public required init(GEOSGeom: OpaquePointer, destroyOnDeinit: Bool) {
-        let isValid = GEOSGeomTypeId_r(GEOS_HANDLE, GEOSGeom) == Waypoint.geometryTypeId() // GEOS_POINT
+        let isValid = GEOSGeomTypeId_r(GEOS_HANDLE, GEOSGeom) == type(of: self).geometryTypeId() // GEOS_POINT
         
         if (!isValid) {
             coordinate = Coordinate(x: 0, y: 0)
