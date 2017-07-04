@@ -168,7 +168,7 @@ open class GeometryCollection<T: Geometry> : Geometry {
     /**
     - returns: An Array of geometries in this GeometryCollection.
      */
-    public convenience init?(geometries: Array<Geometry>) {
+    public convenience init?(geometries: [T]) {
         let geometriesPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: geometries.count)
         defer { geometriesPointer.deallocate(capacity: geometries.count) }
         for (i, geom) in geometries.enumerated() {
@@ -186,13 +186,13 @@ open class GeometryCollection<T: Geometry> : Geometry {
 /**
 A `MultiLineString` is a `GeometryCollection` of `LineStrings`.
 */
-open class MultiLineString<T: LineString> : GeometryCollection<LineString> {
+open class MultiLineString<T: LineString> : GeometryCollection<T> {
     
     open override class func geometryTypeId() -> Int32 {
         return 5 // GEOS_MULTILINESTRING
     }
 
-    public convenience init?(linestrings: Array<LineString>) {
+    public convenience init?(linestrings: [T]) {
         let geometriesPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: linestrings.count)
         defer { geometriesPointer.deallocate(capacity: linestrings.count) }
         for (i, geom) in linestrings.enumerated() {
@@ -210,11 +210,11 @@ open class MultiLineString<T: LineString> : GeometryCollection<LineString> {
 /**
 A `MultiPoint` is a `GeometryCollection` of `Point`s.
 */
-open class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
+open class MultiPoint<T: Waypoint> : GeometryCollection<T> {
     open override class func geometryTypeId() -> Int32 {
         return 4 // GEOS_MULTIPOINT
     }
-    public convenience init?(points: Array<Waypoint>) {
+    public convenience init?(points: [T]) {
         let coordsPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: points.count)
         defer { coordsPointer.deallocate(capacity: points.count) }
         for (i, geom) in points.enumerated() {
@@ -233,11 +233,11 @@ open class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
 /**
 A `MultiPolygon` is a `GeometryCollection` of `Polygon`s.
 */
-open class MultiPolygon<T: Polygon> : GeometryCollection<Polygon> {
+open class MultiPolygon<T: Polygon> : GeometryCollection<T> {
     open override class func geometryTypeId() -> Int32 {
         return 6 // GEOS_MULTIPOLYGON
     }
-    public convenience init?(polygons: Array<Polygon>) {
+    public convenience init?(polygons: [T]) {
         let coordsPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: polygons.count)
         defer { coordsPointer.deallocate(capacity: polygons.count) }
         for (i, geom) in polygons.enumerated() {
