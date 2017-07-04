@@ -64,10 +64,6 @@ open class Polygon : Geometry {
         return 3 // GEOS_POLYGON
     }
     
-    public required init(GEOSGeom: OpaquePointer, destroyOnDeinit: Bool) {
-        super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
-    }
-    
     /// - returns: the exterior ring of this Polygon.
     fileprivate(set) open lazy var exteriorRing: LinearRing = {
         let exteriorRing = GEOSGetExteriorRing_r(GEOS_HANDLE, self.geometry)!
@@ -167,17 +163,11 @@ open class GeometryCollection<T: Geometry> : Geometry {
     
     fileprivate(set) open lazy var geometries: GeometriesCollection<T> = {
         return GeometriesCollection<T>(geometry: self.geometry)
-        }()
-    public required init(GEOSGeom: OpaquePointer, destroyOnDeinit: Bool) {
-        super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
-    }
-    fileprivate convenience init(GEOSGeom: OpaquePointer) {
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-    }
+    }()
 
-/**
+    /**
     - returns: An Array of geometries in this GeometryCollection.
-*/
+     */
     public convenience init?(geometries: Array<Geometry>) {
         let geometriesPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: geometries.count)
         defer { geometriesPointer.deallocate(capacity: geometries.count) }
@@ -201,13 +191,7 @@ open class MultiLineString<T: LineString> : GeometryCollection<LineString> {
     open override class func geometryTypeId() -> Int32 {
         return 5 // GEOS_MULTILINESTRING
     }
-    
-    public required init(GEOSGeom: OpaquePointer, destroyOnDeinit: Bool) {
-        super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
-    }
-    fileprivate convenience init(GEOSGeom: OpaquePointer) {
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-    }
+
     public convenience init?(linestrings: Array<LineString>) {
         let geometriesPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: linestrings.count)
         defer { geometriesPointer.deallocate(capacity: linestrings.count) }
@@ -229,12 +213,6 @@ A `MultiPoint` is a `GeometryCollection` of `Point`s.
 open class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
     open override class func geometryTypeId() -> Int32 {
         return 4 // GEOS_MULTIPOINT
-    }
-    public required init(GEOSGeom: OpaquePointer, destroyOnDeinit: Bool) {
-        super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
-    }
-    fileprivate convenience init(GEOSGeom: OpaquePointer) {
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     public convenience init?(points: Array<Waypoint>) {
         let coordsPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: points.count)
@@ -258,12 +236,6 @@ A `MultiPolygon` is a `GeometryCollection` of `Polygon`s.
 open class MultiPolygon<T: Polygon> : GeometryCollection<Polygon> {
     open override class func geometryTypeId() -> Int32 {
         return 6 // GEOS_MULTIPOLYGON
-    }
-    public required init(GEOSGeom: OpaquePointer, destroyOnDeinit: Bool) {
-        super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
-    }
-    fileprivate convenience init(GEOSGeom: OpaquePointer) {
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     public convenience init?(polygons: Array<Polygon>) {
         let coordsPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: polygons.count)
