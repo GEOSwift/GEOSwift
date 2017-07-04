@@ -57,6 +57,14 @@ public typealias CoordinateDegrees = Double
     open class func geometryTypeId() -> Int32 {
         return -1 // Abstract
     }
+
+    public convenience init?(WKT: String) {
+        guard let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT),
+            Geometry.classForGEOSGeom(GEOSGeom) === type(of: self) else {
+                return nil
+        }
+        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
     
     internal class func classForGEOSGeom(_ GEOSGeom: OpaquePointer) -> Geometry.Type? {
         let geometryTypeId = GEOSGeomTypeId_r(GEOS_HANDLE, GEOSGeom)

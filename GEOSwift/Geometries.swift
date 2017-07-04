@@ -34,14 +34,6 @@ open class Waypoint : Geometry {
         }
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
-
-    public convenience init?(WKT: String) {
-        guard let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT),
-            Geometry.classForGEOSGeom(GEOSGeom) === Waypoint.self else {
-            return nil
-        }
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-    }
     
     public convenience init?(latitude: CoordinateDegrees, longitude: CoordinateDegrees) {
         let seq = GEOSCoordSeq_create_r(GEOS_HANDLE, 1,2)
@@ -98,14 +90,6 @@ open class Polygon : Geometry {
         return interiorRings
         }()
     
-    public convenience init?(WKT: String) {
-        guard let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT),
-            Geometry.classForGEOSGeom(GEOSGeom) === Polygon.self else {
-                return nil
-        }
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-    }
-    
     public convenience init?(shell: LinearRing, holes: Array<LinearRing>?) {
         // clone shell
         let shellGEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, shell.geometry)
@@ -144,14 +128,6 @@ open class LineString : Geometry {
         return CoordinatesCollection(geometry: self.geometry)
         }()
     
-    public convenience init?(WKT: String) {
-        guard let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT),
-            Geometry.classForGEOSGeom(GEOSGeom) == LineString.self else {
-                return nil
-        }
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-    }
-    
     public convenience init?(points: [Coordinate]) {
         let seq = GEOSCoordSeq_create_r(GEOS_HANDLE, UInt32(points.count), 2)
         for (i,coord) in points.enumerated() {
@@ -173,14 +149,6 @@ open class LineString : Geometry {
     A LinearRing is a LineString that is both closed and simple.
 */
 open class LinearRing : LineString {
-    
-    public convenience init?(WKT: String) {
-        guard let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT),
-            Geometry.classForGEOSGeom(GEOSGeom) == LinearRing.self else {
-                return nil
-        }
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-    }
 
     override public class func GEOSGeom(from seq: OpaquePointer?) -> OpaquePointer? {
         return GEOSGeom_createLinearRing_r(GEOS_HANDLE, seq)
@@ -204,14 +172,6 @@ open class GeometryCollection<T: Geometry> : Geometry {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     fileprivate convenience init(GEOSGeom: OpaquePointer) {
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-    }
-    
-    public convenience init?(WKT: String) {
-        guard let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT),
-            Geometry.classForGEOSGeom(GEOSGeom) === GeometryCollection.self else {
-                return nil
-        }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
 
@@ -248,13 +208,6 @@ open class MultiLineString<T: LineString> : GeometryCollection<LineString> {
     fileprivate convenience init(GEOSGeom: OpaquePointer) {
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
-    public convenience init?(WKT: String) {
-        guard let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT),
-            Geometry.classForGEOSGeom(GEOSGeom) === MultiLineString.self else {
-                return nil
-        }
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-    }
     public convenience init?(linestrings: Array<LineString>) {
         let geometriesPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: linestrings.count)
         defer { geometriesPointer.deallocate(capacity: linestrings.count) }
@@ -281,13 +234,6 @@ open class MultiPoint<T: Waypoint> : GeometryCollection<Waypoint> {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     fileprivate convenience init(GEOSGeom: OpaquePointer) {
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-    }
-    public convenience init?(WKT: String) {
-        guard let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT),
-            Geometry.classForGEOSGeom(GEOSGeom) === MultiPoint.self else {
-                return nil
-        }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     public convenience init?(points: Array<Waypoint>) {
@@ -317,13 +263,6 @@ open class MultiPolygon<T: Polygon> : GeometryCollection<Polygon> {
         super.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
     }
     fileprivate convenience init(GEOSGeom: OpaquePointer) {
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
-    }
-    public convenience init?(WKT: String) {
-        guard let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT),
-            Geometry.classForGEOSGeom(GEOSGeom) === MultiPolygon.self else {
-                return nil
-        }
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     public convenience init?(polygons: Array<Polygon>) {
