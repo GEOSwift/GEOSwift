@@ -5,12 +5,8 @@ use_frameworks!
 
 target 'GEOSwift' do
   pod 'geos'
-  pod 'CocoaLumberjack'
-  pod 'Mapbox-iOS-SDK'
 end
 
 target 'GEOSwiftTests' do
   pod 'geos'
-  pod 'CocoaLumberjack'
-  pod 'Mapbox-iOS-SDK'
 end
