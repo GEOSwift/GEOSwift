@@ -101,6 +101,12 @@ public class MGLShapesCollection : MGLShape, MGLOverlay {
             let zeroCoord = CLLocationCoordinate2DMake(0, 0)
             self.overlayBounds = MGLCoordinateBounds(sw:zeroCoord, ne:zeroCoord)
         }
+
+        super.init()
+    }
+
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override public var coordinate: CLLocationCoordinate2D { get {
