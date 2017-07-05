@@ -6,6 +6,8 @@
 Easily handle a geographical object model (points, linestrings, polygons etc.) and related topographical operations (intersections, overlapping etc.).  
 A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, nicely integrated with MapKit and Quicklook.
 
+> **For *MapboxGL* integration visit: https://github.com/GEOSwift/GEOSwiftMapboxGL**
+
 ## Features
 
 * A pure-Swift, type-safe, optional-aware programming interface
@@ -57,9 +59,7 @@ let shape1 = point.mapShape() // will return a MKPointAnnotation
 
 Example for MapboxGL:
 
-```swift
-let shape1 = linestring.mapboxShape() // will return a MGLPolyline
-```
+For *MapboxGL* integration visit: https://github.com/GEOSwift/GEOSwiftMapboxGL
 
 In this table you can find which annotation class you should expect when calling `mapShape()` or `mapboxShape()` on a geometry:
 
