@@ -10,7 +10,7 @@ import Foundation
 typealias GEOSCallbackFunction = @convention(c) (UnsafeMutableRawPointer) -> Void
 
 let swiftCallback : GEOSCallbackFunction = { args -> Void in
-    if let string = String(validatingUTF8: unsafeBitCast(args, to: UnsafeMutablePointer<CChar>.self)) {
+    if let string = String(validatingUTF8: args.assumingMemoryBound(to: CChar.self)) {
         print("GEOSwift # " + string + ".")
     }
 }
