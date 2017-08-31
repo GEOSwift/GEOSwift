@@ -20,8 +20,8 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 ## Requirements
 
 * iOS 8.0+ / Mac OS X 10.10+
-* Xcode 8
-* Swift 3
+* Xcode 9
+* Swift 4 (For Swift 3 support use release 1.0.2 or earlier.)
 * CocoaPods 1.0.1+
 
 ## Usage
