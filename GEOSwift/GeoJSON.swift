@@ -21,11 +21,10 @@ public extension Geometry {
      - returns: An optional `Array` of `Geometry` instances.
      */
     public class func fromGeoJSON(_ URL: Foundation.URL) throws -> Array<Geometry>? {
-        
-        if let JSONData = try? Data(contentsOf: URL) {
-            return try fromGeoJSONData(JSONData)
+        guard let JSONData = try? Data(contentsOf: URL) else {
+            return nil
         }
-        return nil
+        return try fromGeoJSON(JSONData)
     }
     
     /**
@@ -35,11 +34,11 @@ public extension Geometry {
      
      - returns: An optional `Array` of `Geometry` instances.
      */
-    public class func fromGeoJSONString(_ string: String) throws -> Array<Geometry>? {
-        if let data = string.data(using: .utf8) {
-            return try fromGeoJSONData(data)
+    public class func fromGeoJSON(_ string: String) throws -> Array<Geometry>? {
+        guard let data = string.data(using: .utf8) else {
+            return nil
         }
-        return nil
+        return try fromGeoJSON(data)
     }
     
     /**
@@ -49,7 +48,7 @@ public extension Geometry {
      
      - returns: An optional `Array` of `Geometry` instances.
      */
-    public class func fromGeoJSONData(_ data: Data) throws -> Array<Geometry>? {
+    public class func fromGeoJSON(_ data: Data) throws -> Array<Geometry>? {
         do {
             // read JSON file
             let parsedObject = try JSONSerialization.jsonObject(with: data,

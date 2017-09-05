@@ -112,7 +112,7 @@ class GEOSwiftTests: XCTestCase {
                     XCTAssert(false, "Can't extract geometry from GeoJSON: \(geoJSONURL.lastPathComponent)")
                 }
                 let string = try! String(contentsOf: geoJSONURL)
-                if let geometries = try! Geometry.fromGeoJSONString(string)  {
+                if let geometries = try! Geometry.fromGeoJSON(string)  {
                     //                    geometries[0].debugQuickLookObject()
                     XCTAssert(true, "GeoJSON string correctly parsed")
                     print("\(geoJSONURL.lastPathComponent): \(geometries)")
