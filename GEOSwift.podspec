@@ -17,7 +17,7 @@ DESC
   s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/GEOSwift/GEOSwift.git", :tag => s.version }
 
-  s.source_files = "GEOSwift/*"
+  s.source_files = "GEOSwift/*.{swift,h}"
   s.dependency "geos", "3.5.0"
 
 end
