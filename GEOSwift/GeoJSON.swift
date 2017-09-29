@@ -190,15 +190,12 @@ private func ParseGEOJSONGeometry(_ type: String, coordinatesNSArray: NSArray) -
         // For type "MultiPolygon", the "coordinates" member must be an array of Polygon coordinate arrays.
         var polygons = Array<Polygon>()
         for representation in coordinatesNSArray {
-            guard let multiPolyRepresentation = representation as? [NSArray] else {
+            guard let polyRepresentation = representation as? NSArray,
+                  let geom = GEOJSONCreatePolygonFromRepresentation(polyRepresentation) else {
                 return nil
             }
-            for polyRepresentation in multiPolyRepresentation {
-                guard let geom = GEOJSONCreatePolygonFromRepresentation(polyRepresentation) else {
-                    return nil
-                }
-                polygons.append(geom)
-            }
+            
+            polygons.append(geom)
         }
         return MultiPolygon(polygons: polygons)
     
