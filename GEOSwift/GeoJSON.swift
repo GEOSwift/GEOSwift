@@ -14,11 +14,11 @@ public enum GEOJSONParseError: Error {
 
 public extension Geometry {
     /**
-    Creates an `Array` of `Geometry` instances from a GeoJSON file.
+    Creates an `Array` of `Feature` instances from a GeoJSON file.
     
     - parameter URL: the URL pointing to the GeoJSON file.
     
-    :returns: An optional `Array` of `Geometry` instances.
+    :returns: An optional `Array` of `Feature` instances.
 */
     public class func fromGeoJSON(_ URL: Foundation.URL) throws -> Array<Feature>? {
         
@@ -46,11 +46,11 @@ public extension Geometry {
     }
     
     /**
-    Creates an `Array` of `Geometry` instances from a GeoJSON dictionary.
+    Creates an `Array` of `Feature` instances from a GeoJSON dictionary.
     
     :param: dictionary a dictionary following GeoJSON format specification.
     
-    :returns: An optional `Array` of `Geometry` instances.
+    :returns: An optional `Array` of `Feature` instances.
     */
     public class func fromGeoJSONDictionary(_ dictionary: Dictionary<String, AnyObject>) -> Array<Feature>? {
         return ParseGEOJSONObject(dictionary)
@@ -96,7 +96,7 @@ private func ParseGEOJSONObject(_ GEOJSONObject: Dictionary<String, AnyObject>) 
 }
 
 private func ParseGEOJSONFeatureCollection(_ features: NSArray) -> [Feature]? {
-    // map every feature representation to a GEOS geometry
+    // map every feature representation to a Feature object
     var featuresArray = Array<Feature>()
     for feature in features {
         if let feat1 = feature as? NSDictionary,
@@ -111,6 +111,7 @@ private func ParseGEOJSONFeatureCollection(_ features: NSArray) -> [Feature]? {
 }
 
 private func ParseGEOJSONFeature(_ GEOJSONFeature: Dictionary<String, AnyObject>) -> Feature? {
+    // map feature representaion to Feature Object with properties and GEOS geometry
     if let geometry = GEOJSONFeature["geometry"] as? Dictionary<String,AnyObject>,
         let properties = GEOJSONFeature["properties"] as? NSDictionary,
         let geometryType = geometry["type"] as? String,

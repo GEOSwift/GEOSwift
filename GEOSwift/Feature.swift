@@ -8,6 +8,9 @@
 
 import Foundation
 
+/**
+ * Represent a feature object containing geometries and properties object according to GEOJson specification
+ */
 public class Feature {
     
     public var geometries: Array<Geometry>?
