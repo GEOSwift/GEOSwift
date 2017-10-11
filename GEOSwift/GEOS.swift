@@ -9,10 +9,11 @@ import Foundation
 
 typealias GEOSCallbackFunction = @convention(c) (UnsafeMutableRawPointer) -> Void
 
-let swiftCallback : GEOSCallbackFunction = { args -> Void in
-    if let string = String(validatingUTF8: args.assumingMemoryBound(to: CChar.self)) {
-        print("GEOSwift # " + string + ".")
-    }
+let swiftCallback : GEOSCallbackFunction = {
+	#if DEBUG
+		guard let string = String(validatingUTF8: $0.assumingMemoryBound(to: CChar.self)) else { return }
+		print("GEOSwift # " + string + ".")
+	#endif
 }
 
 var GEOS_HANDLE: OpaquePointer = {
