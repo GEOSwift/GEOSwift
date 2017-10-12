@@ -14,13 +14,15 @@ public enum GEOJSONParseError: Error {
 
 public extension Geometry {
     /**
-    Creates an `Array` of `Geometry` instances from a GeoJSON file.
+    Creates an `Array` of `Feature` instances from a GeoJSON file.
     
     - parameter URL: the URL pointing to the GeoJSON file.
     
-    :returns: An optional `Array` of `Geometry` instances.
+    :returns: An optional `Array` of `Feature` instances.
 */
-    public class func fromGeoJSON(_ URL: Foundation.URL) throws -> Array<Geometry>? {
+    public class func fromGeoJSON(_ URL: Foundation.URL) throws -> Array<Feature>? {
+        
+        var features: [Feature]?
         
         if let JSONData = try? Data(contentsOf: URL) {
             
@@ -31,7 +33,8 @@ public extension Geometry {
                 
                 // is the root a Dictionary with a "type" key of value "FeatureCollection"?
                 if let rootObject = parsedObject as? Dictionary<String, AnyObject> {
-                    return Geometry.fromGeoJSONDictionary(rootObject)
+                    features = Geometry.fromGeoJSONDictionary(rootObject)
+                    return features
                 } else {
                     throw GEOJSONParseError.invalidGEOJSON
                 }
@@ -43,28 +46,28 @@ public extension Geometry {
     }
     
     /**
-    Creates an `Array` of `Geometry` instances from a GeoJSON dictionary.
+    Creates an `Array` of `Feature` instances from a GeoJSON dictionary.
     
     :param: dictionary a dictionary following GeoJSON format specification.
     
-    :returns: An optional `Array` of `Geometry` instances.
+    :returns: An optional `Array` of `Feature` instances.
     */
-    public class func fromGeoJSONDictionary(_ dictionary: Dictionary<String, AnyObject>) -> Array<Geometry>? {
+    public class func fromGeoJSONDictionary(_ dictionary: Dictionary<String, AnyObject>) -> Array<Feature>? {
         return ParseGEOJSONObject(dictionary)
     }
 }
 
 // MARK: - Private parsing functions
 
-private func ParseGEOJSONObject(_ GEOJSONObject: Dictionary<String, AnyObject>) -> Array<Geometry>? {
+private func ParseGEOJSONObject(_ GEOJSONObject: Dictionary<String, AnyObject>) -> Array<Feature>? {
     
     if let type = GEOJSONObject["type"] as? String {
         
         // is there a "features" key of type NSArray?
         switch (type) {
         case "Feature":
-            if let geom = ParseGEOJSONFeature(GEOJSONObject) {
-                return [geom]
+            if let feature = ParseGEOJSONFeature(GEOJSONObject) {
+                return [feature]
             }
             
         case "FeatureCollection":
@@ -74,42 +77,50 @@ private func ParseGEOJSONObject(_ GEOJSONObject: Dictionary<String, AnyObject>) 
             
         case "GeometryCollection":
             if let geometryCollection = GEOJSONObject["geometries"] as? NSArray {
-                return ParseGEOJSONGeometryCollection(geometryCollection)
+                let feature = Feature()
+                feature.geometries = ParseGEOJSONGeometryCollection(geometryCollection)
+                return [feature]
             }
             
         default:
             if let coordinates = GEOJSONObject["coordinates"] as? NSArray,
                 let geometry = ParseGEOJSONGeometry(type, coordinatesNSArray: coordinates)
             {
-                return [geometry]
+                let feature = Feature()
+                feature.geometries?.append(geometry)
+                return [feature]
             }
         }
     }
     return nil
 }
 
-private func ParseGEOJSONFeatureCollection(_ features: NSArray) -> [Geometry]? {
-    // map every feature representation to a GEOS geometry
-    var geometries = Array<Geometry>()
+private func ParseGEOJSONFeatureCollection(_ features: NSArray) -> [Feature]? {
+    // map every feature representation to a Feature object
+    var featuresArray = Array<Feature>()
     for feature in features {
         if let feat1 = feature as? NSDictionary,
             let feat2 = feat1 as? Dictionary<String,AnyObject>,
-            let geom = ParseGEOJSONFeature(feat2) {
-                geometries.append(geom)
+            let featureObject = ParseGEOJSONFeature(feat2) {
+                featuresArray.append(featureObject)
         } else {
             return nil
         }
     }
-    return geometries
+    return featuresArray
 }
 
-private func ParseGEOJSONFeature(_ GEOJSONFeature: Dictionary<String, AnyObject>) -> Geometry? {
+private func ParseGEOJSONFeature(_ GEOJSONFeature: Dictionary<String, AnyObject>) -> Feature? {
+    // map feature representaion to Feature Object with properties and GEOS geometry
     if let geometry = GEOJSONFeature["geometry"] as? Dictionary<String,AnyObject>,
-//        let properties = GEOJSONFeature["properties"] as? NSDictionary,
-
+        let properties = GEOJSONFeature["properties"] as? NSDictionary,
         let geometryType = geometry["type"] as? String,
-        let geometryCoordinates = geometry["coordinates"] as? NSArray {
-        return ParseGEOJSONGeometry(geometryType, coordinatesNSArray: geometryCoordinates)
+        let geometryCoordinates = geometry["coordinates"] as? NSArray,
+        let geometryObject = ParseGEOJSONGeometry(geometryType, coordinatesNSArray: geometryCoordinates) {
+            let feature = Feature()
+            feature.geometries?.append(geometryObject)
+            feature.properties = properties
+            return feature
     }
     return nil
 }
