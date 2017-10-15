@@ -1,6 +1,6 @@
 ![GEOSwift](/README-images/GEOSwift-header.png)  
 
-[![Build Status](https://travis-ci.org/andreacremaschi/GEOSwift.svg?branch=develop)](https://travis-ci.org/andreacremaschi/GEOSwift.svg?branch=develop)
+[![Build Status](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://img.shields.io/cocoapods/v/GEOSwift.svg)
 
 Easily handle a geographical object model (points, linestrings, polygons etc.) and related topographical operations (intersections, overlapping etc.).  
