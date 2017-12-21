@@ -13,6 +13,22 @@ public enum GEOJSONParseError: Error {
 }
 
 public extension Geometry {
+
+    @available(*, deprecated: 2.1.0, renamed: "Features.fromGeoJSON(_:)")
+    public class func fromGeoJSON(_ URL: Foundation.URL) throws -> Array<Geometry>? {
+        return try Features.fromGeoJSON(URL)?.first?.geometries
+    }
+
+    @available(*, deprecated: 2.1.0, renamed: "Features.fromGeoJSONDictionary(_:)")
+    public class func fromGeoJSONDictionary(_ dictionary: Dictionary<String, AnyObject>) -> Array<Geometry>? {
+        return Features.fromGeoJSONDictionary(dictionary)?.first?.geometries
+    }
+
+}
+
+public typealias Features = [Feature]
+
+public extension Array where Element == Feature {
     /**
     Creates an `Array` of `Feature` instances from a GeoJSON file.
     
@@ -20,9 +36,9 @@ public extension Geometry {
     
     :returns: An optional `Array` of `Feature` instances.
 */
-    public class func fromGeoJSON(_ URL: Foundation.URL) throws -> Array<Feature>? {
+    public static func fromGeoJSON(_ URL: Foundation.URL) throws -> Features? {
         
-        var features: [Feature]?
+        var features: Features?
         
         if let JSONData = try? Data(contentsOf: URL) {
             
@@ -33,7 +49,7 @@ public extension Geometry {
                 
                 // is the root a Dictionary with a "type" key of value "FeatureCollection"?
                 if let rootObject = parsedObject as? Dictionary<String, AnyObject> {
-                    features = Geometry.fromGeoJSONDictionary(rootObject)
+                    features = Features.fromGeoJSONDictionary(rootObject)
                     return features
                 } else {
                     throw GEOJSONParseError.invalidGEOJSON
@@ -52,7 +68,7 @@ public extension Geometry {
     
     :returns: An optional `Array` of `Feature` instances.
     */
-    public class func fromGeoJSONDictionary(_ dictionary: Dictionary<String, AnyObject>) -> Array<Feature>? {
+    public static func fromGeoJSONDictionary(_ dictionary: Dictionary<String, AnyObject>) -> Array<Feature>? {
         return ParseGEOJSONObject(dictionary)
     }
 }
