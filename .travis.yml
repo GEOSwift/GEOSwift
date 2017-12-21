@@ -13,7 +13,7 @@ env:
   global:
     - WORKSPACE=GEOSwift.xcworkspace
     - SCHEME=GEOSwift
-    - SDK=iphonesimulator11.0
+    - SDK=iphonesimulator11.2
   matrix:
     - DESTINATION="OS=11.2,name=iPhone 8"
 
