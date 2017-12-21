@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		335C11A98B9F38F1FD0BADB2 /* Pods_GEOSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC30B2E0DB51B308F3F23D7D /* Pods_GEOSwiftTests.framework */; };
-		7DF3A6F13BA744362BEF2CBF /* BuildFile in Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Weak, ); }; };
+		7DF3A6F13BA744362BEF2CBF /* (null) in Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (Weak, ); }; };
 		BF7C38081F82F03D001509AF /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7C38071F82F03D001509AF /* Feature.swift */; };
 		CD20F1DD1B2830700045D8FD /* GEOSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD2299841B10B506002C19AE /* GEOSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD20F1DF1B283F580045D8FD /* SpatialRelations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD20F1DE1B283F580045D8FD /* SpatialRelations.swift */; };
@@ -109,7 +109,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD22998F1B10B506002C19AE /* GEOSwift.framework in Frameworks */,
-				7DF3A6F13BA744362BEF2CBF /* BuildFile in Frameworks */,
+				7DF3A6F13BA744362BEF2CBF /* (null) in Frameworks */,
 				335C11A98B9F38F1FD0BADB2 /* Pods_GEOSwiftTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,7 +286,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = andreacremaschi;
 				TargetAttributes = {
 					CD2299831B10B506002C19AE = {
@@ -475,6 +475,7 @@
 			baseConfigurationReference = 7D7DCB36E4FE6316A656A43A /* Pods-GEOSwift.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -502,6 +503,7 @@
 			baseConfigurationReference = FF90076F32D911E63EE5ACA5 /* Pods-GEOSwift.release.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -525,6 +527,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4929BC7A1B0BE392CD9BD0CD /* Pods-GEOSwiftTests.debug.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -542,6 +545,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 537B2F7965DB5ECD6E1CFB64 /* Pods-GEOSwiftTests.release.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = GEOSwiftTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
