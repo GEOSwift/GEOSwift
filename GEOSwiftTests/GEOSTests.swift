@@ -97,7 +97,7 @@ class GEOSwiftTests: XCTestCase {
                 result = true
             }
         }
-        
+        XCTAssert(result, "WKT parse failed (expected to receive a MULTIPOINT)")
     }
     
     func testGeoJSON() {
@@ -122,14 +122,10 @@ class GEOSwiftTests: XCTestCase {
         let arrNearestPoints = point.nearestPoints(polygon)
         
         XCTAssertNotNil(arrNearestPoints, "Failed to get nearestPoints array between the two geometries")
-        
-        var result = false
-        if arrNearestPoints[0].x == point.nearestPoint(polygon).x &&
-           arrNearestPoints[0].y == point.nearestPoint(polygon).y  {
-            result = true
-        }
-        
-        XCTAssert(result, "Retro-compatibility of method nearestPoint not respected")
+        XCTAssertEqual(arrNearestPoints.count, 2, "Number of expected points is 2")
+
+        XCTAssertEqual(arrNearestPoints[0].x, point.nearestPoint(polygon).x)
+        XCTAssertEqual(arrNearestPoints[0].y, point.nearestPoint(polygon).y)
         
     }
 }
