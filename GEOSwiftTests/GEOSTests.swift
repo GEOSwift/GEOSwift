@@ -10,7 +10,7 @@ import XCTest
 import GEOSwift
 
 class GEOSwiftTests: XCTestCase {
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -20,7 +20,7 @@ class GEOSwiftTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testCreatePointFromWKT() {
         var result = false
         if let point = Geometry.create("POINT(45 9)") as? Waypoint,
@@ -29,7 +29,7 @@ class GEOSwiftTests: XCTestCase {
         }
         XCTAssert(result, "WKT parse failed (expected to receive a POINT)")
     }
-    
+
     func testCreateLinestringFromWKT() {
         var result = false
         let WKT = "LINESTRING(3 4,10 50,20 25)"
@@ -49,7 +49,7 @@ class GEOSwiftTests: XCTestCase {
         }
         XCTAssert(result, "WKT parse failed (expected to receive a LINEARRING)")
     }
-    
+
     func testCreatePolygonFromWKT() {
         var result = false
         let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
@@ -73,7 +73,7 @@ class GEOSwiftTests: XCTestCase {
             XCTAssertNotNil(polygon1, "Failed to create polygon from LinearRing")
         }
     }
-    
+
     func testCreateGeometriesCollectionFromWKT() {
         var result = false
         let WKT = "GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))"
@@ -87,7 +87,7 @@ class GEOSwiftTests: XCTestCase {
         }
         XCTAssert(result, "WKT parse failed (expected to receive a GEOMETRYCOLLECTION containing a POINT and a LINESTRING)")
     }
-    
+
     func testCreateMultiPointFromWKT() {
         var result = false
         let WKT = "MULTIPOINT(-2 0,-1 -1,0 0,1 -1,2 0,0 2,-2 0)"
@@ -105,7 +105,7 @@ class GEOSwiftTests: XCTestCase {
         if let geojsons = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) {
             for geoJSONURL in geojsons {
                 if let features = try! Features.fromGeoJSON(geoJSONURL)  {
-                    //                    geometries[0].debugQuickLookObject()
+//                    geometries[0].debugQuickLookObject()
                     XCTAssert(true, "GeoJSON correctly parsed")
                     print("\(geoJSONURL.lastPathComponent): \(features)")
                 } else {
