@@ -84,14 +84,24 @@ public extension Geometry {
     
     /// - returns: The nearest point of this geometry with respect to `geometry`.
     func nearestPoint(_ geometry: Geometry) -> Coordinate {
-        let nearestPointsCoordinateList = GEOSNearestPoints_r(GEOS_HANDLE, self.geometry, geometry.geometry)
-        var x : Double = 0
-        var y : Double = 0
-        GEOSCoordSeq_getX_r(GEOS_HANDLE, nearestPointsCoordinateList, 0, &x)
-        GEOSCoordSeq_getY_r(GEOS_HANDLE, nearestPointsCoordinateList, 0, &y)
-        return Coordinate(x: x, y: y)
+        return nearestPoints(geometry)[0]
     }
-
+    
+    /// - returns: The nearest points in the geometries, ownership to caller.
+    func nearestPoints(_ geometry: Geometry) -> [Coordinate] {
+        let nearestPointsCoordinateList = GEOSNearestPoints_r(GEOS_HANDLE, self.geometry, geometry.geometry)
+        var x0 : Double = 0
+        var y0 : Double = 0
+        GEOSCoordSeq_getX_r(GEOS_HANDLE, nearestPointsCoordinateList, 0, &x0)
+        GEOSCoordSeq_getY_r(GEOS_HANDLE, nearestPointsCoordinateList, 0, &y0)
+        
+        var x1 : Double = 0
+        var y1 : Double = 0
+        GEOSCoordSeq_getX_r(GEOS_HANDLE, nearestPointsCoordinateList, 1, &x1)
+        GEOSCoordSeq_getY_r(GEOS_HANDLE, nearestPointsCoordinateList, 1, &y1)
+        
+        return [Coordinate(x: x0, y: y0), Coordinate(x: x1, y: y1)]
+    }
     
     /// - returns: The DE-9IM intersection matrix (a string) representing the topological relationship between this geometry and the other.
     func relationship(_ geometry: Geometry) -> String {

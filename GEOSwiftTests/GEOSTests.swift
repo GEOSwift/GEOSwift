@@ -114,4 +114,18 @@ class GEOSwiftTests: XCTestCase {
             }
         }
     }
+    
+    func testNearestPoints() {
+        let point = Geometry.create("POINT(45 9)") as! Waypoint
+        let polygon = Geometry.create("POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as! Polygon
+        
+        let arrNearestPoints = point.nearestPoints(polygon)
+        
+        XCTAssertNotNil(arrNearestPoints, "Failed to get nearestPoints array between the two geometries")
+        XCTAssertEqual(arrNearestPoints.count, 2, "Number of expected points is 2")
+
+        XCTAssertEqual(arrNearestPoints[0].x, point.nearestPoint(polygon).x)
+        XCTAssertEqual(arrNearestPoints[0].y, point.nearestPoint(polygon).y)
+        
+    }
 }
