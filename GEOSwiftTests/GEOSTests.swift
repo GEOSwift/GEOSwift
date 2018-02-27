@@ -99,27 +99,5 @@ class GEOSwiftTests: XCTestCase {
         }
         XCTAssert(result, "WKT parse failed (expected to receive a MULTIPOINT)")
     }
-    
-    func testGeoJSON() {
-        let bundle = Bundle(for: GEOSwiftTests.self)
-        if let geojsons = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) {
-            for geoJSONURL in geojsons {
-                if let geometries = try! Geometry.fromGeoJSON(geoJSONURL)  {
-//                    geometries[0].debugQuickLookObject()
-                    XCTAssert(true, "GeoJSON correctly parsed")
-                    print("\(geoJSONURL.lastPathComponent): \(geometries)")
-                } else {
-                    XCTAssert(false, "Can't extract geometry from GeoJSON: \(geoJSONURL.lastPathComponent)")
-                }
-                let string = try! String(contentsOf: geoJSONURL)
-                if let geometries = try! Geometry.fromGeoJSONString(string)  {
-                    //                    geometries[0].debugQuickLookObject()
-                    XCTAssert(true, "GeoJSON string correctly parsed")
-                    print("\(geoJSONURL.lastPathComponent): \(geometries)")
-                } else {
-                    XCTAssert(false, "Can't extract geometry from GeoJSON string: \(geoJSONURL.lastPathComponent)")
-                }
-            }
-        }
-    }
+
 }
