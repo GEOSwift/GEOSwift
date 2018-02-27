@@ -99,7 +99,7 @@ class GEOSwiftTests: XCTestCase {
         }
         XCTAssert(result, "WKT parse failed (expected to receive a MULTIPOINT)")
     }
-    
+
     func testGeoJSON() {
         let bundle = Bundle(for: GEOSwiftTests.self)
         if let geojsons = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) {

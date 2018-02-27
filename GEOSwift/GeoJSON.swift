@@ -32,50 +32,69 @@ public extension Array where Element == Feature {
     /**
     Creates an `Array` of `Feature` instances from a GeoJSON file.
     
-    - parameter URL: the URL pointing to the GeoJSON file.
-    
-    :returns: An optional `Array` of `Feature` instances.
-*/
+     - parameter URL: the URL pointing to the GeoJSON file.
+    returns: An optional `Array` of `Feature` instances.
+     */
     public static func fromGeoJSON(_ URL: Foundation.URL) throws -> Features? {
-        
-        var features: Features?
-        
-        if let JSONData = try? Data(contentsOf: URL) {
-            
-            do {
-                // read JSON file
-                let parsedObject = try JSONSerialization.jsonObject(with: JSONData,
-                    options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary
-                
-                // is the root a Dictionary with a "type" key of value "FeatureCollection"?
-                if let rootObject = parsedObject as? Dictionary<String, AnyObject> {
-                    features = Features.fromGeoJSONDictionary(rootObject)
-                    return features
-                } else {
-                    throw GEOJSONParseError.invalidGEOJSON
-                }
-            } catch _ {
-                throw GEOJSONParseError.invalidJSON
-            }
+        guard let JSONData = try? Data(contentsOf: URL) else {
+            return nil
         }
-        return nil
+        return try fromGeoJSON(JSONData)
+    }
+        
+    /**
+     Creates an `Array` of `Geometry` instances from a GeoJSON string.
+     
+     - parameter string: the GeoJSON string.
+     
+     - returns: An optional `Array` of `Geometry` instances.
+     */
+    public static func fromGeoJSON(_ string: String) throws -> Features? {
+        guard let data = string.data(using: .utf8) else {
+            return nil
+        }
+        return try fromGeoJSON(data)
+    }
+    
+    /**
+     Creates an `Array` of `Geometry` instances from GeoJSON data.
+     
+     - parameter data: the GeoJSON data.
+     
+     - returns: An optional `Array` of `Geometry` instances.
+     */
+    public static func fromGeoJSON(_ data: Data) throws -> Features? {
+        do {
+            // read JSON file
+            let parsedObject = try JSONSerialization.jsonObject(with: data,
+                                                                options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary
+            
+            // is the root a Dictionary with a "type" key of value "FeatureCollection"?
+            if let rootObject = parsedObject as? Dictionary<String, AnyObject> {
+                return fromGeoJSONDictionary(rootObject)
+            } else {
+                throw GEOJSONParseError.invalidGEOJSON
+            }
+        } catch _ {
+            throw GEOJSONParseError.invalidJSON
+        }
     }
     
     /**
     Creates an `Array` of `Feature` instances from a GeoJSON dictionary.
     
-    :param: dictionary a dictionary following GeoJSON format specification.
+     - parameter dictionary: a dictionary following GeoJSON format specification.
     
     :returns: An optional `Array` of `Feature` instances.
     */
-    public static func fromGeoJSONDictionary(_ dictionary: Dictionary<String, AnyObject>) -> Array<Feature>? {
+    public static func fromGeoJSONDictionary(_ dictionary: Dictionary<String, AnyObject>) -> Features? {
         return ParseGEOJSONObject(dictionary)
     }
 }
 
 // MARK: - Private parsing functions
 
-private func ParseGEOJSONObject(_ GEOJSONObject: Dictionary<String, AnyObject>) -> Array<Feature>? {
+private func ParseGEOJSONObject(_ GEOJSONObject: Dictionary<String, AnyObject>) -> Features? {
     
     if let type = GEOJSONObject["type"] as? String {
         
@@ -113,7 +132,7 @@ private func ParseGEOJSONObject(_ GEOJSONObject: Dictionary<String, AnyObject>) 
 
 private func ParseGEOJSONFeatureCollection(_ features: NSArray) -> [Feature]? {
     // map every feature representation to a Feature object
-    var featuresArray = Array<Feature>()
+    var featuresArray = Features()
     for feature in features {
         if let feat1 = feature as? NSDictionary,
             let feat2 = feat1 as? Dictionary<String,AnyObject>,
