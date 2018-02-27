@@ -87,14 +87,14 @@ public extension Array where Element == Feature {
     
     :returns: An optional `Array` of `Feature` instances.
     */
-    public static func fromGeoJSONDictionary(_ dictionary: Dictionary<String, AnyObject>) -> Array<Feature>? {
+    public static func fromGeoJSONDictionary(_ dictionary: Dictionary<String, AnyObject>) -> Features? {
         return ParseGEOJSONObject(dictionary)
     }
 }
 
 // MARK: - Private parsing functions
 
-private func ParseGEOJSONObject(_ GEOJSONObject: Dictionary<String, AnyObject>) -> Array<Feature>? {
+private func ParseGEOJSONObject(_ GEOJSONObject: Dictionary<String, AnyObject>) -> Features? {
     
     if let type = GEOJSONObject["type"] as? String {
         
@@ -132,7 +132,7 @@ private func ParseGEOJSONObject(_ GEOJSONObject: Dictionary<String, AnyObject>) 
 
 private func ParseGEOJSONFeatureCollection(_ features: NSArray) -> [Feature]? {
     // map every feature representation to a Feature object
-    var featuresArray = Array<Feature>()
+    var featuresArray = Features()
     for feature in features {
         if let feat1 = feature as? NSDictionary,
             let feat2 = feat1 as? Dictionary<String,AnyObject>,
