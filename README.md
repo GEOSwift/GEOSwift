@@ -38,9 +38,9 @@ let WKB: NSData = geometryWKB()
 let geometry2 = Geometry.create(WKB.bytes, size: WKB.length)
 
 // 3. From a GeoJSON file:
-if let geoJSONURL = NSBundle.mainBundle().URLForResource("italy", withExtension: "geojson"),
-    let geometries = Geometry.fromGeoJSON(geoJSONURL),
-    let italy = geometries[0] as? MultiPolygon
+if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: "geojson"),
+    let features = try! Features.fromGeoJSON(geoJSONURL),
+    let italy = features.first?.geometries?.first as? MultiPolygon
 {
     italy
 }
