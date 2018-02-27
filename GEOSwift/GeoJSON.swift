@@ -35,7 +35,7 @@ public extension Array where Element == Feature {
      - parameter URL: the URL pointing to the GeoJSON file.
     returns: An optional `Array` of `Feature` instances.
      */
-    public class func fromGeoJSON(_ URL: Foundation.URL) throws -> Features? {
+    public static func fromGeoJSON(_ URL: Foundation.URL) throws -> Features? {
         guard let JSONData = try? Data(contentsOf: URL) else {
             return nil
         }
@@ -71,7 +71,7 @@ public extension Array where Element == Feature {
             
             // is the root a Dictionary with a "type" key of value "FeatureCollection"?
             if let rootObject = parsedObject as? Dictionary<String, AnyObject> {
-                return Geometry.fromGeoJSONDictionary(rootObject)
+                return fromGeoJSONDictionary(rootObject)
             } else {
                 throw GEOJSONParseError.invalidGEOJSON
             }
