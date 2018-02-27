@@ -13,6 +13,8 @@ protocol GEOSwiftQuickLook {
 }
 
 public extension Geometry {
+
+    @objc
     public func debugQuickLookObject() -> AnyObject? {
         
         let region: MKCoordinateRegion
@@ -53,8 +55,8 @@ public extension Geometry {
         let semaphore = DispatchSemaphore(value: 0);
         let mapRect = mapView.visibleMapRect
 //        let boundingBox = MKMapRect(region)
-        snapshotter.start(with: backgroundQueue, completionHandler: { (snapshot: MKMapSnapshot?, error: NSError?) -> Void in
             
+        snapshotter.start(with: backgroundQueue) { snapshot, error in
             guard let snapshot = snapshot else {
                 semaphore.signal()
                 return
@@ -83,7 +85,7 @@ public extension Geometry {
             mapViewImage = finalImage
             
             semaphore.signal()
-        } as! MKMapSnapshotCompletionHandler)
+        }
         let delayTime = DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         let _ = semaphore.wait(timeout: delayTime)
 

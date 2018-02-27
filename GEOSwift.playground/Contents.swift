@@ -75,10 +75,10 @@ geometry2
 //: Your geometries can be loaded from a GEOJSON file.
 //:
 if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: "geojson"),
-    let geometries = try! Geometry.fromGeoJSON(geoJSONURL),
-    let italy = geometries[0] as? MultiPolygon
+    let features = try! Features.fromGeoJSON(geoJSONURL),
+    let italy = features.first?.geometries?.first as? MultiPolygon
 {
-    italy 
+    italy
 
 //: ### Topological operations:
 //:
@@ -87,6 +87,7 @@ if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: 
     italy.centroid()
     italy.convexHull()
     italy.envelope()
+    italy.envelope()?.difference(italy)
     italy.pointOnSurface()
     italy.intersection(geometry2!)
     italy.difference(geometry2!)

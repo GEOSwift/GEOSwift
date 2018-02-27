@@ -9,16 +9,20 @@ import Foundation
 
 typealias GEOSCallbackFunction = @convention(c) (UnsafeMutableRawPointer) -> Void
 
-let swiftCallback : GEOSCallbackFunction = { args -> Void in
-    if let string = String(validatingUTF8: unsafeBitCast(args, to: UnsafeMutablePointer<CChar>.self)) {
-        print("GEOSwift # " + string + ".")
-    }
+let swiftCallback : GEOSCallbackFunction = {
+    guard let string = String(validatingUTF8: $0.assumingMemoryBound(to: CChar.self)) else { return }
+    print("GEOSwift # " + string + ".")
 }
 
 var GEOS_HANDLE: OpaquePointer = {
-//    return initGEOSWrapper_r();
-    return initGEOS_r(unsafeBitCast(swiftCallback, to: GEOSMessageHandler.self),
-        unsafeBitCast(swiftCallback, to: GEOSMessageHandler.self))
+#if DEBUG
+    guard let handle = GEOS_init_r() else { preconditionFailure() }
+    GEOSContext_setNoticeMessageHandler_r(handle, unsafeBitCast(swiftCallback, to: GEOSMessageHandler_r.self), nil)
+    GEOSContext_setErrorMessageHandler_r(handle, unsafeBitCast(swiftCallback, to: GEOSMessageHandler_r.self), nil)
+    return handle
+#else
+    return GEOS_init_r()
+#endif
 }()
 
 public typealias CoordinateDegrees = Double

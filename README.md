@@ -1,6 +1,6 @@
 ![GEOSwift](/README-images/GEOSwift-header.png)  
 
-[![Build Status](https://travis-ci.org/andreacremaschi/GEOSwift.svg?branch=develop)](https://travis-ci.org/andreacremaschi/GEOSwift.svg?branch=develop)
+[![Build Status](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://img.shields.io/cocoapods/v/GEOSwift.svg)
 
 Easily handle a geographical object model (points, linestrings, polygons etc.) and related topographical operations (intersections, overlapping etc.).  
@@ -20,8 +20,8 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 ## Requirements
 
 * iOS 8.0+ / Mac OS X 10.10+
-* Xcode 8
-* Swift 3
+* Xcode 9
+* Swift 4 (For Swift 3 support use release 1.0.2 or earlier.)
 * CocoaPods 1.0.1+
 
 ## Usage
@@ -38,9 +38,9 @@ let WKB: NSData = geometryWKB()
 let geometry2 = Geometry.create(WKB.bytes, size: WKB.length)
 
 // 3. From a GeoJSON file:
-if let geoJSONURL = NSBundle.mainBundle().URLForResource("italy", withExtension: "geojson"),
-    let geometries = Geometry.fromGeoJSON(geoJSONURL),
-    let italy = geometries[0] as? MultiPolygon
+if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: "geojson"),
+    let features = try! Features.fromGeoJSON(geoJSONURL),
+    let italy = features.first?.geometries?.first as? MultiPolygon
 {
     italy
 }
@@ -102,7 +102,7 @@ GEOSwift let you perform a set of operations on these two geometries:
 
 ### Playground
 
-Explore more, interactively, from the Xcode project’s playground. It can be found inside `GEOSwiftPlayground` folder.
+Explore more, interactively, from the Xcode project’s playground. It can be found inside `GEOSwift` workspace. Open the workspace on Xcode, build the `GEOSwift` framework and open the playground file.
 
 ![Playground](/README-images/playground.png)
 
