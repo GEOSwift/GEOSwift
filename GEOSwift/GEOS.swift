@@ -155,11 +155,17 @@ public typealias CoordinateDegrees = Double
         return wkt
         
     }()
-}
 
-/// Returns true if the two Geometries are exactly equal.
-public func ==(lhs: Geometry, rhs: Geometry) -> Bool {
-    return GEOSEquals_r(GEOS_HANDLE, lhs.geometry, rhs.geometry) > 0
+    /// Returns true if the two Geometries are exactly equal. This gives Geometry and its
+    /// subclasses an Equatable behavior that is based on the geometry value rather than
+    /// on object identity (the NSObject default). To compare object identity, use ===
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? Geometry else {
+            return false
+        }
+
+        return GEOSEquals_r(GEOS_HANDLE, geometry, other.geometry) > 0
+    }
 }
 
 func GEOSGeomFromWKT(_ handle: GEOSContextHandle_t, WKT: String) -> OpaquePointer? {

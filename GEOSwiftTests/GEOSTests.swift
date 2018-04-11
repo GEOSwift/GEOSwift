@@ -128,4 +128,66 @@ class GEOSwiftTests: XCTestCase {
         XCTAssertEqual(arrNearestPoints[0].y, point.nearestPoint(polygon).y)
         
     }
+
+    func testIsEqual() {
+        let lhs = LineString(points: [Coordinate(x: 0, y: 0),
+                                      Coordinate(x: 1, y: 0),
+                                      Coordinate(x: 0, y: 1),
+                                      Coordinate(x: 0, y: 0)])!
+
+        // Same instance
+        var rhs: Geometry = lhs
+
+        XCTAssertTrue(lhs == rhs)
+        XCTAssertTrue(rhs == lhs)
+        XCTAssertTrue(lhs.isEqual(rhs))
+        XCTAssertTrue(rhs.isEqual(lhs))
+
+        // Distinct, but equivalent instance
+        rhs = LineString(points: [Coordinate(x: 0, y: 0),
+                                  Coordinate(x: 1, y: 0),
+                                  Coordinate(x: 0, y: 1),
+                                  Coordinate(x: 0, y: 0)])!
+
+        XCTAssertTrue(lhs == rhs)
+        XCTAssertTrue(rhs == lhs)
+        XCTAssertTrue(lhs.isEqual(rhs))
+        XCTAssertTrue(rhs.isEqual(lhs))
+
+        // Non-equivalent instance
+        rhs = LineString(points: [Coordinate(x: 0, y: 0),
+                                  Coordinate(x: 2, y: 0),
+                                  Coordinate(x: 0, y: 2),
+                                  Coordinate(x: 0, y: 0)])!
+
+        XCTAssertFalse(lhs == rhs)
+        XCTAssertFalse(rhs == lhs)
+        XCTAssertFalse(lhs.isEqual(rhs))
+        XCTAssertFalse(rhs.isEqual(lhs))
+
+        // Other type of object
+        XCTAssertFalse(lhs.isEqual(NSObject()))
+
+        // Equivalent subclass
+        rhs = LinearRing(points: [Coordinate(x: 0, y: 0),
+                                  Coordinate(x: 1, y: 0),
+                                  Coordinate(x: 0, y: 1),
+                                  Coordinate(x: 0, y: 0)])!
+
+        XCTAssertTrue(lhs == rhs)
+        XCTAssertTrue(rhs == lhs)
+        XCTAssertTrue(lhs.isEqual(rhs))
+        XCTAssertTrue(rhs.isEqual(lhs))
+
+        // Non-equivalent subclass
+        rhs = LinearRing(points: [Coordinate(x: 0, y: 0),
+                                  Coordinate(x: 2, y: 0),
+                                  Coordinate(x: 0, y: 2),
+                                  Coordinate(x: 0, y: 0)])!
+
+        XCTAssertFalse(lhs == rhs)
+        XCTAssertFalse(rhs == lhs)
+        XCTAssertFalse(lhs.isEqual(rhs))
+        XCTAssertFalse(rhs.isEqual(lhs))
+    }
 }
