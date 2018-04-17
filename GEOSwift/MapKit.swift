@@ -119,7 +119,13 @@ open class MKShapesCollection : MKShape, MKOverlay  {
             MKShape in
                 return geometry.mapShape()
         })
-        self.centroid = CLLocationCoordinate2DFromCoordinate(geometryCollection.centroid().coordinate)
+        
+        if let coordinate = geometryCollection.centroid()?.coordinate {
+            self.centroid = CLLocationCoordinate2DFromCoordinate(coordinate)
+        } else {
+            self.centroid = CLLocationCoordinate2DFromCoordinate(CoordinateFromCLLocationCoordinate2D(CLLocationCoordinate2DMake(0, 0)))
+        }
+        
         self.shapes = shapes
 
         if let envelope = geometryCollection.envelope() as? Polygon {
