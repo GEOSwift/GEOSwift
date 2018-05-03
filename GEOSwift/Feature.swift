@@ -15,6 +15,7 @@ public class Feature {
     
     public var geometries: Array<Geometry>?
     public var properties: NSDictionary?
+    public var data: Dictionary<String, AnyObject>?
     
     init() {
         geometries = Array<Geometry>()
