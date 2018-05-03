@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "GEOSwift"
-  s.version      = "2.1.3"
+  s.version      = "2.2.0"
   s.summary      = "The Swift Geographic Engine."
 
   s.description  = <<-DESC
