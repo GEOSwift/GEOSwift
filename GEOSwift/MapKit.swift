@@ -128,11 +128,11 @@ open class MKShapesCollection : MKShape, MKOverlay  {
         
         self.shapes = shapes
 
-        if let envelope = geometryCollection.envelope() as? Polygon {
-            let exteriorRing = envelope.exteriorRing
-            let upperLeft = MKMapPointForCoordinate(CLLocationCoordinate2DFromCoordinate(exteriorRing.points[2]))
-            let lowerRight = MKMapPointForCoordinate(CLLocationCoordinate2DFromCoordinate(exteriorRing.points[0]))
-            let mapRect = MKMapRectMake(upperLeft.x, upperLeft.y, lowerRight.x - upperLeft.x, lowerRight.y - upperLeft.y)
+        if let envelope = geometryCollection.envelope() {
+            //let exteriorRing = envelope.exteriorRing
+            let bottomLeft = MKMapPointForCoordinate(CLLocationCoordinate2DFromCoordinate(envelope.bottomLeft))
+            let topRight = MKMapPointForCoordinate(CLLocationCoordinate2DFromCoordinate(envelope.topRight))
+            let mapRect = MKMapRectMake(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y)
             self.boundingMapRect = mapRect
             
         } else {

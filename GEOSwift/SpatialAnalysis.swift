@@ -67,11 +67,11 @@ public extension Geometry {
     }
     
     /// - returns: A Polygon that represents the bounding envelope of this geometry.
-    func envelope() -> Geometry? {
+    func envelope() -> Envelope? {
         guard let envelopeGEOM = GEOSEnvelope_r(GEOS_HANDLE, self.geometry) else {
             return nil
         }
-        return Geometry.create(envelopeGEOM, destroyOnDeinit: true) 
+        return Envelope(GEOSGeom: envelopeGEOM, destroyOnDeinit: true)
     }
     
     /// - returns: A POINT guaranteed to lie on the surface.

@@ -74,6 +74,21 @@ class GEOSwiftTests: XCTestCase {
         }
     }
 
+    func testCreateEnvelopeFromCoordinates() {
+        let env = Envelope(p1: Coordinate(x:-10, y:10), p2: Coordinate(x:10, y:-10))
+        XCTAssertNotNil(env, "Failed to create Envelope")
+        let geom = env!.envelope()
+        XCTAssertEqual(env, geom)
+    }
+    
+    func testCreateEnvelopeByExpanding() {
+        let env = Envelope(p1: Coordinate(x:-10, y:10), p2: Coordinate(x:10, y:-10))
+        XCTAssertNotNil(env, "Failed to create Envelope")
+        let newEnv = Envelope.byExpanding(env!, toInclude: Waypoint(latitude: 11, longitude: 11)!)
+        XCTAssertNotNil(env, "Failed to expand Envelope")
+        XCTAssertEqual(newEnv!,  Envelope(p1: Coordinate(x:-10, y:11), p2: Coordinate(x:11, y:-10))!)
+    }
+    
     func testCreateGeometriesCollectionFromWKT() {
         var result = false
         let WKT = "GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))"
