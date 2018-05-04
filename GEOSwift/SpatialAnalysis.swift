@@ -108,4 +108,11 @@ public extension Geometry {
         guard let CString = GEOSRelate_r(GEOS_HANDLE, self.geometry, geometry.geometry) else { return "" }
         return String(cString: CString)
     }
+    
+    /// - returns: The area of this geometry, or nil on error
+    func area() -> Double? {
+        var area: Double = 0
+        guard GEOSArea_r(GEOS_HANDLE, self.geometry, &area) == 1 else { return nil }
+        return area
+    }
 }

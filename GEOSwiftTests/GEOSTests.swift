@@ -129,6 +129,19 @@ class GEOSwiftTests: XCTestCase {
         
     }
 
+    func testArea() {
+        let point = Geometry.create("POINT(45 9)") as! Waypoint
+        XCTAssertEqual(0, point.area())
+        
+        let lr = LinearRing(points: [Coordinate(x: 0, y: 0),
+                                    Coordinate(x: 1, y: 0),
+                                    Coordinate(x: 1, y: 1),
+                                    Coordinate(x: 0, y: 1),
+                                    Coordinate(x: 0, y: 0)])!
+        let polygon = Polygon(shell: lr, holes: nil)!
+        XCTAssertEqual(1, polygon.area())
+    }
+    
     func testIsEqual() {
         let lhs = LineString(points: [Coordinate(x: 0, y: 0),
                                       Coordinate(x: 1, y: 0),
