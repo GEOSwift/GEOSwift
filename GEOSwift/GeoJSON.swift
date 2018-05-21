@@ -147,12 +147,14 @@ private func ParseGEOJSONFeatureCollection(_ features: NSArray) -> [Feature]? {
 
 private func ParseGEOJSONFeature(_ GEOJSONFeature: Dictionary<String, AnyObject>) -> Feature? {
     // map feature representaion to Feature Object with properties and GEOS geometry
+    let id = GEOJSONFeature["id"]
     if let geometry = GEOJSONFeature["geometry"] as? Dictionary<String,AnyObject>,
         let properties = GEOJSONFeature["properties"] as? NSDictionary,
         let geometryType = geometry["type"] as? String,
         let geometryCoordinates = geometry["coordinates"] as? NSArray,
         let geometryObject = ParseGEOJSONGeometry(geometryType, coordinatesNSArray: geometryCoordinates) {
             let feature = Feature()
+            feature.id = id
             feature.geometries?.append(geometryObject)
             feature.properties = properties
             return feature
