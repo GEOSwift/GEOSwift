@@ -13,6 +13,7 @@ import Foundation
  */
 public class Feature {
     
+    public var id: Any?
     public var geometries: Array<Geometry>?
     public var properties: NSDictionary?
     
