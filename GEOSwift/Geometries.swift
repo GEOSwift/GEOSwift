@@ -112,6 +112,66 @@ open class Polygon : Geometry {
 }
 
 /**
+ An `Envelope` is a bounding box.
+ 
+**/
+open class Envelope : Polygon {
+    public convenience init?(p1: Coordinate, p2: Coordinate) {
+        let (maxX, maxY, minX, minY) = (max(p1.x, p2.x), max(p1.y, p2.y), min(p1.x, p2.x), min(p1.y, p2.y))
+        guard let shell = LinearRing(points: [
+            Coordinate(x: minX, y: minY),
+            Coordinate(x: maxX, y: minY),
+            Coordinate(x: maxX, y: maxY),
+            Coordinate(x: minX, y: maxY),
+            Coordinate(x: minX, y: minY)]) else { return nil }
+        
+        let shellGEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, shell.geometry)
+        
+        guard let geometry = GEOSGeom_createPolygon_r(GEOS_HANDLE, shellGEOSGeom, nil, UInt32(0)) else {
+            return nil
+        }
+        self.init(GEOSGeom: geometry, destroyOnDeinit: true)
+    }
+    
+    public class func byExpanding(_ base: Envelope, toInclude geom: Geometry) -> Envelope? {
+        return base.union(geom)?.envelope()
+    }
+    
+    public class func byExpanding(_ base: Envelope, toIncludeCoordinate coord: Coordinate) -> Envelope? {
+        return Waypoint(latitude: coord.y, longitude: coord.x).flatMap { base.union($0)?.envelope() }
+    }
+    
+    public var maxX: Double {
+        return exteriorRing.points[2].x
+    }
+    public var minX: Double {
+        return exteriorRing.points[0].x
+    }
+    public var maxY: Double {
+        return exteriorRing.points[2].y
+    }
+    public var minY: Double {
+        return exteriorRing.points[0].y
+    }
+    //: minX, maxY
+    public var topLeft: Coordinate {
+        return exteriorRing.points[3]
+    }
+    //: maxX, maxY
+    public var topRight: Coordinate {
+        return exteriorRing.points[2]
+    }
+    //: minX, minY
+    public var bottomLeft: Coordinate {
+        return exteriorRing.points[0]
+    }
+    //: maxX, minY
+    public var bottomRight: Coordinate {
+        return exteriorRing.points[1]
+    }
+}
+
+/**
     A `LineString` is a Curve with linear interpolation between points. Each consecutive pair of points defines a line segment.
 */
 open class LineString : Geometry {
