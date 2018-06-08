@@ -168,7 +168,6 @@ public typealias CoordinateDegrees = Double
     /// The Well Known Binary (WKB) representation of the Geometry.
     fileprivate(set) open lazy var WKB : [UInt8]? = {
         let WKBWriter = GEOSWKBWriter_create_r(GEOS_HANDLE)
-        //GEOSWKTWriter_setTrim_r(GEOS_HANDLE, WKTWriter, 1)
         var size: Int = 0
         guard let buf = GEOSWKBWriter_write_r(GEOS_HANDLE, WKBWriter, self.geometry, &size), size > 0 else {
             return nil
