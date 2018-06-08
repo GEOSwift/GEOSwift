@@ -61,6 +61,22 @@ class GEOSwiftTests: XCTestCase {
         XCTAssert(result, "WKT parse failed (expected to receive a POLYGON)")
     }
     
+    func testCreateWKBFromPolygon() {
+        let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
+        guard let polygon = Polygon(WKT: WKT) else {
+            XCTFail("Failed to create Polygon")
+            return
+        }
+        let wkb = polygon.WKB
+        XCTAssertNotNil(wkb)
+        XCTAssertFalse(wkb!.isEmpty)
+        guard let polygon2 = Polygon(WKB: wkb!) else {
+            XCTFail("Failed to create Polygon from generated WKB")
+            return
+        }
+        XCTAssertEqual(polygon, polygon2, "Polygon round-tripped via WKB is not equal")
+    }
+    
     // Test case for Issue #37
     // https://github.com/andreacremaschi/GEOSwift/issues/37
     func testCreatePolygonFromLinearRing() {

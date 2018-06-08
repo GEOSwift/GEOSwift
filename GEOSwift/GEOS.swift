@@ -70,6 +70,15 @@ public typealias CoordinateDegrees = Double
         self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
     }
     
+    public convenience init?(WKB: [UInt8]) {
+        var buffer = WKB
+        guard let GEOSGeom = GEOSGeomFromWKB_buf_r(GEOS_HANDLE, &buffer, WKB.count),
+            Geometry.classForGEOSGeom(GEOSGeom) === type(of: self) else {
+                return nil
+        }
+        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    }
+    
     internal class func classForGEOSGeom(_ GEOSGeom: OpaquePointer) -> Geometry.Type? {
         let geometryTypeId = GEOSGeomTypeId_r(GEOS_HANDLE, GEOSGeom)
         var subclass: Geometry.Type
@@ -156,6 +165,21 @@ public typealias CoordinateDegrees = Double
         
     }()
 
+    /// The Well Known Binary (WKB) representation of the Geometry.
+    fileprivate(set) open lazy var WKB : [UInt8]? = {
+        let WKBWriter = GEOSWKBWriter_create_r(GEOS_HANDLE)
+        //GEOSWKTWriter_setTrim_r(GEOS_HANDLE, WKTWriter, 1)
+        var size: Int = 0
+        guard let buf = GEOSWKBWriter_write_r(GEOS_HANDLE, WKBWriter, self.geometry, &size), size > 0 else {
+            return nil
+        }
+        let wkb = Array(UnsafeBufferPointer(start: buf, count: size))
+        free(buf)
+        GEOSWKBWriter_destroy_r(GEOS_HANDLE, WKBWriter)
+        return wkb
+        
+    }()
+    
     /// Returns true if the two Geometries are exactly equal. This gives Geometry and its
     /// subclasses an Equatable behavior that is based on the geometry value rather than
     /// on object identity (the NSObject default). To compare object identity, use ===
