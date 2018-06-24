@@ -101,7 +101,7 @@ open class Polygon : Geometry {
         }
         defer {
             if let holes = holes, holes.count > 0 {
-                geometriesPointer?.deallocate(capacity: holes.count)
+                geometriesPointer?.deallocate()
             }
         }
         guard let geometry = GEOSGeom_createPolygon_r(GEOS_HANDLE, shellGEOSGeom, geometriesPointer, UInt32(holes?.count ?? 0)) else {
@@ -230,7 +230,7 @@ open class GeometryCollection<T: Geometry> : Geometry {
      */
     public convenience init?(geometries: [T]) {
         let geometriesPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: geometries.count)
-        defer { geometriesPointer.deallocate(capacity: geometries.count) }
+        defer { geometriesPointer.deallocate() }
         for (i, geom) in geometries.enumerated() {
             let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
             geometriesPointer[i] = GEOSGeom
@@ -254,7 +254,7 @@ open class MultiLineString<T: LineString> : GeometryCollection<T> {
 
     public convenience init?(linestrings: [T]) {
         let geometriesPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: linestrings.count)
-        defer { geometriesPointer.deallocate(capacity: linestrings.count) }
+        defer { geometriesPointer.deallocate() }
         for (i, geom) in linestrings.enumerated() {
             let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
             geometriesPointer[i] = GEOSGeom
@@ -276,7 +276,7 @@ open class MultiPoint<T: Waypoint> : GeometryCollection<T> {
     }
     public convenience init?(points: [T]) {
         let coordsPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: points.count)
-        defer { coordsPointer.deallocate(capacity: points.count) }
+        defer { coordsPointer.deallocate() }
         for (i, geom) in points.enumerated() {
             let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
             coordsPointer[i] = GEOSGeom
@@ -299,7 +299,7 @@ open class MultiPolygon<T: Polygon> : GeometryCollection<T> {
     }
     public convenience init?(polygons: [T]) {
         let coordsPointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: polygons.count)
-        defer { coordsPointer.deallocate(capacity: polygons.count) }
+        defer { coordsPointer.deallocate() }
         for (i, geom) in polygons.enumerated() {
             let GEOSGeom = GEOSGeom_clone_r(GEOS_HANDLE, geom.geometry)
             coordsPointer[i] = GEOSGeom
