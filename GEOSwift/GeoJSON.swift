@@ -337,7 +337,7 @@ private func GEOJSONCreatePolygonFromRepresentation(_ representation: NSArray) -
     }
 
     // Polygons with multiple rings
-    var rings: Array<LinearRing> = ringsCoords.flatMap({
+    var rings: Array<LinearRing> = ringsCoords.compactMap({
         (ringCoords: [[Double]]) -> LinearRing? in
         if let sequence = GEOJSONSequenceFromArrayRepresentation(ringCoords),
             let GEOSGeom = GEOSGeom_createLinearRing_r(GEOS_HANDLE, sequence) {
