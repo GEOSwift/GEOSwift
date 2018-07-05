@@ -27,59 +27,62 @@ var GEOS_HANDLE: OpaquePointer = {
 
 public typealias CoordinateDegrees = Double
 
+final public class GeometryStorage {
+    let GEOSGeom: OpaquePointer
+    private let parent: GeometryStorage?
+
+    init(GEOSGeom: OpaquePointer, parent: GeometryStorage?) {
+        self.GEOSGeom = GEOSGeom
+        self.parent = parent
+    }
+
+    deinit {
+        if parent == nil {
+            GEOSGeom_destroy_r(GEOS_HANDLE, GEOSGeom);
+        }
+    }
+}
+
 /// A base abstract geometry class
 // Geometry is a model data type, so a struct would be a better fit, but it is actually a wrapper of GEOS native objects,
 // that are in fact C pointers, and structs in Swift don't have a dealloc where one can release allocated memory.
 // Furthermore, being a class Geometry can inherit from NSObject so that debugQuickLookObject() can be implemented
-@objc open class Geometry : NSObject {
+open class Geometry: NSObject {
 
-    let geometry: OpaquePointer
-    internal let destroyOnDeinit: Bool
-    
-    required public init(GEOSGeom: OpaquePointer, destroyOnDeinit: Bool) {
-        self.geometry = GEOSGeom
-        self.destroyOnDeinit = destroyOnDeinit
+    let storage: GeometryStorage
+
+    required public init(storage: GeometryStorage) {
+        self.storage = storage
     }
 
-    deinit {
-        if (self.destroyOnDeinit) {
-            GEOSGeom_destroy_r(GEOS_HANDLE, geometry);
-        }
-    }
-    
-    internal convenience init(GEOSGeom: OpaquePointer) {
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    internal class func create(storage: GeometryStorage) -> Geometry? {
+        return Geometry.classForGEOSGeom(storage.GEOSGeom)?.init(storage: storage)
     }
 
-    internal class func create(_ GEOSGeom: OpaquePointer, destroyOnDeinit: Bool) -> Geometry? {
-        guard let subclass = Geometry.classForGEOSGeom(GEOSGeom) else {
-            return nil
-        }
-        return subclass.init(GEOSGeom: GEOSGeom, destroyOnDeinit: destroyOnDeinit)
-    }
-    
     open class func geometryTypeId() -> Int32 {
         return -1 // Abstract
     }
 
     public convenience init?(WKT: String) {
-        guard let GEOSGeom = GEOSGeomFromWKT(GEOS_HANDLE, WKT: WKT),
+        let WKTReader = GEOSWKTReader_create_r(GEOS_HANDLE)
+        defer { GEOSWKTReader_destroy_r(GEOS_HANDLE, WKTReader) }
+        guard let GEOSGeom = GEOSWKTReader_read_r(GEOS_HANDLE, WKTReader, (WKT as NSString).utf8String),
             Geometry.classForGEOSGeom(GEOSGeom) === type(of: self) else {
                 return nil
         }
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+        self.init(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
     }
-    
+
     public convenience init?(WKB: [UInt8]) {
         var buffer = WKB
         guard let GEOSGeom = GEOSGeomFromWKB_buf_r(GEOS_HANDLE, &buffer, WKB.count),
             Geometry.classForGEOSGeom(GEOSGeom) === type(of: self) else {
                 return nil
         }
-        self.init(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+        self.init(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
     }
-    
-    internal class func classForGEOSGeom(_ GEOSGeom: OpaquePointer) -> Geometry.Type? {
+
+    private class func classForGEOSGeom(_ GEOSGeom: OpaquePointer) -> Geometry.Type? {
         let geometryTypeId = GEOSGeomTypeId_r(GEOS_HANDLE, GEOSGeom)
         var subclass: Geometry.Type
 
@@ -114,69 +117,63 @@ public typealias CoordinateDegrees = Double
         return subclass
     }
     
-    fileprivate class func create(_ GEOSGeom: OpaquePointer) -> Geometry? {
-        return self.create(GEOSGeom, destroyOnDeinit: true)
-    }
-
     /**
-    Create a Geometry subclass from its Well Known Text representation.
-    
-    - parameter WKT: The geometry representation in Well Known Text format (i.e. `POINT(10 45)`).
-    
-    - returns: The proper Geometry subclass as parsed from the string (i.e. `Waypoint`).
-    */
+     Create a Geometry subclass from its Well Known Text representation.
+
+     - parameter WKT: The geometry representation in Well Known Text format (i.e. `POINT(10 45)`).
+
+     - returns: The proper Geometry subclass as parsed from the string (i.e. `Waypoint`).
+     */
     open class func create(_ WKT: String) -> Geometry? {
         let WKTReader = GEOSWKTReader_create_r(GEOS_HANDLE)
         defer { GEOSWKTReader_destroy_r(GEOS_HANDLE, WKTReader) }
         guard let GEOSGeom = GEOSWKTReader_read_r(GEOS_HANDLE, WKTReader, (WKT as NSString).utf8String) else {
             return nil
         }
-        return self.create(GEOSGeom)
+        return self.create(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
     }
 
     /**
-    Create a Geometry subclass from its Well Known Binary representation.
-    
-    - parameter WKB: The geometry representation in Well Known Binary format.
-    - parameter size: The size of the binary representation in bytes.
-    
-    - returns: The proper Geometry subclass as parsed from the binary data (i.e. `Waypoint`).
-    */
+     Create a Geometry subclass from its Well Known Binary representation.
+
+     - parameter WKB: The geometry representation in Well Known Binary format.
+     - parameter size: The size of the binary representation in bytes.
+
+     - returns: The proper Geometry subclass as parsed from the binary data (i.e. `Waypoint`).
+     */
     open class func create(_ WKB: UnsafePointer<UInt8>, size: Int)  -> Geometry? {
         let WKBReader = GEOSWKBReader_create_r(GEOS_HANDLE)
         defer { GEOSWKBReader_destroy_r(GEOS_HANDLE, WKBReader) }
         guard let GEOSGeom = GEOSWKBReader_read_r(GEOS_HANDLE, WKBReader, WKB, size) else {
             return nil
         }
-        return self.create(GEOSGeom)
+        return self.create(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
     }
-    
+
     /// The Well Known Text (WKT) representation of the Geometry.
     fileprivate(set) open lazy var WKT : String? = {
         let WKTWriter = GEOSWKTWriter_create_r(GEOS_HANDLE)
         GEOSWKTWriter_setTrim_r(GEOS_HANDLE, WKTWriter, 1)
-        guard let wktString = GEOSWKTWriter_write_r(GEOS_HANDLE, WKTWriter, self.geometry) else {
+        guard let wktString = GEOSWKTWriter_write_r(GEOS_HANDLE, WKTWriter, storage.GEOSGeom) else {
             return nil
         }
         let wkt = String(cString: wktString)
         free(wktString)
         GEOSWKTWriter_destroy_r(GEOS_HANDLE, WKTWriter)
         return wkt
-        
     }()
 
     /// The Well Known Binary (WKB) representation of the Geometry.
     fileprivate(set) open lazy var WKB : [UInt8]? = {
         let WKBWriter = GEOSWKBWriter_create_r(GEOS_HANDLE)
         var size: Int = 0
-        guard let buf = GEOSWKBWriter_write_r(GEOS_HANDLE, WKBWriter, self.geometry, &size), size > 0 else {
+        guard let buf = GEOSWKBWriter_write_r(GEOS_HANDLE, WKBWriter, storage.GEOSGeom, &size), size > 0 else {
             return nil
         }
         let wkb = Array(UnsafeBufferPointer(start: buf, count: size))
         free(buf)
         GEOSWKBWriter_destroy_r(GEOS_HANDLE, WKBWriter)
         return wkb
-        
     }()
     
     /// Returns true if the two Geometries are exactly equal. This gives Geometry and its
@@ -187,25 +184,17 @@ public typealias CoordinateDegrees = Double
             return false
         }
 
-        return GEOSEquals_r(GEOS_HANDLE, geometry, other.geometry) > 0
+        return GEOSEquals_r(GEOS_HANDLE, storage.GEOSGeom, other.storage.GEOSGeom) > 0
     }
 }
 
-func GEOSGeomFromWKT(_ handle: GEOSContextHandle_t, WKT: String) -> OpaquePointer? {
-    let WKTReader = GEOSWKTReader_create_r(handle)
-    let GEOSGeom = GEOSWKTReader_read_r(handle, WKTReader, (WKT as NSString).utf8String)
-    GEOSWKTReader_destroy_r(handle, WKTReader)
-    return GEOSGeom
-}
-
 public struct CoordinatesCollection: Sequence {
-    let geometry: OpaquePointer
+    private let storage: GeometryStorage
     public let count: UInt32
     
-    init(geometry: OpaquePointer) {
-        self.geometry = geometry
-
-        let sequence = GEOSGeom_getCoordSeq_r(GEOS_HANDLE, self.geometry)
+    init(storage: GeometryStorage) {
+        self.storage = storage
+        let sequence = GEOSGeom_getCoordSeq_r(GEOS_HANDLE, storage.GEOSGeom)
         var numCoordinates: UInt32 = 0
         GEOSCoordSeq_getSize_r(GEOS_HANDLE, sequence, &numCoordinates);
         self.count = numCoordinates
@@ -215,8 +204,8 @@ public struct CoordinatesCollection: Sequence {
         var x: Double = 0
         var y: Double = 0
 
-        assert(self.count>index, "Index out of bounds")
-        let sequence = GEOSGeom_getCoordSeq_r(GEOS_HANDLE, self.geometry)
+        assert(self.count > index, "Index out of bounds")
+        let sequence = GEOSGeom_getCoordSeq_r(GEOS_HANDLE, storage.GEOSGeom)
         GEOSCoordSeq_getX_r(GEOS_HANDLE, sequence, index, &x);
         GEOSCoordSeq_getY_r(GEOS_HANDLE, sequence, index, &y);
 
@@ -243,20 +232,20 @@ public struct CoordinatesCollection: Sequence {
 }
 
 public struct GeometriesCollection<T: Geometry>: Sequence {
-    let geometry: OpaquePointer
+    private let storage: GeometryStorage
     public let count: Int32
-    
-    init(geometry: OpaquePointer) {
-        self.geometry = geometry
-        self.count = GEOSGetNumGeometries_r (GEOS_HANDLE, geometry)
+
+    init(storage: GeometryStorage) {
+        self.storage = storage
+        self.count = GEOSGetNumGeometries_r(GEOS_HANDLE, storage.GEOSGeom)
     }
 
     public subscript(index: Int32) -> T {
-        let GEOSGeom = GEOSGetGeometryN_r(GEOS_HANDLE, self.geometry, index)!
-        let geom = Geometry.create(GEOSGeom, destroyOnDeinit: false) as! T
-        return geom
+        let GEOSGeom = GEOSGetGeometryN_r(GEOS_HANDLE, storage.GEOSGeom, index)!
+        let childStorage = GeometryStorage(GEOSGeom: GEOSGeom, parent: storage)
+        return Geometry.create(storage: childStorage) as! T
     }
-    
+
     public func makeIterator() -> AnyIterator<T> {
         var index: Int32 = 0
         return AnyIterator {
@@ -266,7 +255,7 @@ public struct GeometriesCollection<T: Geometry>: Sequence {
             return item
         }
     }
-    
+
     public func map<U>(_ transform: (T) -> U) -> [U] {
         var array = Array<U>()
         for geom in self {
@@ -279,6 +268,7 @@ public struct GeometriesCollection<T: Geometry>: Sequence {
 public struct Coordinate {
     public let x: CoordinateDegrees
     public let y: CoordinateDegrees
+
     public init(x: CoordinateDegrees, y: CoordinateDegrees) {
         self.x = x
         self.y = y

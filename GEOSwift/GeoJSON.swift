@@ -188,7 +188,7 @@ private func ParseGEOJSONGeometry(_ type: String, coordinatesNSArray: NSArray) -
             let GEOSGeom = GEOSGeom_createPoint_r(GEOS_HANDLE, sequence) else {
                 return nil
         }
-        return Waypoint(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+        return Waypoint(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
         
     case "MultiPoint":
         // For type "MultiPoint", the "coordinates" member must be an array of positions.
@@ -201,7 +201,7 @@ private func ParseGEOJSONGeometry(_ type: String, coordinatesNSArray: NSArray) -
                 let GEOSGeom = GEOSGeom_createPoint_r(GEOS_HANDLE, sequence) else {
                     return nil
             }
-            let point = Waypoint(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+            let point = Waypoint(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
             pointArray.append(point)
         }
         return MultiPoint(points: pointArray)
@@ -213,7 +213,7 @@ private func ParseGEOJSONGeometry(_ type: String, coordinatesNSArray: NSArray) -
             let GEOSGeom = GEOSGeom_createLineString_r(GEOS_HANDLE, sequence) else {
                 return nil
         }
-        return LineString(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+        return LineString(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
         
     case "MultiLineString":
         // For type "MultiLineString", the "coordinates" member must be an array of LineString coordinate arrays.
@@ -226,7 +226,7 @@ private func ParseGEOJSONGeometry(_ type: String, coordinatesNSArray: NSArray) -
                 let GEOSGeom = GEOSGeom_createLineString_r(GEOS_HANDLE, sequence) else {
                     return nil
             }
-            let linestring = LineString(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+            let linestring = LineString(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
             linestrings.append(linestring)
         }
         return MultiLineString(linestrings: linestrings)
@@ -317,7 +317,7 @@ private func GEOJSONCreateLinearRingFromRepresentation(_ representation: [[Doubl
         let GEOSGeom = GEOSGeom_createLinearRing_r(GEOS_HANDLE, sequence) else {
             return nil
     }
-    return LinearRing(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+    return LinearRing(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
 }
 
 private func GEOJSONCreatePolygonFromRepresentation(_ representation: NSArray) -> Polygon? {
@@ -343,9 +343,9 @@ private func GEOJSONCreatePolygonFromRepresentation(_ representation: NSArray) -
         (ringCoords: [[Double]]) -> LinearRing? in
         if let sequence = GEOJSONSequenceFromArrayRepresentation(ringCoords),
             let GEOSGeom = GEOSGeom_createLinearRing_r(GEOS_HANDLE, sequence) {
-            return LinearRing(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+            return LinearRing(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
         } else if let GEOSGeom = GEOSGeom_createEmptyLineString_r(GEOS_HANDLE) {
-            return LinearRing(GEOSGeom: GEOSGeom, destroyOnDeinit: true)
+            return LinearRing(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
         }
         return nil
     })

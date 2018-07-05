@@ -23,7 +23,7 @@ public extension Geometry {
             let span = MKCoordinateSpanMake(0.1, 0.1)
             region = MKCoordinateRegionMake(center,span)
         } else {
-            if let envelope = self.envelope() as? Polygon {
+            if let envelope = self.envelope() {
                 guard let centroid = envelope.centroid() else { return nil }
                 let center = CLLocationCoordinate2DMake(centroid.coordinate.y, centroid.coordinate.x)
                 let exteriorRing = envelope.exteriorRing
