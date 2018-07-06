@@ -13,12 +13,10 @@ final class GeoJSONTests: XCTestCase {
             return
         }
         for geoJSONURL in geojsons {
-            guard let geometries = try! Features.fromGeoJSON(geoJSONURL) else {
+            guard case .some(.some) = try? Features.fromGeoJSON(geoJSONURL) else {
                 XCTFail("Can't extract geometry from GeoJSON: \(geoJSONURL.lastPathComponent)")
                 continue
             }
-//                geometries[0].debugQuickLookObject()
-            print("\(geoJSONURL.lastPathComponent): \(geometries)")
         }
     }
 
@@ -29,13 +27,11 @@ final class GeoJSONTests: XCTestCase {
             return
         }
         for geoJSONURL in geojsons {
-            let data = try! Data(contentsOf: geoJSONURL)
-            guard let geometries = try! Features.fromGeoJSON(data) else {
-                XCTFail("Can't extract geometry from GeoJSON data from: \(geoJSONURL.lastPathComponent)")
-                continue
+            guard let data = try? Data(contentsOf: geoJSONURL),
+                case .some(.some) = try? Features.fromGeoJSON(data) else {
+                    XCTFail("Can't extract geometry from GeoJSON data from: \(geoJSONURL.lastPathComponent)")
+                    continue
             }
-//                geometries[0].debugQuickLookObject()
-            print("\(geoJSONURL.lastPathComponent): \(geometries)")
         }
     }
 
@@ -46,13 +42,11 @@ final class GeoJSONTests: XCTestCase {
             return
         }
         for geoJSONURL in geojsons {
-            let string = try! String(contentsOf: geoJSONURL)
-            guard let geometries = try! Features.fromGeoJSON(string) else {
-                XCTFail("Can't extract geometry from GeoJSON string from: \(geoJSONURL.lastPathComponent)")
-                continue
+            guard let string = try? String(contentsOf: geoJSONURL),
+                case .some(.some) = try? Features.fromGeoJSON(string) else {
+                    XCTFail("Can't extract geometry from GeoJSON string from: \(geoJSONURL.lastPathComponent)")
+                    continue
             }
-//                geometries[0].debugQuickLookObject()
-            print("\(geoJSONURL.lastPathComponent): \(geometries)")
         }
     }
 

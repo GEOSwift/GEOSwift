@@ -9,6 +9,7 @@ import Foundation
 import XCTest
 import GEOSwift
 
+// swiftlint:disable:next type_body_length
 class GEOSwiftTests: XCTestCase {
 
     var waypoint: Waypoint!
@@ -38,7 +39,7 @@ class GEOSwiftTests: XCTestCase {
         geometryCollection = GeometryCollection(geometries: [waypoint, lineString])
         multiPoint = MultiPoint(points: [waypoint])
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         multiPoint = nil
@@ -85,7 +86,6 @@ class GEOSwiftTests: XCTestCase {
         XCTAssertEqual(testPolygon, polygon)
     }
 
-
     func testInitGeometryCollectionFromWKT() {
         let WKT = "GEOMETRYCOLLECTION(POINT(45 9),LINESTRING(3 4,10 50,20 25))"
         guard let testGeometryCollection = GeometryCollection(WKT: WKT) else {
@@ -120,7 +120,7 @@ class GEOSwiftTests: XCTestCase {
         }
         XCTAssertEqual(testLineString, lineString)
     }
-    
+
     func testCreateLinearRingFromWKT() {
         guard let testLinearRing = Geometry.create("LINEARRING(35 10,45 45,15 40,10 20,35 10)") as? LinearRing else {
             XCTFail("WKT parse failed (expected to receive a LINEARRING)")
@@ -137,7 +137,7 @@ class GEOSwiftTests: XCTestCase {
         }
         XCTAssertEqual(testPolygon, polygon)
     }
-    
+
     func testCreateGeometryCollectionFromWKT() {
         let WKT = "GEOMETRYCOLLECTION(POINT(45 9),LINESTRING(3 4,10 50,20 25))"
         guard let testGeometryCollection = Geometry.create(WKT) as? GeometryCollection else {
@@ -171,36 +171,39 @@ class GEOSwiftTests: XCTestCase {
     // Test case for Issue #37
     // https://github.com/GEOSwift/GEOSwift/issues/37
     func testCreatePolygonFromLinearRing() {
-        let lr = LinearRing(points: [Coordinate(x:-10, y:10), Coordinate(x:10, y:10), Coordinate(x:10, y:-10), Coordinate(x:-10, y:-10), Coordinate(x:-10, y:10)])
+        let lr = LinearRing(points: [Coordinate(x: -10, y: 10),
+                                     Coordinate(x: 10, y: 10),
+                                     Coordinate(x: 10, y: -10),
+                                     Coordinate(x: -10, y: -10),
+                                     Coordinate(x: -10, y: 10)])
         XCTAssertNotNil(lr, "Failed to create LinearRing")
-        
-        if let lr = lr
-        {
+
+        if let lr = lr {
             let polygon1 = Polygon(shell: lr, holes: nil)
             XCTAssertNotNil(polygon1, "Failed to create polygon from LinearRing")
         }
     }
 
     func testCreateEnvelopeFromCoordinates() {
-        let env = Envelope(p1: Coordinate(x:-10, y:10), p2: Coordinate(x:10, y:-10))
+        let env = Envelope(p1: Coordinate(x: -10, y: 10), p2: Coordinate(x: 10, y: -10))
         XCTAssertNotNil(env, "Failed to create Envelope")
         let geom = env!.envelope()
         XCTAssertEqual(env, geom)
     }
-    
+
     func testCreateEnvelopeByExpanding() {
-        let env = Envelope(p1: Coordinate(x:-10, y:10), p2: Coordinate(x:10, y:-10))
+        let env = Envelope(p1: Coordinate(x: -10, y: 10), p2: Coordinate(x: 10, y: -10))
         XCTAssertNotNil(env, "Failed to create Envelope")
         let newEnv = Envelope.byExpanding(env!, toInclude: Waypoint(latitude: 11, longitude: 11)!)
         XCTAssertNotNil(env, "Failed to expand Envelope")
-        XCTAssertEqual(newEnv!,  Envelope(p1: Coordinate(x:-10, y:11), p2: Coordinate(x:11, y:-10))!)
+        XCTAssertEqual(newEnv!, Envelope(p1: Coordinate(x: -10, y: 11), p2: Coordinate(x: 11, y: -10))!)
     }
 
     func testGeoJSON() {
         let bundle = Bundle(for: GEOSwiftTests.self)
         if let geojsons = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) {
             for geoJSONURL in geojsons {
-                if let _ = try! Features.fromGeoJSON(geoJSONURL)  {
+                if case .some(.some) = try? Features.fromGeoJSON(geoJSONURL) {
                     XCTAssert(true, "GeoJSON correctly parsed")
                 } else {
                     XCTAssert(false, "Can't extract geometry from GeoJSON: \(geoJSONURL.lastPathComponent)")
@@ -208,34 +211,35 @@ class GEOSwiftTests: XCTestCase {
             }
         }
     }
-    
+
     func testNearestPoints() {
+        let polygonWKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
         let point = Geometry.create("POINT(45 9)") as! Waypoint
-        let polygon = Geometry.create("POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))") as! Polygon
-        
+        let polygon = Geometry.create(polygonWKT) as! Polygon
+
         let arrNearestPoints = point.nearestPoints(polygon)
-        
+
         XCTAssertNotNil(arrNearestPoints, "Failed to get nearestPoints array between the two geometries")
         XCTAssertEqual(arrNearestPoints.count, 2, "Number of expected points is 2")
 
         XCTAssertEqual(arrNearestPoints[0].x, point.nearestPoint(polygon).x)
         XCTAssertEqual(arrNearestPoints[0].y, point.nearestPoint(polygon).y)
-        
     }
 
     func testArea() {
         let point = Geometry.create("POINT(45 9)") as! Waypoint
         XCTAssertEqual(0, point.area())
-        
+
         let lr = LinearRing(points: [Coordinate(x: 0, y: 0),
-                                    Coordinate(x: 1, y: 0),
-                                    Coordinate(x: 1, y: 1),
-                                    Coordinate(x: 0, y: 1),
-                                    Coordinate(x: 0, y: 0)])!
+                                     Coordinate(x: 1, y: 0),
+                                     Coordinate(x: 1, y: 1),
+                                     Coordinate(x: 0, y: 1),
+                                     Coordinate(x: 0, y: 0)])!
         let polygon = Polygon(shell: lr, holes: nil)!
         XCTAssertEqual(1, polygon.area())
     }
-    
+
+    // swiftlint:disable:next function_body_length
     func testIsEqual() {
         let lhs = LineString(points: [Coordinate(x: 0, y: 0),
                                       Coordinate(x: 1, y: 0),

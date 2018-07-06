@@ -4,14 +4,13 @@
 
 import Foundation
 
-
 extension NSData {
     public class func fromHexString (string: String) -> NSData {
         // Based on: http://stackoverflow.com/a/2505561/313633
         let data = NSMutableData()
-        
+
         var temp = ""
-        
+
         for char in string.characters {
             temp+=String(char)
             if(temp.characters.count == 2) {

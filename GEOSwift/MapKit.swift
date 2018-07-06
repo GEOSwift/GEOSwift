@@ -16,7 +16,7 @@ A convenience method to convert coordinates in the CoreLocation format.
 :returns: A CLLocationCoordinate2D
 */
 public func CLLocationCoordinate2DFromCoordinate(_ coord: Coordinate) -> CLLocationCoordinate2D {
-    let coord = CLLocationCoordinate2DMake(coord.y, coord.x)
+    let coord = CLLocationCoordinate2D(latitude: coord.y, longitude: coord.x)
     return coord
 }
 
@@ -46,39 +46,41 @@ public protocol GEOSwiftMapKit {
 // Declarations in extensions cannot override yet (in Swift 2.0)!
 // Solve conformance to protocol with an inelegant (but effective) switch case.
 
-extension Geometry : GEOSwiftMapKit {
+extension Geometry: GEOSwiftMapKit {
     public func mapShape() -> MKShape {
-        
+
         switch self {
-            
+
         case is Waypoint:
             let pointAnno = MKPointAnnotation()
             pointAnno.coordinate = CLLocationCoordinate2DFromCoordinate((self as! Waypoint).coordinate)
             return pointAnno
-            
+
         case is LineString:
             var coordinates = (self as! LineString).points.map({ (point: Coordinate) ->
                 CLLocationCoordinate2D in
-                return CLLocationCoordinate2DFromCoordinate(point)
+                CLLocationCoordinate2DFromCoordinate(point)
             })
             let polyline = MKPolyline(coordinates: &coordinates,
-                count: coordinates.count)
+                                      count: coordinates.count)
             return polyline
-            
+
         case is Polygon:
             var exteriorRingCoordinates = (self as! Polygon).exteriorRing.points.map({ (point: Coordinate) ->
                 CLLocationCoordinate2D in
-                return CLLocationCoordinate2DFromCoordinate(point)
+                CLLocationCoordinate2DFromCoordinate(point)
             })
-            
+
             let interiorRings = (self as! Polygon).interiorRings.map({ (linearRing: LinearRing) ->
                 MKPolygon in
-                return MKPolygonWithCoordinatesSequence(linearRing.points)
+                MKPolygonWithCoordinatesSequence(linearRing.points)
             })
-            
-            let polygon = MKPolygon(coordinates: &exteriorRingCoordinates, count: exteriorRingCoordinates.count, interiorPolygons: interiorRings)
+
+            let polygon = MKPolygon(coordinates: &exteriorRingCoordinates,
+                                    count: exteriorRingCoordinates.count,
+                                    interiorPolygons: interiorRings)
             return polygon
-            
+
         case let gc as GeometryCollection<Waypoint>:
             return MKShapesCollection(geometryCollection: gc)
 
@@ -98,43 +100,41 @@ extension Geometry : GEOSwiftMapKit {
 private func MKPolygonWithCoordinatesSequence(_ coordinates: CoordinatesCollection) -> MKPolygon {
     var coordinates = coordinates.map({ (point: Coordinate) ->
         CLLocationCoordinate2D in
-        return CLLocationCoordinate2DFromCoordinate(point)
+        CLLocationCoordinate2DFromCoordinate(point)
     })
     return MKPolygon(coordinates: &coordinates,
-        count: coordinates.count)
-    
+                     count: coordinates.count)
+
 }
 
 /** 
 MKShape subclass for GeometryCollections.
-The property `shapes` contains MKShape subclasses instances. When drawing shapes on a map be careful to the fact that that these shapes could be overlays OR annotations.
+The property `shapes` contains MKShape subclasses instances.
+When drawing shapes on a map be careful to the fact that that these shapes could be overlays OR annotations.
 */
-open class MKShapesCollection : MKShape, MKOverlay  {
-    open let shapes: Array<MKShape>
+open class MKShapesCollection: MKShape, MKOverlay {
+    open let shapes: [MKShape]
     open let centroid: CLLocationCoordinate2D
     open let boundingMapRect: MKMapRect
-    
+
     required public init<T>(geometryCollection: GeometryCollection<T>) {
-        let shapes = geometryCollection.geometries.map({ (geometry: T) ->
-            MKShape in
-                return geometry.mapShape()
-        })
-        
+        let shapes = geometryCollection.geometries.map { $0.mapShape() }
+
         if let coordinate = geometryCollection.centroid()?.coordinate {
             self.centroid = CLLocationCoordinate2DFromCoordinate(coordinate)
         } else {
-            self.centroid = CLLocationCoordinate2DFromCoordinate(CoordinateFromCLLocationCoordinate2D(CLLocationCoordinate2DMake(0, 0)))
+            self.centroid = CLLocationCoordinate2D(latitude: 0, longitude: 0)
         }
-        
+
         self.shapes = shapes
 
         if let envelope = geometryCollection.envelope() {
-            //let exteriorRing = envelope.exteriorRing
             let bottomLeft = MKMapPointForCoordinate(CLLocationCoordinate2DFromCoordinate(envelope.bottomLeft))
             let topRight = MKMapPointForCoordinate(CLLocationCoordinate2DFromCoordinate(envelope.topRight))
-            let mapRect = MKMapRectMake(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y)
+            let mapRect = MKMapRect(origin: MKMapPoint(x: bottomLeft.x, y: bottomLeft.y),
+                                    size: MKMapSize(width: topRight.x - bottomLeft.x,
+                                                    height: topRight.y - bottomLeft.y))
             self.boundingMapRect = mapRect
-            
         } else {
             self.boundingMapRect = MKMapRectNull
         }
