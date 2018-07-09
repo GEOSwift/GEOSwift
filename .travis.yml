@@ -22,9 +22,6 @@ env:
 
 script:
   - set -o pipefail
-  - xcodebuild -version
-  - xcodebuild -showsdks
-
   - xcodebuild
     -workspace "$WORKSPACE"
     -scheme "$SCHEME"
@@ -32,14 +29,4 @@ script:
     -destination "$DESTINATION"
     -configuration Debug
     ONLY_ACTIVE_ARCH=YES
-    clean test;
-
-  - xcodebuild
-    -workspace "$WORKSPACE"
-    -scheme "$SCHEME"
-    -sdk "$SDK"
-    -destination "$DESTINATION"
-    -configuration Release
-    ONLY_ACTIVE_ARCH=YES
-    ENABLE_TESTABILITY=YES
     clean test;
