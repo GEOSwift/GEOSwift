@@ -1,6 +1,7 @@
 language: objective-c
 
 before_install:
+  - gem install xcpretty
   - gem install cocoapods -v '1.5.3'
   - pod repo update
   - pod install --verbose
@@ -29,4 +30,4 @@ script:
     -destination "$DESTINATION"
     -configuration Debug
     ONLY_ACTIVE_ARCH=YES
-    clean test
+    clean test | xcpretty -c;
