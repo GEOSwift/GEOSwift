@@ -5,7 +5,7 @@ DEPENDENCIES:
   - geos
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - geos
 
 SPEC CHECKSUMS:
@@ -13,4 +13,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 51ad745c42216871e2c10593cc83e062c0f56204
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3

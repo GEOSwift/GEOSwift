@@ -1,14 +1,14 @@
 language: objective-c
 
 before_install:
-  - gem install cocoapods -v '1.5.0'
+  - gem install cocoapods -v '1.5.3'
   - pod repo update
   - pod install --verbose
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J GEOSwift
 
-osx_image: xcode9.3
+osx_image: xcode9.4
 
 cache: cocoapods
 
@@ -16,9 +16,9 @@ env:
   global:
     - WORKSPACE=GEOSwift.xcworkspace
     - SCHEME=GEOSwift
-    - SDK=iphonesimulator11.3
+    - SDK=iphonesimulator11.4
   matrix:
-    - DESTINATION="OS=11.3,name=iPhone X"
+    - DESTINATION="OS=11.4,name=iPhone X"
 
 script:
   - set -o pipefail
