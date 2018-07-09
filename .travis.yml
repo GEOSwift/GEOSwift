@@ -31,11 +31,3 @@ script:
     ONLY_ACTIVE_ARCH=YES
     ENABLE_TESTABILITY=YES
     clean test
-  - xcodebuild
-    -workspace "$WORKSPACE"
-    -scheme "$SCHEME"
-    -sdk "$SDK"
-    -destination "$DESTINATION"
-    -configuration Debug
-    ONLY_ACTIVE_ARCH=YES
-    clean test
