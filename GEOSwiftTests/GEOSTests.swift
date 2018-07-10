@@ -11,74 +11,165 @@ import GEOSwift
 
 class GEOSwiftTests: XCTestCase {
 
+    var waypoint: Waypoint!
+    var lineString: LineString!
+    var linearRing: LinearRing!
+    var polygon: Polygon!
+    var geometryCollection: GeometryCollection<Geometry>!
+    var multiPoint: MultiPoint<Waypoint>!
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        waypoint = Waypoint(latitude: 9, longitude: 45)
+        lineString = LineString(points: [Coordinate(x: 3, y: 4),
+                                         Coordinate(x: 10, y: 50),
+                                         Coordinate(x: 20, y: 25)])
+        linearRing = LinearRing(points: [Coordinate(x: 35, y: 10),
+                                         Coordinate(x: 45, y: 45),
+                                         Coordinate(x: 15, y: 40),
+                                         Coordinate(x: 10, y: 20),
+                                         Coordinate(x: 35, y: 10)])
+        polygon = Polygon(shell: linearRing,
+                          holes: [LinearRing(points: [Coordinate(x: 20, y: 30),
+                                                      Coordinate(x: 35, y: 35),
+                                                      Coordinate(x: 30, y: 20),
+                                                      Coordinate(x: 20, y: 30)])!])
+        geometryCollection = GeometryCollection(geometries: [waypoint, lineString])
+        multiPoint = MultiPoint(points: [waypoint])
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+        multiPoint = nil
+        geometryCollection = nil
+        polygon = nil
+        linearRing = nil
+        lineString = nil
+        waypoint = nil
         super.tearDown()
     }
 
-    func testCreatePointFromWKT() {
-        var result = false
-        if let point = Geometry.create("POINT(45 9)") as? Waypoint,
-            let point2 = Waypoint(WKT: "POINT(45 9)") {
-            result = point.coordinate.x == 45 && point.coordinate.y == 9 && point == point2
+    func testInitPointFromWKT() {
+        guard let testWaypoint = Waypoint(WKT: "POINT(45 9)") else {
+            XCTFail("WKT parse failed")
+            return
         }
-        XCTAssert(result, "WKT parse failed (expected to receive a POINT)")
+        XCTAssertEqual(testWaypoint, waypoint)
+        XCTAssertEqual(testWaypoint.coordinate.x, 45)
+        XCTAssertEqual(testWaypoint.coordinate.y, 9)
+    }
+
+    func testInitLinestringFromWKT() {
+        guard let testLineString = LineString(WKT: "LINESTRING(3 4,10 50,20 25)") else {
+            XCTFail("WKT parse failed")
+            return
+        }
+        XCTAssertEqual(testLineString, lineString)
+    }
+
+    func testInitLinearRingFromWKT() {
+        guard let testLinearRing = LinearRing(WKT: "LINEARRING(35 10,45 45,15 40,10 20,35 10)") else {
+            XCTFail("WKT parse failed")
+            return
+        }
+        XCTAssertEqual(testLinearRing, linearRing)
+    }
+
+    func testInitPolygonFromWKT() {
+        let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
+        guard let testPolygon = Polygon(WKT: WKT) else {
+            XCTFail("WKT parse failed")
+            return
+        }
+        XCTAssertEqual(testPolygon, polygon)
+    }
+
+
+    func testInitGeometryCollectionFromWKT() {
+        let WKT = "GEOMETRYCOLLECTION(POINT(45 9),LINESTRING(3 4,10 50,20 25))"
+        guard let testGeometryCollection = GeometryCollection(WKT: WKT) else {
+            XCTFail("WKT parse failed")
+            return
+        }
+        XCTAssertEqual(testGeometryCollection, geometryCollection)
+    }
+
+    func testInitMultiPointFromWKT() {
+        guard let testMultiPoint = MultiPoint(WKT: "MULTIPOINT(45 9)") else {
+            XCTFail("WKT parse failed")
+            return
+        }
+        XCTAssertEqual(testMultiPoint, multiPoint)
+    }
+
+    func testCreatePointFromWKT() {
+        guard let testWaypoint = Geometry.create("POINT(45 9)") as? Waypoint else {
+            XCTFail("WKT parse failed (expected to receive a POINT)")
+            return
+        }
+        XCTAssertEqual(testWaypoint, waypoint)
+        XCTAssertEqual(testWaypoint.coordinate.x, 45)
+        XCTAssertEqual(testWaypoint.coordinate.y, 9)
     }
 
     func testCreateLinestringFromWKT() {
-        var result = false
-        let WKT = "LINESTRING(3 4,10 50,20 25)"
-        if let linestring = Geometry.create(WKT) as? LineString,
-            let linestring2 = LineString(WKT: WKT) {
-            result = linestring.points.count == 3 && linestring.points[0].x == 3 && linestring.points[0].y == 4 && linestring == linestring2
+        guard let testLineString = Geometry.create("LINESTRING(3 4,10 50,20 25)") as? LineString else {
+            XCTFail("WKT parse failed (expected to receive a LINESTRING)")
+            return
         }
-        XCTAssert(result, "WKT parse failed (expected to receive a LINESTRING)")
+        XCTAssertEqual(testLineString, lineString)
     }
     
     func testCreateLinearRingFromWKT() {
-        var result = false
-        let WKT = "LINEARRING(3 4,10 50,20 25,3 4)"
-        if let linearring = Geometry.create(WKT) as? LinearRing,
-            let linearring2 = LinearRing(WKT: WKT) {
-            result = linearring.points.count == 4 && linearring.points[0].x == 3 && linearring.points[0].y == 4 && linearring == linearring2
+        guard let testLinearRing = Geometry.create("LINEARRING(35 10,45 45,15 40,10 20,35 10)") as? LinearRing else {
+            XCTFail("WKT parse failed (expected to receive a LINEARRING)")
+            return
         }
-        XCTAssert(result, "WKT parse failed (expected to receive a LINEARRING)")
+        XCTAssertEqual(testLinearRing, linearRing)
     }
 
     func testCreatePolygonFromWKT() {
-        var result = false
         let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
-        if let polygon = Geometry.create(WKT) as? Polygon,
-            let polygon2 = Polygon(WKT: WKT){
-            let exteriorRing = polygon.exteriorRing
-            result = polygon.interiorRings.count == 1 && exteriorRing.points.count == 5 && exteriorRing.points[0].x == 35 && exteriorRing.points[0].y == 10 && polygon == polygon2
-        }
-        XCTAssert(result, "WKT parse failed (expected to receive a POLYGON)")
-    }
-    
-    func testCreateWKBFromPolygon() {
-        let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
-        guard let polygon = Polygon(WKT: WKT) else {
-            XCTFail("Failed to create Polygon")
+        guard let testPolygon = Geometry.create(WKT) as? Polygon else {
+            XCTFail("WKT parse failed (expected to receive a POLYGON)")
             return
         }
-        let wkb = polygon.WKB
-        XCTAssertNotNil(wkb)
-        XCTAssertFalse(wkb!.isEmpty)
-        guard let polygon2 = Polygon(WKB: wkb!) else {
+        XCTAssertEqual(testPolygon, polygon)
+    }
+    
+    func testCreateGeometryCollectionFromWKT() {
+        let WKT = "GEOMETRYCOLLECTION(POINT(45 9),LINESTRING(3 4,10 50,20 25))"
+        guard let testGeometryCollection = Geometry.create(WKT) as? GeometryCollection else {
+            XCTFail("WKT parse failed (expected to receive a GEOMETRYCOLLECTION)")
+            return
+        }
+        XCTAssertEqual(testGeometryCollection, geometryCollection)
+    }
+
+    func testCreateMultiPointFromWKT() {
+        guard let testMultiPoint = Geometry.create("MULTIPOINT(45 9)") as? MultiPoint else {
+            XCTFail("WKT parse failed (expected to receive a MULTIPOINT)")
+            return
+        }
+        XCTAssertEqual(testMultiPoint, multiPoint)
+    }
+
+    func testCreateWKBFromPolygon() {
+        guard let wkb = polygon.WKB else {
+            XCTFail("Failed to generate WKB")
+            return
+        }
+        XCTAssertFalse(wkb.isEmpty)
+        guard let generatedPolygon = Geometry.create(wkb, size: wkb.count) else {
             XCTFail("Failed to create Polygon from generated WKB")
             return
         }
-        XCTAssertEqual(polygon, polygon2, "Polygon round-tripped via WKB is not equal")
+        XCTAssertEqual(polygon, generatedPolygon, "Polygon round-tripped via WKB is not equal")
     }
-    
+
     // Test case for Issue #37
-    // https://github.com/andreacremaschi/GEOSwift/issues/37
+    // https://github.com/GEOSwift/GEOSwift/issues/37
     func testCreatePolygonFromLinearRing() {
         let lr = LinearRing(points: [Coordinate(x:-10, y:10), Coordinate(x:10, y:10), Coordinate(x:10, y:-10), Coordinate(x:-10, y:-10), Coordinate(x:-10, y:10)])
         XCTAssertNotNil(lr, "Failed to create LinearRing")
@@ -104,41 +195,13 @@ class GEOSwiftTests: XCTestCase {
         XCTAssertNotNil(env, "Failed to expand Envelope")
         XCTAssertEqual(newEnv!,  Envelope(p1: Coordinate(x:-10, y:11), p2: Coordinate(x:11, y:-10))!)
     }
-    
-    func testCreateGeometriesCollectionFromWKT() {
-        var result = false
-        let WKT = "GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))"
-        if let geometryCollection = Geometry.create(WKT) as? GeometryCollection,
-            let geometryCollection2 = GeometryCollection(WKT: WKT) {
-            if geometryCollection.geometries.count == 2 && geometryCollection2 == geometryCollection,
-                let _ = geometryCollection.geometries[0] as? Waypoint,
-                let _ = geometryCollection.geometries[1] as? LineString {
-                result = true
-            }
-        }
-        XCTAssert(result, "WKT parse failed (expected to receive a GEOMETRYCOLLECTION containing a POINT and a LINESTRING)")
-    }
-
-    func testCreateMultiPointFromWKT() {
-        var result = false
-        let WKT = "MULTIPOINT(-2 0,-1 -1,0 0,1 -1,2 0,0 2,-2 0)"
-        if let multiPoint = Geometry.create(WKT) as? MultiPoint,
-            let multiPoint2 = MultiPoint(WKT: WKT) {
-            if multiPoint.geometries.count == 7 && multiPoint == multiPoint2 {
-                result = true
-            }
-        }
-        XCTAssert(result, "WKT parse failed (expected to receive a MULTIPOINT)")
-    }
 
     func testGeoJSON() {
         let bundle = Bundle(for: GEOSwiftTests.self)
         if let geojsons = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) {
             for geoJSONURL in geojsons {
-                if let features = try! Features.fromGeoJSON(geoJSONURL)  {
-//                    geometries[0].debugQuickLookObject()
+                if let _ = try! Features.fromGeoJSON(geoJSONURL)  {
                     XCTAssert(true, "GeoJSON correctly parsed")
-                    print("\(geoJSONURL.lastPathComponent): \(features)")
                 } else {
                     XCTAssert(false, "Can't extract geometry from GeoJSON: \(geoJSONURL.lastPathComponent)")
                 }
@@ -233,5 +296,26 @@ class GEOSwiftTests: XCTestCase {
         XCTAssertFalse(rhs == lhs)
         XCTAssertFalse(lhs.isEqual(rhs))
         XCTAssertFalse(rhs.isEqual(lhs))
+    }
+
+    // Test case for Issue #85
+    // https://github.com/GEOSwift/GEOSwift/issues/85
+    func testStorageManagement() {
+        func getLineStringFromCollection() -> LineString? {
+            // Define the GeometryCollection in a separate scope, so that it is
+            // deallocated before the returned LineString is used.
+            let geometryCollection = GeometryCollection(geometries: [lineString])
+            return geometryCollection?.geometries[0] as? LineString
+        }
+        guard let element = getLineStringFromCollection() else {
+            XCTFail("Element creation failed")
+            return
+        }
+
+        // Since the LineString depends on the underlying storage of the
+        // GeometryCollection we need to ensure that the storage persists even
+        // when the collection itself is destroyed. The following equality check
+        // would crash when accessing the LineString storage.
+        XCTAssertEqual(element, lineString)
     }
 }
