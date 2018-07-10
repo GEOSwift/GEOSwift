@@ -9,7 +9,7 @@ import Foundation
 
 typealias GEOSCallbackFunction = @convention(c) (UnsafeMutableRawPointer) -> Void
 
-let swiftCallback : GEOSCallbackFunction = {
+let swiftCallback: GEOSCallbackFunction = {
     guard let string = String(validatingUTF8: $0.assumingMemoryBound(to: CChar.self)) else { return }
     print("GEOSwift # " + string + ".")
 }
@@ -38,13 +38,13 @@ final public class GeometryStorage {
 
     deinit {
         if parent == nil {
-            GEOSGeom_destroy_r(GEOS_HANDLE, GEOSGeom);
+            GEOSGeom_destroy_r(GEOS_HANDLE, GEOSGeom)
         }
     }
 }
 
 /// A base abstract geometry class
-// Geometry is a model data type, so a struct would be a better fit, but it is actually a wrapper of GEOS native objects,
+// Geometry is a model data type, so a struct would be a better fit, but it is actually a wrapper of GEOS native objects
 // that are in fact C pointers, and structs in Swift don't have a dealloc where one can release allocated memory.
 // Furthermore, being a class Geometry can inherit from NSObject so that debugQuickLookObject() can be implemented
 open class Geometry: NSObject {
@@ -89,34 +89,34 @@ open class Geometry: NSObject {
         switch UInt32(geometryTypeId) {
         case GEOS_POINT.rawValue:
             subclass = Waypoint.self
-            
+
         case GEOS_LINESTRING.rawValue:
             subclass = LineString.self
-            
+
         case GEOS_LINEARRING.rawValue:
             subclass = LinearRing.self
-            
+
         case GEOS_POLYGON.rawValue:
             subclass = Polygon.self
-            
+
         case GEOS_MULTIPOINT.rawValue:
             subclass = MultiPoint.self
-            
+
         case GEOS_MULTILINESTRING.rawValue:
             subclass = MultiLineString.self
-            
+
         case GEOS_MULTIPOLYGON.rawValue:
             subclass = MultiPolygon.self
-            
+
         case GEOS_GEOMETRYCOLLECTION.rawValue:
             subclass = GeometryCollection<Geometry>.self
-            
+
         default:
             return nil
         }
         return subclass
     }
-    
+
     /**
      Create a Geometry subclass from its Well Known Text representation.
 
@@ -141,7 +141,7 @@ open class Geometry: NSObject {
 
      - returns: The proper Geometry subclass as parsed from the binary data (i.e. `Waypoint`).
      */
-    open class func create(_ WKB: UnsafePointer<UInt8>, size: Int)  -> Geometry? {
+    open class func create(_ WKB: UnsafePointer<UInt8>, size: Int) -> Geometry? {
         let WKBReader = GEOSWKBReader_create_r(GEOS_HANDLE)
         defer { GEOSWKBReader_destroy_r(GEOS_HANDLE, WKBReader) }
         guard let GEOSGeom = GEOSWKBReader_read_r(GEOS_HANDLE, WKBReader, WKB, size) else {
@@ -151,7 +151,7 @@ open class Geometry: NSObject {
     }
 
     /// The Well Known Text (WKT) representation of the Geometry.
-    fileprivate(set) open lazy var WKT : String? = {
+    fileprivate(set) open lazy var WKT: String? = {
         let WKTWriter = GEOSWKTWriter_create_r(GEOS_HANDLE)
         GEOSWKTWriter_setTrim_r(GEOS_HANDLE, WKTWriter, 1)
         guard let wktString = GEOSWKTWriter_write_r(GEOS_HANDLE, WKTWriter, storage.GEOSGeom) else {
@@ -164,7 +164,7 @@ open class Geometry: NSObject {
     }()
 
     /// The Well Known Binary (WKB) representation of the Geometry.
-    fileprivate(set) open lazy var WKB : [UInt8]? = {
+    fileprivate(set) open lazy var WKB: [UInt8]? = {
         let WKBWriter = GEOSWKBWriter_create_r(GEOS_HANDLE)
         var size: Int = 0
         guard let buf = GEOSWKBWriter_write_r(GEOS_HANDLE, WKBWriter, storage.GEOSGeom, &size), size > 0 else {
@@ -175,7 +175,7 @@ open class Geometry: NSObject {
         GEOSWKBWriter_destroy_r(GEOS_HANDLE, WKBWriter)
         return wkb
     }()
-    
+
     /// Returns true if the two Geometries are exactly equal. This gives Geometry and its
     /// subclasses an Equatable behavior that is based on the geometry value rather than
     /// on object identity (the NSObject default). To compare object identity, use ===
@@ -188,30 +188,42 @@ open class Geometry: NSObject {
     }
 }
 
-public struct CoordinatesCollection: Sequence {
+public struct CoordinatesCollection: Collection {
     private let storage: GeometryStorage
     public let count: UInt32
-    
+
     init(storage: GeometryStorage) {
         self.storage = storage
         let sequence = GEOSGeom_getCoordSeq_r(GEOS_HANDLE, storage.GEOSGeom)
         var numCoordinates: UInt32 = 0
-        GEOSCoordSeq_getSize_r(GEOS_HANDLE, sequence, &numCoordinates);
+        GEOSCoordSeq_getSize_r(GEOS_HANDLE, sequence, &numCoordinates)
         self.count = numCoordinates
     }
-    
+
+    public var startIndex: UInt32 {
+        return 0
+    }
+
+    public var endIndex: UInt32 {
+        return count
+    }
+
+    public func index(after i: UInt32) -> UInt32 {
+        return i + 1
+    }
+
     public subscript(index: UInt32) -> Coordinate {
         var x: Double = 0
         var y: Double = 0
 
         assert(self.count > index, "Index out of bounds")
         let sequence = GEOSGeom_getCoordSeq_r(GEOS_HANDLE, storage.GEOSGeom)
-        GEOSCoordSeq_getX_r(GEOS_HANDLE, sequence, index, &x);
-        GEOSCoordSeq_getY_r(GEOS_HANDLE, sequence, index, &y);
+        GEOSCoordSeq_getX_r(GEOS_HANDLE, sequence, index, &x)
+        GEOSCoordSeq_getY_r(GEOS_HANDLE, sequence, index, &y)
 
         return Coordinate(x: x, y: y)
     }
-    
+
     public func makeIterator() -> AnyIterator<Coordinate> {
         var index: UInt32 = 0
         return AnyIterator {
@@ -221,9 +233,9 @@ public struct CoordinatesCollection: Sequence {
             return item
         }
     }
-    
+
     public func map<U>(_ transform: (Coordinate) -> U) -> [U] {
-        var array = Array<U>()
+        var array = [U]()
         for coord in self {
             array.append(transform(coord))
         }
@@ -257,7 +269,7 @@ public struct GeometriesCollection<T: Geometry>: Sequence {
     }
 
     public func map<U>(_ transform: (T) -> U) -> [U] {
-        var array = Array<U>()
+        var array = [U]()
         for geom in self {
             array.append(transform(geom))
         }

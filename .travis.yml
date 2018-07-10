@@ -5,6 +5,7 @@ before_install:
   - gem install cocoapods -v '1.5.3'
   - pod repo update
   - pod install --verbose
+  - brew install swiftlint
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J '^GEOSwift$'
