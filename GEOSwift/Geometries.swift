@@ -174,9 +174,9 @@ open class LineString: Geometry {
         return 1 // GEOS_LINESTRING
     }
 
-    fileprivate(set) open lazy var points: CoordinatesCollection = {
+    open lazy var points: CoordinatesCollection = {
         CoordinatesCollection(storage: storage)
-        }()
+    }()
 
     public convenience init?(points: [Coordinate]) {
         let seq = GEOSCoordSeq_create_r(GEOS_HANDLE, UInt32(points.count), 2)

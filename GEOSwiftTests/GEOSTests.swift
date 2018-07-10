@@ -322,4 +322,14 @@ class GEOSwiftTests: XCTestCase {
         // would crash when accessing the LineString storage.
         XCTAssertEqual(element, lineString)
     }
+
+    func testCoordinatesCollection() {
+        let collection = lineString.points
+
+        XCTAssertEqual(collection.startIndex, 0)
+        XCTAssertEqual(collection.endIndex, collection.count)
+        XCTAssertEqual(collection.index(after: 0), 1)
+        XCTAssertEqual(collection.index(after: 1), 2)
+        XCTAssertEqual(collection.index(after: 2), 3)
+    }
 }

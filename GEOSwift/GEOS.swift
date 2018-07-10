@@ -205,7 +205,7 @@ public struct CoordinatesCollection: Collection {
     }
 
     public var endIndex: UInt32 {
-        return count - 1
+        return count
     }
 
     public func index(after i: UInt32) -> UInt32 {
