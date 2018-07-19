@@ -1,6 +1,7 @@
 included: # paths to include during linting. `--path` is ignored if present.
   - GEOSwift
   - GEOSwiftTests
+  - GEOSwift.playground
 disabled_rules:
   - force_cast
   - identifier_name
