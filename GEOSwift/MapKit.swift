@@ -8,100 +8,39 @@
 import Foundation
 import MapKit
 
-/**
-A convenience method to convert coordinates in the CoreLocation format.
-
-:param: coord the `Coordinate` object
-
-:returns: A CLLocationCoordinate2D
-*/
-public func CLLocationCoordinate2DFromCoordinate(_ coord: Coordinate) -> CLLocationCoordinate2D {
-    let coord = CLLocationCoordinate2D(latitude: coord.y, longitude: coord.x)
-    return coord
-}
-
-/**
- A convenience method to convert coordinates from the CoreLocation format.
- 
- :param: coord the `CLLocationCoordinate2D` object
- 
- :returns: A Coordinate
- */
-public func CoordinateFromCLLocationCoordinate2D(_ coord: CLLocationCoordinate2D) -> Coordinate {
-    let coord = Coordinate(x: coord.longitude, y: coord.latitude)
-    return coord
-}
-
-// MARK: - MKShape creation convenience function
-
-public protocol GEOSwiftMapKit {
-    /**
-    A convenience method to create a `MKShape` ready to be added to a `MKMapView`.
-    
-    :returns: A MKShape representing this geometry.
-    */
-    func mapShape() -> MKShape
-}
-
-// Declarations in extensions cannot override yet (in Swift 2.0)!
-// Solve conformance to protocol with an inelegant (but effective) switch case.
-
-extension Geometry: GEOSwiftMapKit {
+extension Geometry {
     public func mapShape() -> MKShape {
-
         switch self {
-
         case is Waypoint:
             let pointAnno = MKPointAnnotation()
-            pointAnno.coordinate = CLLocationCoordinate2DFromCoordinate((self as! Waypoint).coordinate)
+            pointAnno.coordinate = CLLocationCoordinate2D((self as! Waypoint).coordinate)
             return pointAnno
-
         case is LineString:
-            var coordinates = (self as! LineString).points.map({ (point: Coordinate) ->
-                CLLocationCoordinate2D in
-                CLLocationCoordinate2DFromCoordinate(point)
-            })
-            let polyline = MKPolyline(coordinates: &coordinates,
-                                      count: coordinates.count)
-            return polyline
-
+            var coordinates = (self as! LineString).points.map(CLLocationCoordinate2D.init)
+            return MKPolyline(coordinates: &coordinates,
+                              count: coordinates.count)
         case is Polygon:
-            var exteriorRingCoordinates = (self as! Polygon).exteriorRing.points.map({ (point: Coordinate) ->
-                CLLocationCoordinate2D in
-                CLLocationCoordinate2DFromCoordinate(point)
-            })
-
-            let interiorRings = (self as! Polygon).interiorRings.map({ (linearRing: LinearRing) ->
-                MKPolygon in
-                MKPolygonWithCoordinatesSequence(linearRing.points)
-            })
-
-            let polygon = MKPolygon(coordinates: &exteriorRingCoordinates,
-                                    count: exteriorRingCoordinates.count,
-                                    interiorPolygons: interiorRings)
-            return polygon
-
+            var exteriorRingCoordinates = (self as! Polygon).exteriorRing.points.map(CLLocationCoordinate2D.init)
+            let interiorRings = (self as! Polygon).interiorRings.map {
+                MKPolygonWithCoordinatesSequence($0.points)
+            }
+            return MKPolygon(coordinates: &exteriorRingCoordinates,
+                             count: exteriorRingCoordinates.count,
+                             interiorPolygons: interiorRings)
         case let gc as GeometryCollection<Waypoint>:
             return MKShapesCollection(geometryCollection: gc)
-
         case let gc as GeometryCollection<LineString>:
             return MKShapesCollection(geometryCollection: gc)
-
         case let gc as GeometryCollection<Polygon>:
             return MKShapesCollection(geometryCollection: gc)
-
         default:
-            let geometryCollectionOverlay = MKShapesCollection(geometryCollection: (self as! GeometryCollection))
-            return geometryCollectionOverlay
+            return MKShapesCollection(geometryCollection: (self as! GeometryCollection))
         }
     }
 }
 
 private func MKPolygonWithCoordinatesSequence(_ coordinates: CoordinatesCollection) -> MKPolygon {
-    var coordinates = coordinates.map({ (point: Coordinate) ->
-        CLLocationCoordinate2D in
-        CLLocationCoordinate2DFromCoordinate(point)
-    })
+    var coordinates = coordinates.map(CLLocationCoordinate2D.init)
     return MKPolygon(coordinates: &coordinates,
                      count: coordinates.count)
 
@@ -121,7 +60,7 @@ open class MKShapesCollection: MKShape, MKOverlay {
         let shapes = geometryCollection.geometries.map { $0.mapShape() }
 
         if let coordinate = geometryCollection.centroid()?.coordinate {
-            self.centroid = CLLocationCoordinate2DFromCoordinate(coordinate)
+            self.centroid = CLLocationCoordinate2D(coordinate)
         } else {
             self.centroid = CLLocationCoordinate2D(latitude: 0, longitude: 0)
         }
@@ -129,8 +68,8 @@ open class MKShapesCollection: MKShape, MKOverlay {
         self.shapes = shapes
 
         if let envelope = geometryCollection.envelope() {
-            let bottomLeft = MKMapPointForCoordinate(CLLocationCoordinate2DFromCoordinate(envelope.bottomLeft))
-            let topRight = MKMapPointForCoordinate(CLLocationCoordinate2DFromCoordinate(envelope.topRight))
+            let bottomLeft = MKMapPointForCoordinate(CLLocationCoordinate2D(envelope.bottomLeft))
+            let topRight = MKMapPointForCoordinate(CLLocationCoordinate2D(envelope.topRight))
             let mapRect = MKMapRect(origin: MKMapPoint(x: bottomLeft.x, y: bottomLeft.y),
                                     size: MKMapSize(width: topRight.x - bottomLeft.x,
                                                     height: topRight.y - bottomLeft.y))
@@ -139,4 +78,30 @@ open class MKShapesCollection: MKShape, MKOverlay {
             self.boundingMapRect = MKMapRectNull
         }
     }
+}
+
+// MARK: - CLLocationCoordinate2D Conversions
+
+extension CLLocationCoordinate2D {
+    public init(_ coord: Coordinate) {
+        self.init(latitude: coord.y, longitude: coord.x)
+    }
+}
+
+extension Coordinate {
+    public init(_ coord: CLLocationCoordinate2D) {
+        self.init(x: coord.longitude, y: coord.latitude)
+    }
+}
+
+// MARK: - Deprecated
+
+@available(*, unavailable, renamed: "CLLocationCoordinate2D")
+public func CLLocationCoordinate2DFromCoordinate(_ coord: Coordinate) -> CLLocationCoordinate2D {
+    fatalError()
+}
+
+@available(*, unavailable, renamed: "Coordinate")
+public func CoordinateFromCLLocationCoordinate2D(_ coord: CLLocationCoordinate2D) -> Coordinate {
+    fatalError()
 }
