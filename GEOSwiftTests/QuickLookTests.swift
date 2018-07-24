@@ -36,6 +36,7 @@ final class QuickLookTests: XCTestCase {
     override func tearDown() {
         if context != nil {
             UIGraphicsEndImageContext()
+            context = nil
         }
         geometryCollection = nil
         polygon = nil
