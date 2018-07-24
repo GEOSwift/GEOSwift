@@ -68,10 +68,20 @@ public extension Geometry {
         return Geometry.create(storage: GeometryStorage(GEOSGeom: centroidGEOM, parent: nil)) as? Waypoint
     }
 
-    /// - returns: A Polygon that represents the bounding envelope of this geometry.
+    /// - returns: A Polygon that represents the bounding envelope of this geometry,
+    ///            or nil in the case of an empty geometry
     func envelope() -> Envelope? {
         guard let envelopeGEOM = GEOSEnvelope_r(GEOS_HANDLE, storage.GEOSGeom) else { return nil }
-        return Envelope(storage: GeometryStorage(GEOSGeom: envelopeGEOM, parent: nil))
+        let envStorage = GeometryStorage(GEOSGeom: envelopeGEOM, parent: nil)
+        switch GEOSGeomTypeId_r(GEOS_HANDLE, envStorage.GEOSGeom) {
+        case Polygon.geometryTypeId():
+            return Envelope(storage: envStorage)
+        case Waypoint.geometryTypeId():
+            let wp = Waypoint(storage: envStorage)
+            return Envelope(p1: wp.coordinate, p2: wp.coordinate)
+        default:
+            return nil
+        }
     }
 
     /// - returns: A POINT guaranteed to lie on the surface.
