@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 
 extension Geometry {
-    public func mapShape() -> MKShape {
+    public func mapShape() -> MKShape? {
         switch self {
         case is Waypoint:
             let pointAnno = MKPointAnnotation()
@@ -30,7 +30,7 @@ extension Geometry {
         case let gc as GeometryCollection<Geometry>:
             return MKShapesCollection(geometryCollection: gc)
         default:
-            fatalError("unhandled case")
+            return nil
         }
     }
 }
@@ -53,7 +53,7 @@ open class MKShapesCollection: MKShape, MKOverlay {
     open let boundingMapRect: MKMapRect
 
     required public init<T>(geometryCollection: GeometryCollection<T>) {
-        let shapes = geometryCollection.geometries.map { $0.mapShape() }
+        let shapes = geometryCollection.geometries.compactMap { $0.mapShape() }
 
         if let coordinate = geometryCollection.centroid()?.coordinate {
             self.centroid = CLLocationCoordinate2D(coordinate)
