@@ -177,7 +177,16 @@
 			isa = PBXGroup;
 			children = (
 				CD25D73D1B27364E008B3FB3 /* GEOSwift.h */,
-				CD25D7241B2732FE008B3FB3 /* Source */,
+				BF7C38071F82F03D001509AF /* Feature.swift */,
+				CD25D7251B2732FE008B3FB3 /* GeoJSON.swift */,
+				CD20F1E01B2844210045D8FD /* Geometries.swift */,
+				CD25D7261B2732FE008B3FB3 /* GEOS.swift */,
+				4993ABE920F4F1CF0066547D /* LinearRef.swift */,
+				CD25D72C1B2732FE008B3FB3 /* MapKit.swift */,
+				4993ABEA20F4F1CF0066547D /* MiscFunctions.swift */,
+				CD25D72D1B2732FE008B3FB3 /* QuickLook.swift */,
+				CD25D72E1B2732FE008B3FB3 /* SpatialAnalysis.swift */,
+				CD20F1DE1B283F580045D8FD /* SpatialRelations.swift */,
 				CD2299861B10B506002C19AE /* Supporting Files */,
 			);
 			path = GEOSwift;
@@ -194,13 +203,13 @@
 		CD2299941B10B506002C19AE /* GEOSwiftTests */ = {
 			isa = PBXGroup;
 			children = (
-				4921A7142106AE1200FF8EC7 /* Snapshot Images */,
-				4921A7152106AE7700FF8EC7 /* Sample GeoJSON */,
-				CD2299971B10B506002C19AE /* GEOSTests.swift */,
 				818D7A7E1F5F5FDF00E55FB5 /* GeoJSONTests.swift */,
+				CD2299971B10B506002C19AE /* GEOSTests.swift */,
 				494B87D821051F6D009BE929 /* MapKit+Equatable.swift */,
 				CDB7EC041B287CE70055835C /* MapKitTests.swift */,
 				494B87D621051CFF009BE929 /* QuickLookTests.swift */,
+				4921A7152106AE7700FF8EC7 /* Sample GeoJSON */,
+				4921A7142106AE1200FF8EC7 /* Snapshot Images */,
 				CD2299951B10B506002C19AE /* Supporting Files */,
 			);
 			path = GEOSwiftTests;
@@ -212,23 +221,6 @@
 				CD2299961B10B506002C19AE /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		CD25D7241B2732FE008B3FB3 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				BF7C38071F82F03D001509AF /* Feature.swift */,
-				CD25D7251B2732FE008B3FB3 /* GeoJSON.swift */,
-				CD20F1E01B2844210045D8FD /* Geometries.swift */,
-				CD25D7261B2732FE008B3FB3 /* GEOS.swift */,
-				4993ABE920F4F1CF0066547D /* LinearRef.swift */,
-				CD25D72C1B2732FE008B3FB3 /* MapKit.swift */,
-				4993ABEA20F4F1CF0066547D /* MiscFunctions.swift */,
-				CD25D72D1B2732FE008B3FB3 /* QuickLook.swift */,
-				CD25D72E1B2732FE008B3FB3 /* SpatialAnalysis.swift */,
-				CD20F1DE1B283F580045D8FD /* SpatialRelations.swift */,
-			);
-			name = Source;
 			sourceTree = "<group>";
 		};
 		CD6533A81B0E0DFF00DE6D84 = {
