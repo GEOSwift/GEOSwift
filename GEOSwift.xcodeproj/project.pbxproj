@@ -156,6 +156,23 @@
 			path = "Snapshot Images";
 			sourceTree = "<group>";
 		};
+		4921A7152106AE7700FF8EC7 /* Sample GeoJSON */ = {
+			isa = PBXGroup;
+			children = (
+				CDA09FFB1B3968B00092C6C6 /* feature.geojson */,
+				CDB71B391B15FFEC0044B3DD /* featurecollection.geojson */,
+				CDB0A9D51B21A5FD00AB2F46 /* geometrycollection.geojson */,
+				CDA09FFC1B3968B00092C6C6 /* linestring.geojson */,
+				CDA09FFD1B3968B00092C6C6 /* multilinestring.geojson */,
+				CDB71B3D1B16459A0044B3DD /* multipoint.geojson */,
+				CDB71B3B1B16210C0044B3DD /* multipolygon.geojson */,
+				D36407551F7D0155001BBA46 /* multipolygonwithholes.geojson */,
+				CDA09FFE1B3968B00092C6C6 /* point.geojson */,
+				CD0C44321B20368600E7B24E /* polygon.geojson */,
+			);
+			path = "Sample GeoJSON";
+			sourceTree = "<group>";
+		};
 		CD2299851B10B506002C19AE /* GEOSwift */ = {
 			isa = PBXGroup;
 			children = (
@@ -178,21 +195,12 @@
 			isa = PBXGroup;
 			children = (
 				4921A7142106AE1200FF8EC7 /* Snapshot Images */,
+				4921A7152106AE7700FF8EC7 /* Sample GeoJSON */,
 				CD2299971B10B506002C19AE /* GEOSTests.swift */,
 				818D7A7E1F5F5FDF00E55FB5 /* GeoJSONTests.swift */,
 				494B87D821051F6D009BE929 /* MapKit+Equatable.swift */,
 				CDB7EC041B287CE70055835C /* MapKitTests.swift */,
 				494B87D621051CFF009BE929 /* QuickLookTests.swift */,
-				CDB71B3B1B16210C0044B3DD /* multipolygon.geojson */,
-				D36407551F7D0155001BBA46 /* multipolygonwithholes.geojson */,
-				CDB0A9D51B21A5FD00AB2F46 /* geometrycollection.geojson */,
-				CD0C44321B20368600E7B24E /* polygon.geojson */,
-				CDB71B3D1B16459A0044B3DD /* multipoint.geojson */,
-				CDB71B391B15FFEC0044B3DD /* featurecollection.geojson */,
-				CDA09FFB1B3968B00092C6C6 /* feature.geojson */,
-				CDA09FFC1B3968B00092C6C6 /* linestring.geojson */,
-				CDA09FFD1B3968B00092C6C6 /* multilinestring.geojson */,
-				CDA09FFE1B3968B00092C6C6 /* point.geojson */,
 				CD2299951B10B506002C19AE /* Supporting Files */,
 			);
 			path = GEOSwiftTests;
