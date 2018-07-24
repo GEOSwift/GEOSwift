@@ -86,7 +86,6 @@
 		B7BE8B8564B5063CCA6CC117 /* Pods_GEOSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GEOSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF7C38071F82F03D001509AF /* Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		CD0C44321B20368600E7B24E /* polygon.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = polygon.geojson; sourceTree = "<group>"; };
-		CD20F1DA1B282CC40045D8FD /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		CD20F1DE1B283F580045D8FD /* SpatialRelations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpatialRelations.swift; sourceTree = "<group>"; };
 		CD20F1E01B2844210045D8FD /* Geometries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geometries.swift; sourceTree = "<group>"; };
 		CD2299841B10B506002C19AE /* GEOSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GEOSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,7 +107,6 @@
 		CDB71B3B1B16210C0044B3DD /* multipolygon.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multipolygon.geojson; sourceTree = "<group>"; };
 		CDB71B3D1B16459A0044B3DD /* multipoint.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multipoint.geojson; sourceTree = "<group>"; };
 		CDB7EC041B287CE70055835C /* MapKitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapKitTests.swift; sourceTree = "<group>"; };
-		CDDA8F591BE3E6DF007AA9EB /* Pods.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods.framework; path = "Pods/../build/Debug-iphoneos/Pods.framework"; sourceTree = "<group>"; };
 		D36407551F7D0155001BBA46 /* multipolygonwithholes.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multipolygonwithholes.geojson; sourceTree = "<group>"; };
 		FC30B2E0DB51B308F3F23D7D /* Pods_GEOSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GEOSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF90076F32D911E63EE5ACA5 /* Pods-GEOSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwift/Pods-GEOSwift.release.xcconfig"; sourceTree = "<group>"; };
@@ -165,8 +163,7 @@
 				CD25D7241B2732FE008B3FB3 /* Source */,
 				CD2299861B10B506002C19AE /* Supporting Files */,
 			);
-			name = GEOSwift;
-			path = Humboldt;
+			path = GEOSwift;
 			sourceTree = "<group>";
 		};
 		CD2299861B10B506002C19AE /* Supporting Files */ = {
@@ -224,8 +221,7 @@
 				CD20F1DE1B283F580045D8FD /* SpatialRelations.swift */,
 			);
 			name = Source;
-			path = GEOSwift;
-			sourceTree = SOURCE_ROOT;
+			sourceTree = "<group>";
 		};
 		CD6533A81B0E0DFF00DE6D84 = {
 			isa = PBXGroup;
@@ -250,8 +246,6 @@
 		F249FE82CF1F95FBFCF62C71 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CDDA8F591BE3E6DF007AA9EB /* Pods.framework */,
-				CD20F1DA1B282CC40045D8FD /* Pods.framework */,
 				064004E2312FE3AA64F072FA /* Pods.framework */,
 				B7BE8B8564B5063CCA6CC117 /* Pods_GEOSwift.framework */,
 				FC30B2E0DB51B308F3F23D7D /* Pods_GEOSwiftTests.framework */,
