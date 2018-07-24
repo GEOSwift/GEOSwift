@@ -277,7 +277,7 @@ public struct GeometriesCollection<T: Geometry>: Sequence {
     }
 }
 
-public struct Coordinate {
+public struct Coordinate: Hashable {
     public let x: CoordinateDegrees
     public let y: CoordinateDegrees
 

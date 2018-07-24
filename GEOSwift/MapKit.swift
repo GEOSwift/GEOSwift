@@ -27,14 +27,10 @@ extension Geometry {
             return MKPolygon(coordinates: &exteriorRingCoordinates,
                              count: exteriorRingCoordinates.count,
                              interiorPolygons: interiorRings)
-        case let gc as GeometryCollection<Waypoint>:
-            return MKShapesCollection(geometryCollection: gc)
-        case let gc as GeometryCollection<LineString>:
-            return MKShapesCollection(geometryCollection: gc)
-        case let gc as GeometryCollection<Polygon>:
+        case let gc as GeometryCollection<Geometry>:
             return MKShapesCollection(geometryCollection: gc)
         default:
-            return MKShapesCollection(geometryCollection: (self as! GeometryCollection))
+            fatalError("unhandled case")
         }
     }
 }
