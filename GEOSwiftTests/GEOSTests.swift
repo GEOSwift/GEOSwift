@@ -197,6 +197,29 @@ class GEOSwiftTests: XCTestCase {
         XCTAssertEqual(newEnv!, Envelope(p1: Coordinate(x: -10, y: 11), p2: Coordinate(x: 11, y: -10))!)
     }
 
+    func testCreateEnvelopeFromWaypoint() {
+        let wp = Waypoint(latitude: -10, longitude: 10)!
+        let env = wp.envelope()
+        XCTAssertNotNil(env, "Failed to create Envelope")
+        // Equatable on constructed Envelopes doesn’t seem to be working properly
+        XCTAssertEqual(env!.topLeft, wp.coordinate)
+        XCTAssertEqual(env!.bottomRight, wp.coordinate)
+    }
+
+    func testCreateEnvelopeFromMultipoint() {
+        let mp = MultiPoint(points: [Waypoint(latitude: -10, longitude: 10)!, Waypoint(latitude: 10, longitude: -10)!])!
+        let env = mp.envelope()
+        XCTAssertNotNil(env, "Failed to create Envelope")
+        XCTAssertEqual(env!, Envelope(p1: Coordinate(x: -10, y: 10), p2: Coordinate(x: 10, y: -10)))
+    }
+
+    func testCreateEnvelopeFromLineString() {
+        let ls = LineString(points: [Coordinate(x: 10, y: -10), Coordinate(x: -10, y: 10)])!
+        let env = ls.envelope()
+        XCTAssertNotNil(env, "Failed to create Envelope")
+        XCTAssertEqual(env!, Envelope(p1: Coordinate(x: -10, y: 10), p2: Coordinate(x: 10, y: -10)))
+    }
+
     func testGeoJSON() {
         let bundle = Bundle(for: GEOSwiftTests.self)
         if let geojsons = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) {

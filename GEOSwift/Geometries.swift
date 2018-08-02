@@ -146,19 +146,19 @@ open class Envelope: Polygon {
     public var minY: Double {
         return exteriorRing.points[0].y
     }
-    //: minX, maxY
+    // minX, maxY
     public var topLeft: Coordinate {
         return exteriorRing.points[3]
     }
-    //: maxX, maxY
+    // maxX, maxY
     public var topRight: Coordinate {
         return exteriorRing.points[2]
     }
-    //: minX, minY
+    // minX, minY
     public var bottomLeft: Coordinate {
         return exteriorRing.points[0]
     }
-    //: maxX, minY
+    // maxX, minY
     public var bottomRight: Coordinate {
         return exteriorRing.points[1]
     }
