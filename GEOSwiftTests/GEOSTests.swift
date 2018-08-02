@@ -21,7 +21,6 @@ class GEOSwiftTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
         waypoint = Waypoint(latitude: 9, longitude: 45)
         lineString = LineString(points: [Coordinate(x: 3, y: 4),
                                          Coordinate(x: 10, y: 50),
@@ -41,7 +40,6 @@ class GEOSwiftTests: XCTestCase {
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         multiPoint = nil
         geometryCollection = nil
         polygon = nil

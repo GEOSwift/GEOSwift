@@ -11,17 +11,7 @@ import XCTest
 import GEOSwift
 import MapKit
 
-class MapKitTests: XCTestCase {
-
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
+final class MapKitTests: XCTestCase {
 
     func testCreateMKPointAnnotationFromPoint() {
         var result = false
@@ -60,5 +50,13 @@ class MapKitTests: XCTestCase {
             result = true
         }
         XCTAssert(result, "MKShapesCollection test failed")
+    }
+
+    func testCLLocationCoordinate2DToAndFromCoordinate() {
+        let coordinate = Coordinate(x: 2, y: 1)
+        let clLocationCoordinate2D = CLLocationCoordinate2D(latitude: 1, longitude: 2)
+
+        XCTAssertEqual(CLLocationCoordinate2D(coordinate), clLocationCoordinate2D)
+        XCTAssertEqual(Coordinate(clLocationCoordinate2D), coordinate)
     }
 }
