@@ -6,13 +6,20 @@ import GEOSwift
 
 final class GeoJSONTests: XCTestCase {
 
-    func testGeoJSONFromURL() {
-        let bundle = Bundle(for: GEOSwiftTests.self)
-        guard let geojsons = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) else {
+    var geoJsonUrls: [URL]!
+
+    override func setUp() {
+        super.setUp()
+        let bundle = Bundle(for: GeoJSONTests.self)
+        guard let urls = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) else {
             XCTFail("Could not load geojson files")
             return
         }
-        for geoJSONURL in geojsons {
+        geoJsonUrls = urls
+    }
+
+    func testGeoJSONFromURL() {
+        for geoJSONURL in geoJsonUrls {
             guard case .some(.some) = try? Features.fromGeoJSON(geoJSONURL) else {
                 XCTFail("Can't extract geometry from GeoJSON: \(geoJSONURL.lastPathComponent)")
                 continue
@@ -21,12 +28,7 @@ final class GeoJSONTests: XCTestCase {
     }
 
     func testGeoJSONFromData() {
-        let bundle = Bundle(for: GEOSwiftTests.self)
-        guard let geojsons = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) else {
-            XCTFail("Could not load geojson files")
-            return
-        }
-        for geoJSONURL in geojsons {
+        for geoJSONURL in geoJsonUrls {
             guard let data = try? Data(contentsOf: geoJSONURL),
                 case .some(.some) = try? Features.fromGeoJSON(data) else {
                     XCTFail("Can't extract geometry from GeoJSON data from: \(geoJSONURL.lastPathComponent)")
@@ -36,12 +38,7 @@ final class GeoJSONTests: XCTestCase {
     }
 
     func testGeoJSONFromString() {
-        let bundle = Bundle(for: GEOSwiftTests.self)
-        guard let geojsons = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) else {
-            XCTFail("Could not load geojson files")
-            return
-        }
-        for geoJSONURL in geojsons {
+        for geoJSONURL in geoJsonUrls {
             guard let string = try? String(contentsOf: geoJSONURL),
                 case .some(.some) = try? Features.fromGeoJSON(string) else {
                     XCTFail("Can't extract geometry from GeoJSON string from: \(geoJSONURL.lastPathComponent)")
@@ -49,5 +46,4 @@ final class GeoJSONTests: XCTestCase {
             }
         }
     }
-
 }
