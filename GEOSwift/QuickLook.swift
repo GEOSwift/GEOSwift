@@ -84,7 +84,7 @@ extension Waypoint: GEOSwiftQuickLook {
         let pin = MKPinAnnotationView(annotation: nil, reuseIdentifier: "")
         if let pinImage = pin.image {
             let coord = CLLocationCoordinate2D(coordinate)
-            let mapPoint = MKMapPointForCoordinate(coord)
+            let mapPoint = MKMapPoint(coord)
             let point = CGPoint(
                 x: round(CGFloat((mapPoint.x - mapRect.origin.x) / mapRect.size.width) * imageSize.width),
                 y: round(CGFloat((mapPoint.y - mapRect.origin.y) / mapRect.size.height) * imageSize.height))
@@ -137,7 +137,7 @@ private extension MKMapView {
      so we block the calling thread with a semaphore.
      */
     var snapshot: UIImage? {
-        let options = MKMapSnapshotOptions()
+        let options = MKMapSnapshotter.Options()
         options.region = region
         options.size = frame.size
 

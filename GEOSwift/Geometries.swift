@@ -14,7 +14,7 @@ A `Waypoint` has a x- coordinate value and a y-coordinate value.
 The boundary of a `Waypoint` is the empty set.
 */
 open class Waypoint: Geometry {
-    open let coordinate: Coordinate
+    public let coordinate: Coordinate
 
     open override class func geometryTypeId() -> Int32 {
         return 0 // GEOS_POINT

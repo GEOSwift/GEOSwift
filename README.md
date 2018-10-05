@@ -20,10 +20,24 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 
 ## Requirements
 
-* iOS 8.0+ / Mac OS X 10.10+
-* Xcode 9
-* Swift 4 (For Swift 3 support use release 1.0.2 or earlier.)
+* iOS 8.0+
+* Xcode 10
+* Swift 4.2
 * CocoaPods 1.0.1+
+
+## Installing with CocoaPods
+
+1. Install autotools: `$ brew install autoconf automake libtool`
+2. Update your `Podfile` to include:
+
+```
+use_frameworks!
+pod 'GEOSwift'
+```
+
+3. Run `$ pod install`
+
+> GEOS is a configure/install project licensed under LGPL 2.1: it is difficult to build for iOS and its compatibility with static linking is at least controversial. Use of GEOSwift without dynamic-framework-based CocoaPods and with a project targeting iOS 7, even if possible, is advised against.
 
 ## Usage
 
@@ -100,34 +114,11 @@ GEOSwift let you perform a set of operations on these two geometries:
 * _overlaps_: returns true if this geometric object “spatially overlaps” another geometry.
 * _relate_: returns true if this geometric object is spatially related to another geometry by testing for intersections between the interior, boundary and exterior of the two geometric objects as specified by the values in the intersectionPatternMatrix.
 
-
 ### Playground
 
 Explore more, interactively, from the Xcode project’s playground. It can be found inside `GEOSwift` workspace. Open the workspace on Xcode, build the `GEOSwift` framework and open the playground file.
 
 ![Playground](/README-images/playground.png)
-
-## Installation
-
-> **Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks.**
-> GEOS is a configure/install project licensed under LGPL 2.1: it is difficult to build for iOS and its compatibility with static linking is at least controversial. Use of GEOSwift without CocoaPods and with a project targeting iOS 7, even if possible, is advised against.
-
-### CocoaPods
-
-CocoaPods is a dependency manager for Cocoa projects. To install GEOSwift with CocoaPods:
-
-* Make sure CocoaPods is installed (GEOSwift requires version 0.39.0 or greater).
-
-* Update your `Podfile` to include the following:
-
-```
-use_frameworks!
-pod 'GEOSwift'
-```
-
-* Run `pod install`.
-
-NOTE: running `pod install` may cause some errors if your machine does not have autoconf, automake and glibtool, if you encounter those errors you can run `brew install autoconf automake libtool` to install those packages and run again `pod install`.
 
 ## Creator
 
