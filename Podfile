@@ -1,14 +1,13 @@
 platform :ios, '8.0'
 
 use_frameworks!
-inhibit_all_warnings!
 
 target 'GEOSwift' do
-  pod 'geos'
+  pod 'geos', '3.7.0'
 end
 
 target 'GEOSwiftTests' do
-  pod 'geos'
+  pod 'geos', '3.7.0'
 end
 
 # Workaround for Cocoapods issue #7606

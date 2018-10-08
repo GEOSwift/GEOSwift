@@ -86,7 +86,7 @@ final class QuickLookTests: XCTestCase {
     // MARK: - Helpers
 
     func makeMapRect(withCenter center: Coordinate, widthInMeters meters: Double) -> MKMapRect {
-        let mapRectCenter = MKMapPointForCoordinate(CLLocationCoordinate2D(center))
+        let mapRectCenter = MKMapPoint(CLLocationCoordinate2D(center))
         let width = MKMapPointsPerMeterAtLatitude(center.y) * meters
         return MKMapRect(
             origin: MKMapPoint(x: mapRectCenter.x - width / 2, y: mapRectCenter.y - width / 2),
@@ -108,7 +108,7 @@ final class QuickLookTests: XCTestCase {
             XCTFail("Unable to get image", line: line)
             return
         }
-        XCTAssertEqual(UIImagePNGRepresentation(image), expected.data, line: line)
+        XCTAssertEqual(image.pngData(), expected.data, line: line)
         if expected.data == nil {
             savePNG(with: image, name: expected.name)
         }
@@ -118,7 +118,7 @@ final class QuickLookTests: XCTestCase {
     // It prints the URL where it saved the image so you can find it and add it to the project.
     // It makes heavy use of force-unwrapping because this should only be used during development.
     func savePNG(with image: UIImage, name: String) {
-        let png = UIImagePNGRepresentation(image)!
+        let png = image.pngData()!
         let urls = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)
         let url = urls.first!.appendingPathComponent(name)
         do {

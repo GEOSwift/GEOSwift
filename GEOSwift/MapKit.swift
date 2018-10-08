@@ -48,9 +48,9 @@ The property `shapes` contains MKShape subclasses instances.
 When drawing shapes on a map be careful to the fact that that these shapes could be overlays OR annotations.
 */
 open class MKShapesCollection: MKShape, MKOverlay {
-    open let shapes: [MKShape]
-    open let centroid: CLLocationCoordinate2D
-    open let boundingMapRect: MKMapRect
+    public let shapes: [MKShape]
+    public let centroid: CLLocationCoordinate2D
+    public let boundingMapRect: MKMapRect
 
     required public init<T>(geometryCollection: GeometryCollection<T>) {
         let shapes = geometryCollection.geometries.compactMap { $0.mapShape() }
@@ -64,14 +64,14 @@ open class MKShapesCollection: MKShape, MKOverlay {
         self.shapes = shapes
 
         if let envelope = geometryCollection.envelope() {
-            let bottomLeft = MKMapPointForCoordinate(CLLocationCoordinate2D(envelope.bottomLeft))
-            let topRight = MKMapPointForCoordinate(CLLocationCoordinate2D(envelope.topRight))
+            let bottomLeft = MKMapPoint(CLLocationCoordinate2D(envelope.bottomLeft))
+            let topRight = MKMapPoint(CLLocationCoordinate2D(envelope.topRight))
             let mapRect = MKMapRect(origin: MKMapPoint(x: bottomLeft.x, y: bottomLeft.y),
                                     size: MKMapSize(width: topRight.x - bottomLeft.x,
                                                     height: topRight.y - bottomLeft.y))
             self.boundingMapRect = mapRect
         } else {
-            self.boundingMapRect = MKMapRectNull
+            self.boundingMapRect = .null
         }
     }
 }
