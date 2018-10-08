@@ -1,0 +1,13 @@
+included: # paths to include during linting. `--path` is ignored if present.
+  - GEOSwift
+  - GEOSwiftTests
+  - GEOSwift.playground
+disabled_rules:
+  - force_cast
+  - identifier_name
+opt_in_rules:
+  - closure_spacing
+  - empty_count
+  - implicit_return
+  - pattern_matching_keywords
+  - vertical_parameter_alignment_on_call

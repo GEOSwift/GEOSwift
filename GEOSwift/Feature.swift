@@ -12,11 +12,12 @@ import Foundation
  * Represent a feature object containing geometries and properties object according to GEOJson specification
  */
 public class Feature {
-    
-    public var geometries: Array<Geometry>?
+
+    public var id: Any?
+    public var geometries: [Geometry]?
     public var properties: NSDictionary?
-    
+
     init() {
-        geometries = Array<Geometry>()
+        geometries = [Geometry]()
     }
 }
