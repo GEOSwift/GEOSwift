@@ -1,8 +1,8 @@
 ![GEOSwift](/README-images/GEOSwift-header.png)  
 
-[![Build Status](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)
+[![Build Status](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=master)](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=master)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://img.shields.io/cocoapods/v/GEOSwift.svg)
-[![codecov](https://codecov.io/gh/GEOSwift/GEOSwift/branch/develop/graph/badge.svg)](https://codecov.io/gh/GEOSwift/GEOSwift)
+[![codecov](https://codecov.io/gh/GEOSwift/GEOSwift/branch/master/graph/badge.svg)](https://codecov.io/gh/GEOSwift/GEOSwift)
 
 Easily handle a geographical object model (points, linestrings, polygons etc.) and related topographical operations (intersections, overlapping etc.).  
 A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, nicely integrated with MapKit and Quicklook.
@@ -23,7 +23,7 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 * iOS 8.0+
 * Xcode 10
 * Swift 4.2
-* CocoaPods 1.0.1+
+* CocoaPods 1.4.0+
 
 ## Installing with CocoaPods
 
