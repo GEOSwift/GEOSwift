@@ -1,8 +1,8 @@
-![GEOSwift](/README-images/GEOSwift-header.png)  
+![GEOSwift](/README-images/GEOSwift-header.png)
 
-[![Build Status](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=master)](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=master)
+[![Build Status](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://img.shields.io/cocoapods/v/GEOSwift.svg)
-[![codecov](https://codecov.io/gh/GEOSwift/GEOSwift/branch/master/graph/badge.svg)](https://codecov.io/gh/GEOSwift/GEOSwift)
+[![codecov](https://codecov.io/gh/GEOSwift/GEOSwift/branch/develop/graph/badge.svg)](https://codecov.io/gh/GEOSwift/GEOSwift)
 
 Easily handle a geographical object model (points, linestrings, polygons etc.) and related topographical operations (intersections, overlapping etc.).  
 A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, nicely integrated with MapKit and Quicklook.
@@ -119,6 +119,17 @@ GEOSwift let you perform a set of operations on these two geometries:
 Explore more, interactively, from the Xcode project’s playground. It can be found inside `GEOSwift` workspace. Open the workspace on Xcode, build the `GEOSwift` framework and open the playground file.
 
 ![Playground](/README-images/playground.png)
+
+## Contributing
+
+To make a contribution:
+
+* Fork the repo
+* Start from the develop branch and create a branch with a name that describes your contribution
+* Sign in to travis-ci.org (if you've never signed in before, CI won't run to verify your pull request)
+* Push your branch and create a pull request to master
+* One of the maintainers will review your code and may request changes
+* If your pull request is accepted, one of the maintainers should update the changelog before merging it
 
 ## Creator
 
