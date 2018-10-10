@@ -124,7 +124,7 @@ open class Geometry: NSObject {
 
      - returns: The proper Geometry subclass as parsed from the string (i.e. `Waypoint`).
      */
-    open class func create(_ WKT: String) -> Geometry? {
+    @objc open class func create(_ WKT: String) -> Geometry? {
         let WKTReader = GEOSWKTReader_create_r(GEOS_HANDLE)
         defer { GEOSWKTReader_destroy_r(GEOS_HANDLE, WKTReader) }
         guard let GEOSGeom = GEOSWKTReader_read_r(GEOS_HANDLE, WKTReader, (WKT as NSString).utf8String) else {
@@ -151,7 +151,7 @@ open class Geometry: NSObject {
     }
 
     /// The Well Known Text (WKT) representation of the Geometry.
-    fileprivate(set) open lazy var WKT: String? = {
+    @objc fileprivate(set) open lazy var WKT: String? = {
         let WKTWriter = GEOSWKTWriter_create_r(GEOS_HANDLE)
         GEOSWKTWriter_setTrim_r(GEOS_HANDLE, WKTWriter, 1)
         guard let wktString = GEOSWKTWriter_write_r(GEOS_HANDLE, WKTWriter, storage.GEOSGeom) else {
