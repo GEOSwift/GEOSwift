@@ -9,6 +9,10 @@ import Foundation
 import MapKit
 
 extension Geometry {
+    /// This method only works with GeometryCollection & its subclasses when the generic
+    /// type is exatly one of Geometry, Polygon, Waypoint, LineString, LinearRing, or
+    /// Envelope. This is because generics in Swift are invariant. See
+    /// https://www.mikeash.com/pyblog/friday-qa-2015-11-20-covariance-and-contravariance.html
     public func mapShape() -> MKShape? {
         switch self {
         case is Waypoint:
@@ -28,6 +32,16 @@ extension Geometry {
                              count: exteriorRingCoordinates.count,
                              interiorPolygons: interiorRings)
         case let gc as GeometryCollection<Geometry>:
+            return MKShapesCollection(geometryCollection: gc)
+        case let gc as GeometryCollection<Polygon>:
+            return MKShapesCollection(geometryCollection: gc)
+        case let gc as GeometryCollection<Waypoint>:
+            return MKShapesCollection(geometryCollection: gc)
+        case let gc as GeometryCollection<LineString>:
+            return MKShapesCollection(geometryCollection: gc)
+        case let gc as GeometryCollection<LinearRing>:
+            return MKShapesCollection(geometryCollection: gc)
+        case let gc as GeometryCollection<Envelope>:
             return MKShapesCollection(geometryCollection: gc)
         default:
             return nil

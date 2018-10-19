@@ -42,14 +42,28 @@ final class MapKitTests: XCTestCase {
         XCTAssert(result, "MKPolygon test failed")
     }
 
-    func testCreateMKShapesCollectionFromGeometryCollection() {
-        var result = false
-        let WKT = "GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))"
-        if let geometryCollection = Geometry.create(WKT) as? GeometryCollection,
-            geometryCollection.mapShape() as? MKShapesCollection != nil {
-            result = true
+    func verifyMapShape(withGeometryCollection geometryCollection: Geometry?, line: UInt = #line) {
+        guard let geometryCollection = geometryCollection else {
+            XCTFail("geometryCollection was nil", line: line)
+            return
         }
-        XCTAssert(result, "MKShapesCollection test failed")
+        if !(geometryCollection.mapShape() is MKShapesCollection) {
+            XCTFail("\(geometryCollection) did not produce a MKShapesCollection", line: line)
+        }
+    }
+
+    func testCreateMKShapesCollectionFromGeometryCollections() {
+        verifyMapShape(withGeometryCollection: GeometryCollection<Geometry>(geometries: []))
+        verifyMapShape(withGeometryCollection: GeometryCollection<Waypoint>(geometries: []))
+        verifyMapShape(withGeometryCollection: GeometryCollection<Polygon>(geometries: []))
+        verifyMapShape(withGeometryCollection: GeometryCollection<Envelope>(geometries: []))
+        verifyMapShape(withGeometryCollection: GeometryCollection<LineString>(geometries: []))
+        verifyMapShape(withGeometryCollection: GeometryCollection<LinearRing>(geometries: []))
+        verifyMapShape(withGeometryCollection: MultiPoint<Waypoint>(points: []))
+        verifyMapShape(withGeometryCollection: MultiPolygon<Polygon>(polygons: []))
+        verifyMapShape(withGeometryCollection: MultiPolygon<Envelope>(polygons: []))
+        verifyMapShape(withGeometryCollection: MultiLineString<LineString>(linestrings: []))
+        verifyMapShape(withGeometryCollection: MultiLineString<LinearRing>(linestrings: []))
     }
 
     func testCLLocationCoordinate2DToAndFromCoordinate() {
