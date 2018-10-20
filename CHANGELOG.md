@@ -1,5 +1,10 @@
 ## Develop
 
+## 3.0.2
+
+* [#125](https://github.com/GEOSwift/GEOSwift/pull/125) Fix mapShape for common GeometryCollection
+types
+
 ## 3.0.1
 
 * [#120](https://github.com/GEOSwift/GEOSwift/pull/120) Added @objc prefix to expose methods and
