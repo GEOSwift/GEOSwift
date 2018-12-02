@@ -1,5 +1,9 @@
 ## Develop
 
+## 3.0.3
+
+* Updated to GEOS 3.7.1
+
 ## 3.0.2
 
 * [#125](https://github.com/GEOSwift/GEOSwift/pull/125) Fix mapShape for common GeometryCollection
