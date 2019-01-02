@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CLibGeosC
 
 /**
  Linear referencing functions

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CLibGeosC
 
 typealias GEOSCallbackFunction = @convention(c) (UnsafeMutableRawPointer) -> Void
 
@@ -76,6 +77,14 @@ open class Geometry: NSObject {
     public convenience init?(WKB: [UInt8]) {
         var buffer = WKB
         guard let GEOSGeom = GEOSGeomFromWKB_buf_r(GEOS_HANDLE, &buffer, WKB.count),
+            Geometry.classForGEOSGeom(GEOSGeom) === type(of: self) else {
+                return nil
+        }
+        self.init(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
+    }
+
+    public convenience init?(data: Data) {
+        guard let GEOSGeom = data.withUnsafeBytes({ GEOSGeomFromWKB_buf_r(GEOS_HANDLE, $0, data.count) }),
             Geometry.classForGEOSGeom(GEOSGeom) === type(of: self) else {
                 return nil
         }

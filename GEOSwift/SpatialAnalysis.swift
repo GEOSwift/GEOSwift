@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CLibGeosC
 
 /// Topological operations
 public extension Geometry {
