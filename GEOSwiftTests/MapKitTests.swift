@@ -35,7 +35,7 @@ final class MapKitTests: XCTestCase {
     func testCreateMKPolygonFromPolygon() {
         var result = false
         let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
-        if let polygon = Geometry.create(WKT) as? Polygon,
+        if let polygon = Geometry.create(WKT) as? GEOSwift.Polygon,
             polygon.mapShape() as? MKPolygon != nil {
             result = true
         }
@@ -55,12 +55,12 @@ final class MapKitTests: XCTestCase {
     func testCreateMKShapesCollectionFromGeometryCollections() {
         verifyMapShape(withGeometryCollection: GeometryCollection<Geometry>(geometries: []))
         verifyMapShape(withGeometryCollection: GeometryCollection<Waypoint>(geometries: []))
-        verifyMapShape(withGeometryCollection: GeometryCollection<Polygon>(geometries: []))
+        verifyMapShape(withGeometryCollection: GeometryCollection<GEOSwift.Polygon>(geometries: []))
         verifyMapShape(withGeometryCollection: GeometryCollection<Envelope>(geometries: []))
         verifyMapShape(withGeometryCollection: GeometryCollection<LineString>(geometries: []))
         verifyMapShape(withGeometryCollection: GeometryCollection<LinearRing>(geometries: []))
         verifyMapShape(withGeometryCollection: MultiPoint<Waypoint>(points: []))
-        verifyMapShape(withGeometryCollection: MultiPolygon<Polygon>(polygons: []))
+        verifyMapShape(withGeometryCollection: MultiPolygon<GEOSwift.Polygon>(polygons: []))
         verifyMapShape(withGeometryCollection: MultiPolygon<Envelope>(polygons: []))
         verifyMapShape(withGeometryCollection: MultiLineString<LineString>(linestrings: []))
         verifyMapShape(withGeometryCollection: MultiLineString<LinearRing>(linestrings: []))

@@ -6,6 +6,8 @@
 //  Copyright © 2018 GEOSwift. All rights reserved.
 //
 
+#if canImport(UIKit)
+
 import XCTest
 import MapKit
 @testable import GEOSwift
@@ -13,7 +15,7 @@ import MapKit
 final class QuickLookTests: XCTestCase {
     var waypoint: Waypoint!
     var linearRing: LinearRing!
-    var polygon: Polygon!
+    var polygon: GEOSwift.Polygon!
     var geometryCollection: GeometryCollection<Geometry>!
     let imageSize = CGSize(width: 400, height: 400)
     var context: CGContext!
@@ -129,3 +131,5 @@ final class QuickLookTests: XCTestCase {
         }
     }
 }
+
+#endif // canImport(UIKit)

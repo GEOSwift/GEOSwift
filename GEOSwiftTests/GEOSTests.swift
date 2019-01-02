@@ -15,7 +15,7 @@ class GEOSwiftTests: XCTestCase {
     var waypoint: Waypoint!
     var lineString: LineString!
     var linearRing: LinearRing!
-    var polygon: Polygon!
+    var polygon: GEOSwift.Polygon!
     var geometryCollection: GeometryCollection<Geometry>!
     var multiPoint: MultiPoint<Waypoint>!
 
@@ -129,7 +129,7 @@ class GEOSwiftTests: XCTestCase {
 
     func testCreatePolygonFromWKT() {
         let WKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
-        guard let testPolygon = Geometry.create(WKT) as? Polygon else {
+        guard let testPolygon = Geometry.create(WKT) as? GEOSwift.Polygon else {
             XCTFail("WKT parse failed (expected to receive a POLYGON)")
             return
         }
@@ -236,7 +236,7 @@ class GEOSwiftTests: XCTestCase {
     func testNearestPoints() {
         let polygonWKT = "POLYGON((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
         let point = Geometry.create("POINT(45 9)") as! Waypoint
-        let polygon = Geometry.create(polygonWKT) as! Polygon
+        let polygon = Geometry.create(polygonWKT) as! GEOSwift.Polygon
 
         let arrNearestPoints = point.nearestPoints(polygon)
 

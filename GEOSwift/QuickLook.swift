@@ -5,8 +5,11 @@
 //  Copyright (c) 2015 andreacremaschi. All rights reserved.
 //
 
+#if canImport(UIKit)
+
 import Foundation
 import MapKit
+import UIKit
 
 public extension Geometry {
     @objc public func debugQuickLookObject() -> AnyObject? {
@@ -154,3 +157,5 @@ private extension MKMapView {
         return snapshotImage
     }
 }
+
+#endif // canImport(UIKit)
