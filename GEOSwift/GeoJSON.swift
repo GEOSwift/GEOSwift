@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CLibGeosC
 
 public enum GEOJSONParseError: Error {
     case invalidJSON

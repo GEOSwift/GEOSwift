@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CLibGeosC
 
 /** 
 Spatial predicates methods

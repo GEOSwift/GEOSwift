@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CLibGeosC
 
 typealias GEOSCallbackFunction = @convention(c) (UnsafeMutableRawPointer) -> Void
 

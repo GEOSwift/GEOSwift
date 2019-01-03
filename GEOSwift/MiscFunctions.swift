@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CLibGeosC
 
 public extension Geometry {
     /// - returns: The distance between the two geometries, expressed in the SRID of the first
