@@ -166,6 +166,52 @@ class GEOSwiftTests: XCTestCase {
         XCTAssertEqual(polygon, generatedPolygon, "Polygon round-tripped via WKB is not equal")
     }
 
+    func testInitPointFromData() {
+        guard let wkbData = waypoint.WKB?.withUnsafeBufferPointer({ Data(buffer: $0) }) else {
+            XCTFail("Failed to generate WKB")
+            return
+        }
+
+        guard let testWaypoint = Waypoint(data: wkbData) else {
+            XCTFail("WKB parse failed")
+            return
+        }
+
+        XCTAssertEqual(testWaypoint, waypoint)
+        XCTAssertEqual(testWaypoint.coordinate.x, 45)
+        XCTAssertEqual(testWaypoint.coordinate.y, 9)
+    }
+
+    func testInitPolygonFromData() {
+        guard let wkbData = polygon.WKB?.withUnsafeBufferPointer({ Data(buffer: $0) }) else {
+            XCTFail("Failed to generate WKB")
+            return
+        }
+
+        guard let testPolygon = Polygon(data: wkbData) else {
+            XCTFail("WKB parse failed")
+            return
+        }
+
+        XCTAssertEqual(testPolygon, polygon)
+    }
+
+    func testInitFromDataFailsWithInvalidGeometry() {
+        let testWaypoint = Waypoint(data: Data(count: 8))
+        XCTAssertNil(testWaypoint, "Eight nil bytes of data should not create a valid waypoint")
+    }
+
+    func testInitFromDataFailsWithTypeMismatch() {
+        guard let wkbData = polygon.WKB?.withUnsafeBufferPointer({ Data(buffer: $0) }) else {
+            XCTFail("Failed to generate WKB")
+            return
+        }
+
+        let testWaypoint = Waypoint(data: wkbData)
+        XCTAssertNil(testWaypoint, "Polygon WKB data should not create a valid waypoint")
+    }
+
+
     // Test case for Issue #37
     // https://github.com/GEOSwift/GEOSwift/issues/37
     func testCreatePolygonFromLinearRing() {
