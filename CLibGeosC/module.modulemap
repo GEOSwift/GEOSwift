@@ -1,0 +1,5 @@
+module CLibGeosC [system] {
+  header "clibgeosc.h"
+  link "geos_c"
+  export *
+}
