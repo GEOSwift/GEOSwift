@@ -1,6 +1,7 @@
-## Develop
+## 3.1.0
 
-* [#131](https://github.com/GEOSwift/GEOSwift/pull/131) Add support for Swift Package Manager
+* [#131](https://github.com/GEOSwift/GEOSwift/pull/131) Add support for Swift Package Manager and
+  Geometry.init?(data:)
 
 ## 3.0.3
 
