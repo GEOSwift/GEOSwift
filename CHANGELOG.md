@@ -1,6 +1,7 @@
 ## Develop
 
 * [#131](https://github.com/GEOSwift/GEOSwift/pull/131) Add support for Swift Package Manager
+* [#135](https://github.com/GEOSwift/GEOSwift/pull/135) Fix MKShapesCollection.boundingMapRect
 
 ## 3.0.3
 
