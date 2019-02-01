@@ -66,6 +66,22 @@ final class MapKitTests: XCTestCase {
         verifyMapShape(withGeometryCollection: MultiLineString<LinearRing>(linestrings: []))
     }
 
+    // Test case for Issue #134
+    // https://github.com/GEOSwift/GEOSwift/issues/134
+    func testMKShapesCollectionHasBoundingMapRectWithPositiveWidthAndHeight() {
+        guard let linestring = LineString(points: [Coordinate(x: -1, y: 1), Coordinate(x: 1, y: -1)]),
+            let geometryCollection = GeometryCollection(geometries: [linestring]) else {
+                XCTFail("unable to create geometries")
+                return
+        }
+        let mkShapesCollection = MKShapesCollection(geometryCollection: geometryCollection)
+
+        let boundingMapRect = mkShapesCollection.boundingMapRect
+
+        XCTAssertGreaterThan(boundingMapRect.height, 0)
+        XCTAssertGreaterThan(boundingMapRect.width, 0)
+    }
+
     func testCLLocationCoordinate2DToAndFromCoordinate() {
         let coordinate = Coordinate(x: 2, y: 1)
         let clLocationCoordinate2D = CLLocationCoordinate2D(latitude: 1, longitude: 2)

@@ -78,11 +78,11 @@ open class MKShapesCollection: MKShape, MKOverlay {
         self.shapes = shapes
 
         if let envelope = geometryCollection.envelope() {
-            let bottomLeft = MKMapPoint(CLLocationCoordinate2D(envelope.bottomLeft))
-            let topRight = MKMapPoint(CLLocationCoordinate2D(envelope.topRight))
-            let mapRect = MKMapRect(origin: MKMapPoint(x: bottomLeft.x, y: bottomLeft.y),
-                                    size: MKMapSize(width: topRight.x - bottomLeft.x,
-                                                    height: topRight.y - bottomLeft.y))
+            let topLeft = MKMapPoint(CLLocationCoordinate2D(envelope.topLeft))
+            let bottomRight = MKMapPoint(CLLocationCoordinate2D(envelope.bottomRight))
+            let mapRect = MKMapRect(origin: MKMapPoint(x: topLeft.x, y: topLeft.y),
+                                    size: MKMapSize(width: bottomRight.x - topLeft.x,
+                                                    height: bottomRight.y - topLeft.y))
             self.boundingMapRect = mapRect
         } else {
             self.boundingMapRect = .null
