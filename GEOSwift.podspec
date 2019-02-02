@@ -23,5 +23,6 @@ Pod::Spec.new do |s|
     tag: s.version
   }
   s.source_files = 'GEOSwift/*.{swift,h}'
+  s.exclude_files = 'GEOSwift/Bridge.swift'
   s.dependency 'geos', '3.7.1'
 end
