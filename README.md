@@ -42,11 +42,11 @@ pod 'GEOSwift'
 
 > GEOS is a configure/install project licensed under LGPL 2.1: it is difficult to build for iOS and its compatibility with static linking is at least controversial. Use of GEOSwift without dynamic-framework-based CocoaPods and with a project targeting iOS 7, even if possible, is advised against.
 
-### Swift Package Manager (new)
+### Swift Package Manager
 
 SPM's [System Library Targets](https://github.com/apple/swift-evolution/blob/master/proposals/0208-package-manager-system-library-targets.md) allows linking against any library installed on the machine.
 
-1. Ensure that the geos package is installed on your machine.  For Mac, Homebrew is suggested: `$ brew install geos`
+1. Ensure that the geos package is installed on your machine. For Mac, Homebrew is suggested: `$ brew install geos`
 2. Update `Package.swift` to include GEOSwift as a dependency:
 
 ```swift
@@ -180,7 +180,7 @@ To make a contribution:
 * Fork the repo
 * Start from the develop branch and create a branch with a name that describes your contribution
 * Sign in to travis-ci.org (if you've never signed in before, CI won't run to verify your pull request)
-* Push your branch and create a pull request to master
+* Push your branch and create a pull request to develop
 * One of the maintainers will review your code and may request changes
 * If your pull request is accepted, one of the maintainers should update the changelog before merging it
 

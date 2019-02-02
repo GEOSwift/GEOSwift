@@ -211,7 +211,6 @@ class GEOSwiftTests: XCTestCase {
         XCTAssertNil(testWaypoint, "Polygon WKB data should not create a valid waypoint")
     }
 
-
     // Test case for Issue #37
     // https://github.com/GEOSwift/GEOSwift/issues/37
     func testCreatePolygonFromLinearRing() {
