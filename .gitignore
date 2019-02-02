@@ -37,3 +37,6 @@ Pods/
 
 Carthage/Build
 geos/geos
+
+# Swift Package Manager
+.build/

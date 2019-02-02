@@ -23,9 +23,12 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 * iOS 8.0+
 * Xcode 10
 * Swift 4.2
-* CocoaPods 1.4.0+
+* CocoaPods 1.4.0+ (if developing for iOS)
+* Swift Package Manager 4.2+ (if developing Linux/Mac binaries)
 
-## Installing with CocoaPods
+## Installation
+
+### CocoaPods
 
 1. Install autotools: `$ brew install autoconf automake libtool`
 2. Update your `Podfile` to include:
@@ -38,6 +41,56 @@ pod 'GEOSwift'
 3. Run `$ pod install`
 
 > GEOS is a configure/install project licensed under LGPL 2.1: it is difficult to build for iOS and its compatibility with static linking is at least controversial. Use of GEOSwift without dynamic-framework-based CocoaPods and with a project targeting iOS 7, even if possible, is advised against.
+
+### Swift Package Manager
+
+SPM's [System Library Targets](https://github.com/apple/swift-evolution/blob/master/proposals/0208-package-manager-system-library-targets.md) allows linking against any library installed on the machine.
+
+1. Ensure that the geos package is installed on your machine. For Mac, Homebrew is suggested: `$ brew install geos`
+2. Update `Package.swift` to include GEOSwift as a dependency:
+
+```swift
+// swift-tools-version:4.2
+let package = Package(
+  name: "your-package-name",
+  dependencies: [
+    .package(url: "https://github.com/GEOSwift/GEOSwift.git", from: "x.x.x") // Reccommend latest release version, e.g. "3.1.0"
+  ],
+  targets: [
+    .target("your-target-name", dependencies: ["GEOSwift"])
+  ]
+)
+```
+
+3.  Ensure that your system has a pkg-config file available for `libgeos_c`:
+```
+$ pkg-config --validate geos_c
+```
+> NOTE: Homebrew's current version of geos does not seem to generate a `.pc` file on install.  See the next section for options.
+
+### Providing geos_c library location under Homebrew
+
+Because Homebrew does not generate a pkg-config file for geos, one is provided in this repository: [geos_c.pc](CLibGeosC/geos_c.pc).  You can choose to install it manually, amend your PKG_CONFIG_PATH, or provide the search paths to swiftc by hand.
+
+* Option 1: Copy the sample pkg-config file to your system:
+```
+$ cp CLibGeosC/geos_c.pc /usr/local/lib/pkgconfig/
+$ pkg-config --validate geos_c # should return 0
+```
+
+* Option 2: Amend the PKG_CONFIG_PATH to allow pkg-config to find the configuration file:
+```
+$ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/path/to/GEOSwift/CLibGeosC
+$ pkg-config --validate geos_c # should succeed with no error
+```
+
+* Option 3: Pass the homebrew paths for geos to swift build every time (you may want to put this into a Makefile):
+```
+$ swift build -Xlinker \
+              -L$(brew --prefix geos)/lib \
+              -Xcc \
+              -I$(brew --prefix geos)/include
+```
 
 ## Usage
 
@@ -127,7 +180,7 @@ To make a contribution:
 * Fork the repo
 * Start from the develop branch and create a branch with a name that describes your contribution
 * Sign in to travis-ci.org (if you've never signed in before, CI won't run to verify your pull request)
-* Push your branch and create a pull request to master
+* Push your branch and create a pull request to develop
 * One of the maintainers will review your code and may request changes
 * If your pull request is accepted, one of the maintainers should update the changelog before merging it
 

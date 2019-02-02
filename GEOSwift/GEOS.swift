@@ -82,6 +82,14 @@ open class Geometry: NSObject {
         self.init(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
     }
 
+    public convenience init?(data: Data) {
+        guard let GEOSGeom = data.withUnsafeBytes({ GEOSGeomFromWKB_buf_r(GEOS_HANDLE, $0, data.count) }),
+            Geometry.classForGEOSGeom(GEOSGeom) === type(of: self) else {
+                return nil
+        }
+        self.init(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
+    }
+
     private class func classForGEOSGeom(_ GEOSGeom: OpaquePointer) -> Geometry.Type? {
         let geometryTypeId = GEOSGeomTypeId_r(GEOS_HANDLE, GEOSGeom)
         var subclass: Geometry.Type
