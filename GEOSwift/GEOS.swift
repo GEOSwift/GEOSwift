@@ -83,9 +83,15 @@ open class Geometry: NSObject {
     }
 
     public convenience init?(data: Data) {
-        guard let GEOSGeom = data.withUnsafeBytes({ GEOSGeomFromWKB_buf_r(GEOS_HANDLE, $0, data.count) }),
-            Geometry.classForGEOSGeom(GEOSGeom) === type(of: self) else {
-                return nil
+        let pointer = data.withUnsafeBytes { (unsafeRawBufferPointer) -> OpaquePointer? in
+            guard let unsafePointer = unsafeRawBufferPointer.baseAddress?
+                .bindMemory(to: UInt8.self, capacity: unsafeRawBufferPointer.count) else {
+                    return nil
+            }
+            return GEOSGeomFromWKB_buf_r(GEOS_HANDLE, unsafePointer, data.count)
+        }
+        guard let GEOSGeom = pointer, Geometry.classForGEOSGeom(GEOSGeom) === type(of: self) else {
+            return nil
         }
         self.init(storage: GeometryStorage(GEOSGeom: GEOSGeom, parent: nil))
     }

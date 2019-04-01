@@ -12,7 +12,7 @@ import MapKit
 import UIKit
 
 public extension Geometry {
-    @objc public func debugQuickLookObject() -> AnyObject? {
+    @objc func debugQuickLookObject() -> AnyObject? {
         let defaultReturnValue = WKT as AnyObject
         guard let geom = self as? GEOSwiftQuickLook, let region = geom.region else {
             return defaultReturnValue
