@@ -21,10 +21,10 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 ## Requirements
 
 * iOS 8.0+
-* Xcode 10
-* Swift 4.2
+* Xcode 10.2
+* Swift 5.0
 * CocoaPods 1.4.0+ (if developing for iOS)
-* Swift Package Manager 4.2+ (if developing Linux/Mac binaries)
+* Swift Package Manager 5.0 (if developing Linux/Mac binaries)
 
 ## Installation
 
@@ -50,7 +50,7 @@ SPM's [System Library Targets](https://github.com/apple/swift-evolution/blob/mas
 2. Update `Package.swift` to include GEOSwift as a dependency:
 
 ```swift
-// swift-tools-version:4.2
+// swift-tools-version:5.0
 let package = Package(
   name: "your-package-name",
   dependencies: [

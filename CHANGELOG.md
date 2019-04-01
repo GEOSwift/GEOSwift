@@ -1,3 +1,7 @@
+## Develop
+
+* [#]() Upgrade to CocoaPods 1.6.1, Xcode 10.2, and Swift 5
+
 ## 3.1.0
 
 * [#131](https://github.com/GEOSwift/GEOSwift/pull/131) Add support for Swift Package Manager and
