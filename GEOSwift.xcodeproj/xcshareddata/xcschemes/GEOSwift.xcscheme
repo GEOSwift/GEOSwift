@@ -20,20 +20,6 @@
                ReferencedContainer = "container:GEOSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CD22998D1B10B506002C19AE"
-               BuildableName = "GEOSwiftTests.xctest"
-               BlueprintName = "GEOSwiftTests"
-               ReferencedContainer = "container:GEOSwift.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -43,16 +29,6 @@
       codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CD22998D1B10B506002C19AE"
-               BuildableName = "GEOSwiftTests.xctest"
-               BlueprintName = "GEOSwiftTests"
-               ReferencedContainer = "container:GEOSwift.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

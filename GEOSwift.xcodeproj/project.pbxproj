@@ -71,7 +71,6 @@
 		064004E2312FE3AA64F072FA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		490B96C82251A61200327D64 /* geometrycollection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geometrycollection.png; sourceTree = "<group>"; };
 		490B96C92251A61200327D64 /* waypoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waypoint.png; sourceTree = "<group>"; };
-		4929BC7A1B0BE392CD9BD0CD /* Pods-GEOSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwiftTests/Pods-GEOSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		494B87D621051CFF009BE929 /* QuickLookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLookTests.swift; sourceTree = "<group>"; };
 		494B87D821051F6D009BE929 /* MapKit+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Equatable.swift"; sourceTree = "<group>"; };
 		494B87DC21068D7C009BE929 /* SnapshotImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotImage.swift; sourceTree = "<group>"; };
@@ -79,8 +78,6 @@
 		494B87E1210696D1009BE929 /* polygon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = polygon.png; sourceTree = "<group>"; };
 		4993ABE920F4F1CF0066547D /* LinearRef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinearRef.swift; sourceTree = "<group>"; };
 		4993ABEA20F4F1CF0066547D /* MiscFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscFunctions.swift; sourceTree = "<group>"; };
-		537B2F7965DB5ECD6E1CFB64 /* Pods-GEOSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwiftTests/Pods-GEOSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
-		7D7DCB36E4FE6316A656A43A /* Pods-GEOSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwift/Pods-GEOSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		818D7A7E1F5F5FDF00E55FB5 /* GeoJSONTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoJSONTests.swift; sourceTree = "<group>"; };
 		81E4A0B41F0CB8C50073186F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = GEOSwift/Info.plist; sourceTree = SOURCE_ROOT; };
 		B7BE8B8564B5063CCA6CC117 /* Pods_GEOSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GEOSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,7 +106,6 @@
 		CDB7EC041B287CE70055835C /* MapKitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapKitTests.swift; sourceTree = "<group>"; };
 		D36407551F7D0155001BBA46 /* multipolygonwithholes.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multipolygonwithholes.geojson; sourceTree = "<group>"; };
 		FC30B2E0DB51B308F3F23D7D /* Pods_GEOSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GEOSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF90076F32D911E63EE5ACA5 /* Pods-GEOSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwift/Pods-GEOSwift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,10 +132,6 @@
 		16F88BA0E437519EF7629362 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7D7DCB36E4FE6316A656A43A /* Pods-GEOSwift.debug.xcconfig */,
-				FF90076F32D911E63EE5ACA5 /* Pods-GEOSwift.release.xcconfig */,
-				4929BC7A1B0BE392CD9BD0CD /* Pods-GEOSwiftTests.debug.xcconfig */,
-				537B2F7965DB5ECD6E1CFB64 /* Pods-GEOSwiftTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -414,7 +406,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "if [ -n \"$CARTHAGE\" ]; then\n    echo \"Building with Carthage\"\n    cd $PROJECT_DIR\n    pod install\nelse\n    diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\n    if [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\n    fi\n    # This output is used by Xcode 'outputs' to avoid re-running this script phase.\n    echo \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		839350CC20EFFA3300403B56 /* Swiftlint */ = {
@@ -429,7 +421,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint > /dev/null; then\n  swiftlint autocorrect\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint > /dev/null; then\n  swiftlint autocorrect\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		891066D4817B824BD79977CE /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -495,7 +487,6 @@
 /* Begin XCBuildConfiguration section */
 		CD22999E1B10B506002C19AE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D7DCB36E4FE6316A656A43A /* Pods-GEOSwift.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LIBRARY = "compiler-default";
@@ -523,7 +514,6 @@
 		};
 		CD22999F1B10B506002C19AE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF90076F32D911E63EE5ACA5 /* Pods-GEOSwift.release.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LIBRARY = "compiler-default";
@@ -548,7 +538,6 @@
 		};
 		CD2299A21B10B506002C19AE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4929BC7A1B0BE392CD9BD0CD /* Pods-GEOSwiftTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -568,7 +557,6 @@
 		};
 		CD2299A31B10B506002C19AE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 537B2F7965DB5ECD6E1CFB64 /* Pods-GEOSwiftTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LIBRARY = "compiler-default";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
