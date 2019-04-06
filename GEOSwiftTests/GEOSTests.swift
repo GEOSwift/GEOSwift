@@ -4,6 +4,7 @@
 //  Created by Andrea Cremaschi on 21/05/15.
 //  Copyright (c) 2015 andreacremaschi. All rights reserved.
 //
+//  swiftlint:disable file_length
 
 import Foundation
 import XCTest
@@ -269,7 +270,7 @@ class GEOSwiftTests: XCTestCase {
         let bundle = Bundle(for: GEOSwiftTests.self)
         if let geojsons = bundle.urls(forResourcesWithExtension: "geojson", subdirectory: nil) {
             for geoJSONURL in geojsons {
-                if case .some(.some) = try? Features.fromGeoJSON(geoJSONURL) {
+                if case .some = try? Features.fromGeoJSON(geoJSONURL) {
                     XCTAssert(true, "GeoJSON correctly parsed")
                 } else {
                     XCTAssert(false, "Can't extract geometry from GeoJSON: \(geoJSONURL.lastPathComponent)")
