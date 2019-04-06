@@ -1,3 +1,11 @@
+## 3.1.2
+
+* [#147](https://github.com/GEOSwift/GEOSwift/pull/147) Fixed leak resulting from an early return not destroying an object
+
+## 3.1.1
+
+* [#138](https://github.com/GEOSwift/GEOSwift/pull/138) Exclude Bridge.swift from podspec
+
 ## 3.1.0
 
 * [#131](https://github.com/GEOSwift/GEOSwift/pull/131) Add support for Swift Package Manager and
