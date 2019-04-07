@@ -25,7 +25,7 @@ let package = Package(
       pkgConfig: "geos_c",
       providers: [
         .brew(["geos"]),
-        .apt(["libgeos-3.6.2"])
+        .apt(["libgeos-3.7.1"])
       ]
     )
   ]
