@@ -41,7 +41,8 @@
 		CD2DE3A61B39750200E7BCD4 /* point.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDA09FFE1B3968B00092C6C6 /* point.geojson */; };
 		CDB7EC051B287CE70055835C /* MapKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB7EC041B287CE70055835C /* MapKitTests.swift */; };
 		D36407561F7D0155001BBA46 /* multipolygonwithholes.geojson in Resources */ = {isa = PBXBuildFile; fileRef = D36407551F7D0155001BBA46 /* multipolygonwithholes.geojson */; };
-		DA312B501383705279D8884F /* Pods_GEOSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7BE8B8564B5063CCA6CC117 /* Pods_GEOSwift.framework */; };
+		DA312B501383705279D8884F /* Pods_GEOSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7BE8B8564B5063CCA6CC117 /* Pods_GEOSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		E284E3C9225C90E6004FCB74 /* geos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E284E3C8225C90E6004FCB74 /* geos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 		CDB7EC041B287CE70055835C /* MapKitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapKitTests.swift; sourceTree = "<group>"; };
 		CFF460E7BB9CB14C9E7C995E /* Pods-GEOSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwift/Pods-GEOSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		D36407551F7D0155001BBA46 /* multipolygonwithholes.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multipolygonwithholes.geojson; sourceTree = "<group>"; };
+		E284E3C8225C90E6004FCB74 /* geos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = geos.framework; path = Carthage/Build/iOS/geos.framework; sourceTree = "<group>"; };
 		F9D7B07F2256DCDA32B5635D /* Pods-GEOSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwiftTests/Pods-GEOSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		FC30B2E0DB51B308F3F23D7D /* Pods_GEOSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GEOSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -118,6 +120,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA312B501383705279D8884F /* Pods_GEOSwift.framework in Frameworks */,
+				E284E3C9225C90E6004FCB74 /* geos.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +249,7 @@
 		F249FE82CF1F95FBFCF62C71 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E284E3C8225C90E6004FCB74 /* geos.framework */,
 				064004E2312FE3AA64F072FA /* Pods.framework */,
 				B7BE8B8564B5063CCA6CC117 /* Pods_GEOSwift.framework */,
 				FC30B2E0DB51B308F3F23D7D /* Pods_GEOSwiftTests.framework */,
@@ -416,7 +420,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -z \"$CARTHAGE\" ]; then\n    diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\n    if [ $? != 0 ] ; then\n        # print error to STDERR\n        echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n        exit 1\n    fi\n    # This output is used by Xcode 'outputs' to avoid re-running this script phase.\n    echo \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\nelse\n    echo \"Skipping Check Pods Manifest.lock\"\nfi\n";
+			shellScript = "if [ -n \"$CARTHAGE\" ]; then\n    echo \"Skipping Check Pods Manifest.lock\"\nelse\n    diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\n    if [ $? != 0 ] ; then\n        # print error to STDERR\n        echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n        exit 1\n    fi\n    # This output is used by Xcode 'outputs' to avoid re-running this script phase.\n    echo \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		839350CC20EFFA3300403B56 /* Swiftlint */ = {
@@ -527,6 +531,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/geos\"",
+					"$(SRCROOT)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -555,6 +565,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/geos\"",
+					"$(SRCROOT)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = GEOSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "it.andreacremaschi.$(PRODUCT_NAME:rfc1034identifier)";
