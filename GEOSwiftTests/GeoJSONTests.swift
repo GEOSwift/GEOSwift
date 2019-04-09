@@ -20,7 +20,7 @@ final class GeoJSONTests: XCTestCase {
 
     func testGeoJSONFromURL() {
         for geoJSONURL in geoJsonUrls {
-            guard case .some(.some) = try? Features.fromGeoJSON(geoJSONURL) else {
+            guard case .some = try? Features.fromGeoJSON(geoJSONURL) else {
                 XCTFail("Can't extract geometry from GeoJSON: \(geoJSONURL.lastPathComponent)")
                 continue
             }
@@ -30,7 +30,7 @@ final class GeoJSONTests: XCTestCase {
     func testGeoJSONFromData() {
         for geoJSONURL in geoJsonUrls {
             guard let data = try? Data(contentsOf: geoJSONURL),
-                case .some(.some) = try? Features.fromGeoJSON(data) else {
+                case .some = try? Features.fromGeoJSON(data) else {
                     XCTFail("Can't extract geometry from GeoJSON data from: \(geoJSONURL.lastPathComponent)")
                     continue
             }
@@ -40,7 +40,7 @@ final class GeoJSONTests: XCTestCase {
     func testGeoJSONFromString() {
         for geoJSONURL in geoJsonUrls {
             guard let string = try? String(contentsOf: geoJSONURL),
-                case .some(.some) = try? Features.fromGeoJSON(string) else {
+                case .some = try? Features.fromGeoJSON(string) else {
                     XCTFail("Can't extract geometry from GeoJSON string from: \(geoJSONURL.lastPathComponent)")
                     continue
             }
