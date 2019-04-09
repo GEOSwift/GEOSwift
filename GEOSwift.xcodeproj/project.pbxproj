@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		E284E3CA225C922B004FCB74 /* Carthage */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E284E3CB225C922B004FCB74 /* Build configuration list for PBXAggregateTarget "Carthage" */;
+			buildPhases = (
+				E284E3CE225C9238004FCB74 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Carthage;
+			productName = Carthage;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		335C11A98B9F38F1FD0BADB2 /* Pods_GEOSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC30B2E0DB51B308F3F23D7D /* Pods_GEOSwiftTests.framework */; };
 		494B87D721051CFF009BE929 /* QuickLookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494B87D621051CFF009BE929 /* QuickLookTests.swift */; };
@@ -41,8 +55,7 @@
 		CD2DE3A61B39750200E7BCD4 /* point.geojson in Resources */ = {isa = PBXBuildFile; fileRef = CDA09FFE1B3968B00092C6C6 /* point.geojson */; };
 		CDB7EC051B287CE70055835C /* MapKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB7EC041B287CE70055835C /* MapKitTests.swift */; };
 		D36407561F7D0155001BBA46 /* multipolygonwithholes.geojson in Resources */ = {isa = PBXBuildFile; fileRef = D36407551F7D0155001BBA46 /* multipolygonwithholes.geojson */; };
-		DA312B501383705279D8884F /* Pods_GEOSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7BE8B8564B5063CCA6CC117 /* Pods_GEOSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		E284E3C9225C90E6004FCB74 /* geos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E284E3C8225C90E6004FCB74 /* geos.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		DA312B501383705279D8884F /* Pods_GEOSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7BE8B8564B5063CCA6CC117 /* Pods_GEOSwift.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +65,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = CD2299831B10B506002C19AE;
 			remoteInfo = Humboldt;
+		};
+		E284E3CF225C9306004FCB74 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD6533A91B0E0DFF00DE6D84 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E284E3CA225C922B004FCB74;
+			remoteInfo = Carthage;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -109,7 +129,6 @@
 		CDB7EC041B287CE70055835C /* MapKitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapKitTests.swift; sourceTree = "<group>"; };
 		CFF460E7BB9CB14C9E7C995E /* Pods-GEOSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwift/Pods-GEOSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		D36407551F7D0155001BBA46 /* multipolygonwithholes.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multipolygonwithholes.geojson; sourceTree = "<group>"; };
-		E284E3C8225C90E6004FCB74 /* geos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = geos.framework; path = Carthage/Build/iOS/geos.framework; sourceTree = "<group>"; };
 		F9D7B07F2256DCDA32B5635D /* Pods-GEOSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwiftTests/Pods-GEOSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		FC30B2E0DB51B308F3F23D7D /* Pods_GEOSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GEOSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -120,7 +139,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA312B501383705279D8884F /* Pods_GEOSwift.framework in Frameworks */,
-				E284E3C9225C90E6004FCB74 /* geos.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,7 +267,6 @@
 		F249FE82CF1F95FBFCF62C71 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E284E3C8225C90E6004FCB74 /* geos.framework */,
 				064004E2312FE3AA64F072FA /* Pods.framework */,
 				B7BE8B8564B5063CCA6CC117 /* Pods_GEOSwift.framework */,
 				FC30B2E0DB51B308F3F23D7D /* Pods_GEOSwiftTests.framework */,
@@ -275,7 +292,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD22999D1B10B506002C19AE /* Build configuration list for PBXNativeTarget "GEOSwift" */;
 			buildPhases = (
-				E2C98DBC225C840D0091A7D0 /* Carthage Copy Frameworks */,
 				62A7A265A251663EAA88D507 /* [CP] Check Pods Manifest.lock */,
 				839350CC20EFFA3300403B56 /* Swiftlint */,
 				CD22997F1B10B506002C19AE /* Sources */,
@@ -286,6 +302,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				E284E3D0225C9306004FCB74 /* PBXTargetDependency */,
 			);
 			name = GEOSwift;
 			productName = Humboldt;
@@ -333,6 +350,10 @@
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
+					E284E3CA225C922B004FCB74 = {
+						CreatedOnToolsVersion = 10.2;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = CD6533AC1B0E0DFF00DE6D84 /* Build configuration list for PBXProject "GEOSwift" */;
@@ -349,6 +370,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				E284E3CA225C922B004FCB74 /* Carthage */,
 				CD2299831B10B506002C19AE /* GEOSwift */,
 				CD22998D1B10B506002C19AE /* GEOSwiftTests */,
 			);
@@ -455,7 +477,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GEOSwiftTests/Pods-GEOSwiftTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E2C98DBC225C840D0091A7D0 /* Carthage Copy Frameworks */ = {
+		E284E3CE225C9238004FCB74 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -465,11 +487,10 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/geos.framework",
 			);
-			name = "Carthage Copy Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/geos.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Pods_GEOSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -515,6 +536,11 @@
 			isa = PBXTargetDependency;
 			target = CD2299831B10B506002C19AE /* GEOSwift */;
 			targetProxy = CD2299901B10B506002C19AE /* PBXContainerItemProxy */;
+		};
+		E284E3D0225C9306004FCB74 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E284E3CA225C922B004FCB74 /* Carthage */;
+			targetProxy = E284E3CF225C9306004FCB74 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -721,6 +747,22 @@
 			};
 			name = Release;
 		};
+		E284E3CC225C922B004FCB74 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E284E3CD225C922B004FCB74 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -747,6 +789,15 @@
 			buildConfigurations = (
 				CD6533CE1B0E0DFF00DE6D84 /* Debug */,
 				CD6533CF1B0E0DFF00DE6D84 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E284E3CB225C922B004FCB74 /* Build configuration list for PBXAggregateTarget "Carthage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E284E3CC225C922B004FCB74 /* Debug */,
+				E284E3CD225C922B004FCB74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
