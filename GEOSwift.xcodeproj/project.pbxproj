@@ -52,13 +52,6 @@
 			remoteGlobalIDString = CD2299831B10B506002C19AE;
 			remoteInfo = Humboldt;
 		};
-		E2871EAE225C7D2C0032A28B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CD6533A91B0E0DFF00DE6D84 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E2871EAA225C7D1F0032A28B;
-			remoteInfo = "Pod Install";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -273,28 +266,12 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
-/* Begin PBXLegacyTarget section */
-		E2871EAA225C7D1F0032A28B /* Pod Install */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "-c \"`which pod` install\"";
-			buildConfigurationList = E2871EAB225C7D1F0032A28B /* Build configuration list for PBXLegacyTarget "Pod Install" */;
-			buildPhases = (
-			);
-			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "$(SRCROOT)";
-			dependencies = (
-			);
-			name = "Pod Install";
-			passBuildSettingsInEnvironment = 0;
-			productName = "Pod Install";
-		};
-/* End PBXLegacyTarget section */
-
 /* Begin PBXNativeTarget section */
 		CD2299831B10B506002C19AE /* GEOSwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD22999D1B10B506002C19AE /* Build configuration list for PBXNativeTarget "GEOSwift" */;
 			buildPhases = (
+				E2C98DBC225C840D0091A7D0 /* Carthage Copy Frameworks */,
 				62A7A265A251663EAA88D507 /* [CP] Check Pods Manifest.lock */,
 				839350CC20EFFA3300403B56 /* Swiftlint */,
 				CD22997F1B10B506002C19AE /* Sources */,
@@ -305,7 +282,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E2871EAF225C7D2C0032A28B /* PBXTargetDependency */,
 			);
 			name = GEOSwift;
 			productName = Humboldt;
@@ -353,10 +329,6 @@
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
-					E2871EAA225C7D1F0032A28B = {
-						CreatedOnToolsVersion = 10.2;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = CD6533AC1B0E0DFF00DE6D84 /* Build configuration list for PBXProject "GEOSwift" */;
@@ -373,7 +345,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E2871EAA225C7D1F0032A28B /* Pod Install */,
 				CD2299831B10B506002C19AE /* GEOSwift */,
 				CD22998D1B10B506002C19AE /* GEOSwiftTests */,
 			);
@@ -480,6 +451,26 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GEOSwiftTests/Pods-GEOSwiftTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E2C98DBC225C840D0091A7D0 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/geos.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/geos.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -n \"$CARTHAGE\" ]; then\n    /usr/local/bin/carthage copy-frameworks\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -520,11 +511,6 @@
 			isa = PBXTargetDependency;
 			target = CD2299831B10B506002C19AE /* GEOSwift */;
 			targetProxy = CD2299901B10B506002C19AE /* PBXContainerItemProxy */;
-		};
-		E2871EAF225C7D2C0032A28B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E2871EAA225C7D1F0032A28B /* Pod Install */;
-			targetProxy = E2871EAE225C7D2C0032A28B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -719,50 +705,6 @@
 			};
 			name = Release;
 		};
-		E2871EAC225C7D1F0032A28B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				DEBUGGING_SYMBOLS = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		E2871EAD225C7D1F0032A28B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				MTL_FAST_MATH = YES;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -789,15 +731,6 @@
 			buildConfigurations = (
 				CD6533CE1B0E0DFF00DE6D84 /* Debug */,
 				CD6533CF1B0E0DFF00DE6D84 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E2871EAB225C7D1F0032A28B /* Build configuration list for PBXLegacyTarget "Pod Install" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E2871EAC225C7D1F0032A28B /* Debug */,
-				E2871EAD225C7D1F0032A28B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
