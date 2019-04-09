@@ -485,16 +485,14 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/geos.framework",
 			);
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Pods_GEOSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -n \"$CARTHAGE\" ]; then\n    /usr/local/bin/carthage copy-frameworks\nelse\n    echo \"Skipping Carthage Copy Frameworks\"\nfi\n";
+			shellScript = "if [ -n \"$CARTHAGE\" ]; then\nFRAMEWORK_DIR=$(SRCROOT)../../Build/iOS/\ncp -R $FRAMEWORK_DIR/geos.framework $FRAMEWORK_DIR/Pods_GEOSwift.framework\ncp $FRAMEWORK_DIR/Pods_GEOSwift.framework/geos $FRAMEWORK_DIR/Pods_GEOSwift.framework/Pods_GEOSwift\nelse\necho \"Skipping Carthage Copy Frameworks\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
