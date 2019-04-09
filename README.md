@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://img.shields.io/cocoapods/v/GEOSwift.svg)
+[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![codecov](https://codecov.io/gh/GEOSwift/GEOSwift/branch/develop/graph/badge.svg)](https://codecov.io/gh/GEOSwift/GEOSwift)
 
 Easily handle a geographical object model (points, linestrings, polygons etc.) and related topographical operations (intersections, overlapping etc.).  
@@ -41,6 +42,18 @@ pod 'GEOSwift'
 3. Run `$ pod install`
 
 > GEOS is a configure/install project licensed under LGPL 2.1: it is difficult to build for iOS and its compatibility with static linking is at least controversial. Use of GEOSwift without dynamic-framework-based CocoaPods and with a project targeting iOS 7, even if possible, is advised against.
+
+### Carthage
+Add the following to your Cartfile:
+```
+github "GEOSwift/geos" ~> 3.7.1
+github "GEOSwift/GEOSwift" 3.1.2
+```
+
+Then run:
+```
+$ carthage update --cache-builds
+```
 
 ### Swift Package Manager
 
