@@ -1,4 +1,4 @@
-## Develop
+## 4.0.0
 
 * [#144](https://github.com/GEOSwift/GEOSwift/pull/144) Upgrade to CocoaPods 1.6.1, Xcode 10.2, and Swift 5
 
