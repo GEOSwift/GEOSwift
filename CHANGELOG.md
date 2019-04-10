@@ -1,3 +1,7 @@
+## 4.0.0
+
+* [#144](https://github.com/GEOSwift/GEOSwift/pull/144) Upgrade to CocoaPods 1.6.1, Xcode 10.2, and Swift 5
+
 ## 3.1.2
 
 * [#147](https://github.com/GEOSwift/GEOSwift/pull/147) Fixed leak resulting from an early return not destroying an object
