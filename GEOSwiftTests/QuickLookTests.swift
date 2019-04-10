@@ -95,6 +95,7 @@ final class QuickLookTests: XCTestCase {
             size: MKMapSize(width: width, height: width))
     }
 
+    /// SnapshotImages are from iPhone XS, so use that simulator when running unit tests
     func verifyDrawing(with geometry: GEOSwiftQuickLook,
                        mapRect: MKMapRect,
                        expected: SnapshotImage,

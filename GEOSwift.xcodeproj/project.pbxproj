@@ -22,13 +22,13 @@
 
 /* Begin PBXBuildFile section */
 		335C11A98B9F38F1FD0BADB2 /* Pods_GEOSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC30B2E0DB51B308F3F23D7D /* Pods_GEOSwiftTests.framework */; };
+		490B96CA2251A61200327D64 /* geometrycollection.png in Resources */ = {isa = PBXBuildFile; fileRef = 490B96C82251A61200327D64 /* geometrycollection.png */; };
+		490B96CB2251A61200327D64 /* waypoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 490B96C92251A61200327D64 /* waypoint.png */; };
 		494B87D721051CFF009BE929 /* QuickLookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494B87D621051CFF009BE929 /* QuickLookTests.swift */; };
 		494B87D921051F6D009BE929 /* MapKit+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494B87D821051F6D009BE929 /* MapKit+Equatable.swift */; };
-		494B87DB21068D61009BE929 /* waypoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 494B87DA21068D61009BE929 /* waypoint.png */; };
 		494B87DD21068D7C009BE929 /* SnapshotImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494B87DC21068D7C009BE929 /* SnapshotImage.swift */; };
 		494B87E021069386009BE929 /* linearring.png in Resources */ = {isa = PBXBuildFile; fileRef = 494B87DF21069386009BE929 /* linearring.png */; };
 		494B87E2210696D2009BE929 /* polygon.png in Resources */ = {isa = PBXBuildFile; fileRef = 494B87E1210696D1009BE929 /* polygon.png */; };
-		494B87E421069735009BE929 /* geometrycollection.png in Resources */ = {isa = PBXBuildFile; fileRef = 494B87E321069735009BE929 /* geometrycollection.png */; };
 		4993ABEB20F4F1CF0066547D /* LinearRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4993ABE920F4F1CF0066547D /* LinearRef.swift */; };
 		4993ABEC20F4F1CF0066547D /* MiscFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4993ABEA20F4F1CF0066547D /* MiscFunctions.swift */; };
 		818D7A7F1F5F5FDF00E55FB5 /* GeoJSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818D7A7E1F5F5FDF00E55FB5 /* GeoJSONTests.swift */; };
@@ -91,13 +91,14 @@
 /* Begin PBXFileReference section */
 		064004E2312FE3AA64F072FA /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16CF083770D8E290F5713574 /* Pods-GEOSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwift/Pods-GEOSwift.release.xcconfig"; sourceTree = "<group>"; };
+		490B96C82251A61200327D64 /* geometrycollection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geometrycollection.png; sourceTree = "<group>"; };
+		490B96C92251A61200327D64 /* waypoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waypoint.png; sourceTree = "<group>"; };
+		4929BC7A1B0BE392CD9BD0CD /* Pods-GEOSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwiftTests/Pods-GEOSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		494B87D621051CFF009BE929 /* QuickLookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLookTests.swift; sourceTree = "<group>"; };
 		494B87D821051F6D009BE929 /* MapKit+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Equatable.swift"; sourceTree = "<group>"; };
-		494B87DA21068D61009BE929 /* waypoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waypoint.png; sourceTree = "<group>"; };
 		494B87DC21068D7C009BE929 /* SnapshotImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotImage.swift; sourceTree = "<group>"; };
 		494B87DF21069386009BE929 /* linearring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = linearring.png; sourceTree = "<group>"; };
 		494B87E1210696D1009BE929 /* polygon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = polygon.png; sourceTree = "<group>"; };
-		494B87E321069735009BE929 /* geometrycollection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = geometrycollection.png; sourceTree = "<group>"; };
 		4993ABE920F4F1CF0066547D /* LinearRef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinearRef.swift; sourceTree = "<group>"; };
 		4993ABEA20F4F1CF0066547D /* MiscFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiscFunctions.swift; sourceTree = "<group>"; };
 		4C566774E24E70B96EF79CB4 /* Pods-GEOSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEOSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GEOSwiftTests/Pods-GEOSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -168,11 +169,11 @@
 		4921A7142106AE1200FF8EC7 /* Snapshot Images */ = {
 			isa = PBXGroup;
 			children = (
-				494B87E321069735009BE929 /* geometrycollection.png */,
+				490B96C82251A61200327D64 /* geometrycollection.png */,
 				494B87DF21069386009BE929 /* linearring.png */,
 				494B87E1210696D1009BE929 /* polygon.png */,
-				494B87DA21068D61009BE929 /* waypoint.png */,
 				494B87DC21068D7C009BE929 /* SnapshotImage.swift */,
+				490B96C92251A61200327D64 /* waypoint.png */,
 			);
 			path = "Snapshot Images";
 			sourceTree = "<group>";
@@ -337,17 +338,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = andreacremaschi;
 				TargetAttributes = {
 					CD2299831B10B506002C19AE = {
 						CreatedOnToolsVersion = 6.3.2;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					CD22998D1B10B506002C19AE = {
 						CreatedOnToolsVersion = 6.3.2;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					E284E3CA225C922B004FCB74 = {
@@ -358,7 +359,7 @@
 			};
 			buildConfigurationList = CD6533AC1B0E0DFF00DE6D84 /* Build configuration list for PBXProject "GEOSwift" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				English,
@@ -392,16 +393,16 @@
 				CD2DE39F1B39750200E7BCD4 /* multipolygon.geojson in Resources */,
 				CD2DE3A01B39750200E7BCD4 /* geometrycollection.geojson in Resources */,
 				D36407561F7D0155001BBA46 /* multipolygonwithholes.geojson in Resources */,
+				490B96CA2251A61200327D64 /* geometrycollection.png in Resources */,
 				CD2DE3A41B39750200E7BCD4 /* linestring.geojson in Resources */,
 				494B87E021069386009BE929 /* linearring.png in Resources */,
 				494B87E2210696D2009BE929 /* polygon.png in Resources */,
 				CD2DE3A21B39750200E7BCD4 /* multipoint.geojson in Resources */,
+				490B96CB2251A61200327D64 /* waypoint.png in Resources */,
 				CD2DE3A61B39750200E7BCD4 /* point.geojson in Resources */,
 				CD2DE3A51B39750200E7BCD4 /* multilinestring.geojson in Resources */,
 				CD2DE3A11B39750200E7BCD4 /* polygon.geojson in Resources */,
 				CD2DE3A31B39750200E7BCD4 /* featurecollection.geojson in Resources */,
-				494B87E421069735009BE929 /* geometrycollection.png in Resources */,
-				494B87DB21068D61009BE929 /* waypoint.png in Resources */,
 				CD2DE39E1B396FF400E7BCD4 /* feature.geojson in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,6 +571,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "it.andreacremaschi.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -600,6 +602,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "it.andreacremaschi.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -623,6 +626,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "it.andreacremaschi.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_PNG_TEXT = NO;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -639,6 +643,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "it.andreacremaschi.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_PNG_TEXT = NO;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -646,6 +651,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -701,6 +707,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;

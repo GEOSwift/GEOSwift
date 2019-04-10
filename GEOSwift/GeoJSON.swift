@@ -14,13 +14,13 @@ public enum GEOJSONParseError: Error {
 
 public extension Geometry {
 
-    @available(*, deprecated: 2.1.0, renamed: "Features.fromGeoJSON(_:)")
-    public class func fromGeoJSON(_ URL: Foundation.URL) throws -> [Geometry]? {
+    @available(*, deprecated, renamed: "Features.fromGeoJSON(_:)")
+    class func fromGeoJSON(_ URL: Foundation.URL) throws -> [Geometry]? {
         return try Features.fromGeoJSON(URL)?.first?.geometries
     }
 
-    @available(*, deprecated: 2.1.0, renamed: "Features.fromGeoJSONDictionary(_:)")
-    public class func fromGeoJSONDictionary(_ dictionary: [String: AnyObject]) -> [Geometry]? {
+    @available(*, deprecated, renamed: "Features.fromGeoJSONDictionary(_:)")
+    class func fromGeoJSONDictionary(_ dictionary: [String: AnyObject]) -> [Geometry]? {
         return Features.fromGeoJSONDictionary(dictionary)?.first?.geometries
     }
 
@@ -35,7 +35,7 @@ public extension Array where Element == Feature {
      - parameter URL: the URL pointing to the GeoJSON file.
     returns: An optional `Array` of `Feature` instances.
      */
-    public static func fromGeoJSON(_ URL: Foundation.URL) throws -> Features? {
+    static func fromGeoJSON(_ URL: Foundation.URL) throws -> Features? {
         guard let JSONData = try? Data(contentsOf: URL) else {
             return nil
         }
@@ -49,7 +49,7 @@ public extension Array where Element == Feature {
      
      - returns: An optional `Array` of `Geometry` instances.
      */
-    public static func fromGeoJSON(_ string: String) throws -> Features? {
+    static func fromGeoJSON(_ string: String) throws -> Features? {
         guard let data = string.data(using: .utf8) else {
             return nil
         }
@@ -63,7 +63,7 @@ public extension Array where Element == Feature {
      
      - returns: An optional `Array` of `Geometry` instances.
      */
-    public static func fromGeoJSON(_ data: Data) throws -> Features? {
+    static func fromGeoJSON(_ data: Data) throws -> Features? {
         do {
             // read JSON file
             let parsedObject = try JSONSerialization.jsonObject(
@@ -88,7 +88,7 @@ public extension Array where Element == Feature {
     
     :returns: An optional `Array` of `Feature` instances.
     */
-    public static func fromGeoJSONDictionary(_ dictionary: [String: AnyObject]) -> Features? {
+    static func fromGeoJSONDictionary(_ dictionary: [String: AnyObject]) -> Features? {
         return ParseGEOJSONObject(dictionary)
     }
 }
