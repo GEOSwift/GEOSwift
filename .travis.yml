@@ -1,10 +1,11 @@
 osx_image: xcode10.2
+language: objective-c
 
 before_install:
+  - brew install swiftlint
   - gem install cocoapods
   - pod repo update
   - pod install --verbose
-  - brew install swiftlint
 
 cache: cocoapods
 
