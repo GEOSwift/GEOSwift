@@ -82,7 +82,7 @@ geometry2
 //:
 if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: "geojson"),
     let features = try? Features.fromGeoJSON(geoJSONURL),
-    let italy = features?.first?.geometries?.first as? MultiPolygon {
+    let italy = features.first?.geometries?.first as? MultiPolygon {
 
     italy
 //: ### Topological operations:
