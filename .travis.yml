@@ -1,5 +1,5 @@
 osx_image: xcode10.2
-language: objective-c
+language: swift
 
 before_install:
   - brew install swiftlint
@@ -10,7 +10,7 @@ before_install:
 cache: cocoapods
 
 script:
-  - fastlane scan --scheme "GEOSwiftTests"
+  - fastlane scan --scheme "GEOSwiftTests" --device "iPhone Xs"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J '^GEOSwift$'
