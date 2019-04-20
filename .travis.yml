@@ -1,18 +1,18 @@
 language: objective-c
 
 before_install:
+  - brew install carthage swiftlint
   - gem install xcpretty
-  - gem install cocoapods -v '1.6.1'
-  - pod repo update
-  - pod install --verbose
-  - brew install swiftlint
+  - travis_wait 30 carthage update --cache-builds --platform iOS --no-use-binaries
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J '^GEOSwift$'
 
 osx_image: xcode10.2
 
-cache: cocoapods
+cache:
+  directories:
+  - Carthage
 
 env:
   global:
