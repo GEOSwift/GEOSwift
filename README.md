@@ -1,7 +1,9 @@
 ![GEOSwift](/README-images/GEOSwift-header.png)
 
-[![Build Status](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://img.shields.io/cocoapods/v/GEOSwift.svg)
+[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Platform](https://img.shields.io/cocoapods/p/GEOSwift.svg?style=flat)](https://github.com/GEOSwift/GEOSwift)
+[![Build Status](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)
 [![codecov](https://codecov.io/gh/GEOSwift/GEOSwift/branch/develop/graph/badge.svg)](https://codecov.io/gh/GEOSwift/GEOSwift)
 
 Easily handle a geographical object model (points, linestrings, polygons etc.) and related topographical operations (intersections, overlapping etc.).  
@@ -23,7 +25,7 @@ A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, 
 * iOS 8.0+
 * Xcode 10.2
 * Swift 5.0
-* CocoaPods 1.4.0+ (if developing for iOS)
+* CocoaPods 1.4.0+ or Carthage (if developing for iOS)
 * Swift Package Manager 5.0 (if developing Linux/Mac binaries)
 
 ## Installation
@@ -41,6 +43,18 @@ pod 'GEOSwift'
 3. Run `$ pod install`
 
 > GEOS is a configure/install project licensed under LGPL 2.1: it is difficult to build for iOS and its compatibility with static linking is at least controversial. Use of GEOSwift without dynamic-framework-based CocoaPods and with a project targeting iOS 7, even if possible, is advised against.
+
+### Carthage
+
+1. Install autotools: `$ brew install autoconf automake libtool`
+2. Add the following to your Cartfile:
+
+```
+github "GEOSwift/GEOSwift" ~> 4.1.0
+```
+
+3. Finish updating your project by following the [typical Carthage
+workflow](https://github.com/Carthage/Carthage#quick-start).
 
 ### Swift Package Manager
 
@@ -68,7 +82,7 @@ $ pkg-config --validate geos_c
 ```
 > NOTE: Homebrew's current version of geos does not seem to generate a `.pc` file on install.  See the next section for options.
 
-### Providing geos_c library location under Homebrew
+#### Providing geos_c library location under Homebrew
 
 Because Homebrew does not generate a pkg-config file for geos, one is provided in this repository: [geos_c.pc](CLibGeosC/geos_c.pc).  You can choose to install it manually, amend your PKG_CONFIG_PATH, or provide the search paths to swiftc by hand.
 
@@ -179,6 +193,7 @@ To make a contribution:
 
 * Fork the repo
 * Start from the develop branch and create a branch with a name that describes your contribution
+* Run `$ carthage update`
 * Sign in to travis-ci.org (if you've never signed in before, CI won't run to verify your pull request)
 * Push your branch and create a pull request to develop
 * One of the maintainers will review your code and may request changes
