@@ -389,7 +389,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This fixes playground unable to find the framework \ncp -R $SRCROOT/Carthage/Build/iOS/geos.framework $BUILT_PRODUCTS_DIR/geos.framework $(BUILT_PRODUCTS_DIR)/geos.framework\n";
+			shellScript = "# This fixes playground unable to find the framework \ncp -R $SRCROOT/Carthage/Build/iOS/geos.framework $BUILT_PRODUCTS_DIR/geos.framework\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
