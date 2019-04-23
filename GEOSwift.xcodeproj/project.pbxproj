@@ -256,6 +256,7 @@
 				CD2299811B10B506002C19AE /* Headers */,
 				CD2299821B10B506002C19AE /* Resources */,
 				36BA490CD3061F30F02CD17A /* Frameworks */,
+				E2836B6C226F339E0081B1F6 /* Copy geos for Playground */,
 			);
 			buildRules = (
 			);
@@ -371,6 +372,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint > /dev/null; then\n  swiftlint autocorrect\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		E2836B6C226F339E0081B1F6 /* Copy geos for Playground */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy geos for Playground";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This fixes playground unable to find the framework \ncp -R $SRCROOT/Carthage/Build/iOS/geos.framework $BUILT_PRODUCTS_DIR/geos.framework $(BUILT_PRODUCTS_DIR)/geos.framework\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
