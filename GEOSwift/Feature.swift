@@ -17,7 +17,7 @@ public class Feature {
     public var geometries: [Geometry]?
     public var properties: NSDictionary?
 
-    init() {
+    public init() {
         geometries = [Geometry]()
     }
 }
