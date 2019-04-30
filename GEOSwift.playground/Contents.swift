@@ -66,8 +66,8 @@ if geometry1 == geometry2 && geometry1 != point {
 //: Convert the geometries to a MKShape subclass, ready to be added as annotations to a MKMapView
 //:
 let shape1 = point!.mapShape()!
- let shape2 = geometry1?.mapShape()!
- let annotations = [shape1, shape2]
+let shape2 = geometry1?.mapShape()!
+let annotations = [shape1, shape2]
 //: ### Quicklook integration
 //:
 //: GEOSwift geometries are integrated with Quicklook!
@@ -82,7 +82,7 @@ geometry2
 //:
 if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: "geojson"),
     let features = try? Features.fromGeoJSON(geoJSONURL),
-    let italy = features?.first?.geometries?.first as? MultiPolygon {
+    let italy = features.first?.geometries?.first as? MultiPolygon {
 
     italy
 //: ### Topological operations:
