@@ -1,3 +1,8 @@
+## 4.1.0
+
+* [#153](https://github.com/GEOSwift/GEOSwift/pull/153) Add Carthage support
+* [#154](https://github.com/GEOSwift/GEOSwift/pull/154) Add public init for Feature
+
 ## 4.0.0
 
 * [#144](https://github.com/GEOSwift/GEOSwift/pull/144) Upgrade to CocoaPods 1.6.1, Xcode 10.2, and Swift 5
