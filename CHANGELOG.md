@@ -1,3 +1,6 @@
+## 4.1.1
+* add circle bounding class
+
 ## 4.1.0
 
 * [#153](https://github.com/GEOSwift/GEOSwift/pull/153) Add Carthage support
