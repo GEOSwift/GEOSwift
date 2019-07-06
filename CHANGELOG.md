@@ -1,3 +1,8 @@
+## 4.1.1
+
+* [#163](https://github.com/GEOSwift/GEOSwift/pull/163) Fix building on projects with spaces in path
+* [#164](https://github.com/GEOSwift/GEOSwift/pull/164) Updated geos dependency to 4.0.2 (CocoaPods & Carthage)
+
 ## 4.1.0
 
 * [#153](https://github.com/GEOSwift/GEOSwift/pull/153) Add Carthage support
