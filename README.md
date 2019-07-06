@@ -50,7 +50,7 @@ pod 'GEOSwift'
 2. Add the following to your Cartfile:
 
 ```
-github "GEOSwift/GEOSwift" ~> 4.1.0
+github "GEOSwift/GEOSwift" ~> 4.1.1
 ```
 
 3. Finish updating your project by following the [typical Carthage
