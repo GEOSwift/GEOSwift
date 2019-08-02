@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:GEOSwift.playground">
-   </FileRef>
-   <FileRef
       location = "group:GEOSwift.xcodeproj">
    </FileRef>
 </Workspace>

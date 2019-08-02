@@ -1,32 +1,34 @@
-![GEOSwift](/README-images/GEOSwift-header.png)
+![GEOSwift](/README-images/GEOSwift.png)
 
-[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://img.shields.io/cocoapods/v/GEOSwift.svg)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://cocoapods.org/pods/GEOSwift)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Platform](https://img.shields.io/cocoapods/p/GEOSwift.svg?style=flat)](https://github.com/GEOSwift/GEOSwift)
-[![Build Status](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)
+[![Build Status](https://travis-ci.org/GEOSwift/GEOSwift.svg?branch=develop)](https://travis-ci.org/GEOSwift/GEOSwift)
 [![codecov](https://codecov.io/gh/GEOSwift/GEOSwift/branch/develop/graph/badge.svg)](https://codecov.io/gh/GEOSwift/GEOSwift)
 
-Easily handle a geographical object model (points, linestrings, polygons etc.) and related topographical operations (intersections, overlapping etc.).  
-A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines, nicely integrated with MapKit and Quicklook.
+Easily handle a geometric object model (points, linestrings, polygons etc.) and related topological operations (intersections, overlapping etc.). A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines.
 
-> **For *MapboxGL* integration visit: https://github.com/GEOSwift/GEOSwiftMapboxGL**
+> **For *MapKit* integration visit: https://github.com/GEOSwift/GEOSwiftMapKit**<br />
+> **For *MapboxGL* integration visit: https://github.com/GEOSwift/GEOSwiftMapboxGL** (volunteer needed to maintain GEOSwiftMapboxGL)<br />
+
+## Migrating to Version 5
+
+Version 5 constitutes a ground-up rewrite of GEOSwift. For full details and help migrating from version 4, see [VERSION_5.md](VERSION_5.md).
 
 ## Features
 
 * A pure-Swift, type-safe, optional-aware programming interface
-* Automatically-typed geometry deserialization from WKT and WKB representations
-* *MapKit* and *MapboxGL* integration
-* *Quicklook* integration
-* A lightweight *GEOJSON* parser
+* WKT and WKB reading & writing
+* Robust support for *GeoJSON* via Codable
+* Thread-safe
+* Swift-native error handling
 * Extensively tested
 
 ## Requirements
 
-* iOS 8.0+
+* iOS 8.0+, tvOS 9.0+, macOS 10.9+
 * Xcode 10.2
 * Swift 5.0
-* CocoaPods 1.4.0+ or Carthage (if developing for iOS)
-* Swift Package Manager 5.0 (if developing Linux/Mac binaries)
 
 ## Installation
 
@@ -50,7 +52,7 @@ pod 'GEOSwift'
 2. Add the following to your Cartfile:
 
 ```
-github "GEOSwift/GEOSwift" ~> 4.1.1
+github "GEOSwift/GEOSwift" ~> 5.0.0
 ```
 
 3. Finish updating your project by following the [typical Carthage
@@ -58,53 +60,7 @@ workflow](https://github.com/Carthage/Carthage#quick-start).
 
 ### Swift Package Manager
 
-SPM's [System Library Targets](https://github.com/apple/swift-evolution/blob/master/proposals/0208-package-manager-system-library-targets.md) allows linking against any library installed on the machine.
-
-1. Ensure that the geos package is installed on your machine. For Mac, Homebrew is suggested: `$ brew install geos`
-2. Update `Package.swift` to include GEOSwift as a dependency:
-
-```swift
-// swift-tools-version:5.0
-let package = Package(
-  name: "your-package-name",
-  dependencies: [
-    .package(url: "https://github.com/GEOSwift/GEOSwift.git", from: "x.x.x") // Reccommend latest release version, e.g. "3.1.0"
-  ],
-  targets: [
-    .target("your-target-name", dependencies: ["GEOSwift"])
-  ]
-)
-```
-
-3.  Ensure that your system has a pkg-config file available for `libgeos_c`:
-```
-$ pkg-config --validate geos_c
-```
-> NOTE: Homebrew's current version of geos does not seem to generate a `.pc` file on install.  See the next section for options.
-
-#### Providing geos_c library location under Homebrew
-
-Because Homebrew does not generate a pkg-config file for geos, one is provided in this repository: [geos_c.pc](CLibGeosC/geos_c.pc).  You can choose to install it manually, amend your PKG_CONFIG_PATH, or provide the search paths to swiftc by hand.
-
-* Option 1: Copy the sample pkg-config file to your system:
-```
-$ cp CLibGeosC/geos_c.pc /usr/local/lib/pkgconfig/
-$ pkg-config --validate geos_c # should return 0
-```
-
-* Option 2: Amend the PKG_CONFIG_PATH to allow pkg-config to find the configuration file:
-```
-$ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/path/to/GEOSwift/CLibGeosC
-$ pkg-config --validate geos_c # should succeed with no error
-```
-
-* Option 3: Pass the homebrew paths for geos to swift build every time (you may want to put this into a Makefile):
-```
-$ swift build -Xlinker \
-              -L$(brew --prefix geos)/lib \
-              -Xcc \
-              -I$(brew --prefix geos)/include
-```
+GEOSwift supports SPM on macOS & Linux. [Instructions](SPM.md)
 
 ## Usage
 
@@ -112,52 +68,24 @@ $ swift build -Xlinker \
 
 ```swift
 // 1. From Well Known Text (WKT) representation
-let point = Waypoint(WKT: "POINT(10 45)")
-let polygon = Geometry.create("POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
+let point = try Point(wkt: "POINT(10 45)")
+let polygon = try Geometry(wkt: "POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
 
 // 2. From a Well Known Binary (WKB)
-let WKB: NSData = geometryWKB()
-let geometry2 = Geometry.create(WKB.bytes, size: WKB.length)
+let wkb: NSData = geometryWKB()
+let geometry2 = try Geometry(wkb: wkb)
 
 // 3. From a GeoJSON file:
+let decoder = JSONDecoder()
 if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: "geojson"),
-    let features = try! Features.fromGeoJSON(geoJSONURL),
-    let italy = features.first?.geometries?.first as? MultiPolygon
+    let data = try? Data(contentsOf: geoJSONURL),
+    let geoJSON = try? decoder.decode(GeoJSON.self, from: data),
+    case let .feature(feature) = geoJson,
+    let italy = feature.geometry
 {
     italy
 }
 ```
-
-### MapKit and MapboxGL integration
-
-GEOSwift makes it easy generate annotations to display on a mapview using Apple MapKit and [MapboxGL](https://github.com/mapbox/mapbox-gl-native/).
-On each Geometry instance you can call one of the related convenience func `mapShape()` or `mapboxShape()`, that will return an annotation object ready to be added as annotations to a `MKMapView` (for MapKit) or `MGLMapView` (for MapboxGL):
-
-Example for MapKit:
-
-```swift
-let shape1 = point.mapShape() // will return a MKPointAnnotation
-```
-
-Example for MapboxGL:
-
-For *MapboxGL* integration visit: https://github.com/GEOSwift/GEOSwiftMapboxGL
-
-In this table you can find which annotation class you should expect when calling `mapShape()` or `mapboxShape()` on a geometry:
-
-| WKT Feature | GEOSwift class | MapKit | MapboxGL |
-|:------------------:|:-------------:|:-----------------:|:-----------------:|
-| `POINT` | `WayPoint` | `MKPointAnnotation` | `MGLPointAnnotation` |
-| `LINESTRING` | `LineString` | `MKPolyline` | `MGLPolyline` |
-| `POLYGON` | `Polygon` | `MKPolygon` | `MGLPolygon` |
-| `MULTIPOINT` | `MultiPoint` | `MKShapesCollection` | `not supported` |
-| `MULTILINESTRING` | `MultiLineString` | `MKShapesCollection` | `not supported` |
-| `MULTIPOLYGON` | `MultiPolygon` | `MKShapesCollection` | `not supported` |
-| `GEOMETRYCOLLECTION` | `GeometryCollection` | `MKShapesCollection` | `not supported` |
-
-Of course you should provide your implementation of the mapview delegate protocol (`MKMapViewDelegate` or `MGLMapViewDelegate`).
-In MapKit, when dealing with geometry collections you have to define your own `MKOverlayRenderer` subclass.
-Currently geometry collections are not supported when using `MapboxGL`.
 
 ### Topological operations
 
@@ -183,7 +111,8 @@ GEOSwift let you perform a set of operations on these two geometries:
 
 ### Playground
 
-Explore more, interactively, from the Xcode project’s playground. It can be found inside `GEOSwift` workspace. Open the workspace on Xcode, build the `GEOSwift` framework and open the playground file.
+Explore more, interactively, in the playground, which is available in the [GEOSwiftMapKit](https://github.com/GEOSwift/GEOSwiftMapKit)
+project. It can be found inside `GEOSwiftMapKit` workspace. Open the workspace in Xcode, build the `GEOSwiftMapKit` framework and open the playground file.
 
 ![Playground](/README-images/playground.png)
 
@@ -192,16 +121,21 @@ Explore more, interactively, from the Xcode project’s playground. It can be fo
 To make a contribution:
 
 * Fork the repo
-* Start from the develop branch and create a branch with a name that describes your contribution
+* Start from the `develop` branch and create a branch with a name that describes your contribution
 * Run `$ carthage update`
 * Sign in to travis-ci.org (if you've never signed in before, CI won't run to verify your pull request)
 * Push your branch and create a pull request to develop
 * One of the maintainers will review your code and may request changes
 * If your pull request is accepted, one of the maintainers should update the changelog before merging it
 
-## Creator
+## Maintainer
 
-Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi))
+* Andrew Hershberger ([@macdrevx](https://github.com/macdrevx))
+
+## Past Maintainers
+
+* Virgilio Favero Neto ([@vfn](https://github.com/vfn))
+* Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi)) (original author)
 
 ## License
 

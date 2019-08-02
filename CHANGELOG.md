@@ -1,3 +1,7 @@
+## 5.0.0
+
+* [#167] See [VERSION_5.md](VERSION_5.md)
+
 ## 4.1.1
 
 * [#163](https://github.com/GEOSwift/GEOSwift/pull/163) Fix building on projects with spaces in path
