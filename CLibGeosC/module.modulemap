@@ -1,4 +1,4 @@
-module CLibGeosC [system] {
+module geos [system] {
   header "clibgeosc.h"
   link "geos_c"
   export *

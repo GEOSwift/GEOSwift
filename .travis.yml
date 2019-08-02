@@ -1,26 +1,23 @@
 language: objective-c
 
-before_install:
-  - brew install carthage swiftlint
-  - gem install xcpretty
-  - travis_wait 30 carthage update --cache-builds --platform iOS --no-use-binaries
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash) -J '^GEOSwift$'
-
 osx_image: xcode10.2
 
 cache:
   directories:
-  - Carthage
+    - Carthage
 
 env:
   global:
     - WORKSPACE=GEOSwift.xcworkspace
-    - SCHEME=GEOSwift
-    - SDK=iphonesimulator12.2
   matrix:
-    - DESTINATION="OS=12.2,name=iPhone XS"
+    - PLATFORM=iOS SCHEME=GEOSwift-iOS SDK=iphonesimulator12.2 DESTINATION="platform=iOS Simulator,OS=12.2,name=iPhone Xs" 
+    - PLATFORM=tvOS SCHEME=GEOSwift-tvOS SDK=appletvsimulator12.2 DESTINATION="platform=tvOS Simulator,OS=12.2,name=Apple TV"
+    - PLATFORM=macOS SCHEME=GEOSwift-macOS SDK=macosx10.14 DESTINATION="platform=OS X"
+
+before_install:
+  - brew install carthage swiftlint
+  - gem install xcpretty
+  - travis_wait 30 carthage update --cache-builds --platform "$PLATFORM" --no-use-binaries
 
 script:
   - set -o pipefail
@@ -32,3 +29,6 @@ script:
     -configuration Debug
     ONLY_ACTIVE_ARCH=YES
     clean test | xcpretty -c;
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -J '^GEOSwift$'
