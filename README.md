@@ -2,9 +2,9 @@
 
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://cocoapods.org/pods/GEOSwift)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Platform](https://img.shields.io/cocoapods/p/GEOSwift.svg?style=flat)](https://github.com/GEOSwift/GEOSwift)
-![Travis (.org) branch](https://img.shields.io/travis/GEOSwift/GEOSwift/master)
-![Codecov branch](https://img.shields.io/codecov/c/github/GEOSwift/GEOSwift/master)
+[![Supported Platforms](https://img.shields.io/cocoapods/p/GEOSwift.svg?style=flat)](https://github.com/GEOSwift/GEOSwift)
+[![Build Status](https://img.shields.io/travis/GEOSwift/GEOSwift/master)](https://travis-ci.org/GEOSwift/GEOSwift)
+[![Code Coverage](https://img.shields.io/codecov/c/github/GEOSwift/GEOSwift/master)](https://codecov.io/gh/GEOSwift/GEOSwift)
 
 Easily handle a geometric object model (points, linestrings, polygons etc.) and related topological operations (intersections, overlapping etc.). A type-safe, MIT-licensed Swift interface to the OSGeo's GEOS library routines.
 
