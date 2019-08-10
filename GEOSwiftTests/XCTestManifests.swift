@@ -261,6 +261,7 @@ extension JSONTests {
         ("testInitWithIntegerLiteral", testInitWithIntegerLiteral),
         ("testInitWithNilLiteral", testInitWithNilLiteral),
         ("testInitWithStringLiteral", testInitWithStringLiteral),
+        ("testUntypedValue", testUntypedValue),
     ]
 }
 
