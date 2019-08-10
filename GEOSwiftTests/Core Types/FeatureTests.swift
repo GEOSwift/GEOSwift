@@ -33,4 +33,12 @@ final class FeatureTests: XCTestCase {
         XCTAssertEqual(feature.properties, properties)
         XCTAssertEqual(feature.id, id)
     }
+
+    func testInitWithDefaultValues() {
+        let feature = Feature()
+
+        XCTAssertNil(feature.geometry)
+        XCTAssertNil(feature.properties)
+        XCTAssertNil(feature.id)
+    }
 }

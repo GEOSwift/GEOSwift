@@ -50,6 +50,7 @@ extension FeatureTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__FeatureTests = [
+        ("testInitWithDefaultValues", testInitWithDefaultValues),
         ("testInitWithGeometryPropertiesId", testInitWithGeometryPropertiesId),
     ]
 }
