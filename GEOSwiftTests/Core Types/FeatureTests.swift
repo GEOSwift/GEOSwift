@@ -41,4 +41,25 @@ final class FeatureTests: XCTestCase {
         XCTAssertNil(feature.properties)
         XCTAssertNil(feature.id)
     }
+
+    func testUntypedProperties() {
+        let feature = Feature(properties: [
+            "a": ["y"],
+            "b": true,
+            "n": 1,
+            "null": nil,
+            "s": "x",
+            "o": ["x": 123, "y": false, "z": nil]])
+
+        let untypedProperties = feature.untypedProperties! as NSDictionary
+
+        let expected: NSDictionary = [
+            "a": ["y"],
+            "b": true,
+            "n": 1,
+            "null": NSNull(),
+            "s": "x",
+            "o": ["x": 123, "y": false, "z": NSNull()]]
+        XCTAssertEqual(untypedProperties, expected)
+    }
 }

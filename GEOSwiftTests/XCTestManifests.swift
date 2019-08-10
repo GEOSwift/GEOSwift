@@ -52,6 +52,7 @@ extension FeatureTests {
     static let __allTests__FeatureTests = [
         ("testInitWithDefaultValues", testInitWithDefaultValues),
         ("testInitWithGeometryPropertiesId", testInitWithGeometryPropertiesId),
+        ("testUntypedProperties", testUntypedProperties),
     ]
 }
 
