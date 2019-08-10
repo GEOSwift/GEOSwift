@@ -16,3 +16,21 @@ public struct Feature: Hashable {
         case number(Double)
     }
 }
+
+extension Feature.FeatureId: ExpressibleByStringLiteral {
+    public init(stringLiteral value: String) {
+        self = .string(value)
+    }
+}
+
+extension Feature.FeatureId: ExpressibleByIntegerLiteral {
+    public init(integerLiteral value: Int) {
+        self = .number(Double(value))
+    }
+}
+
+extension Feature.FeatureId: ExpressibleByFloatLiteral {
+    public init(floatLiteral value: Double) {
+        self = .number(value)
+    }
+}
