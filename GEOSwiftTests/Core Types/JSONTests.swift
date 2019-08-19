@@ -2,6 +2,27 @@ import XCTest
 import GEOSwift
 
 final class JSONTests: XCTestCase {
+    func testUntypedValue() {
+        let json: JSON = [
+            "a": ["y"],
+            "b": true,
+            "n": 1,
+            "null": nil,
+            "s": "x",
+            "o": ["x": 123, "y": false, "z": nil]]
+
+        let untypedValue = json.untypedValue as! NSDictionary
+
+        let expected: NSDictionary = [
+            "a": ["y"],
+            "b": true,
+            "n": 1,
+            "null": NSNull(),
+            "s": "x",
+            "o": ["x": 123, "y": false, "z": NSNull()]]
+        XCTAssertEqual(untypedValue, expected)
+    }
+
     func testInitWithStringLiteral() {
         let json: JSON = "test"
 
