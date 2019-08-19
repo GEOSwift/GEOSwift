@@ -1,3 +1,7 @@
+## 5.1.0
+
+* [#171](https://github.com/GEOSwift/GEOSwift/pull/171) Add conveniences for working with JSON, Feature, and Feature.FeatureId
+
 ## 5.0.0
 
 * [#167] See [VERSION_5.md](VERSION_5.md)

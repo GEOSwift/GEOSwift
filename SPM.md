@@ -12,7 +12,7 @@ SPM's [System Library Targets](https://github.com/apple/swift-evolution/blob/mas
 let package = Package(
   name: "your-package-name",
   dependencies: [
-    .package(url: "https://github.com/GEOSwift/GEOSwift.git", from: "x.x.x") // Recommend latest release version, e.g. "5.0.0"
+    .package(url: "https://github.com/GEOSwift/GEOSwift.git", from: "x.x.x") // Recommend latest release version, e.g. "5.1.0"
   ],
   targets: [
     .target("your-target-name", dependencies: ["GEOSwift"])
