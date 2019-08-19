@@ -52,7 +52,7 @@ pod 'GEOSwift'
 2. Add the following to your Cartfile:
 
 ```
-github "GEOSwift/GEOSwift" ~> 5.0.0
+github "GEOSwift/GEOSwift" ~> 5.1.0
 ```
 
 3. Finish updating your project by following the [typical Carthage
