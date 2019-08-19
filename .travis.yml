@@ -1,3 +1,4 @@
+---
 language: objective-c
 
 osx_image: xcode10.2
@@ -10,7 +11,7 @@ env:
   global:
     - WORKSPACE=GEOSwift.xcworkspace
   matrix:
-    - PLATFORM=iOS SCHEME=GEOSwift-iOS SDK=iphonesimulator12.2 DESTINATION="platform=iOS Simulator,OS=12.2,name=iPhone Xs" 
+    - PLATFORM=iOS SCHEME=GEOSwift-iOS SDK=iphonesimulator12.2 DESTINATION="platform=iOS Simulator,OS=12.2,name=iPhone Xs"
     - PLATFORM=tvOS SCHEME=GEOSwift-tvOS SDK=appletvsimulator12.2 DESTINATION="platform=tvOS Simulator,OS=12.2,name=Apple TV"
     - PLATFORM=macOS SCHEME=GEOSwift-macOS SDK=macosx10.14 DESTINATION="platform=OS X"
 
