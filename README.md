@@ -80,7 +80,7 @@ let decoder = JSONDecoder()
 if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: "geojson"),
     let data = try? Data(contentsOf: geoJSONURL),
     let geoJSON = try? decoder.decode(GeoJSON.self, from: data),
-    case let .feature(feature) = geoJson,
+    case let .feature(feature) = geoJSON,
     let italy = feature.geometry
 {
     italy
