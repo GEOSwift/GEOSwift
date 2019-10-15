@@ -146,6 +146,48 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
+    // MARK: - Unary Predicates
+
+    func testIsEmpty() {
+        var collection = GeometryCollection(geometries: [])
+
+        XCTAssertTrue(try collection.isEmpty())
+
+        collection.geometries += [.point(.testValue1)]
+
+        XCTAssertFalse(try collection.isEmpty())
+    }
+
+    func testIsEmptyAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.isEmpty()
+            } catch {
+                XCTFail("Unexpected error for \(g) isEmpty() \(error)")
+            }
+        }
+    }
+
+    func testIsRing() {
+        var lineString = LineString(linearRing1)
+
+        XCTAssertTrue(try lineString.isRing())
+
+        lineString = try! LineString(points: lineString.points.dropLast())
+
+        XCTAssertFalse(try lineString.isRing())
+    }
+
+    func testIsRingAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.isRing()
+            } catch {
+                XCTFail("Unexpected error for \(g) isRing() \(error)")
+            }
+        }
+    }
+
     // MARK: - Binary Predicates
 
     func testIsTopologicallyEquivalentBetweenPoints() {

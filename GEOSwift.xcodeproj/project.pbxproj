@@ -51,6 +51,18 @@
 		497E717C22AB2CD900E962DC /* LineStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497E717B22AB2CD900E962DC /* LineStringConvertible.swift */; };
 		497E717E22AB2DCF00E962DC /* LineStringConvertible+GEOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497E717D22AB2DCF00E962DC /* LineStringConvertible+GEOSTests.swift */; };
 		497E718022AB2DE600E962DC /* LineStringConvertibleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497E717F22AB2DE600E962DC /* LineStringConvertibleTests.swift */; };
+		498E955023554E90005E8C05 /* SimplicityTestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E954F23554E90005E8C05 /* SimplicityTestable.swift */; };
+		498E955123554E90005E8C05 /* SimplicityTestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E954F23554E90005E8C05 /* SimplicityTestable.swift */; };
+		498E955223554E90005E8C05 /* SimplicityTestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E954F23554E90005E8C05 /* SimplicityTestable.swift */; };
+		498E955423554F30005E8C05 /* SimplicityTestableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E955323554F30005E8C05 /* SimplicityTestableTests.swift */; };
+		498E955523554F30005E8C05 /* SimplicityTestableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E955323554F30005E8C05 /* SimplicityTestableTests.swift */; };
+		498E955623554F30005E8C05 /* SimplicityTestableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E955323554F30005E8C05 /* SimplicityTestableTests.swift */; };
+		498E95582355611D005E8C05 /* ClosednessTestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E95572355611D005E8C05 /* ClosednessTestable.swift */; };
+		498E95592355611D005E8C05 /* ClosednessTestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E95572355611D005E8C05 /* ClosednessTestable.swift */; };
+		498E955A2355611D005E8C05 /* ClosednessTestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E95572355611D005E8C05 /* ClosednessTestable.swift */; };
+		498E955C235561EC005E8C05 /* ClosednessTestableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E955B235561EC005E8C05 /* ClosednessTestableTests.swift */; };
+		498E955D235561EC005E8C05 /* ClosednessTestableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E955B235561EC005E8C05 /* ClosednessTestableTests.swift */; };
+		498E955E235561EC005E8C05 /* ClosednessTestableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498E955B235561EC005E8C05 /* ClosednessTestableTests.swift */; };
 		49904CAE229B37D300DB619C /* Point+GEOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49904CAD229B37D300DB619C /* Point+GEOSTests.swift */; };
 		49904CB0229B387500DB619C /* GEOSContextTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49904CAF229B387500DB619C /* GEOSContextTestCase.swift */; };
 		49904CB2229B3A2E00DB619C /* LineString+GEOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49904CB1229B3A2E00DB619C /* LineString+GEOSTests.swift */; };
@@ -407,6 +419,10 @@
 		497E717B22AB2CD900E962DC /* LineStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineStringConvertible.swift; sourceTree = "<group>"; };
 		497E717D22AB2DCF00E962DC /* LineStringConvertible+GEOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LineStringConvertible+GEOSTests.swift"; sourceTree = "<group>"; };
 		497E717F22AB2DE600E962DC /* LineStringConvertibleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineStringConvertibleTests.swift; sourceTree = "<group>"; };
+		498E954F23554E90005E8C05 /* SimplicityTestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplicityTestable.swift; sourceTree = "<group>"; };
+		498E955323554F30005E8C05 /* SimplicityTestableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplicityTestableTests.swift; sourceTree = "<group>"; };
+		498E95572355611D005E8C05 /* ClosednessTestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosednessTestable.swift; sourceTree = "<group>"; };
+		498E955B235561EC005E8C05 /* ClosednessTestableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosednessTestableTests.swift; sourceTree = "<group>"; };
 		49904CAD229B37D300DB619C /* Point+GEOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Point+GEOSTests.swift"; sourceTree = "<group>"; };
 		49904CAF229B387500DB619C /* GEOSContextTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GEOSContextTestCase.swift; sourceTree = "<group>"; };
 		49904CB1229B3A2E00DB619C /* LineString+GEOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LineString+GEOSTests.swift"; sourceTree = "<group>"; };
@@ -590,6 +606,8 @@
 				49587E5422A2E150002683A3 /* GeometryConvertible+GEOSTests.swift */,
 				497E717D22AB2DCF00E962DC /* LineStringConvertible+GEOSTests.swift */,
 				4906DF9322B8621E0070FA4A /* BoundableTests.swift */,
+				498E955323554F30005E8C05 /* SimplicityTestableTests.swift */,
+				498E955B235561EC005E8C05 /* ClosednessTestableTests.swift */,
 				49B1182622C93B1E00E638D7 /* EnvelopeTests.swift */,
 			);
 			path = GEOS;
@@ -659,6 +677,8 @@
 				493FBE1222A2CC5100B965BD /* GeometryConvertible+GEOS.swift */,
 				497E717922AB2CBB00E962DC /* LineStringConvertible+GEOS.swift */,
 				4906DF9122B861390070FA4A /* Boundable.swift */,
+				498E954F23554E90005E8C05 /* SimplicityTestable.swift */,
+				498E95572355611D005E8C05 /* ClosednessTestable.swift */,
 				49B1182222C90AA400E638D7 /* Envelope.swift */,
 			);
 			path = GEOS;
@@ -1033,6 +1053,7 @@
 				49CC1F2722C43C0A0079AC60 /* GeometryCollection+GEOS.swift in Sources */,
 				49CC1EEC22C43BFF0079AC60 /* GeometryCollection.swift in Sources */,
 				49CC1EEB22C43BFF0079AC60 /* MultiPolygon.swift in Sources */,
+				498E955123554E90005E8C05 /* SimplicityTestable.swift in Sources */,
 				49CC1F0A22C43C050079AC60 /* GeometryCollection+Codable.swift in Sources */,
 				49CC1EE922C43BFF0079AC60 /* MultiLineString.swift in Sources */,
 				49B1182422C90AA400E638D7 /* Envelope.swift in Sources */,
@@ -1067,6 +1088,7 @@
 				49CC1F0E22C43C050079AC60 /* GeoJSON+Codable.swift in Sources */,
 				49CC1F0B22C43C050079AC60 /* Geometry+Codable.swift in Sources */,
 				49CC1EEF22C43BFF0079AC60 /* FeatureCollection.swift in Sources */,
+				498E95592355611D005E8C05 /* ClosednessTestable.swift in Sources */,
 				49CC1F0722C43C050079AC60 /* MultiLineString+Codable.swift in Sources */,
 				49CC1F2122C43C0A0079AC60 /* Point+GEOS.swift in Sources */,
 				49CC1F0622C43C050079AC60 /* LineString+Codable.swift in Sources */,
@@ -1095,6 +1117,7 @@
 				49CC1F7822C43C270079AC60 /* GEOSContextTests.swift in Sources */,
 				49CC1F6522C43C200079AC60 /* GeometryCollection+CodableTests.swift in Sources */,
 				49CC1F4E22C43C170079AC60 /* GeometryConvertibleTests.swift in Sources */,
+				498E955D235561EC005E8C05 /* ClosednessTestableTests.swift in Sources */,
 				49CC1F7C22C43C270079AC60 /* Polygon+GEOSTests.swift in Sources */,
 				49CC1F7922C43C270079AC60 /* GEOSObjectTests.swift in Sources */,
 				49CC1F8422C43C270079AC60 /* GeometryConvertible+GEOSTests.swift in Sources */,
@@ -1128,6 +1151,7 @@
 				49CC1F8022C43C270079AC60 /* GeometryCollection+GEOSTests.swift in Sources */,
 				49CC1F7D22C43C270079AC60 /* MultiPoint+GEOSTests.swift in Sources */,
 				49CC1F8622C43C270079AC60 /* BoundableTests.swift in Sources */,
+				498E955523554F30005E8C05 /* SimplicityTestableTests.swift in Sources */,
 				49CC1F4422C43C170079AC60 /* CoreTypesTestUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1140,6 +1164,7 @@
 				49CC1F3A22C43C0B0079AC60 /* GeometryCollection+GEOS.swift in Sources */,
 				49CC1EFA22C43C000079AC60 /* GeometryCollection.swift in Sources */,
 				49CC1EF922C43C000079AC60 /* MultiPolygon.swift in Sources */,
+				498E955223554E90005E8C05 /* SimplicityTestable.swift in Sources */,
 				49CC1F1822C43C050079AC60 /* GeometryCollection+Codable.swift in Sources */,
 				49CC1EF722C43C000079AC60 /* MultiLineString.swift in Sources */,
 				49B1182522C90AA400E638D7 /* Envelope.swift in Sources */,
@@ -1174,6 +1199,7 @@
 				49CC1F1C22C43C050079AC60 /* GeoJSON+Codable.swift in Sources */,
 				49CC1F1922C43C050079AC60 /* Geometry+Codable.swift in Sources */,
 				49CC1EFD22C43C000079AC60 /* FeatureCollection.swift in Sources */,
+				498E955A2355611D005E8C05 /* ClosednessTestable.swift in Sources */,
 				49CC1F1522C43C050079AC60 /* MultiLineString+Codable.swift in Sources */,
 				49CC1F3422C43C0B0079AC60 /* Point+GEOS.swift in Sources */,
 				49CC1F1422C43C050079AC60 /* LineString+Codable.swift in Sources */,
@@ -1202,6 +1228,7 @@
 				49CC1F8822C43C280079AC60 /* GEOSContextTests.swift in Sources */,
 				49CC1F7222C43C210079AC60 /* GeometryCollection+CodableTests.swift in Sources */,
 				49CC1F5B22C43C180079AC60 /* GeometryConvertibleTests.swift in Sources */,
+				498E955E235561EC005E8C05 /* ClosednessTestableTests.swift in Sources */,
 				49CC1F8C22C43C280079AC60 /* Polygon+GEOSTests.swift in Sources */,
 				49CC1F8922C43C280079AC60 /* GEOSObjectTests.swift in Sources */,
 				49CC1F9422C43C280079AC60 /* GeometryConvertible+GEOSTests.swift in Sources */,
@@ -1235,6 +1262,7 @@
 				49CC1F9022C43C280079AC60 /* GeometryCollection+GEOSTests.swift in Sources */,
 				49CC1F8D22C43C280079AC60 /* MultiPoint+GEOSTests.swift in Sources */,
 				49CC1F9622C43C280079AC60 /* BoundableTests.swift in Sources */,
+				498E955623554F30005E8C05 /* SimplicityTestableTests.swift in Sources */,
 				49CC1F5122C43C180079AC60 /* CoreTypesTestUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1247,6 +1275,7 @@
 				49611D86227624D3006BD851 /* Polygon+GEOS.swift in Sources */,
 				49EF9931227525A4000BA832 /* WKBInitializable.swift in Sources */,
 				49C2D27C225990D1000AF55D /* GEOSwiftError.swift in Sources */,
+				498E955023554E90005E8C05 /* SimplicityTestable.swift in Sources */,
 				497E717A22AB2CBB00E962DC /* LineStringConvertible+GEOS.swift in Sources */,
 				49C2D29D225A9165000AF55D /* Geometry+Codable.swift in Sources */,
 				49B1182322C90AA400E638D7 /* Envelope.swift in Sources */,
@@ -1281,6 +1310,7 @@
 				49C2D27822598F34000AF55D /* LineString.swift in Sources */,
 				493826F32299D30600F59B1E /* Geometry+GEOS.swift in Sources */,
 				49C2D2A7225A9165000AF55D /* GeometryCollection+Codable.swift in Sources */,
+				498E95582355611D005E8C05 /* ClosednessTestable.swift in Sources */,
 				49EF992B227522DF000BA832 /* GEOSContext.swift in Sources */,
 				49C2D2A2225A9165000AF55D /* LineString+Codable.swift in Sources */,
 				49C2D27422598750000AF55D /* Point.swift in Sources */,
@@ -1309,6 +1339,7 @@
 				492237C522ADE482003390F7 /* Collection+AllPairs.swift in Sources */,
 				495C1587225F69FC009D1D6C /* CodableTestCase.swift in Sources */,
 				495C1589225F7406009D1D6C /* MultiPoint+CodableTests.swift in Sources */,
+				498E955C235561EC005E8C05 /* ClosednessTestableTests.swift in Sources */,
 				4956F5192280FAAA00D8075F /* JSONTests.swift in Sources */,
 				49904CC0229B813A00DB619C /* WKTTests.swift in Sources */,
 				495C159022602B89009D1D6C /* Polygon+CodableTests.swift in Sources */,
@@ -1342,6 +1373,7 @@
 				492CBA03228453540055EEAA /* GEOSObjectTests.swift in Sources */,
 				49904CBA229B3CEE00DB619C /* MultiPolygon+GEOSTests.swift in Sources */,
 				49265722225EC97600426A5D /* FeatureTests.swift in Sources */,
+				498E955423554F30005E8C05 /* SimplicityTestableTests.swift in Sources */,
 				49904CBC229B3D0E00DB619C /* GeometryCollection+GEOSTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
