@@ -1,3 +1,10 @@
+## Develop
+
+* [#186](https://github.com/GEOSwift/GEOSwift/pull/186)
+    * Add isEmpty, isRing, isClosed, and isSimple (Fixes #172)
+    * Update Feature.init to take GeometryConvertible (Fixes #180)
+    * Use `~>` to specify geos version requirement (Fixes #183)
+
 ## 5.1.0
 
 * [#171](https://github.com/GEOSwift/GEOSwift/pull/171) Add conveniences for working with JSON, Feature, and Feature.FeatureId
