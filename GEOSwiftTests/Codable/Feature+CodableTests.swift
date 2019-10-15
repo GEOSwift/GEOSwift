@@ -3,13 +3,13 @@ import GEOSwift
 
 extension Feature {
     static let testValueWithNumberId = Feature(
-        geometry: .point(.testValue1),
+        geometry: Point.testValue1,
         properties: ["a": .string("b")],
         id: .number(0))
     static let testJsonWithNumberId = #"{"geometry":\#(Point.testJson1),"id":0,"properties"#
         + #"":{"a":"b"},"type":"Feature"}"#
     static let testValueWithStringId = Feature(
-        geometry: .point(.testValue1),
+        geometry: Point.testValue1,
         properties: ["a": .string("b")],
         id: .string("a"))
     static let testJsonWithStringId = #"{"geometry":\#(Point.testJson1),"id":"a","properties"#
