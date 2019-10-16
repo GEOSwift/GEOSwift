@@ -8,6 +8,7 @@ disabled_rules:
   - force_cast
   - identifier_name
   - type_name
+  - no_space_in_method_call  # https://github.com/realm/SwiftLint/issues/2793
 opt_in_rules:
   - closure_spacing
   - empty_count
