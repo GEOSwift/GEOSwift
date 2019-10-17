@@ -20,10 +20,11 @@ class GEOSContextTestCase: XCTestCase {
         super.tearDown()
     }
 
-    func verifyRoundtripToGEOS<T>(
-        value: T,
-        file: StaticString = #file,
-        line: UInt = #line) where T: Equatable & GEOSObjectConvertible & GEOSObjectInitializable {
+    typealias GEOSObjectCompatible = Equatable & GEOSObjectConvertible & GEOSObjectInitializable
+
+    func verifyRoundtripToGEOS<T>(value: T,
+                                  file: StaticString = #file,
+                                  line: UInt = #line) where T: GEOSObjectCompatible {
 
         do {
             let geosObject = try value.geosObject(with: context)

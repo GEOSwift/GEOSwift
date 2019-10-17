@@ -17,4 +17,4 @@ extension Polygon: Boundable {}
 extension MultiPoint: Boundable {}
 extension MultiLineString: Boundable {}
 extension MultiPolygon: Boundable {}
-// GeometryCollection (and by extension, Geometry) are not Boundable
+// GeometryCollection (and by extension, Geometry) is not Boundable

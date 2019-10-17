@@ -68,6 +68,6 @@ func makeGeometries(withTypes types: [GeometryType]) -> [Geometry] {
 func makeFeatures(withCount count: UInt) -> [Feature] {
     return (0..<count).map { (i) in
         let point = Point(x: Double(i), y: Double(i))
-        return Feature(geometry: .point(point), properties: nil, id: .number(Double(i)))
+        return Feature(geometry: point, properties: nil, id: .number(Double(i)))
     }
 }

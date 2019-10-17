@@ -3,8 +3,10 @@ public struct Feature: Hashable {
     public var properties: [String: JSON]?
     public var id: FeatureId?
 
-    public init(geometry: Geometry? = nil, properties: [String: JSON]? = nil, id: FeatureId? = nil) {
-        self.geometry = geometry
+    public init(geometry: GeometryConvertible? = nil,
+                properties: [String: JSON]? = nil,
+                id: FeatureId? = nil) {
+        self.geometry = geometry?.geometry
         self.properties = properties
         self.id = id
     }
