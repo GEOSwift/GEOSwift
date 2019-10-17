@@ -1,9 +1,9 @@
 ## 5.2.0
 
 * [#186](https://github.com/GEOSwift/GEOSwift/pull/186)
-    * Add isEmpty, isRing, isClosed, and isSimple (Fixes #172)
-    * Update Feature.init to take GeometryConvertible (Fixes #180)
-    * Use `~>` to specify geos version requirement (Fixes #183)
+    * Add isEmpty, isRing, isClosed, and isSimple (Fixes [#172](https://github.com/GEOSwift/GEOSwift/issues/172))
+    * Update Feature.init to take GeometryConvertible (Fixes [#180](https://github.com/GEOSwift/GEOSwift/issues/180))
+    * Use `~>` to specify geos version requirement (Fixes [#183](https://github.com/GEOSwift/GEOSwift/issues/183))
 
 ## 5.1.0
 
@@ -11,7 +11,7 @@
 
 ## 5.0.0
 
-* [#167] See [VERSION_5.md](VERSION_5.md)
+* [#167](https://github.com/GEOSwift/GEOSwift/pull/167) See [VERSION_5.md](VERSION_5.md)
 
 ## 4.1.1
 
