@@ -48,10 +48,9 @@ func makeCoordinateSequence(with context: GEOSContext, points: [Point]) throws -
     return sequence
 }
 
-func makeGEOSObject(
-    with context: GEOSContext,
-    points: [Point],
-    factory: (GEOSContext, OpaquePointer) -> OpaquePointer?) throws -> GEOSObject {
+func makeGEOSObject(with context: GEOSContext,
+                    points: [Point],
+                    factory: (GEOSContext, OpaquePointer) -> OpaquePointer?) throws -> GEOSObject {
 
     let sequence = try makeCoordinateSequence(with: context, points: points)
     guard let geometry = factory(context, sequence) else {
@@ -61,10 +60,9 @@ func makeGEOSObject(
     return GEOSObject(context: context, pointer: geometry)
 }
 
-func makeGEOSCollection(
-    with context: GEOSContext,
-    geometries: [GEOSObjectConvertible],
-    type: GEOSGeomTypes) throws -> GEOSObject {
+func makeGEOSCollection(with context: GEOSContext,
+                        geometries: [GEOSObjectConvertible],
+                        type: GEOSGeomTypes) throws -> GEOSObject {
 
     let geosObjects = try geometries.map { try $0.geosObject(with: context) }
     var geosPointersArray = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: geosObjects.count)

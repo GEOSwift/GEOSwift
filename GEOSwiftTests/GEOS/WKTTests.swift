@@ -2,10 +2,10 @@ import XCTest
 import GEOSwift
 
 final class WKTTests: XCTestCase {
-    func verifyGeometryRoundtripToWKT<T>(
-        _ value: T,
-        line: UInt = #line) where T: WKTConvertible & WKTInitializable & Equatable {
 
+    typealias WKTCompatible = WKTConvertible & WKTInitializable & Equatable
+
+    func verifyGeometryRoundtripToWKT<T>(_ value: T, line: UInt = #line) where T: WKTCompatible {
         do {
             let wkt = try value.wkt()
             let actual = try T(wkt: wkt)

@@ -58,8 +58,9 @@ public extension GeometryConvertible {
 
     // MARK: - Unary Predicates
 
-    internal func evaluateUnaryPredicate(
-        _ predicate: (GEOSContextHandle_t, OpaquePointer) -> Int8) throws -> Bool {
+    internal typealias UnaryPredicate = (GEOSContextHandle_t, OpaquePointer) -> Int8
+
+    internal func evaluateUnaryPredicate(_ predicate: UnaryPredicate) throws -> Bool {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         // returns 2 on exception, 1 on true, 0 on false
@@ -80,9 +81,10 @@ public extension GeometryConvertible {
 
     // MARK: - Binary Predicates
 
-    private func evaluateBinaryPredicate(
-        _ predicate: (GEOSContextHandle_t, OpaquePointer, OpaquePointer) -> Int8,
-        with geometry: GeometryConvertible) throws -> Bool {
+    private typealias BinaryPredicate = (GEOSContextHandle_t, OpaquePointer, OpaquePointer) -> Int8
+
+    private func evaluateBinaryPredicate(_ predicate: BinaryPredicate,
+                                         with geometry: GeometryConvertible) throws -> Bool {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
@@ -164,8 +166,9 @@ public extension GeometryConvertible {
 
     // MARK: - Topology Operations
 
-    internal func performUnaryTopologyOperation<T>(
-        _ operation: (GEOSContextHandle_t, OpaquePointer) -> OpaquePointer?) throws -> T
+    internal typealias UnaryOperation = (GEOSContextHandle_t, OpaquePointer) -> OpaquePointer?
+
+    internal func performUnaryTopologyOperation<T>(_ operation: UnaryOperation) throws -> T
         where T: GEOSObjectInitializable {
             let context = try GEOSContext()
             let geosObject = try geometry.geosObject(with: context)
@@ -175,9 +178,10 @@ public extension GeometryConvertible {
             return try T(geosObject: GEOSObject(context: context, pointer: pointer))
     }
 
-    private func performBinaryTopologyOperation(
-        _ operation: (GEOSContextHandle_t, OpaquePointer, OpaquePointer) -> OpaquePointer?,
-        geometry: GeometryConvertible) throws -> Geometry {
+    private typealias BinaryOperation = (GEOSContextHandle_t, OpaquePointer, OpaquePointer) -> OpaquePointer?
+
+    private func performBinaryTopologyOperation(_ operation: BinaryOperation,
+                                                geometry: GeometryConvertible) throws -> Geometry {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)

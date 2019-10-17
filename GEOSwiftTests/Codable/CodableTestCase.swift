@@ -19,11 +19,10 @@ class CodableTestCase: XCTestCase {
         super.tearDown()
     }
 
-    func verifyCodable<T>(
-        with codable: T,
-        json: String,
-        file: StaticString = #file,
-        line: UInt = #line) where T: Codable & Equatable {
+    func verifyCodable<T>(with codable: T,
+                          json: String,
+                          file: StaticString = #file,
+                          line: UInt = #line) where T: Codable & Equatable {
 
         // verify decoding
 
@@ -64,12 +63,11 @@ class CodableTestCase: XCTestCase {
         }
     }
 
-    func verifyDecodable<T>(
-        with decodableType: T.Type,
-        json: String,
-        expectedError: GEOSwiftError,
-        file: StaticString = #file,
-        line: UInt = #line) where T: Decodable {
+    func verifyDecodable<T>(with decodableType: T.Type,
+                            json: String,
+                            expectedError: GEOSwiftError,
+                            file: StaticString = #file,
+                            line: UInt = #line) where T: Decodable {
         do {
             let data = json.data(using: .utf8)!
 
