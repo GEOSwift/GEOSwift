@@ -1,4 +1,4 @@
-## Develop
+## 5.2.0
 
 * [#186](https://github.com/GEOSwift/GEOSwift/pull/186)
     * Add isEmpty, isRing, isClosed, and isSimple (Fixes #172)
