@@ -1,8 +1,0 @@
-Name: geos_c
-Version: n/a
-Description: Shim pkg-config for the GEOS package
-
-prefix=/usr/local/opt/geos
-
-Cflags: -I${prefix}/include/
-Libs: -L${prefix}/lib/
