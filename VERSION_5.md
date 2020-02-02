@@ -82,6 +82,72 @@ In adopting Codable, GEOSwift is now easy to combine with your app's own API
 request and response objects that need to handle GeoJSON. You also get more
 helpful error messages when decoding fails.
 
+## Common Questions
+
+### I decoded my data into GeoJSON. How do I access the values?
+
+In keeping with the GeoJSON spec, the top-level object in GeoJSON data can
+either be a feature collection, a feature, or a geometry. GEOSwift's `GeoJSON`
+enum [models][geojson] this directly using [enums with associated values][enums], so when
+you decode to that type, you then need to see which top-level type you received:
+
+```
+let myGeoJSON = try decoder.decode(GeoJSON.self, from: data)
+
+switch myGeoJSON {
+case let .featureCollection(myFeatureCollection):
+    // the variable myFeatureCollection is now bound to the associated value and is of type FeatureCollection
+case let .feature(myFeature):
+    // the variable myFeature is now bound to the associated value and is of type Feature
+case let .geometry(myGeometry):
+    // the variable myGeometry is now bound to the associated value and is of type Geometry
+}
+```
+
+`FeatureCollection` and `Feature` are structs, but `Geometry` follows the same
+pattern as `GeoJSON`, so when you need to, you can access its associated values
+too using the same technique.
+
+One nice thing about pattern matching is that you can compose patterns, so if,
+for example, you only cared about the case where the GeoJSON was a line string,
+you could write:
+
+```
+switch myGeoJSON {
+case let .geometry(.lineString(myLineString)):
+    // the variable myLineString is now bound to the associated value and is of type LineString
+default:
+    // your data was of some other type
+}
+```
+
+In the above situation you could also use `guard`:
+
+```
+guard let .geometry(.lineString(myLineString)) = myGeoJSON else {
+    // your data was of some other type
+    return / throw / etc
+}
+
+// the variable myLineString is now bound to the associated value and is of type LineString
+```
+
+`if` works in a similar way.
+
+One final gotcha about this is that if `myGeoJSON` is optional (type `GeoJSON?`
+instead of `GeoJSON`), you'll need to either unwrap it before you
+`switch`/`guard`/`if` or incorporate that into the pattern matching. Here's what
+that would look like in the previous example:
+
+```
+guard let .some(.geometry(.lineString(myLineString))) = mySomething else {
+    // your data was of some other type
+    return / throw / etc
+}
+
+// the variable myLineString is now bound to the associated data and is of type LineString
+```
+
 ## Summary of API Changes
 
 | Version 4 API                                                                              | Version 5 Equivalent                                                                            | Moved to GEOSwiftMapKit? | 
@@ -181,3 +247,5 @@ can focus on making GEOSwift a truly first-rate experience for Swift projects.
 [swift-codable]: https://developer.apple.com/documentation/swift/codable
 [classes-vs-structs]: https://github.com/GEOSwift/GEOSwift/commit/e420bd49dcae5c21d2a5759a2f88b67c08d56994#diff-2dd84631947429a85fb0c3044e551525R26
 [mapkit]: https://github.com/GEOSwift/GEOSwiftMapKit
+[geojson]: https://github.com/GEOSwift/GEOSwift/blob/master/GEOSwift/Core%20Types/GeoJSON.swift
+[enums]: https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html#ID148
