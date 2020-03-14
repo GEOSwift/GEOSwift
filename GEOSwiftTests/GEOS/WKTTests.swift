@@ -89,4 +89,166 @@ final class WKTTests: XCTestCase {
         verifyInitWithEmptyWKT(type: GeometryCollection.self)
         verifyInitWithEmptyWKT(type: Geometry.self)
     }
+
+    func verifyWKTOptions<T>(wktConvertible: T,
+                             useFixedPrecision: Bool,
+                             roundingPrecision: Int32,
+                             expectedWKT: String,
+                             line: UInt = #line) where T: WKTConvertible {
+        let wktString = try? wktConvertible.wkt(
+            useFixedPrecision: useFixedPrecision,
+            roundingPrecision: roundingPrecision)
+
+        XCTAssertEqual(wktString, expectedWKT, line: line)
+    }
+
+    func testWKTOptionsWithoutFixedPrecisionAndALongFraction() {
+        let point = Point(x: 1.11111111111111111, y: 987654321.1234567890)
+
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: -1,
+            expectedWKT: "POINT (1.1111111111111112 987654321.1234568357467651)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: 0,
+            expectedWKT: "POINT (1 987654321)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: 1,
+            expectedWKT: "POINT (1.1 987654321.1)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: 5,
+            expectedWKT: "POINT (1.11111 987654321.12346)")
+    }
+
+    func testWKTOptionsWithoutFixedPrecisionAndAShortFraction() {
+        let point = Point(x: 1, y: 987654321.1)
+
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: -1,
+            expectedWKT: "POINT (1.0000000000000000 987654321.1000000238418579)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: 0,
+            expectedWKT: "POINT (1 987654321)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: 1,
+            expectedWKT: "POINT (1.0 987654321.1)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: 5,
+            expectedWKT: "POINT (1.00000 987654321.10000)")
+    }
+
+    func testWKTOptionsWithoutFixedPrecisionAndFractionalValues() {
+        let point = Point(x: 0.1, y: 0.0000001)
+
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: -1,
+            expectedWKT: "POINT (0.1000000000000000 0.0000001000000000)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: 0,
+            expectedWKT: "POINT (0 0)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: 1,
+            expectedWKT: "POINT (0.1 0.0)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: false,
+            roundingPrecision: 5,
+            expectedWKT: "POINT (0.10000 0.00000)")
+    }
+
+    func testWKTOptionsWithFixedPrecisionAndALongFraction() {
+        let point = Point(x: 1.11111111111111111, y: 987654321.1234567890)
+
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: -1,
+            expectedWKT: "POINT (1.111111111111111 987654321.1234568)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: 0,
+            expectedWKT: "POINT (1 1e+09)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: 1,
+            expectedWKT: "POINT (1 1e+09)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: 5,
+            expectedWKT: "POINT (1.1111 9.8765e+08)")
+    }
+
+    func testWKTOptionsWithFixedPrecisionAndAShortFraction() {
+        let point = Point(x: 1, y: 987654321.1)
+
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: -1,
+            expectedWKT: "POINT (1 987654321.1)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: 0,
+            expectedWKT: "POINT (1 1e+09)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: 1,
+            expectedWKT: "POINT (1 1e+09)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: 5,
+            expectedWKT: "POINT (1 9.8765e+08)")
+    }
+
+    func testWKTOptionsWithFixedPrecisionAndFractionalValues() {
+        let point = Point(x: 0.1, y: 0.000000123456)
+
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: -1,
+            expectedWKT: "POINT (0.1 1.23456e-07)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: 0,
+            expectedWKT: "POINT (0.1 1e-07)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: 1,
+            expectedWKT: "POINT (0.1 1e-07)")
+        verifyWKTOptions(
+            wktConvertible: point,
+            useFixedPrecision: true,
+            roundingPrecision: 5,
+            expectedWKT: "POINT (0.1 1.2346e-07)")
+    }
 }

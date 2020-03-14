@@ -3,6 +3,8 @@ import geos
 
 public protocol WKTConvertible {
     func wkt() throws -> String
+
+    func wkt(useFixedPrecision: Bool, roundingPrecision: Int32) throws -> String
 }
 
 protocol WKTConvertibleInternal: WKTConvertible, GEOSObjectConvertible {}
@@ -10,7 +12,19 @@ protocol WKTConvertibleInternal: WKTConvertible, GEOSObjectConvertible {}
 extension WKTConvertibleInternal {
     public func wkt() throws -> String {
         let context = try GEOSContext()
-        let writer = try WKTWriter(context: context)
+        let writer = try WKTWriter(
+            context: context,
+            useFixedPrecision: .geosDefault,
+            roundingPrecision: .geosDefault)
+        return try writer.write(self)
+    }
+
+    public func wkt(useFixedPrecision: Bool, roundingPrecision: Int32) throws -> String {
+        let context = try GEOSContext()
+        let writer = try WKTWriter(
+            context: context,
+            useFixedPrecision: .custom(useFixedPrecision),
+            roundingPrecision: .custom(roundingPrecision))
         return try writer.write(self)
     }
 }
@@ -29,12 +43,22 @@ private final class WKTWriter {
     private let context: GEOSContext
     private let writer: OpaquePointer
 
-    init(context: GEOSContext) throws {
+    init(context: GEOSContext,
+         useFixedPrecision: UseFixedPrecision,
+         roundingPrecision: RoundingPrecision) throws {
         guard let writer = GEOSWKTWriter_create_r(context.handle) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         self.context = context
         self.writer = writer
+
+        if case let .custom(value) = useFixedPrecision {
+            GEOSWKTWriter_setTrim_r(context.handle, writer, value ? 1 : 0)
+        }
+
+        if case let .custom(value) = roundingPrecision {
+            GEOSWKTWriter_setRoundingPrecision_r(context.handle, writer, value)
+        }
     }
 
     deinit {
@@ -48,5 +72,15 @@ private final class WKTWriter {
         }
         defer { chars.deallocate() }
         return String(cString: chars)
+    }
+
+    enum UseFixedPrecision {
+        case geosDefault
+        case custom(Bool)
+    }
+
+    enum RoundingPrecision {
+        case geosDefault
+        case custom(Int32)
     }
 }
