@@ -139,12 +139,12 @@ found inside `GEOSwiftMapKit` workspace. Open the workspace in Xcode, build the
 To make a contribution:
 
 * Fork the repo
-* Start from the `develop` branch and create a branch with a name that describes
+* Start from the `master` branch and create a branch with a name that describes
   your contribution
 * Run `$ carthage update`
 * Sign in to travis-ci.org (if you've never signed in before, CI won't run to
   verify your pull request)
-* Push your branch and create a pull request to develop
+* Push your branch and create a pull request to `master`
 * One of the maintainers will review your code and may request changes
 * If your pull request is accepted, one of the maintainers should update the
   changelog before merging it
