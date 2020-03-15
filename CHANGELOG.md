@@ -1,3 +1,9 @@
+## 6.1.0
+
+* [#197](https://github.com/GEOSwift/GEOSwift/pull/197)
+    * Expose options to configure WKT writing (Fixes
+      [#196](https://github.com/GEOSwift/GEOSwift/issues/196))
+
 ## 6.0.0
 
 * [#187](https://github.com/GEOSwift/GEOSwift/pull/187)
