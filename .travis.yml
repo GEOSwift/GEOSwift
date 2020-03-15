@@ -1,52 +1,51 @@
 ---
-language: objective-c
-
-osx_image: xcode11.1
 
 cache:
   directories:
     - Carthage
+    - swift
 
-env:
-  global:
-    - WORKSPACE=GEOSwift.xcworkspace
-  matrix:
-    - PLATFORM=iOS
-      SCHEME=GEOSwift-iOS
-      SDK=iphonesimulator13.1
-      DESTINATION="platform=iOS Simulator,OS=13.1,name=iPhone 11"
-      RUN_CODECOV=true
-    - PLATFORM=tvOS
-      SCHEME=GEOSwift-tvOS
-      SDK=appletvsimulator13.0
-      DESTINATION="platform=tvOS Simulator,OS=13.0,name=Apple TV"
-      RUN_CODECOV=false
-    - PLATFORM=macOS
-      SCHEME=GEOSwift-macOS
-      SDK=macosx10.15
-      DESTINATION="platform=OS X"
-      RUN_CODECOV=false
+jobs:
+  include:
+    - name: iOS - xcodebuild
+      os: osx
+      osx_image: xcode11.3
+      language: minimal
+      env: PLATFORM=iOS
+           SCHEME=GEOSwift-iOS
+           SDK=iphonesimulator13.2
+           DESTINATION="platform=iOS Simulator,OS=13.3,name=iPhone 11"
+           WORKSPACE=GEOSwift.xcworkspace
+           RUN_CODECOV=true
+    - name: tvOS - xcodebuild
+      os: osx
+      osx_image: xcode11.3
+      language: minimal
+      env: PLATFORM=tvOS
+           SCHEME=GEOSwift-tvOS
+           SDK=appletvsimulator13.2
+           DESTINATION="platform=tvOS Simulator,OS=13.3,name=Apple TV"
+           WORKSPACE=GEOSwift.xcworkspace
+    - name: macOS - xcodebuild
+      os: osx
+      osx_image: xcode11.3
+      language: minimal
+      env: PLATFORM=macOS
+           SCHEME=GEOSwift-macOS
+           SDK=macosx10.15
+           DESTINATION="platform=OS X"
+           WORKSPACE=GEOSwift.xcworkspace
+    - name: Ubuntu 18.04 - SPM
+      os: linux
+      dist: bionic
+      language: minimal
+      env: USE_SPM=true
+    - name: macOS - SPM
+      os: osx
+      osx_image: xcode11.3
+      language: minimal
+      env: USE_SPM=true
 
-before_install:
-  - brew install carthage swiftlint
-  - gem install xcpretty
-  - travis_wait 30 carthage update
-      --cache-builds
-      --platform "$PLATFORM"
-      --no-use-binaries
-
-script:
-  - set -o pipefail
-  - xcodebuild
-      -workspace "$WORKSPACE"
-      -scheme "$SCHEME"
-      -sdk "$SDK"
-      -destination "$DESTINATION"
-      -configuration Debug
-      ONLY_ACTIVE_ARCH=YES
-      clean test | xcpretty -c;
-
-after_success:
-  - if [ "${RUN_CODECOV}" = "true" ]; then
-      bash <(curl -s https://codecov.io/bash) -J '^GEOSwift$';
-    fi
+before_install: travis_wait 30 ./scripts/travis_before_install.sh
+script: ./scripts/travis_script.sh
+after_success: ./scripts/travis_after_success.sh
