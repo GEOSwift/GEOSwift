@@ -1,3 +1,9 @@
+## 6.2.0
+
+* [#200](https://github.com/GEOSwift/GEOSwift/pull/200)
+    * Add polygonize (Fixes
+      [#139](https://github.com/GEOSwift/GEOSwift/issues/139))
+
 ## 6.1.0
 
 * [#197](https://github.com/GEOSwift/GEOSwift/pull/197)
