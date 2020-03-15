@@ -249,6 +249,10 @@ public extension GeometryConvertible {
         return try performUnaryTopologyOperation(GEOSGetCentroid_r)
     }
 
+    func polygonize() throws -> GeometryCollection {
+        return try [self].polygonize()
+    }
+
     // MARK: - Buffer Functions
 
     func buffer(by width: Double) throws -> Geometry {
@@ -259,5 +263,19 @@ public extension GeometryConvertible {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
+    }
+}
+
+public extension Collection where Element: GeometryConvertible {
+    func polygonize() throws -> GeometryCollection {
+        let context = try GEOSContext()
+        let geosObjects = try map { try $0.geometry.geosObject(with: context) }
+        guard let pointer = GEOSPolygonize_r(
+            context.handle,
+            geosObjects.map { $0.pointer },
+            UInt32(geosObjects.count)) else {
+                throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return try GeometryCollection(geosObject: GEOSObject(context: context, pointer: pointer))
     }
 }

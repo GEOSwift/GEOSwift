@@ -665,6 +665,44 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
+    func testPolygonizeAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.polygonize()
+            } catch {
+                XCTFail("Unexpected error for \(g) polygonize() \(error)")
+            }
+        }
+    }
+
+    func testPolygonize() {
+        let multiLineString = try! MultiLineString(lineStrings: [
+            LineString(points: [Point(x: 0, y: 0), Point(x: 1, y: 0)]),
+            LineString(points: [Point(x: 1, y: 0), Point(x: 0, y: 1)]),
+            LineString(points: [Point(x: 0, y: 1), Point(x: 0, y: 0)])])
+
+        let expectedPolygon = try! GEOSwift.Polygon(exterior: GEOSwift.Polygon.LinearRing(points: [
+            Point(x: 0, y: 0), Point(x: 1, y: 0), Point(x: 0, y: 1), Point(x: 0, y: 0)]))
+
+        XCTAssertTrue(try multiLineString.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
+    }
+
+    func testPolygonizeEmptyArray() {
+        XCTAssertEqual(try [Geometry]().polygonize(), GeometryCollection(geometries: []))
+    }
+
+    func testPolygonizeArray() {
+        let lineStrings = try! [
+            LineString(points: [Point(x: 0, y: 0), Point(x: 1, y: 0)]),
+            LineString(points: [Point(x: 1, y: 0), Point(x: 0, y: 1)]),
+            LineString(points: [Point(x: 0, y: 1), Point(x: 0, y: 0)])]
+
+        let expectedPolygon = try! GEOSwift.Polygon(exterior: GEOSwift.Polygon.LinearRing(points: [
+            Point(x: 0, y: 0), Point(x: 1, y: 0), Point(x: 0, y: 1), Point(x: 0, y: 0)]))
+
+        XCTAssertTrue(try lineStrings.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
+    }
+
     // MARK: - Buffer Functions
 
     func testBufferAllTypes() {
