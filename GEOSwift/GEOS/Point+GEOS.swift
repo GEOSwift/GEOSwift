@@ -5,6 +5,15 @@ extension Point: GEOSObjectInitializable {
         guard case .some(.point) = geosObject.type else {
             throw GEOSError.typeMismatch(actual: geosObject.type, expected: .point)
         }
+        let isEmpty = GEOSisEmpty_r(geosObject.context.handle, geosObject.pointer)
+        // returns 2 on error
+        guard isEmpty != 2 else {
+            throw GEOSError.libraryError(errorMessages: geosObject.context.errors)
+        }
+        // returns 0 on false (non-empty)
+        guard isEmpty == 0 else {
+            throw GEOSwiftError.tooFewPoints
+        }
         var x: Double = 0
         var y: Double = 0
         // returns 1 on success

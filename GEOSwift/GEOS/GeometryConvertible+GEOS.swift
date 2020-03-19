@@ -213,8 +213,14 @@ public extension GeometryConvertible {
         }
     }
 
-    func intersection(with geometry: GeometryConvertible) throws -> Geometry {
-        return try performBinaryTopologyOperation(GEOSIntersection_r, geometry: geometry)
+    func intersection(with geometry: GeometryConvertible) throws -> Geometry? {
+        do {
+            return try performBinaryTopologyOperation(GEOSIntersection_r, geometry: geometry)
+        } catch GEOSwiftError.tooFewPoints {
+            return nil
+        } catch {
+            throw error
+        }
     }
 
     func convexHull() throws -> Geometry {
@@ -229,8 +235,14 @@ public extension GeometryConvertible {
         return try performUnaryTopologyOperation(GEOSMinimumWidth_r)
     }
 
-    func difference(with geometry: GeometryConvertible) throws -> Geometry {
-        return try performBinaryTopologyOperation(GEOSDifference_r, geometry: geometry)
+    func difference(with geometry: GeometryConvertible) throws -> Geometry? {
+        do {
+            return try performBinaryTopologyOperation(GEOSDifference_r, geometry: geometry)
+        } catch GEOSwiftError.tooFewPoints {
+            return nil
+        } catch {
+            throw error
+        }
     }
 
     func union(with geometry: GeometryConvertible) throws -> Geometry {
@@ -256,6 +268,9 @@ public extension GeometryConvertible {
     // MARK: - Buffer Functions
 
     func buffer(by width: Double) throws -> Geometry {
+        guard width >= 0 else {
+            throw GEOSwiftError.negativeBufferWidth
+        }
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         // returns nil on exception

@@ -561,7 +561,8 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             Point(x: 1.5, y: 1),
             Point(x: 1, y: 1),
             Point(x: 1, y: 0)]))
-        XCTAssertEqual(try? poly.difference(with: unitPoly).isTopologicallyEquivalent(to: expectedPoly), true)
+        XCTAssertEqual(try? poly.difference(with: unitPoly)?.isTopologicallyEquivalent(to: expectedPoly),
+                       true)
     }
 
     func testDifferenceAllPairs() {
@@ -711,6 +712,16 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
                 _ = try geometry.buffer(by: 0.5)
             } catch {
                 XCTFail("Unexpected error for \(geometry) buffer(by: 10) \(error)")
+            }
+        }
+    }
+
+    func testNegativeBufferWidthThrows() {
+        XCTAssertThrowsError(try Point(x: 0, y: 0).buffer(by: -1)) { (error) in
+            if case GEOSwiftError.negativeBufferWidth = error {
+                // pass
+            } else {
+                XCTFail("Threw unexpected error: \(error)")
             }
         }
     }

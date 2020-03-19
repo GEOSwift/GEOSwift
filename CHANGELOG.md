@@ -1,3 +1,11 @@
+## 7.0.0
+
+* [#201](https://github.com/GEOSwift/GEOSwift/pull/201)
+    * Update to geos 3.8.1 (GEOSwift/geos 5.0.0)
+        * Return values from intersection and difference are now optional
+        * Buffer now throws `GEOSwiftError.negativeBufferWidth` if width is
+          negative
+
 ## 6.2.0
 
 * [#200](https://github.com/GEOSwift/GEOSwift/pull/200)
