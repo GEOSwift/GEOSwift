@@ -1,11 +1,3 @@
-//
-//  EnvelopeTests.swift
-//  GEOSwift
-//
-//  Created by Andrew Hershberger on 6/30/19.
-//  Copyright © 2019 GEOSwift. All rights reserved.
-//
-
 import XCTest
 @testable import GEOSwift
 

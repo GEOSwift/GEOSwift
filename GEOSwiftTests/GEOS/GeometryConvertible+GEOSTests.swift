@@ -666,6 +666,21 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
+    func testMinimumBoundingCircleLineString() {
+        XCTAssertEqual(try lineString1.minimumBoundingCircle(),
+                       Circle(center: Point(x: 0.5, y: 0), radius: 0.5))
+    }
+
+    func testMinimumBoundingCircleAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.minimumBoundingCircle()
+            } catch {
+                XCTFail("Unexpected error for \(g) minimumBoundingCircle() \(error)")
+            }
+        }
+    }
+
     func testPolygonizeAllTypes() {
         for g in geometryConvertibles {
             do {

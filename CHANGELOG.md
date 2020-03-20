@@ -5,6 +5,8 @@
         * Return values from intersection and difference are now optional
         * Buffer now throws `GEOSwiftError.negativeBufferWidth` if width is
           negative
+    * Add minimumBoundingCircle (Fixes
+      [#157](https://github.com/GEOSwift/GEOSwift/issues/157))
 
 ## 6.2.0
 
