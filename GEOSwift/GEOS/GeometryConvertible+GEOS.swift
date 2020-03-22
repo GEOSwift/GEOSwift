@@ -213,8 +213,14 @@ public extension GeometryConvertible {
         }
     }
 
-    func intersection(with geometry: GeometryConvertible) throws -> Geometry {
-        return try performBinaryTopologyOperation(GEOSIntersection_r, geometry: geometry)
+    func intersection(with geometry: GeometryConvertible) throws -> Geometry? {
+        do {
+            return try performBinaryTopologyOperation(GEOSIntersection_r, geometry: geometry)
+        } catch GEOSwiftError.tooFewPoints {
+            return nil
+        } catch {
+            throw error
+        }
     }
 
     func convexHull() throws -> Geometry {
@@ -229,8 +235,14 @@ public extension GeometryConvertible {
         return try performUnaryTopologyOperation(GEOSMinimumWidth_r)
     }
 
-    func difference(with geometry: GeometryConvertible) throws -> Geometry {
-        return try performBinaryTopologyOperation(GEOSDifference_r, geometry: geometry)
+    func difference(with geometry: GeometryConvertible) throws -> Geometry? {
+        do {
+            return try performBinaryTopologyOperation(GEOSDifference_r, geometry: geometry)
+        } catch GEOSwiftError.tooFewPoints {
+            return nil
+        } catch {
+            throw error
+        }
     }
 
     func union(with geometry: GeometryConvertible) throws -> Geometry {
@@ -249,6 +261,29 @@ public extension GeometryConvertible {
         return try performUnaryTopologyOperation(GEOSGetCentroid_r)
     }
 
+    func minimumBoundingCircle() throws -> Circle {
+        let context = try GEOSContext()
+        let geosObject = try geometry.geosObject(with: context)
+        var radius: Double = 0
+        var optionalCenterPointer: OpaquePointer?
+        guard let geometryPointer = GEOSMinimumBoundingCircle_r(
+            context.handle, geosObject.pointer, &radius, &optionalCenterPointer) else {
+                // if we somehow end up with a non-null center and a null geometry,
+                // we must still destroy the center before throwing an error
+                if let centerPointer = optionalCenterPointer {
+                    GEOSGeom_destroy_r(context.handle, centerPointer)
+                }
+                throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        // For our purposes, we only care about the center and radius.
+        GEOSGeom_destroy_r(context.handle, geometryPointer)
+        guard let centerPointer = optionalCenterPointer else {
+            throw GEOSError.noMinimumBoundingCircle
+        }
+        let center = try Point(geosObject: GEOSObject(context: context, pointer: centerPointer))
+        return Circle(center: center, radius: radius)
+    }
+
     func polygonize() throws -> GeometryCollection {
         return try [self].polygonize()
     }
@@ -256,6 +291,9 @@ public extension GeometryConvertible {
     // MARK: - Buffer Functions
 
     func buffer(by width: Double) throws -> Geometry {
+        guard width >= 0 else {
+            throw GEOSwiftError.negativeBufferWidth
+        }
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         // returns nil on exception

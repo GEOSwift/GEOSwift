@@ -20,6 +20,9 @@
 		492CBA03228453540055EEAA /* GEOSObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492CBA02228453540055EEAA /* GEOSObjectTests.swift */; };
 		49328B6D22A893C200A3BE0D /* GeometryConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49328B6C22A893C200A3BE0D /* GeometryConvertible.swift */; };
 		49328B6F22A897C800A3BE0D /* GeometryConvertibleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49328B6E22A897C800A3BE0D /* GeometryConvertibleTests.swift */; };
+		4934596324243BA70093B796 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4934596224243BA70093B796 /* Circle.swift */; };
+		4934596424243BA70093B796 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4934596224243BA70093B796 /* Circle.swift */; };
+		4934596524243BA70093B796 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4934596224243BA70093B796 /* Circle.swift */; };
 		493826F32299D30600F59B1E /* Geometry+GEOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493826F22299D30600F59B1E /* Geometry+GEOS.swift */; };
 		493826F52299D31000F59B1E /* GeometryCollection+GEOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493826F42299D31000F59B1E /* GeometryCollection+GEOS.swift */; };
 		493FBE1322A2CC5100B965BD /* GeometryConvertible+GEOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493FBE1222A2CC5100B965BD /* GeometryConvertible+GEOS.swift */; };
@@ -389,6 +392,7 @@
 		492CBA02228453540055EEAA /* GEOSObjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GEOSObjectTests.swift; sourceTree = "<group>"; };
 		49328B6C22A893C200A3BE0D /* GeometryConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryConvertible.swift; sourceTree = "<group>"; };
 		49328B6E22A897C800A3BE0D /* GeometryConvertibleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryConvertibleTests.swift; sourceTree = "<group>"; };
+		4934596224243BA70093B796 /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		493826F22299D30600F59B1E /* Geometry+GEOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Geometry+GEOS.swift"; sourceTree = "<group>"; };
 		493826F42299D31000F59B1E /* GeometryCollection+GEOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeometryCollection+GEOS.swift"; sourceTree = "<group>"; };
 		493FBE1222A2CC5100B965BD /* GeometryConvertible+GEOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GeometryConvertible+GEOS.swift"; sourceTree = "<group>"; };
@@ -680,6 +684,7 @@
 				498E954F23554E90005E8C05 /* SimplicityTestable.swift */,
 				498E95572355611D005E8C05 /* ClosednessTestable.swift */,
 				49B1182222C90AA400E638D7 /* Envelope.swift */,
+				4934596224243BA70093B796 /* Circle.swift */,
 			);
 			path = GEOS;
 			sourceTree = "<group>";
@@ -1075,6 +1080,7 @@
 				49CC1EE322C43BF70079AC60 /* GEOSwiftError.swift in Sources */,
 				49CC1F2F22C43C0A0079AC60 /* Boundable.swift in Sources */,
 				49CC1F0C22C43C050079AC60 /* Feature+Codable.swift in Sources */,
+				4934596424243BA70093B796 /* Circle.swift in Sources */,
 				49CC1F1F22C43C0A0079AC60 /* GEOSObject.swift in Sources */,
 				49CC1F2E22C43C0A0079AC60 /* LineStringConvertible+GEOS.swift in Sources */,
 				49CC1F0422C43C050079AC60 /* Point+Codable.swift in Sources */,
@@ -1186,6 +1192,7 @@
 				49CC1EE422C43BF80079AC60 /* GEOSwiftError.swift in Sources */,
 				49CC1F4222C43C0B0079AC60 /* Boundable.swift in Sources */,
 				49CC1F1A22C43C050079AC60 /* Feature+Codable.swift in Sources */,
+				4934596524243BA70093B796 /* Circle.swift in Sources */,
 				49CC1F3222C43C0B0079AC60 /* GEOSObject.swift in Sources */,
 				49CC1F4122C43C0B0079AC60 /* LineStringConvertible+GEOS.swift in Sources */,
 				49CC1F1222C43C050079AC60 /* Point+Codable.swift in Sources */,
@@ -1297,6 +1304,7 @@
 				49C2D284225998D2000AF55D /* Geometry.swift in Sources */,
 				4906DF9222B861390070FA4A /* Boundable.swift in Sources */,
 				49C2D28622599CC9000AF55D /* JSON.swift in Sources */,
+				4934596324243BA70093B796 /* Circle.swift in Sources */,
 				49BEF92A229C41D20098AEC5 /* WKTConvertible.swift in Sources */,
 				49328B6D22A893C200A3BE0D /* GeometryConvertible.swift in Sources */,
 				49611D8C22762571006BD851 /* GEOSHelpers.swift in Sources */,
