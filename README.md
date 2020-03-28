@@ -67,6 +67,10 @@ workflow](https://github.com/Carthage/Carthage#quick-start).
 
         "GEOSwift"
 
+In certain cases, you may also need to explicitly include
+[geos](https://github.com/GEOSwift/geos.git) as a dependency. See
+[issue #195](https://github.com/GEOSwift/GEOSwift/issues/195) for details.
+
 ## Usage
 
 ### Geometry creation
