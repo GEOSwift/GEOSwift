@@ -451,19 +451,26 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             Point(x: 1, y: 1)]))
 
         do {
-            let g = try poly.makeValid()
-            switch g {
-            case .multiPolygon(let mpol):
-                XCTAssertEqual(mpol.polygons.contains(expectedPoly1), true)
-                XCTAssertEqual(mpol.polygons.contains(expectedPoly2), true)
-                print(mpol)
+            switch try poly.makeValid() {
+            case let .multiPolygon(multiPolygon):
+                XCTAssertTrue(multiPolygon.polygons.contains(expectedPoly1))
+                XCTAssertTrue(multiPolygon.polygons.contains(expectedPoly2))
             default:
                 XCTFail("Unexpected geometry for \(poly) makeValid()")
             }
         } catch {
             XCTFail("Unexpected error for \(poly) makeValid() \(error)")
         }
+    }
 
+    func testMakeValidAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.makeValid()
+            } catch {
+                XCTFail("Unexpected error for \(g) makeValid() \(error)")
+            }
+        }
     }
 
     func testEnvelopeWhenItIsAPolygon() {
