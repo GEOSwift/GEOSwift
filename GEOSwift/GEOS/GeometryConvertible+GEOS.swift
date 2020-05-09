@@ -223,6 +223,10 @@ public extension GeometryConvertible {
         }
     }
 
+    func makeValid() throws -> Geometry {
+        return try performUnaryTopologyOperation(GEOSMakeValid_r)
+    }
+
     func convexHull() throws -> Geometry {
         return try performUnaryTopologyOperation(GEOSConvexHull_r)
     }

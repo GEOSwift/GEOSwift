@@ -428,6 +428,44 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
 
     // MARK: - Topology Operations
 
+    func testMakeValidWhenItIsAPolygon() {
+        let poly = try! Polygon(exterior: Polygon.LinearRing(points: [
+            Point(x: 0, y: 0),
+            Point(x: 2, y: 0),
+            Point(x: 1, y: 1),
+            Point(x: 0, y: 2),
+            Point(x: 2, y: 2),
+            Point(x: 1, y: 1),
+            Point(x: 0, y: 0)]))
+
+        let expectedPoly1 = try! Polygon(exterior: Polygon.LinearRing(points: [
+            Point(x: 1, y: 1),
+            Point(x: 2, y: 0),
+            Point(x: 0, y: 0),
+            Point(x: 1, y: 1)]))
+
+        let expectedPoly2 = try! Polygon(exterior: Polygon.LinearRing(points: [
+            Point(x: 1, y: 1),
+            Point(x: 0, y: 2),
+            Point(x: 2, y: 2),
+            Point(x: 1, y: 1)]))
+
+        do {
+            let g = try poly.makeValid()
+            switch g {
+            case .multiPolygon(let mpol):
+                XCTAssertEqual(mpol.polygons.contains(expectedPoly1), true)
+                XCTAssertEqual(mpol.polygons.contains(expectedPoly2), true)
+                print(mpol)
+            default:
+                XCTFail("Unexpected geometry for \(poly) makeValid()")
+            }
+        } catch {
+            XCTFail("Unexpected error for \(poly) makeValid() \(error)")
+        }
+
+    }
+
     func testEnvelopeWhenItIsAPolygon() {
         let poly = try! Polygon(exterior: Polygon.LinearRing(points: [
             Point(x: 1, y: 0),
