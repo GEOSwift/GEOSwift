@@ -1,3 +1,8 @@
+## 7.1.0
+
+* [#202](https://github.com/GEOSwift/GEOSwift/pull/202)
+    * Add makeValid
+
 ## 7.0.0
 
 * [#201](https://github.com/GEOSwift/GEOSwift/pull/201)
