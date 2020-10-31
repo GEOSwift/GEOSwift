@@ -1,3 +1,8 @@
+## 7.2.0
+
+* [#211](https://github.com/GEOSwift/GEOSwift/pull/211)
+    * Adds isValid, isValidReason, and isValidDetail
+
 ## 7.1.0
 
 * [#202](https://github.com/GEOSwift/GEOSwift/pull/202)

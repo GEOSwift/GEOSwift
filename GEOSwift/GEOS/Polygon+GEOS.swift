@@ -50,7 +50,7 @@ extension Polygon: GEOSObjectConvertible {
     func geosObject(with context: GEOSContext) throws -> GEOSObject {
         let exterior = try self.exterior.geosObject(with: context)
         let holes = try self.holes.map { try $0.geosObject(with: context) }
-        var holesArray = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: holes.count)
+        let holesArray = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: holes.count)
         defer { holesArray.deallocate() }
         holes.enumerated().forEach { (i, hole) in
             holesArray[i] = hole.pointer
