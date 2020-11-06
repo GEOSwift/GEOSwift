@@ -65,7 +65,7 @@ func makeGEOSCollection(with context: GEOSContext,
                         type: GEOSGeomTypes) throws -> GEOSObject {
 
     let geosObjects = try geometries.map { try $0.geosObject(with: context) }
-    var geosPointersArray = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: geosObjects.count)
+    let geosPointersArray = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: geosObjects.count)
     defer { geosPointersArray.deallocate() }
     geosObjects.enumerated().forEach { (i, geosObject) in
         geosPointersArray[i] = geosObject.pointer

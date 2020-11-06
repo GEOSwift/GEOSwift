@@ -188,6 +188,90 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
+    func testIsValid() {
+        let validPoint = Point(x: 0, y: 0)
+
+        XCTAssertTrue(try validPoint.isValid())
+
+        let invalidPoint = Point(x: .nan, y: 0)
+
+        XCTAssertFalse(try invalidPoint.isValid())
+    }
+
+    func testIsValidAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.isValid()
+            } catch {
+                XCTFail("Unexpected error for \(g) isValid() \(error)")
+            }
+        }
+    }
+
+    func testIsValidReason() throws {
+        let validPoint = Point(x: 0, y: 0)
+
+        try print(validPoint.isValidReason())
+
+        let invalidPoint = Point(x: .nan, y: 0)
+
+        try print(invalidPoint.isValid())
+    }
+
+    func testIsValidReasonAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.isValidReason()
+            } catch {
+                XCTFail("Unexpected error for \(g) isValidReason() \(error)")
+            }
+        }
+    }
+
+    func testIsValidDetail() throws {
+        let validPoint = Point(x: 0, y: 0)
+
+        XCTAssertEqual(try validPoint.isValidDetail(), .valid)
+
+        let invalidPoint = Point(x: .nan, y: 0)
+
+        let result = try invalidPoint.isValidDetail()
+        guard case let .invalid(.some(reason), .some(.point(location))) = result else {
+            XCTFail("Received unexpected isValidDetail result: \(result)")
+            return
+        }
+        XCTAssertEqual(reason, "Invalid Coordinate")
+        XCTAssertTrue(location.x.isNaN) // A naïve comparison of location and result fails because NaN != NaN
+        XCTAssertEqual(location.y, invalidPoint.y)
+    }
+
+    func testIsValidDetail_AllowSelfTouchingRingFormingHole() {
+        let polyWithSelfTouchingRingFormingHole = try! Polygon(exterior: Polygon.LinearRing(points: [
+            Point(x: 0, y: 0),
+            Point(x: 0, y: 4),
+            Point(x: 4, y: 0),
+            Point(x: 0, y: 0),
+            Point(x: 2, y: 1),
+            Point(x: 1, y: 2),
+            Point(x: 0, y: 0)]))
+        XCTAssertEqual(
+            try polyWithSelfTouchingRingFormingHole.isValidDetail(allowSelfTouchingRingFormingHole: true),
+            .valid)
+        XCTAssertEqual(
+            try polyWithSelfTouchingRingFormingHole.isValidDetail(allowSelfTouchingRingFormingHole: false),
+            .invalid(reason: "Ring Self-intersection", location: .point(Point(x: 0, y: 0))))
+    }
+
+    func testIsValidDetailAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.isValidDetail()
+            } catch {
+                XCTFail("Unexpected error for \(g) isValidDetail() \(error)")
+            }
+        }
+    }
+
     // MARK: - Binary Predicates
 
     func testIsTopologicallyEquivalentBetweenPoints() {

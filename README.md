@@ -52,7 +52,7 @@ at least controversial. Use of geos without dynamic linking is discouraged.
 
 1. Add the following to your Cartfile:
 
-        github "GEOSwift/GEOSwift" ~> 7.1.0
+        github "GEOSwift/GEOSwift" ~> 7.2.0
 
 2. Finish updating your project by following the [typical Carthage
 workflow](https://github.com/Carthage/Carthage#quick-start).
