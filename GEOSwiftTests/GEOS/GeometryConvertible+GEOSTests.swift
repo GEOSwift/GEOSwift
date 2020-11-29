@@ -211,11 +211,11 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
     func testIsValidReason() throws {
         let validPoint = Point(x: 0, y: 0)
 
-        try print(validPoint.isValidReason())
+        XCTAssertEqual(try validPoint.isValidReason(), "Valid Geometry")
 
         let invalidPoint = Point(x: .nan, y: 0)
 
-        try print(invalidPoint.isValid())
+        XCTAssertEqual(try invalidPoint.isValidReason(), "Invalid Coordinate[nan 0]")
     }
 
     func testIsValidReasonAllTypes() {
@@ -537,8 +537,8 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         do {
             switch try poly.makeValid() {
             case let .multiPolygon(multiPolygon):
-                XCTAssertTrue(multiPolygon.polygons.contains(expectedPoly1))
-                XCTAssertTrue(multiPolygon.polygons.contains(expectedPoly2))
+                XCTAssertTrue(try multiPolygon.polygons.contains(where: expectedPoly1.isTopologicallyEquivalent))
+                XCTAssertTrue(try multiPolygon.polygons.contains(where: expectedPoly2.isTopologicallyEquivalent))
             default:
                 XCTFail("Unexpected geometry for \(poly) makeValid()")
             }
@@ -855,7 +855,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             do {
                 _ = try geometry.buffer(by: 0.5)
             } catch {
-                XCTFail("Unexpected error for \(geometry) buffer(by: 10) \(error)")
+                XCTFail("Unexpected error for \(geometry) buffer(by: 0.5) \(error)")
             }
         }
     }
