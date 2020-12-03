@@ -4,7 +4,7 @@
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager/)
 [![Supported Platforms](https://img.shields.io/cocoapods/p/GEOSwift.svg?style=flat)](https://github.com/GEOSwift/GEOSwift)
-[![Build Status](https://img.shields.io/travis/GEOSwift/GEOSwift/master)](https://travis-ci.org/GEOSwift/GEOSwift)
+[![Build Status](https://img.shields.io/travis/GEOSwift/GEOSwift/master)](https://travis-ci.com/GEOSwift/GEOSwift)
 [![Code Coverage](https://img.shields.io/codecov/c/github/GEOSwift/GEOSwift/master)](https://codecov.io/gh/GEOSwift/GEOSwift)
 
 Easily handle a geometric object model (points, linestrings, polygons etc.) and
@@ -146,7 +146,7 @@ To make a contribution:
 * Start from the `master` branch and create a branch with a name that describes
   your contribution
 * Run `$ carthage update`
-* Sign in to travis-ci.org (if you've never signed in before, CI won't run to
+* Sign in to travis-ci.com (if you've never signed in before, CI won't run to
   verify your pull request)
 * Push your branch and create a pull request to `master`
 * One of the maintainers will review your code and may request changes
