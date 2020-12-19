@@ -2,7 +2,7 @@
 set -evo pipefail
 
 if [[ $TRAVIS_OS_NAME = 'linux' ]]; then
-  export PATH="${PWD}/swift-5.1.5-RELEASE-ubuntu18.04/usr/bin:$PATH"
+  export PATH="${PWD}/swift-5.3.2-RELEASE-ubuntu18.04/usr/bin:$PATH"
 fi
 
 if [[ $USE_SPM = 'true' ]]; then

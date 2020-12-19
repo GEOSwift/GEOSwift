@@ -9,30 +9,30 @@ jobs:
   include:
     - name: iOS - xcodebuild
       os: osx
-      osx_image: xcode11.3
+      osx_image: xcode12.2
       language: minimal
       env: PLATFORM=iOS
            SCHEME=GEOSwift-iOS
-           SDK=iphonesimulator13.2
-           DESTINATION="platform=iOS Simulator,OS=13.3,name=iPhone 11"
+           SDK=iphonesimulator14.2
+           DESTINATION="platform=iOS Simulator,OS=14.0,name=iPhone 11"
            WORKSPACE=GEOSwift.xcworkspace
            RUN_CODECOV=true
     - name: tvOS - xcodebuild
       os: osx
-      osx_image: xcode11.3
+      osx_image: xcode12.2
       language: minimal
       env: PLATFORM=tvOS
            SCHEME=GEOSwift-tvOS
-           SDK=appletvsimulator13.2
-           DESTINATION="platform=tvOS Simulator,OS=13.3,name=Apple TV"
+           SDK=appletvsimulator14.2
+           DESTINATION="platform=tvOS Simulator,OS=14.0,name=Apple TV"
            WORKSPACE=GEOSwift.xcworkspace
     - name: macOS - xcodebuild
       os: osx
-      osx_image: xcode11.3
+      osx_image: xcode12.2
       language: minimal
       env: PLATFORM=macOS
            SCHEME=GEOSwift-macOS
-           SDK=macosx10.15
+           SDK=macosx11.0
            DESTINATION="platform=OS X"
            WORKSPACE=GEOSwift.xcworkspace
     - name: Ubuntu 18.04 - SPM
@@ -42,7 +42,7 @@ jobs:
       env: USE_SPM=true
     - name: macOS - SPM
       os: osx
-      osx_image: xcode11.3
+      osx_image: xcode12.2
       language: minimal
       env: USE_SPM=true
 
