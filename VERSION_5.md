@@ -247,5 +247,5 @@ can focus on making GEOSwift a truly first-rate experience for Swift projects.
 [swift-codable]: https://developer.apple.com/documentation/swift/codable
 [classes-vs-structs]: https://github.com/GEOSwift/GEOSwift/commit/e420bd49dcae5c21d2a5759a2f88b67c08d56994#diff-2dd84631947429a85fb0c3044e551525R26
 [mapkit]: https://github.com/GEOSwift/GEOSwiftMapKit
-[geojson]: https://github.com/GEOSwift/GEOSwift/blob/master/GEOSwift/Core%20Types/GeoJSON.swift
+[geojson]: https://github.com/GEOSwift/GEOSwift/blob/main/GEOSwift/Core%20Types/GeoJSON.swift
 [enums]: https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html#ID148

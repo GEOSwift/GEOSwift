@@ -4,8 +4,8 @@
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager/)
 [![Supported Platforms](https://img.shields.io/cocoapods/p/GEOSwift.svg?style=flat)](https://github.com/GEOSwift/GEOSwift)
-[![Build Status](https://img.shields.io/travis/GEOSwift/GEOSwift/master)](https://travis-ci.com/GEOSwift/GEOSwift)
-[![Code Coverage](https://img.shields.io/codecov/c/github/GEOSwift/GEOSwift/master)](https://codecov.io/gh/GEOSwift/GEOSwift)
+[![Build Status](https://img.shields.io/travis/GEOSwift/GEOSwift/main)](https://travis-ci.com/GEOSwift/GEOSwift)
+[![Code Coverage](https://img.shields.io/codecov/c/github/GEOSwift/GEOSwift/main)](https://codecov.io/gh/GEOSwift/GEOSwift)
 
 Easily handle a geometric object model (points, linestrings, polygons etc.) and
 related topological operations (intersections, overlapping etc.). A type-safe,
@@ -143,12 +143,12 @@ found inside `GEOSwiftMapKit` workspace. Open the workspace in Xcode, build the
 To make a contribution:
 
 * Fork the repo
-* Start from the `master` branch and create a branch with a name that describes
+* Start from the `main` branch and create a branch with a name that describes
   your contribution
 * Run `$ carthage update`
 * Sign in to travis-ci.com (if you've never signed in before, CI won't run to
   verify your pull request)
-* Push your branch and create a pull request to `master`
+* Push your branch and create a pull request to `main`
 * One of the maintainers will review your code and may request changes
 * If your pull request is accepted, one of the maintainers should update the
   changelog before merging it
