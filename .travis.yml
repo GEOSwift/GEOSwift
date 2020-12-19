@@ -46,6 +46,6 @@ jobs:
       language: minimal
       env: USE_SPM=true
 
-before_install: travis_wait 30 ./scripts/travis_before_install.sh
+before_install: travis_wait 40 ./scripts/travis_before_install.sh
 script: ./scripts/travis_script.sh
 after_success: ./scripts/travis_after_success.sh
