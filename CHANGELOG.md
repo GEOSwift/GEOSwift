@@ -1,3 +1,16 @@
+## 8.0.0
+
+* Updated for Xcode 12
+    * Drops support for iOS 8
+    * Switches to SPM as primary development environment
+    * Updates GEOSwift.xcodeproj to use geos.xcframework instead of the
+      old-style fat frameworks due to a change in Xcode 12.3. This breaks
+      (hopefully only temporarily) compatibility with Carthage unless you use
+      the as-of-yet-unreleased Carthage version which adds the
+      `--use-xcframeworks` flag. Carthage support will be reevaluated as its
+      situation evolves.
+* Increases min geos to 6.0.0 (which equates to 3.9.0 in the upstream geos)
+
 ## 7.2.0
 
 * [#211](https://github.com/GEOSwift/GEOSwift/pull/211)

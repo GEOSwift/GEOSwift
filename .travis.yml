@@ -2,50 +2,34 @@
 
 cache:
   directories:
-    - Carthage
     - swift
+
+os: osx
+osx_image: xcode12.3
+language: shell
 
 jobs:
   include:
     - name: iOS - xcodebuild
-      os: osx
-      osx_image: xcode11.6
-      language: minimal
       env: PLATFORM=iOS
-           SCHEME=GEOSwift-iOS
-           SDK=iphonesimulator13.6
-           DESTINATION="platform=iOS Simulator,OS=13.6,name=iPhone 11"
-           WORKSPACE=GEOSwift.xcworkspace
+           SDK=iphonesimulator14.3
+           DESTINATION="platform=iOS Simulator,OS=14.3,name=iPhone 11"
            RUN_CODECOV=true
     - name: tvOS - xcodebuild
-      os: osx
-      osx_image: xcode11.6
-      language: minimal
       env: PLATFORM=tvOS
-           SCHEME=GEOSwift-tvOS
-           SDK=appletvsimulator13.4
-           DESTINATION="platform=tvOS Simulator,OS=13.4,name=Apple TV"
-           WORKSPACE=GEOSwift.xcworkspace
+           SDK=appletvsimulator14.3
+           DESTINATION="platform=tvOS Simulator,OS=14.3,name=Apple TV"
     - name: macOS - xcodebuild
-      os: osx
-      osx_image: xcode11.6
-      language: minimal
       env: PLATFORM=macOS
-           SCHEME=GEOSwift-macOS
-           SDK=macosx10.15
+           SDK=macosx11.1
            DESTINATION="platform=OS X"
-           WORKSPACE=GEOSwift.xcworkspace
     - name: Ubuntu 18.04 - SPM
       os: linux
       dist: bionic
-      language: minimal
       env: USE_SPM=true
     - name: macOS - SPM
-      os: osx
-      osx_image: xcode12.2
-      language: minimal
       env: USE_SPM=true
 
-before_install: travis_wait 40 ./scripts/travis_before_install.sh
+before_install: ./scripts/travis_before_install.sh
 script: ./scripts/travis_script.sh
 after_success: ./scripts/travis_after_success.sh

@@ -2,12 +2,8 @@
 set -evo pipefail
 
 if [[ $TRAVIS_OS_NAME = 'osx' && $USE_SPM != 'true' ]]; then
-  brew upgrade carthage swiftlint
+  brew upgrade swiftlint
   gem install xcpretty
-  carthage update \
-    --cache-builds \
-    --platform "$PLATFORM" \
-    --no-use-binaries
 fi
 
 if [[ $TRAVIS_OS_NAME = 'linux' ]]; then

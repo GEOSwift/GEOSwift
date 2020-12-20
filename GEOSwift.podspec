@@ -15,11 +15,11 @@ Pod::Spec.new do |s|
     file: 'LICENSE'
   }
   s.authors = 'Andrea Cremaschi', 'Andrew Hershberger', 'Virgilio Favero Neto'
-  s.platforms = { ios: "8.0", osx: "10.9", tvos: "9.0" }
+  s.platforms = { ios: "9.0", osx: "10.9", tvos: "9.0" }
   s.source = {
     git: 'https://github.com/GEOSwift/GEOSwift.git',
     tag: s.version
   }
   s.source_files = 'GEOSwift/**/*.{swift,h}'
-  s.dependency 'geos', '~> 5.0'
+  s.dependency 'geos', '~> 6.0'
 end

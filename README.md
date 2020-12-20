@@ -52,7 +52,7 @@ at least controversial. Use of geos without dynamic linking is discouraged.
 
 1. Add the following to your Cartfile:
 
-        github "GEOSwift/GEOSwift" ~> 7.2.0
+        github "GEOSwift/GEOSwift" ~> 8.0.0
 
 2. Finish updating your project by following the [typical Carthage
 workflow](https://github.com/Carthage/Carthage#quick-start).
@@ -61,7 +61,7 @@ workflow](https://github.com/Carthage/Carthage#quick-start).
 
 1. Update the top-level dependencies in your `Package.swift` to include:
 
-        .package(url: "https://github.com/GEOSwift/GEOSwift.git", from: "7.0.0")
+        .package(url: "https://github.com/GEOSwift/GEOSwift.git", from: "8.0.0")
 
 2. Update the target dependencies in your `Package.swift` to include
 
@@ -145,7 +145,14 @@ To make a contribution:
 * Fork the repo
 * Start from the `main` branch and create a branch with a name that describes
   your contribution
-* Run `$ carthage update`
+* Run `$ xed Package.swift` to open the project in Xcode.
+* Run `$ swiftlint` from the repo root and resolve any issues.
+* Update GEOSwift.xcodeproj: After making your changes, you also need to update
+  the Xcode project. You'll need a version of Carthage greater than 0.36.0 so
+  that you can use the `--use-xcframeworks` option. Run
+  `$ carthage update --use-xcframeworks` to generate geos.xcframework. Then open
+  the GEOSwift.xcodeproj and ensure that it works with your changes. You'll
+  likely only need to make changes if you've added, removed, or renamed files.
 * Sign in to travis-ci.com (if you've never signed in before, CI won't run to
   verify your pull request)
 * Push your branch and create a pull request to `main`
