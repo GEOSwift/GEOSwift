@@ -3,7 +3,7 @@ extension MultiPolygon: CodableGeometry {
     static let geoJSONType = GeoJSONType.multiPolygon
 
     var coordinates: [[[[Double]]]] {
-        return polygons.map { $0.coordinates }
+        polygons.map { $0.coordinates }
     }
 
     init(coordinates: [[[[Double]]]]) throws {

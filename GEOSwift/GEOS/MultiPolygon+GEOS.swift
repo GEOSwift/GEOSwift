@@ -11,6 +11,6 @@ extension MultiPolygon: GEOSObjectInitializable {
 
 extension MultiPolygon: GEOSObjectConvertible {
     func geosObject(with context: GEOSContext) throws -> GEOSObject {
-        return try makeGEOSCollection(with: context, geometries: polygons, type: GEOS_MULTIPOLYGON)
+        try makeGEOSCollection(with: context, geometries: polygons, type: GEOS_MULTIPOLYGON)
     }
 }

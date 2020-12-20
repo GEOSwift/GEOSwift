@@ -3,7 +3,7 @@ extension MultiPoint: CodableGeometry {
     static let geoJSONType = GeoJSONType.multiPoint
 
     var coordinates: [[Double]] {
-        return points.map { $0.coordinates }
+        points.map { $0.coordinates }
     }
 
     init(coordinates: [[Double]]) throws {

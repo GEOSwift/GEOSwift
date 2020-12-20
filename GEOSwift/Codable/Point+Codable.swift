@@ -3,7 +3,7 @@ extension Point: CodableGeometry {
     static let geoJSONType = GeoJSONType.point
 
     var coordinates: [Double] {
-        return [x, y]
+        [x, y]
     }
 
     init(coordinates: [Double]) throws {

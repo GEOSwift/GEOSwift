@@ -4,13 +4,13 @@ public protocol LineStringConvertible {
 
 extension LineString: LineStringConvertible {
     public var lineString: LineString {
-        return self
+        self
     }
 }
 
 extension Polygon.LinearRing: LineStringConvertible {
     // converts LinearRing to LineString
     public var lineString: LineString {
-        return LineString(self)
+        LineString(self)
     }
 }

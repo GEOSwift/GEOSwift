@@ -537,8 +537,10 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         do {
             switch try poly.makeValid() {
             case let .multiPolygon(multiPolygon):
-                XCTAssertTrue(try multiPolygon.polygons.contains(where: expectedPoly1.isTopologicallyEquivalent))
-                XCTAssertTrue(try multiPolygon.polygons.contains(where: expectedPoly2.isTopologicallyEquivalent))
+                XCTAssertTrue(try multiPolygon.polygons
+                                .contains(where: expectedPoly1.isTopologicallyEquivalent))
+                XCTAssertTrue(try multiPolygon.polygons
+                                .contains(where: expectedPoly2.isTopologicallyEquivalent))
             default:
                 XCTFail("Unexpected geometry for \(poly) makeValid()")
             }

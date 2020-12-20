@@ -72,15 +72,15 @@ public extension GeometryConvertible {
     }
 
     func isEmpty() throws -> Bool {
-        return try evaluateUnaryPredicate(GEOSisEmpty_r)
+        try evaluateUnaryPredicate(GEOSisEmpty_r)
     }
 
     func isRing() throws -> Bool {
-        return try evaluateUnaryPredicate(GEOSisRing_r)
+        try evaluateUnaryPredicate(GEOSisRing_r)
     }
 
     func isValid() throws -> Bool {
-        return try evaluateUnaryPredicate(GEOSisValid_r)
+        try evaluateUnaryPredicate(GEOSisValid_r)
     }
 
     func isValidReason() throws -> String {
@@ -96,10 +96,13 @@ public extension GeometryConvertible {
     func isValidDetail(allowSelfTouchingRingFormingHole: Bool = false) throws -> IsValidDetailResult {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
-        let flags: Int32 = allowSelfTouchingRingFormingHole ? Int32(GEOSVALID_ALLOW_SELFTOUCHING_RING_FORMING_HOLE.rawValue) : 0
+        let flags: Int32 = allowSelfTouchingRingFormingHole
+            ? Int32(GEOSVALID_ALLOW_SELFTOUCHING_RING_FORMING_HOLE.rawValue)
+            : 0
         var optionalReason: UnsafeMutablePointer<Int8>?
         var optionalLocation: OpaquePointer?
-        switch GEOSisValidDetail_r(context.handle, geosObject.pointer, flags, &optionalReason, &optionalLocation) {
+        switch GEOSisValidDetail_r(
+            context.handle, geosObject.pointer, flags, &optionalReason, &optionalLocation) {
         case 1: // Valid
             if let reason = optionalReason {
                 GEOSFree_r(context.handle, reason)
@@ -141,43 +144,43 @@ public extension GeometryConvertible {
     }
 
     func isTopologicallyEquivalent(to geometry: GeometryConvertible) throws -> Bool {
-        return try evaluateBinaryPredicate(GEOSEquals_r, with: geometry)
+        try evaluateBinaryPredicate(GEOSEquals_r, with: geometry)
     }
 
     func isDisjoint(with geometry: GeometryConvertible) throws -> Bool {
-        return try evaluateBinaryPredicate(GEOSDisjoint_r, with: geometry)
+        try evaluateBinaryPredicate(GEOSDisjoint_r, with: geometry)
     }
 
     func touches(_ geometry: GeometryConvertible) throws -> Bool {
-        return try evaluateBinaryPredicate(GEOSTouches_r, with: geometry)
+        try evaluateBinaryPredicate(GEOSTouches_r, with: geometry)
     }
 
     func intersects(_ geometry: GeometryConvertible) throws -> Bool {
-        return try evaluateBinaryPredicate(GEOSIntersects_r, with: geometry)
+        try evaluateBinaryPredicate(GEOSIntersects_r, with: geometry)
     }
 
     func crosses(_ geometry: GeometryConvertible) throws -> Bool {
-        return try evaluateBinaryPredicate(GEOSCrosses_r, with: geometry)
+        try evaluateBinaryPredicate(GEOSCrosses_r, with: geometry)
     }
 
     func isWithin(_ geometry: GeometryConvertible) throws -> Bool {
-        return try evaluateBinaryPredicate(GEOSWithin_r, with: geometry)
+        try evaluateBinaryPredicate(GEOSWithin_r, with: geometry)
     }
 
     func contains(_ geometry: GeometryConvertible) throws -> Bool {
-        return try evaluateBinaryPredicate(GEOSContains_r, with: geometry)
+        try evaluateBinaryPredicate(GEOSContains_r, with: geometry)
     }
 
     func overlaps(_ geometry: GeometryConvertible) throws -> Bool {
-        return try evaluateBinaryPredicate(GEOSOverlaps_r, with: geometry)
+        try evaluateBinaryPredicate(GEOSOverlaps_r, with: geometry)
     }
 
     func covers(_ geometry: GeometryConvertible) throws -> Bool {
-        return try evaluateBinaryPredicate(GEOSCovers_r, with: geometry)
+        try evaluateBinaryPredicate(GEOSCovers_r, with: geometry)
     }
 
     func isCovered(by geometry: GeometryConvertible) throws -> Bool {
-        return try evaluateBinaryPredicate(GEOSCoveredBy_r, with: geometry)
+        try evaluateBinaryPredicate(GEOSCoveredBy_r, with: geometry)
     }
 
     // MARK: - Dimensionally Extended 9 Intersection Model Functions
@@ -268,19 +271,19 @@ public extension GeometryConvertible {
     }
 
     func makeValid() throws -> Geometry {
-        return try performUnaryTopologyOperation(GEOSMakeValid_r)
+        try performUnaryTopologyOperation(GEOSMakeValid_r)
     }
 
     func convexHull() throws -> Geometry {
-        return try performUnaryTopologyOperation(GEOSConvexHull_r)
+        try performUnaryTopologyOperation(GEOSConvexHull_r)
     }
 
     func minimumRotatedRectangle() throws -> Geometry {
-        return try performUnaryTopologyOperation(GEOSMinimumRotatedRectangle_r)
+        try performUnaryTopologyOperation(GEOSMinimumRotatedRectangle_r)
     }
 
     func minimumWidth() throws -> LineString {
-        return try performUnaryTopologyOperation(GEOSMinimumWidth_r)
+        try performUnaryTopologyOperation(GEOSMinimumWidth_r)
     }
 
     func difference(with geometry: GeometryConvertible) throws -> Geometry? {
@@ -294,19 +297,19 @@ public extension GeometryConvertible {
     }
 
     func union(with geometry: GeometryConvertible) throws -> Geometry {
-        return try performBinaryTopologyOperation(GEOSUnion_r, geometry: geometry)
+        try performBinaryTopologyOperation(GEOSUnion_r, geometry: geometry)
     }
 
     func unaryUnion() throws -> Geometry {
-        return try performUnaryTopologyOperation(GEOSUnaryUnion_r)
+        try performUnaryTopologyOperation(GEOSUnaryUnion_r)
     }
 
     func pointOnSurface() throws -> Point {
-        return try performUnaryTopologyOperation(GEOSPointOnSurface_r)
+        try performUnaryTopologyOperation(GEOSPointOnSurface_r)
     }
 
     func centroid() throws -> Point {
-        return try performUnaryTopologyOperation(GEOSGetCentroid_r)
+        try performUnaryTopologyOperation(GEOSGetCentroid_r)
     }
 
     func minimumBoundingCircle() throws -> Circle {
@@ -333,7 +336,7 @@ public extension GeometryConvertible {
     }
 
     func polygonize() throws -> GeometryCollection {
-        return try [self].polygonize()
+        try [self].polygonize()
     }
 
     // MARK: - Buffer Functions

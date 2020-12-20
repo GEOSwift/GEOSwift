@@ -14,7 +14,7 @@ public struct Feature: Hashable {
     /// Returns properties as a type that can be bridged to NSDictionary for use with NSCoding,
     /// NSJSONSerialization, etc.
     public var untypedProperties: [String: Any]? {
-        return properties?.mapValues { $0.untypedValue }
+        properties?.mapValues { $0.untypedValue }
     }
 
     // MARK: - Id

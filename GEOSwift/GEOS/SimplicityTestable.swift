@@ -6,7 +6,7 @@ public protocol SimplicityTestable: GeometryConvertible {
 
 extension SimplicityTestable {
     public func isSimple() throws -> Bool {
-        return try evaluateUnaryPredicate(GEOSisSimple_r)
+        try evaluateUnaryPredicate(GEOSisSimple_r)
     }
 }
 

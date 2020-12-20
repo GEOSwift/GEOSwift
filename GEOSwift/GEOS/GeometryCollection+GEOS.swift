@@ -11,6 +11,6 @@ extension GeometryCollection: GEOSObjectInitializable {
 
 extension GeometryCollection: GEOSObjectConvertible {
     func geosObject(with context: GEOSContext) throws -> GEOSObject {
-        return try makeGEOSCollection(with: context, geometries: geometries, type: GEOS_GEOMETRYCOLLECTION)
+        try makeGEOSCollection(with: context, geometries: geometries, type: GEOS_GEOMETRYCOLLECTION)
     }
 }

@@ -1,7 +1,7 @@
 // for internal use only; GeoJSON encoding & decoding helpers
 extension Polygon.LinearRing {
     var coordinates: [[Double]] {
-        return points.map { $0.coordinates }
+        points.map { $0.coordinates }
     }
 
     init(coordinates: [[Double]]) throws {

@@ -11,6 +11,6 @@ extension MultiPoint: GEOSObjectInitializable {
 
 extension MultiPoint: GEOSObjectConvertible {
     func geosObject(with context: GEOSContext) throws -> GEOSObject {
-        return try makeGEOSCollection(with: context, geometries: points, type: GEOS_MULTIPOINT)
+        try makeGEOSCollection(with: context, geometries: points, type: GEOS_MULTIPOINT)
     }
 }

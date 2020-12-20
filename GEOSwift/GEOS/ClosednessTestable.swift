@@ -6,7 +6,7 @@ public protocol ClosednessTestable: GeometryConvertible {
 
 extension ClosednessTestable {
     public func isClosed() throws -> Bool {
-        return try evaluateUnaryPredicate(GEOSisClosed_r)
+        try evaluateUnaryPredicate(GEOSisClosed_r)
     }
 }
 

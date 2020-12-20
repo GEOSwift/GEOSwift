@@ -2,11 +2,11 @@ public struct LineString: Hashable {
     public let points: [Point]
 
     public var firstPoint: Point {
-        return points[0]
+        points[0]
     }
 
     public var lastPoint: Point {
-        return points.last!
+        points.last!
     }
 
     public init(points: [Point]) throws {

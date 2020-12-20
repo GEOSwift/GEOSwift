@@ -6,7 +6,7 @@ public protocol Boundable: GeometryConvertible {
 
 extension Boundable {
     public func boundary() throws -> Geometry {
-        return try performUnaryTopologyOperation(GEOSBoundary_r)
+        try performUnaryTopologyOperation(GEOSBoundary_r)
     }
 }
 

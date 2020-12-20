@@ -11,6 +11,6 @@ extension MultiLineString: GEOSObjectInitializable {
 
 extension MultiLineString: GEOSObjectConvertible {
     func geosObject(with context: GEOSContext) throws -> GEOSObject {
-        return try makeGEOSCollection(with: context, geometries: lineStrings, type: GEOS_MULTILINESTRING)
+        try makeGEOSCollection(with: context, geometries: lineStrings, type: GEOS_MULTILINESTRING)
     }
 }

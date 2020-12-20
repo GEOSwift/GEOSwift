@@ -4,55 +4,55 @@ public protocol GeometryConvertible {
 
 extension Point: GeometryConvertible {
     public var geometry: Geometry {
-        return .point(self)
+        .point(self)
     }
 }
 
 extension LineString: GeometryConvertible {
     public var geometry: Geometry {
-        return .lineString(self)
+        .lineString(self)
     }
 }
 
 extension Polygon.LinearRing: GeometryConvertible {
     // converts LinearRing to LineString
     public var geometry: Geometry {
-        return .lineString(lineString)
+        .lineString(lineString)
     }
 }
 
 extension Polygon: GeometryConvertible {
     public var geometry: Geometry {
-        return .polygon(self)
+        .polygon(self)
     }
 }
 
 extension MultiPoint: GeometryConvertible {
     public var geometry: Geometry {
-        return .multiPoint(self)
+        .multiPoint(self)
     }
 }
 
 extension MultiLineString: GeometryConvertible {
     public var geometry: Geometry {
-        return .multiLineString(self)
+        .multiLineString(self)
     }
 }
 
 extension MultiPolygon: GeometryConvertible {
     public var geometry: Geometry {
-        return .multiPolygon(self)
+        .multiPolygon(self)
     }
 }
 
 extension GeometryCollection: GeometryConvertible {
     public var geometry: Geometry {
-        return .geometryCollection(self)
+        .geometryCollection(self)
     }
 }
 
 extension Geometry: GeometryConvertible {
     public var geometry: Geometry {
-        return self
+        self
     }
 }

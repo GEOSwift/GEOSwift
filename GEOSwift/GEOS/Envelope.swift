@@ -14,19 +14,19 @@ public struct Envelope: Hashable {
     }
 
     public var minXMaxY: Point {
-        return Point(x: minX, y: maxY)
+        Point(x: minX, y: maxY)
     }
 
     public var maxXMaxY: Point {
-        return Point(x: maxX, y: maxY)
+        Point(x: maxX, y: maxY)
     }
 
     public var minXMinY: Point {
-        return Point(x: minX, y: minY)
+        Point(x: minX, y: minY)
     }
 
     public var maxXMinY: Point {
-        return Point(x: maxX, y: minY)
+        Point(x: maxX, y: minY)
     }
 }
 

@@ -11,7 +11,7 @@ extension Polygon.LinearRing: GEOSObjectInitializable {
 
 extension Polygon.LinearRing: GEOSObjectConvertible {
     func geosObject(with context: GEOSContext) throws -> GEOSObject {
-        return try makeGEOSObject(with: context, points: points) { (context, sequence) in
+        try makeGEOSObject(with: context, points: points) { (context, sequence) in
             GEOSGeom_createLinearRing_r(context.handle, sequence)
         }
     }
