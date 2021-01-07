@@ -559,6 +559,41 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
+    func testNormalizedMultiLineString() {
+        let multiLineString = try! MultiLineString(
+            lineStrings: [
+                LineString(
+                    points: [
+                        Point(x: 0, y: 1),
+                        Point(x: 2, y: 3)]),
+                LineString(
+                    points: [
+                        Point(x: 4, y: 5),
+                        Point(x: 6, y: 7)])]).geometry
+        let expected = try! MultiLineString(
+            lineStrings: [
+                LineString(
+                    points: [
+                        Point(x: 4, y: 5),
+                        Point(x: 6, y: 7)]),
+                LineString(
+                    points: [
+                        Point(x: 0, y: 1),
+                        Point(x: 2, y: 3)])]).geometry
+
+        XCTAssertEqual(try multiLineString.normalized(), expected)
+    }
+
+    func testNormalizedAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.normalized()
+            } catch {
+                XCTFail("Unexpected error for \(g) normalized() \(error)")
+            }
+        }
+    }
+
     func testEnvelopeWhenItIsAPolygon() {
         let poly = try! Polygon(exterior: Polygon.LinearRing(points: [
             Point(x: 1, y: 0),

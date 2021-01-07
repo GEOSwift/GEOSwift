@@ -274,6 +274,16 @@ public extension GeometryConvertible {
         try performUnaryTopologyOperation(GEOSMakeValid_r)
     }
 
+    func normalized() throws -> Geometry {
+        let context = try GEOSContext()
+        let geosObject = try geometry.geosObject(with: context)
+        // GEOSNormalize_r returns -1 on exception
+        guard GEOSNormalize_r(context.handle, geosObject.pointer) != -1 else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return try Geometry(geosObject: geosObject)
+    }
+
     func convexHull() throws -> Geometry {
         try performUnaryTopologyOperation(GEOSConvexHull_r)
     }
