@@ -21,5 +21,5 @@ Pod::Spec.new do |s|
     tag: s.version
   }
   s.source_files = 'GEOSwift/**/*.{swift,h}'
-  s.dependency 'geos', '~> 6.0.1'
+  s.dependency 'geos', '~> 6.0'
 end
