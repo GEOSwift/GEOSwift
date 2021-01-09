@@ -1,3 +1,7 @@
+## 8.0.1
+
+* Add platform specifiers to Package.swift
+
 ## 8.0.0
 
 * Updated for Xcode 12

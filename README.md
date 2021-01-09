@@ -30,7 +30,7 @@ migrating from version 4, see [VERSION_5.md](VERSION_5.md).
 
 ## Requirements
 
-* iOS 8.0+, tvOS 9.0+, macOS 10.9+ (CocoaPods, Carthage, Swift PM)
+* iOS 9.0+, tvOS 9.0+, macOS 10.9+ (CocoaPods, Carthage, Swift PM)
 * Linux (Swift PM)
 * Swift 5.1
 

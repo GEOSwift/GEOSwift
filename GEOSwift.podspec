@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'GEOSwift'
-  s.version = '8.0.0'
+  s.version = '8.0.1'
   s.swift_version = '5.1'
   s.cocoapods_version = '>= 1.4.0'
   s.summary = 'The Swift Geometry Engine.'
@@ -21,5 +21,5 @@ Pod::Spec.new do |s|
     tag: s.version
   }
   s.source_files = 'GEOSwift/**/*.{swift,h}'
-  s.dependency 'geos', '~> 6.0'
+  s.dependency 'geos', '~> 6.0.1'
 end
