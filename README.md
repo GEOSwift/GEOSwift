@@ -12,7 +12,7 @@ related topological operations (intersections, overlapping etc.). A type-safe,
 MIT-licensed Swift interface to the OSGeo's GEOS library routines.
 
 > **For *MapKit* integration visit: https://github.com/GEOSwift/GEOSwiftMapKit**<br />
-> **For *MapboxGL* integration visit: https://github.com/GEOSwift/GEOSwiftMapboxGL** (volunteer needed to maintain GEOSwiftMapboxGL)<br />
+> **For *MapboxGL* integration visit: https://github.com/GEOSwift/GEOSwiftMapboxGL**<br />
 
 ## Migrating to Version 5 or Later
 
