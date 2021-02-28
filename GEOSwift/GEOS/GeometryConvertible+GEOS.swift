@@ -357,8 +357,11 @@ public extension GeometryConvertible {
         }
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
+        // the last parameter in GEOSBuffer_r is called `quadsegs` and in other places in GEOS, it defaults to
+        // 8, which seems to produce an "expected" result. See https://github.com/GEOSwift/GEOSwift/issues/216
+        //
         // returns nil on exception
-        guard let resultPointer = GEOSBuffer_r(context.handle, geosObject.pointer, width, 0) else {
+        guard let resultPointer = GEOSBuffer_r(context.handle, geosObject.pointer, width, 8) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))

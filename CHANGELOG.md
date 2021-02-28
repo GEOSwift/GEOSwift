@@ -1,3 +1,8 @@
+## 8.0.2
+
+* [#216](https://github.com/GEOSwift/GEOSwift/issues/216) Changed the value of
+  the quadsegs param in buffer(by:) to match the geos default.
+
 ## 8.0.1
 
 * Add platform specifiers to Package.swift
