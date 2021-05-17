@@ -912,7 +912,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
     func testSimplifyAllTypes() {
         for geometry in geometryConvertibles {
             do {
-                _ = try geometry.simplify(tolerance: 0.01)
+                _ = try geometry.simplify(withTolerance: 0.01)
             } catch {
                 XCTFail("Unexpected error for \(geometry) simplify(tolerance: 0.01) \(error)")
             }

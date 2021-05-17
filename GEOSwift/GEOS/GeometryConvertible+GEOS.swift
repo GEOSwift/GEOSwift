@@ -369,7 +369,7 @@ public extension GeometryConvertible {
 
     // MARK: - Simplify Functions
 
-    func simplify(tolerance: Double) throws -> Geometry {
+    func simplify(withTolerance tolerance: Double) throws -> Geometry {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         guard let resultPointer = GEOSSimplify_r(context.handle, geosObject.pointer, tolerance) else {
