@@ -914,7 +914,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             do {
                 _ = try geometry.simplify(withTolerance: 0.01)
             } catch {
-                XCTFail("Unexpected error for \(geometry) simplify(tolerance: 0.01) \(error)")
+                XCTFail("Unexpected error for \(geometry) simplify(withTolerance: 0.01) \(error)")
             }
         }
     }
