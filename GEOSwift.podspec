@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'GEOSwift'
-  s.version = '8.0.2'
+  s.version = '8.1.0'
   s.swift_version = '5.1'
   s.cocoapods_version = '>= 1.4.0'
   s.summary = 'The Swift Geometry Engine.'

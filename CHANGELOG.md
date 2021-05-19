@@ -1,3 +1,8 @@
+## 8.1.0
+
+* [#218](https://github.com/GEOSwift/GEOSwift/pull/218) Added
+  `GeometryConvertible.simplify(withTolerance:)`
+
 ## 8.0.2
 
 * [#216](https://github.com/GEOSwift/GEOSwift/issues/216) Changed the value of
