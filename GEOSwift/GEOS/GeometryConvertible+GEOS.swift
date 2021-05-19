@@ -366,6 +366,17 @@ public extension GeometryConvertible {
         }
         return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
     }
+
+    // MARK: - Simplify Functions
+
+    func simplify(withTolerance tolerance: Double) throws -> Geometry {
+        let context = try GEOSContext()
+        let geosObject = try geometry.geosObject(with: context)
+        guard let resultPointer = GEOSSimplify_r(context.handle, geosObject.pointer, tolerance) else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
+    }
 }
 
 public extension Collection where Element: GeometryConvertible {

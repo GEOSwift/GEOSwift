@@ -906,4 +906,16 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             }
         }
     }
+
+    // MARK: - Simplify Functions
+
+    func testSimplifyAllTypes() {
+        for geometry in geometryConvertibles {
+            do {
+                _ = try geometry.simplify(withTolerance: 0.01)
+            } catch {
+                XCTFail("Unexpected error for \(geometry) simplify(withTolerance: 0.01) \(error)")
+            }
+        }
+    }
 }
