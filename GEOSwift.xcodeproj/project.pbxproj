@@ -888,7 +888,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = GEOSwift;
 				TargetAttributes = {
 					49CC1EAD22C4370C0079AC60 = {
