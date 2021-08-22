@@ -897,14 +897,22 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
-    func testNegativeBufferWidthThrows() {
-        XCTAssertThrowsError(try Point(x: 0, y: 0).buffer(by: -1)) { (error) in
-            if case GEOSwiftError.negativeBufferWidth = error {
-                // pass
-            } else {
-                XCTFail("Threw unexpected error: \(error)")
-            }
-        }
+    func testNegativeBufferWidthWithNonNilResult() throws {
+        let expectedGeometry = try Geometry.polygon(GEOSwift.Polygon(
+            exterior: GEOSwift.Polygon.LinearRing(points: [
+                Point(x: 6, y: 1),
+                Point(x: 4, y: 1),
+                Point(x: 4, y: -1),
+                Point(x: 6, y: -1),
+                Point(x: 6, y: 1)])))
+
+        let actualGeometry = try Polygon.testValueWithoutHole.buffer(by: -1)
+
+        try XCTAssertTrue(actualGeometry?.isTopologicallyEquivalent(to: expectedGeometry) ?? false)
+    }
+
+    func testNegativeBufferWidthWithNilResult() throws {
+        try XCTAssertNil(Point.testValue1.buffer(by: -1))
     }
 
     // MARK: - Simplify Functions
