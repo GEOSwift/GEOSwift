@@ -9,5 +9,4 @@ public enum GEOSwiftError: Error, Equatable {
     case invalidFeatureId
     case lengthIsZero
     case unexpectedEnvelopeResult(Geometry)
-    case negativeBufferWidth
 }

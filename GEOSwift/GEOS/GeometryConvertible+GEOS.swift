@@ -351,10 +351,7 @@ public extension GeometryConvertible {
 
     // MARK: - Buffer Functions
 
-    func buffer(by width: Double) throws -> Geometry {
-        guard width >= 0 else {
-            throw GEOSwiftError.negativeBufferWidth
-        }
+    func buffer(by width: Double) throws -> Geometry? {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         // the last parameter in GEOSBuffer_r is called `quadsegs` and in other places in GEOS, it defaults to
@@ -364,7 +361,13 @@ public extension GeometryConvertible {
         guard let resultPointer = GEOSBuffer_r(context.handle, geosObject.pointer, width, 8) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
-        return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
+        do {
+            return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
+        } catch GEOSwiftError.tooFewPoints {
+            return nil
+        } catch {
+            throw error
+        }
     }
 
     // MARK: - Simplify Functions
