@@ -1,9 +1,7 @@
 ---
 included:
-  - GEOSwift
-  - GEOSwiftTests
-excluded:
-  - GEOSwiftTests/XCTestManifests.swift
+  - Sources
+  - Tests
 disabled_rules:
   - force_cast
   - identifier_name

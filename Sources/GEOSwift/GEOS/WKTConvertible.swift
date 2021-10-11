@@ -2,9 +2,20 @@ import Foundation
 import geos
 
 public protocol WKTConvertible {
+    /// Serializes the `WKTConvertible` to a WKT string representation using the geos-default configuration
+    /// options for `trim` and `roundingPrecision`.
+    /// - Returns: A WKT string representation of the `WKTConvertible`.
     func wkt() throws -> String
 
-    func wkt(useFixedPrecision: Bool, roundingPrecision: Int32) throws -> String
+    /// Serializes the `WKTConvertible` to a WKT string representation
+    /// - Parameters:
+    ///   - trim: If `true`, digits after the decimal point that are unnecessary for lossless round-tripping
+    ///     are removed.
+    ///   - roundingPrecision: If `trim` is `true`, determines the maximum number of digits after the decimal
+    ///     point. If `trim` is false, determines the number of digits after the decimal point. Pass a
+    ///     negative value to default to the rounding precision determined by the underlying precision model.
+    /// - Returns: A WKT string representation of the `WKTConvertible`.
+    func wkt(trim: Bool, roundingPrecision: Int32) throws -> String
 }
 
 protocol WKTConvertibleInternal: WKTConvertible, GEOSObjectConvertible {}
@@ -14,16 +25,16 @@ extension WKTConvertibleInternal {
         let context = try GEOSContext()
         let writer = try WKTWriter(
             context: context,
-            useFixedPrecision: .geosDefault,
+            trim: .geosDefault,
             roundingPrecision: .geosDefault)
         return try writer.write(self)
     }
 
-    public func wkt(useFixedPrecision: Bool, roundingPrecision: Int32) throws -> String {
+    public func wkt(trim: Bool, roundingPrecision: Int32) throws -> String {
         let context = try GEOSContext()
         let writer = try WKTWriter(
             context: context,
-            useFixedPrecision: .custom(useFixedPrecision),
+            trim: .custom(trim),
             roundingPrecision: .custom(roundingPrecision))
         return try writer.write(self)
     }
@@ -44,7 +55,7 @@ private final class WKTWriter {
     private let writer: OpaquePointer
 
     init(context: GEOSContext,
-         useFixedPrecision: UseFixedPrecision,
+         trim: Trim,
          roundingPrecision: RoundingPrecision) throws {
         guard let writer = GEOSWKTWriter_create_r(context.handle) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
@@ -52,7 +63,7 @@ private final class WKTWriter {
         self.context = context
         self.writer = writer
 
-        if case let .custom(value) = useFixedPrecision {
+        if case let .custom(value) = trim {
             GEOSWKTWriter_setTrim_r(context.handle, writer, value ? 1 : 0)
         }
 
@@ -74,7 +85,7 @@ private final class WKTWriter {
         return String(cString: chars)
     }
 
-    enum UseFixedPrecision {
+    enum Trim {
         case geosDefault
         case custom(Bool)
     }

@@ -1,3 +1,10 @@
+## 9.0.0
+
+* Updates to GEOSwift/geos 7.0.0 (libgeos/geos 3.10.1)
+* Increases swift-tools-version to 5.3 (corresponds to Xcode 12)
+* Drops support for Carthage
+* Reorganizes sources to match Swift Package Manager conventions
+
 ## 8.1.0
 
 * [#218](https://github.com/GEOSwift/GEOSwift/pull/218) Added
