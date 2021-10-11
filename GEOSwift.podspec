@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name = 'GEOSwift'
-  s.version = '8.1.0'
-  s.swift_version = '5.1'
-  s.cocoapods_version = '>= 1.4.0'
+  s.version = '9.0.0'
+  s.swift_version = '5.3'
+  s.cocoapods_version = '~> 1.10'
   s.summary = 'The Swift Geometry Engine.'
   s.description  = <<~DESC
     Easily handle a geometric object model (points, linestrings, polygons etc.) and related
@@ -15,11 +15,16 @@ Pod::Spec.new do |s|
     file: 'LICENSE'
   }
   s.authors = 'Andrea Cremaschi', 'Andrew Hershberger', 'Virgilio Favero Neto'
-  s.platforms = { ios: "9.0", osx: "10.9", tvos: "9.0" }
+  s.platforms = {
+    ios: '9.0',
+    macos: '10.9',
+    tvos: '9.0',
+    watchos: '2.0',
+  }
   s.source = {
     git: 'https://github.com/GEOSwift/GEOSwift.git',
-    tag: s.version
+    tag: s.version,
   }
-  s.source_files = 'GEOSwift/**/*.{swift,h}'
-  s.dependency 'geos', '~> 6.0'
+  s.source_files = 'Sources/**/*.swift'
+  s.dependency 'geos', '~> 7.0'
 end
