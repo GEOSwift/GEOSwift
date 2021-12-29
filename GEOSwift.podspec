@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.authors = 'Andrea Cremaschi', 'Andrew Hershberger', 'Virgilio Favero Neto'
   s.platforms = {
     ios: '9.0',
-    macos: '10.9',
+    osx: '10.9',
     tvos: '9.0',
     watchos: '2.0',
   }
