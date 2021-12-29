@@ -1,0 +1,60 @@
+name: Swift
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  xcodebuild:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        include:
+          - name: iOS - xcodebuild
+            env: PLATFORM=iOS
+                 SDK=iphonesimulator15.2
+                 DESTINATION="platform=iOS Simulator,OS=15.2,name=iPhone 13"
+                 RUN_CODECOV=true
+          - name: tvOS - xcodebuild
+            env: PLATFORM=tvOS
+                 SDK=appletvsimulator15.2
+                 DESTINATION="platform=tvOS Simulator,OS=15.2,name=Apple TV"
+          - name: macOS - xcodebuild
+            env: PLATFORM=macOS
+                 SDK=macosx12.1
+                 DESTINATION="platform=OS X"
+          - name: watchOS - xcodebuild
+            env: PLATFORM=watchOS
+                 SDK=watchos8.3
+                 DESTINATION="platform=watchOS Simulator,OS=8.3,name=Apple Watch"
+          - name: macOS - SPM
+            env: USE_SPM=true
+
+          - name: iOS - xcodebuild
+            env: PLATFORM=iOS
+                 SDK=iphonesimulator14.0
+                 DESTINATION="platform=iOS Simulator,OS=14.0,name=iPhone 12"
+          - name: tvOS - xcodebuild
+            env: PLATFORM=tvOS
+                 SDK=appletvsimulator14.0
+                 DESTINATION="platform=tvOS Simulator,OS=14.0,name=Apple TV"
+          - name: macOS - xcodebuild
+            env: PLATFORM=macOS
+                 SDK=macosx10.15.6
+                 DESTINATION="platform=OS X"
+          - name: watchOS - xcodebuild
+            env: PLATFORM=watchOS
+                 SDK=watchos7.0
+                 DESTINATION="platform=watchOS Simulator,OS=7.0,name=Apple Watch"
+          - name: macOS - SPM
+            env: USE_SPM=true
+    steps:
+    - uses: actions/checkout@v2
+    - name: Before Install
+      run: ./scripts/travis_before_install.sh
+    - name: Script
+      run: ./scripts/travis_script.sh
+    - name: After Success
+      run: ./scripts/travis_after_success.sh
