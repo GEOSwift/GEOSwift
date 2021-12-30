@@ -3,7 +3,7 @@
 [![Swift Package Manager Compatible](https://img.shields.io/badge/SwiftPM-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager/)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://cocoapods.org/pods/GEOSwift)
 [![Supported Platforms](https://img.shields.io/cocoapods/p/GEOSwift.svg?style=flat)](https://github.com/GEOSwift/GEOSwift)
-[![Build Status](https://img.shields.io/travis/GEOSwift/GEOSwift/main)](https://travis-ci.com/GEOSwift/GEOSwift)
+[![Build Status](https://github.com/GEOSwift/GEOSwift/actions/workflows/main.yml/badge.svg)](https://github.com/GEOSwift/GEOSwift/actions/workflows/main.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/GEOSwift/GEOSwift/main)](https://codecov.io/gh/GEOSwift/GEOSwift)
 
 Easily handle a geometric object model (points, linestrings, polygons etc.) and
