@@ -15,11 +15,15 @@ jobs:
       - name: Swiftlint
         run: swiftlint
   podspec:
+    name: Lint Podspec for ${{ matrix.platform }}
     runs-on: macos-latest
+    strategy:
+      matrix:
+        platform: [ios, osx, tvos, watchos]
     steps:
       - uses: actions/checkout@v2
       - name: Lint Podspec
-        run: pod lib lint
+        run: pod lib lint --platforms=${{ matrix.platform }}
   xcodebuild:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
