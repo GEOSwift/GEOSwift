@@ -306,6 +306,16 @@ public extension GeometryConvertible {
         }
     }
 
+    func symmetricDifference(with geometry: GeometryConvertible) throws -> Geometry? {
+        do {
+            return try performBinaryTopologyOperation(GEOSSymDifference_r, geometry: geometry)
+        } catch GEOSwiftError.tooFewPoints {
+            return nil
+        } catch {
+            throw error
+        }
+    }
+
     func union(with geometry: GeometryConvertible) throws -> Geometry {
         try performBinaryTopologyOperation(GEOSUnion_r, geometry: geometry)
     }

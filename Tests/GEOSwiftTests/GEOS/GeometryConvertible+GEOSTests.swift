@@ -741,6 +741,38 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
+    func testSymmetricDifferencePolygons() throws {
+        let poly = try! Polygon(exterior: Polygon.LinearRing(points: [
+            Point(x: 0.5, y: 0),
+            Point(x: 1.5, y: 0),
+            Point(x: 1.5, y: 1),
+            Point(x: 0.5, y: 1),
+            Point(x: 0.5, y: 0)]))
+        let expected = try! MultiPolygon(polygons: [
+            Polygon(exterior: Polygon.LinearRing(points: [
+                Point(x: 1, y: 0),
+                Point(x: 1.5, y: 0),
+                Point(x: 1.5, y: 1),
+                Point(x: 1, y: 1),
+                Point(x: 1, y: 0)])),
+            Polygon(exterior: Polygon.LinearRing(points: [
+                Point(x: 0, y: 0),
+                Point(x: 0.5, y: 0),
+                Point(x: 0.5, y: 1),
+                Point(x: 0, y: 1),
+                Point(x: 0, y: 0)]))])
+
+        let result = try XCTUnwrap(poly.symmetricDifference(with: unitPoly))
+
+        XCTAssertTrue(try result.isTopologicallyEquivalent(to: expected))
+    }
+
+    func testSymmetricDifferenceAllPairs() {
+        for (g1, g2) in geometryConvertibles.allPairs {
+            XCTAssertNoThrow(try g1.symmetricDifference(with: g2))
+        }
+    }
+
     func testUnionPointAndLine() {
         let point = Point(x: 2, y: 0)
         XCTAssertEqual(try? lineString1.union(with: point),
