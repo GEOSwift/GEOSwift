@@ -123,34 +123,20 @@ final class LineStringConvertible_GEOSTests: XCTestCase {
         XCTAssertEqual(try? linearRing.normalizedDistanceFromStart(toProjectionOf: point), 1 / 8)
     }
 
-    func testNormalizedDistanceFromStartToProjectionOfPointLineLengthZero_LineString() {
+    func testNormalizedDistanceFromStartToProjectionOfPointLineLengthZero_LineString() throws {
         let lineString = try! LineString(points: Array(repeating: Point(x: 0, y: 0), count: 2))
 
         let point = Point(x: 0, y: 0)
 
-        do {
-            _ = try lineString.normalizedDistanceFromStart(toProjectionOf: point)
-            XCTFail("Expected call to throw, but it did not.")
-        } catch GEOSwiftError.lengthIsZero {
-            // Pass
-        } catch {
-            XCTFail("Threw unexpected error: \(error)")
-        }
+        XCTAssertEqual(try lineString.normalizedDistanceFromStart(toProjectionOf: point), 0)
     }
 
-    func testNormalizedDistanceFromStartToProjectionOfPointLineLengthZero_LinearRing() {
+    func testNormalizedDistanceFromStartToProjectionOfPointLineLengthZero_LinearRing() throws {
         let linearRing = try! Polygon.LinearRing(points: Array(repeating: Point(x: 0, y: 0), count: 4))
 
         let point = Point(x: 0, y: 0)
 
-        do {
-            _ = try linearRing.normalizedDistanceFromStart(toProjectionOf: point)
-            XCTFail("Expected call to throw, but it did not.")
-        } catch GEOSwiftError.lengthIsZero {
-            // Pass
-        } catch {
-            XCTFail("Threw unexpected error: \(error)")
-        }
+        XCTAssertEqual(try linearRing.normalizedDistanceFromStart(toProjectionOf: point), 0)
     }
 
     func testInterpolatedPointWithDistance_LineString() {
