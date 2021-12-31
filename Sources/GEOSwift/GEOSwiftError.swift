@@ -7,6 +7,5 @@ public enum GEOSwiftError: Error, Equatable {
     case ringNotClosed
     case tooFewRings
     case invalidFeatureId
-    case lengthIsZero
     case unexpectedEnvelopeResult(Geometry)
 }
