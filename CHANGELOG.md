@@ -1,9 +1,21 @@
 ## 9.0.0
 
-* Updates to GEOSwift/geos 7.0.0 (libgeos/geos 3.10.1)
-* Increases swift-tools-version to 5.3 (corresponds to Xcode 12)
-* Drops support for Carthage
-* Reorganizes sources to match Swift Package Manager conventions
+* [#224](https://github.com/GEOSwift/GEOSwift/pull/224)
+  `GeometryConvertible.buffer(by:)` can now be used with negative widths.
+* [#232](https://github.com/GEOSwift/GEOSwift/pull/232) Dependency and tooling
+  support updates:
+    * Updates to GEOSwift/geos 7.0.0 (libgeos/geos 3.10.1)
+    * Increases swift-tools-version to 5.3 (corresponds to Xcode 12)
+    * Drops support for Carthage
+    * Reorganizes sources to match Swift Package Manager conventions
+* [#235](https://github.com/GEOSwift/GEOSwift/pull/235) Added
+  `GeometryConvertible.symmetricDifference(with:)`
+* [#236](https://github.com/GEOSwift/GEOSwift/pull/236) Updated
+  `LineStringConvertible` methods to use implementations from geos:
+    * `normalizedDistanceFromStart(toProjectionOf:)`: The geos implementation
+      returns 0 for 0-length lines, whereas the old GEOSwift implementation
+      threw `GEOSwiftError.lengthIsZero`, which has now been removed.
+    * `interpolatedPoint(withFraction:)`
 
 ## 8.1.0
 
@@ -70,8 +82,9 @@
     * Add support for Swift PM on iOS and tvOS (Fixes
       [#166](https://github.com/GEOSwift/GEOSwift/issues/166))
     * Update Swift PM support on macOS and Linux to build geos from source
-      instead of using system packages. This provides increased consistency with
-      CocoaPods and Carthage and enables us to support iOS and tvOS as well.
+      instead of using system packages. This provides increased consistency
+      with CocoaPods and Carthage and enables us to support iOS and tvOS as
+      well.
 
 ## 5.2.0
 
@@ -95,8 +108,8 @@
 
 ## 4.1.1
 
-* [#163](https://github.com/GEOSwift/GEOSwift/pull/163) Fix building on projects
-  with spaces in path
+* [#163](https://github.com/GEOSwift/GEOSwift/pull/163) Fix building on
+  projects with spaces in path
 * [#164](https://github.com/GEOSwift/GEOSwift/pull/164) Updated geos dependency
   to 4.0.2 (CocoaPods & Carthage)
 
