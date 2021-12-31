@@ -35,7 +35,6 @@ jobs:
             xcode-version: "13.2.1"
             sdk: iphonesimulator15.2
             destination: "platform=iOS Simulator,OS=15.2,name=iPhone 13"
-            codecov: true
           - name: "xcodebuild (tvOS 15.2, Xcode 13.2.1)"
             os: macos-11
             xcode-version: "13.2.1"
@@ -84,9 +83,6 @@ jobs:
             -sdk "${{ matrix.sdk }}" \
             -destination "${{ matrix.destination }}" \
             clean test | xcpretty -c;
-      - name: Codecov
-        if: matrix.codecov
-        run: bash <(curl -s https://codecov.io/bash) -J '^GEOSwift$';
   swift-cli:
     name: "swift-cli (${{ matrix.os }}, Swift ${{ matrix.swift }})"
     runs-on: ${{ matrix.os }}
@@ -95,14 +91,18 @@ jobs:
         include:
           - os: ubuntu-latest
             swift: "5.3"
+            flags: "--enable-test-discovery"
           - os: ubuntu-latest
             swift: "5.5"
           - os: macos-10.15
             xcode-version: "12"
             swift: "5.3"
+            flags: "--enable-test-discovery"
           - os: macos-11
             xcode-version: "13.2.1"
             swift: "5.5"
+            flags: "--enable-code-coverage"
+            upload-coverage: true
     steps:
       - uses: actions/checkout@v2
       - uses: fwal/setup-swift@v1
@@ -113,4 +113,16 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode-version }}.app/Contents/Developer
       - name: Build & Test
-        run: swift test --enable-test-discovery
+        run: swift test ${{ matrix.flags }}
+      - name: Convert coverage to lcov
+        if: matrix.upload-coverage
+        run: |
+          xcrun llvm-cov export \
+            -format="lcov" \
+            -instr-profile "$(swift build --show-bin-path)/codecov/default.profdata" \
+            "$(swift build --show-bin-path)/GEOSwiftPackageTests.xctest/Contents/MacOS/GEOSwiftPackageTests" \
+            Sources/**/*.swift > GEOSwift.lcov
+      - uses: codecov/codecov-action@v2
+        if: matrix.upload-coverage
+        with:
+          fail_ci_if_error: true

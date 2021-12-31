@@ -2,3 +2,6 @@
 coverage:
   status:
     patch: off
+ignore:
+  - "Tests"
+comment: false
