@@ -26,7 +26,7 @@ extension Point: GEOSObjectInitializable {
 }
 
 extension Point: GEOSObjectConvertible {
-    func geosObject(with context: GEOSContext) throws -> GEOSObject {
+    public func geosObject(with context: GEOSContext) throws -> GEOSObject {
         try makeGEOSObject(with: context, points: [self]) { (context, sequence) in
             GEOSGeom_createPoint_r(context.handle, sequence)
         }

@@ -25,7 +25,7 @@ extension Geometry: GEOSObjectInitializable {
 }
 
 extension Geometry: GEOSObjectConvertible {
-    func geosObject(with context: GEOSContext) throws -> GEOSObject {
+    public func geosObject(with context: GEOSContext) throws -> GEOSObject {
         switch self {
         case let .point(point):
             return try point.geosObject(with: context)

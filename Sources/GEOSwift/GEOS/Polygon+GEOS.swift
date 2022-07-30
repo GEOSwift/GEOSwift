@@ -10,7 +10,7 @@ extension Polygon.LinearRing: GEOSObjectInitializable {
 }
 
 extension Polygon.LinearRing: GEOSObjectConvertible {
-    func geosObject(with context: GEOSContext) throws -> GEOSObject {
+    public func geosObject(with context: GEOSContext) throws -> GEOSObject {
         try makeGEOSObject(with: context, points: points) { (context, sequence) in
             GEOSGeom_createLinearRing_r(context.handle, sequence)
         }
@@ -47,7 +47,7 @@ extension Polygon: GEOSObjectInitializable {
 }
 
 extension Polygon: GEOSObjectConvertible {
-    func geosObject(with context: GEOSContext) throws -> GEOSObject {
+    public func geosObject(with context: GEOSContext) throws -> GEOSObject {
         let exterior = try self.exterior.geosObject(with: context)
         let holes = try self.holes.map { try $0.geosObject(with: context) }
         let holesArray = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: holes.count)

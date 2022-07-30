@@ -10,7 +10,7 @@ extension MultiPolygon: GEOSObjectInitializable {
 }
 
 extension MultiPolygon: GEOSObjectConvertible {
-    func geosObject(with context: GEOSContext) throws -> GEOSObject {
+    public func geosObject(with context: GEOSContext) throws -> GEOSObject {
         try makeGEOSCollection(with: context, geometries: polygons, type: GEOS_MULTIPOLYGON)
     }
 }

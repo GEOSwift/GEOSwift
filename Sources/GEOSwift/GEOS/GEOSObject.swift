@@ -15,13 +15,13 @@ protocol GEOSObjectInitializable {
     init(geosObject: GEOSObject) throws
 }
 
-protocol GEOSObjectConvertible {
+public protocol GEOSObjectConvertible {
     func geosObject(with context: GEOSContext) throws -> GEOSObject
 }
 
-final class GEOSObject {
+public final class GEOSObject {
     let context: GEOSContext
-    let pointer: OpaquePointer
+    public let pointer: OpaquePointer
     var parent: GEOSObject? {
         didSet {
             // make sure we're not mixing objects from different contexts

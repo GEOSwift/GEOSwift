@@ -10,7 +10,7 @@ extension MultiPoint: GEOSObjectInitializable {
 }
 
 extension MultiPoint: GEOSObjectConvertible {
-    func geosObject(with context: GEOSContext) throws -> GEOSObject {
+    public func geosObject(with context: GEOSContext) throws -> GEOSObject {
         try makeGEOSCollection(with: context, geometries: points, type: GEOS_MULTIPOINT)
     }
 }

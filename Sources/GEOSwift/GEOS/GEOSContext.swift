@@ -1,10 +1,10 @@
 import geos
 
-final class GEOSContext {
-    let handle: GEOSContextHandle_t
-    fileprivate(set) var errors = [String]()
+public final class GEOSContext {
+    public let handle: GEOSContextHandle_t
+    public fileprivate(set) var errors = [String]()
 
-    init() throws {
+    public init() throws {
         guard let handle = GEOS_init_r() else {
             throw GEOSError.unableToCreateContext
         }

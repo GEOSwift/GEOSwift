@@ -10,7 +10,7 @@ extension LineString: GEOSObjectInitializable {
 }
 
 extension LineString: GEOSObjectConvertible {
-    func geosObject(with context: GEOSContext) throws -> GEOSObject {
+    public func geosObject(with context: GEOSContext) throws -> GEOSObject {
         try makeGEOSObject(with: context, points: points) { (context, sequence) in
             GEOSGeom_createLineString_r(context.handle, sequence)
         }

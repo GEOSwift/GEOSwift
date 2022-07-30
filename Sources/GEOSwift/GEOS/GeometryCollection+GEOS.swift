@@ -10,7 +10,7 @@ extension GeometryCollection: GEOSObjectInitializable {
 }
 
 extension GeometryCollection: GEOSObjectConvertible {
-    func geosObject(with context: GEOSContext) throws -> GEOSObject {
+    public func geosObject(with context: GEOSContext) throws -> GEOSObject {
         try makeGEOSCollection(with: context, geometries: geometries, type: GEOS_GEOMETRYCOLLECTION)
     }
 }
