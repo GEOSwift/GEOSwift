@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		2383D2FC287A115B00A15EEF /* GEOSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2383D2FB287A115B00A15EEF /* GEOSwift */; };
+		2385D85328EDB18A0074F81A /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385D85228EDB18A0074F81A /* Model.swift */; };
+		2385D85528EF554C0074F81A /* PointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385D85428EF554C0074F81A /* PointView.swift */; };
+		2385D85728EF5CE50074F81A /* MultiPointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385D85628EF5CE50074F81A /* MultiPointView.swift */; };
+		2385D85A28EF9A870074F81A /* PolygonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385D85928EF9A870074F81A /* PolygonView.swift */; };
+		2385D85C28EF9B090074F81A /* MultiPolygonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385D85B28EF9B090074F81A /* MultiPolygonView.swift */; };
+		2385D85E28EF9C590074F81A /* LineStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385D85D28EF9C590074F81A /* LineStringView.swift */; };
+		2385D86028EF9CD80074F81A /* MultiLineStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385D85F28EF9CD80074F81A /* MultiLineStringView.swift */; };
+		2385D86228EFA7BA0074F81A /* GeometryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385D86128EFA7BA0074F81A /* GeometryView.swift */; };
 		2388CE3F287A0B0C00363E75 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2388CE3E287A0B0C00363E75 /* ExampleApp.swift */; };
 		2388CE41287A0B0C00363E75 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2388CE40287A0B0C00363E75 /* ContentView.swift */; };
 		2388CE43287A0B1800363E75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2388CE42287A0B1800363E75 /* Assets.xcassets */; };
@@ -15,8 +23,8 @@
 		2388CE50287A0B1A00363E75 /* ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2388CE4F287A0B1A00363E75 /* ExampleTests.swift */; };
 		2388CE5A287A0B1A00363E75 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2388CE59287A0B1A00363E75 /* ExampleUITests.swift */; };
 		2388CE5C287A0B1A00363E75 /* ExampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2388CE5B287A0B1A00363E75 /* ExampleUITestsLaunchTests.swift */; };
-		23A209DF288F59050086858D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A209DE288F59050086858D /* Model.swift */; };
-		23A209E0288F59050086858D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A209DE288F59050086858D /* Model.swift */; };
+		23A209DF288F59050086858D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A209DE288F59050086858D /* Data.swift */; };
+		23A209E0288F59050086858D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A209DE288F59050086858D /* Data.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +45,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2385D85228EDB18A0074F81A /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		2385D85428EF554C0074F81A /* PointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointView.swift; sourceTree = "<group>"; };
+		2385D85628EF5CE50074F81A /* MultiPointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPointView.swift; sourceTree = "<group>"; };
+		2385D85928EF9A870074F81A /* PolygonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonView.swift; sourceTree = "<group>"; };
+		2385D85B28EF9B090074F81A /* MultiPolygonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPolygonView.swift; sourceTree = "<group>"; };
+		2385D85D28EF9C590074F81A /* LineStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineStringView.swift; sourceTree = "<group>"; };
+		2385D85F28EF9CD80074F81A /* MultiLineStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineStringView.swift; sourceTree = "<group>"; };
+		2385D86128EFA7BA0074F81A /* GeometryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryView.swift; sourceTree = "<group>"; };
 		2388CE3B287A0B0C00363E75 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2388CE3E287A0B0C00363E75 /* ExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleApp.swift; sourceTree = "<group>"; };
 		2388CE40287A0B0C00363E75 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -48,7 +64,7 @@
 		2388CE59287A0B1A00363E75 /* ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUITests.swift; sourceTree = "<group>"; };
 		2388CE5B287A0B1A00363E75 /* ExampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2388CE69287A0BFB00363E75 /* GEOSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GEOSwift; path = ..; sourceTree = "<group>"; };
-		23A209DE288F59050086858D /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		23A209DE288F59050086858D /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +100,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2385D85828EF5D3A0074F81A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2385D85428EF554C0074F81A /* PointView.swift */,
+				2385D85628EF5CE50074F81A /* MultiPointView.swift */,
+				2385D85928EF9A870074F81A /* PolygonView.swift */,
+				2385D85B28EF9B090074F81A /* MultiPolygonView.swift */,
+				2385D85D28EF9C590074F81A /* LineStringView.swift */,
+				2385D85F28EF9CD80074F81A /* MultiLineStringView.swift */,
+				2385D86128EFA7BA0074F81A /* GeometryView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2388CE32287A0B0C00363E75 = {
 			isa = PBXGroup;
 			children = (
@@ -109,9 +139,11 @@
 		2388CE3D287A0B0C00363E75 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				2385D85828EF5D3A0074F81A /* Views */,
 				2388CE3E287A0B0C00363E75 /* ExampleApp.swift */,
 				2388CE40287A0B0C00363E75 /* ContentView.swift */,
-				23A209DE288F59050086858D /* Model.swift */,
+				23A209DE288F59050086858D /* Data.swift */,
+				2385D85228EDB18A0074F81A /* Model.swift */,
 				2388CE42287A0B1800363E75 /* Assets.xcassets */,
 				2388CE44287A0B1800363E75 /* Preview Content */,
 			);
@@ -284,9 +316,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23A209DF288F59050086858D /* Model.swift in Sources */,
+				2385D85A28EF9A870074F81A /* PolygonView.swift in Sources */,
+				2385D85E28EF9C590074F81A /* LineStringView.swift in Sources */,
+				2385D85528EF554C0074F81A /* PointView.swift in Sources */,
+				2385D85728EF5CE50074F81A /* MultiPointView.swift in Sources */,
+				23A209DF288F59050086858D /* Data.swift in Sources */,
 				2388CE41287A0B0C00363E75 /* ContentView.swift in Sources */,
 				2388CE3F287A0B0C00363E75 /* ExampleApp.swift in Sources */,
+				2385D86228EFA7BA0074F81A /* GeometryView.swift in Sources */,
+				2385D86028EF9CD80074F81A /* MultiLineStringView.swift in Sources */,
+				2385D85328EDB18A0074F81A /* Model.swift in Sources */,
+				2385D85C28EF9B090074F81A /* MultiPolygonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +335,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2388CE50287A0B1A00363E75 /* ExampleTests.swift in Sources */,
-				23A209E0288F59050086858D /* Model.swift in Sources */,
+				23A209E0288F59050086858D /* Data.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
