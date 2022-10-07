@@ -83,15 +83,26 @@ class GeometryModel: ObservableObject {
     
     func boundary(input: Geometry) -> Void {
         var temp = input
-        switch input {
+        do {
+            switch input {
+            case let .multiPoint(input):
+                temp = try input.boundary()
             case let .polygon(input):
-                do {
-                    temp = try input.boundary()
-                } catch {
-                    print("Unable to return boundary")
-                }
+                temp = try input.boundary()
+            case let .multiPolygon(input):
+                temp = try input.boundary()
+            case let .lineString(input):
+                temp = try input.boundary()
+            case let .multiLineString(input):
+                temp = try input.boundary()
             default:
-                print("Not a polygon")
+                print(input)
+                print("Unable to return boundary")
+            }
+        } catch {
+            print("catch")
+            print(input)
+            print("Unable to return boundary")
         }
         viewGeometry = temp
     }

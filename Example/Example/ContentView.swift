@@ -31,18 +31,18 @@ struct ContentView: View {
                 })
                 Button("multiPolygon", action: {
                     geometryModel.viewGeometry = .multiPolygon(MultiPolygon(polygons:
-                                                                                    [try! Polygon(exterior: Polygon.LinearRing(points: [
-                                                                                        Point(x: 5, y: 9),
-                                                                                        Point(x: 90, y: 32),
-                                                                                        Point(x: 59, y: 89),
-                                                                                        Point(x: 5, y: 9)])
-                                                                                    ),
-                                                                                     try! Polygon(exterior: Polygon.LinearRing(points: [
-                                                                                        Point(x: 25, y: 29),
-                                                                                        Point(x: 20, y: 22),
-                                                                                        Point(x: 29, y: 89),
-                                                                                        Point(x: 25, y: 29)])
-                                                                                     )]))
+                        [try! Polygon(exterior: Polygon.LinearRing(points: [
+                            Point(x: 5, y: 9),
+                            Point(x: 90, y: 32),
+                            Point(x: 59, y: 89),
+                            Point(x: 5, y: 9)])
+                        ),
+                         try! Polygon(exterior: Polygon.LinearRing(points: [
+                            Point(x: 25, y: 29),
+                            Point(x: 20, y: 22),
+                            Point(x: 29, y: 89),
+                            Point(x: 25, y: 29)])
+                         )]))
                 })
                 Button("lineString", action: {
                     geometryModel.viewGeometry = .lineString(try! LineString(points: [
@@ -53,17 +53,17 @@ struct ContentView: View {
                 })
                 Button("multiLineString", action: {
                     geometryModel.viewGeometry = .multiLineString(MultiLineString(lineStrings:
-                                                                                        [try! LineString(points: [
-                                                                                            Point(x: 5, y: 9),
-                                                                                            Point(x: 90, y: 32),
-                                                                                            Point(x: 59, y: 89),
-                                                                                            Point(x: 5, y: 9)]),
-                                                                                         try! LineString(points: [
-                                                                                            Point(x: 25, y: 29),
-                                                                                            Point(x: 20, y: 22),
-                                                                                            Point(x: 29, y: 89),
-                                                                                            Point(x: 25, y: 29)])
-                                                                                        ]))
+                        [try! LineString(points: [
+                            Point(x: 5, y: 9),
+                            Point(x: 90, y: 32),
+                            Point(x: 59, y: 89),
+                            Point(x: 5, y: 9)]),
+                         try! LineString(points: [
+                            Point(x: 25, y: 29),
+                            Point(x: 20, y: 22),
+                            Point(x: 29, y: 89),
+                            Point(x: 25, y: 29)])
+                        ]))
                 })
                 Button("buffer", action: {
                     geometryModel.buffer(input: geometryModel.viewGeometry)
@@ -77,6 +77,7 @@ struct ContentView: View {
                 Button("boundary", action: {
                     geometryModel.boundary(input: geometryModel.viewGeometry)
                 })
+                // TODO: List only allows 10 Buttons (?), come up with better input system
 //                Button("envelope", action: {
 //                    geometryModel.envelope(input: geometryModel.viewGeometry)
 //                })
