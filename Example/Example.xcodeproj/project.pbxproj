@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		237FA0F828F35950009DDBE8 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237FA0F728F35950009DDBE8 /* CircleView.swift */; };
+		237FA0FA28F3595B009DDBE8 /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237FA0F928F3595B009DDBE8 /* ShapeView.swift */; };
 		2383D2FC287A115B00A15EEF /* GEOSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2383D2FB287A115B00A15EEF /* GEOSwift */; };
 		2385D85328EDB18A0074F81A /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385D85228EDB18A0074F81A /* Model.swift */; };
 		2385D85528EF554C0074F81A /* PointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2385D85428EF554C0074F81A /* PointView.swift */; };
@@ -45,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		237FA0F728F35950009DDBE8 /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
+		237FA0F928F3595B009DDBE8 /* ShapeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
 		2385D85228EDB18A0074F81A /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		2385D85428EF554C0074F81A /* PointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointView.swift; sourceTree = "<group>"; };
 		2385D85628EF5CE50074F81A /* MultiPointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPointView.swift; sourceTree = "<group>"; };
@@ -103,7 +107,9 @@
 		2385D85828EF5D3A0074F81A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				237FA0F728F35950009DDBE8 /* CircleView.swift */,
 				2385D85428EF554C0074F81A /* PointView.swift */,
+				237FA0F928F3595B009DDBE8 /* ShapeView.swift */,
 				2385D85628EF5CE50074F81A /* MultiPointView.swift */,
 				2385D85928EF9A870074F81A /* PolygonView.swift */,
 				2385D85B28EF9B090074F81A /* MultiPolygonView.swift */,
@@ -316,9 +322,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				237FA0F828F35950009DDBE8 /* CircleView.swift in Sources */,
 				2385D85A28EF9A870074F81A /* PolygonView.swift in Sources */,
 				2385D85E28EF9C590074F81A /* LineStringView.swift in Sources */,
 				2385D85528EF554C0074F81A /* PointView.swift in Sources */,
+				237FA0FA28F3595B009DDBE8 /* ShapeView.swift in Sources */,
 				2385D85728EF5CE50074F81A /* MultiPointView.swift in Sources */,
 				23A209DF288F59050086858D /* Data.swift in Sources */,
 				2388CE41287A0B0C00363E75 /* ContentView.swift in Sources */,

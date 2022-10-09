@@ -9,7 +9,11 @@ struct ContentView: View {
             Text("Geometry")
                 .font(.title)
                 .padding()
-            GeometryView(geometry: geometryModel.viewGeometry)
+            if geometryModel.isCircle {
+                ShapeView(shape: .circle(geometryModel.viewCircle))
+            } else {
+                ShapeView(shape: .geometry(geometryModel.viewGeometry))
+            }
             List {
                 Button("point", action: {
                     geometryModel.viewGeometry = .point(Point(x: 3, y: 4))
@@ -71,12 +75,12 @@ struct ContentView: View {
                 Button("convexHull", action: {
                     geometryModel.convexHull(input: geometryModel.viewGeometry)
                 })
-                Button("intersection", action: {
-                    geometryModel.intersection(input: geometryModel.viewGeometry, secondGeometry: nil)
-                })
-                Button("boundary", action: {
-                    geometryModel.boundary(input: geometryModel.viewGeometry)
-                })
+//                Button("intersection", action: {
+//                    geometryModel.intersection(input: geometryModel.viewGeometry, secondGeometry: nil)
+//                })
+//                Button("boundary", action: {
+//                    geometryModel.boundary(input: geometryModel.viewGeometry)
+//                })
                 // TODO: List only allows 10 Buttons (?), come up with better input system
 //                Button("envelope", action: {
 //                    geometryModel.envelope(input: geometryModel.viewGeometry)
@@ -90,6 +94,12 @@ struct ContentView: View {
 //                Button("point on surface", action: {
 //                    geometryModel.pointOnSurface(input: geometryModel.viewGeometry)
 //                })
+//                Button("centroid", action: {
+//                    geometryModel.centroid(input: geometryModel.viewGeometry)
+//                })
+                Button("minimum bounding circle", action: {
+                    geometryModel.minimumBoundingCircle(input: geometryModel.viewGeometry)
+                })
             }
         }
     }

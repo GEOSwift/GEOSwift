@@ -6,104 +6,116 @@ class GeometryModel: ObservableObject {
     var backupGeometry = Data.secondGeometry
     
     @Published var viewGeometry: Geometry
+    @Published var viewCircle: Circle
+    @Published var isCircle: Bool
     
     init (){
         viewGeometry = baseGeometry
+        viewCircle = Data.baseCircle
+        isCircle = false
     }
     
     func buffer(input: Geometry, bufferSize: Double = 3) -> Void {
-        var temp = input
         do {
-            temp = try input.buffer(by: bufferSize)!
+            viewGeometry = try input.buffer(by: bufferSize)!
         } catch {
             print("Unable to buffer")
         }
-        viewGeometry = temp
+        isCircle = false
     }
     
     func convexHull(input: Geometry) -> Void {
-        var temp = input
         do {
-            temp = try input.convexHull()
+            viewGeometry = try input.convexHull()
         } catch {
             print("Unable to convex hull")
         }
-        viewGeometry = temp
+        isCircle = false
     }
     
     func intersection(input: Geometry, secondGeometry: Geometry?) -> Void {
-        var temp = input
         do {
-            temp = try input.intersection(with: secondGeometry ?? backupGeometry)!
+            viewGeometry = try input.intersection(with: secondGeometry ?? backupGeometry)!
         } catch {
             print("Unable to intersect")
         }
-        viewGeometry = temp
+        isCircle = false
     }
 
     func envelope(input: Geometry) -> Void {
-        var temp = input
         do {
-            temp = try input.envelope().geometry
+            viewGeometry = try input.envelope().geometry
         } catch {
             print("Unable to envelope")
         }
-        viewGeometry = temp
+        isCircle = false
     }
     
     func difference(input: Geometry, secondGeometry: Geometry?) -> Void {
-        var temp = input
         do {
-            temp = try input.difference(with: secondGeometry ?? backupGeometry) ?? input // TODO: Decision: throw error here?
+            viewGeometry = try input.difference(with: secondGeometry ?? backupGeometry) ?? input // TODO: Decision: throw error here?
         } catch {
             print("Unable to difference")
         }
-        viewGeometry = temp
+        isCircle = false
     }
     
     func union(input: Geometry, secondGeometry: Geometry?) -> Void {
-        var temp = input
         do {
-            temp = try input.union(with: secondGeometry ?? backupGeometry)
+            viewGeometry = try input.union(with: secondGeometry ?? backupGeometry)
         } catch {
             print("Unable to union")
         }
-        viewGeometry = temp
+        isCircle = false
     }
     
     func pointOnSurface(input: Geometry) -> Void {
-        var temp = input
         do {
-            temp = try Geometry.point(input.pointOnSurface())
+            viewGeometry = try Geometry.point(input.pointOnSurface())
         } catch {
             print("Unable to return point on surface")
         }
-        viewGeometry = temp
+        isCircle = false
+    }
+    
+    func centroid(input: Geometry) -> Void {
+        do {
+            viewGeometry = try Geometry.point(input.centroid())
+        } catch {
+            print("Unable to return centroid")
+        }
+        isCircle = false
     }
     
     func boundary(input: Geometry) -> Void {
-        var temp = input
         do {
             switch input {
             case let .multiPoint(input):
-                temp = try input.boundary()
+                viewGeometry = try input.boundary()
             case let .polygon(input):
-                temp = try input.boundary()
+                viewGeometry = try input.boundary()
             case let .multiPolygon(input):
-                temp = try input.boundary()
+                viewGeometry = try input.boundary()
             case let .lineString(input):
-                temp = try input.boundary()
+                viewGeometry = try input.boundary()
             case let .multiLineString(input):
-                temp = try input.boundary()
+                viewGeometry = try input.boundary()
             default:
                 print(input)
                 print("Unable to return boundary")
             }
         } catch {
-            print("catch")
-            print(input)
             print("Unable to return boundary")
         }
-        viewGeometry = temp
+        isCircle = false
+    }
+    
+    func minimumBoundingCircle(input: Geometry) -> Void {
+        do {
+            viewCircle = try input.minimumBoundingCircle()
+        } catch {
+            print("Unable to return bounding circle")
+        }
+        isCircle = true
     }
 }
