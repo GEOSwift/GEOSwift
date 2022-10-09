@@ -7,14 +7,16 @@ class GeometryModel: ObservableObject {
     
     @Published var viewGeometry: Geometry
     @Published var viewCircle: Circle
+    @Published var viewPolygon: Polygon
     @Published var isCircle: Bool
     
     init (){
         viewGeometry = baseGeometry
         viewCircle = Data.baseCircle
         isCircle = false
+        viewPolygon = Data.polygon
     }
-    
+
     func buffer(input: Geometry, bufferSize: Double = 3) -> Void {
         do {
             viewGeometry = try input.buffer(by: bufferSize)!
@@ -117,5 +119,31 @@ class GeometryModel: ObservableObject {
             print("Unable to return bounding circle")
         }
         isCircle = true
+    }
+    
+    func simplify(input: Geometry) -> Void {
+        do {
+            viewGeometry = try input.simplify(withTolerance: 3)
+        } catch {
+            print("Unable to simplify")
+        }
+        isCircle = false
+    }
+    
+    func minimumRotatedRectangle(input: Geometry) -> Void {
+        do {
+            viewGeometry = try input.minimumRotatedRectangle()
+        } catch {
+            print("Unable to return minimum rotated rectange")
+        }
+        isCircle = false
+    }
+    
+    func minimumWidth(input: Geometry) -> Void {
+        do {
+            viewGeometry = try Geometry.lineString(input.minimumWidth())
+        } catch {
+            print("Unable to return minimum width")
+        }
     }
 }

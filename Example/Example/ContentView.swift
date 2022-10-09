@@ -69,12 +69,12 @@ struct ContentView: View {
                             Point(x: 25, y: 29)])
                         ]))
                 })
-                Button("buffer", action: {
-                    geometryModel.buffer(input: geometryModel.viewGeometry)
-                })
-                Button("convexHull", action: {
-                    geometryModel.convexHull(input: geometryModel.viewGeometry)
-                })
+//                Button("buffer", action: {
+//                    geometryModel.buffer(input: geometryModel.viewGeometry)
+//                })
+//                Button("convexHull", action: {
+//                    geometryModel.convexHull(input: geometryModel.viewGeometry)
+//                })
 //                Button("intersection", action: {
 //                    geometryModel.intersection(input: geometryModel.viewGeometry, secondGeometry: nil)
 //                })
@@ -99,6 +99,14 @@ struct ContentView: View {
 //                })
                 Button("minimum bounding circle", action: {
                     geometryModel.minimumBoundingCircle(input: geometryModel.viewGeometry)
+                })
+                Button("minimum rotated rectange", action: { geometryModel.minimumRotatedRectangle(input: geometryModel.viewGeometry)
+                })
+                Button("simplify", action: {
+                    geometryModel.simplify(input: geometryModel.viewGeometry)
+                })
+                Button("minimum Width", action: {
+                    geometryModel.minimumWidth(input: geometryModel.viewGeometry)
                 })
             }
         }
