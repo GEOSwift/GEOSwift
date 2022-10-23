@@ -113,8 +113,8 @@ struct ContentView: View {
                 }
             }
         }
-        .alert("test", isPresented: $geometryModel.hasError) {
-            Button("some text", role: .cancel) {
+        .alert("Geometry Error: " + geometryModel.errorMessage, isPresented: $geometryModel.hasError) {
+            Button("Try again", role: .cancel) {
                 
             }
         }

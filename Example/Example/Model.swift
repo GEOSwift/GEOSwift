@@ -15,7 +15,7 @@ class GeometryModel: ObservableObject {
         viewGeometry = baseGeometry
         viewCircle = Data.baseCircle
         viewPolygon = Data.polygon
-        hasError = true
+        hasError = false
         errorMessage = ""
     }
 
@@ -24,6 +24,7 @@ class GeometryModel: ObservableObject {
             viewGeometry = try input.buffer(by: bufferSize)!
         } catch {
             print("Unable to buffer")
+            hasError = true
             errorMessage = error.localizedDescription
         }
     }
@@ -33,6 +34,8 @@ class GeometryModel: ObservableObject {
             viewGeometry = try input.convexHull()
         } catch {
             print("Unable to convex hull")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
     
@@ -41,6 +44,8 @@ class GeometryModel: ObservableObject {
             viewGeometry = try input.intersection(with: secondGeometry ?? backupGeometry)!
         } catch {
             print("Unable to intersect")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
 
@@ -49,6 +54,8 @@ class GeometryModel: ObservableObject {
             viewGeometry = try input.envelope().geometry
         } catch {
             print("Unable to envelope")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
     
@@ -57,6 +64,8 @@ class GeometryModel: ObservableObject {
             viewGeometry = try input.difference(with: secondGeometry ?? backupGeometry) ?? input // TODO: Decision: throw error here?
         } catch {
             print("Unable to difference")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
     
@@ -65,6 +74,8 @@ class GeometryModel: ObservableObject {
             viewGeometry = try input.union(with: secondGeometry ?? backupGeometry)
         } catch {
             print("Unable to union")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
     
@@ -73,6 +84,8 @@ class GeometryModel: ObservableObject {
             viewGeometry = try Geometry.point(input.pointOnSurface())
         } catch {
             print("Unable to return point on surface")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
     
@@ -81,6 +94,8 @@ class GeometryModel: ObservableObject {
             viewGeometry = try Geometry.point(input.centroid())
         } catch {
             print("Unable to return centroid")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
     
@@ -103,15 +118,24 @@ class GeometryModel: ObservableObject {
             }
         } catch {
             print("Unable to return boundary")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
     
     func minimumBoundingCircle(input: Geometry) -> Void {
         do {
             viewCircle = try input.minimumBoundingCircle()
-            viewGeometry = try viewCircle.center.buffer(by: viewCircle.radius)!
+            guard (try viewCircle.center.buffer(by: viewCircle.radius)) != nil else {
+                print("Unable to return bounding circle")
+                hasError = true
+                errorMessage = "failed to create circle"
+                return
+            }
         } catch {
             print("Unable to return bounding circle")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
     
@@ -120,6 +144,8 @@ class GeometryModel: ObservableObject {
             viewGeometry = try input.simplify(withTolerance: 3)
         } catch {
             print("Unable to simplify")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
     
@@ -128,6 +154,8 @@ class GeometryModel: ObservableObject {
             viewGeometry = try input.minimumRotatedRectangle()
         } catch {
             print("Unable to return minimum rotated rectange")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
     
@@ -136,6 +164,8 @@ class GeometryModel: ObservableObject {
             viewGeometry = try Geometry.lineString(input.minimumWidth())
         } catch {
             print("Unable to return minimum width")
+            hasError = true
+            errorMessage = error.localizedDescription
         }
     }
 }
