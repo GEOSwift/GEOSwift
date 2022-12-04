@@ -16,13 +16,18 @@ struct ContentView: View {
                     ForEach((0..<geometryModel.geometries.count), id: \.self) { index in
                         GeometryView(geometry: geometryModel.geometries[index])
                     }
+                    .border(.gray, width: 1)
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 HStack(spacing: 2) {
                     ForEach((0..<geometryModel.geometries.count), id: \.self) { index in
-                        Rectangle()
-                            .fill(index == self.index ? Color.purple : Color.purple.opacity(0.5))
+                        VStack {
+                            Rectangle()
+                                .fill(index == self.index ? Color.purple : Color.purple.opacity(0.5))
                             .frame(height: 5)
+                            Text(index == geometryModel.geometries.count - 1 ? "Output" : "Input")
+                                .foregroundColor(Color.purple)
+                        }
                     }
                 }
                 .padding()
@@ -59,7 +64,6 @@ struct ContentView: View {
                     Button("minimum bounding circle", action: {
                         geometryModel.minimumBoundingCircle(input: geometryModel.resultGeometry)
                     })
-
                 }
                 Group {
                     Button("minimum rotated rectange", action: { geometryModel.minimumRotatedRectangle(input: geometryModel.resultGeometry)
