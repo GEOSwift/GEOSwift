@@ -2,8 +2,8 @@ import Foundation
 import GEOSwift
 
 class GeometryModel: ObservableObject {
-    var baseGeometry = Data.baseGeometry
-    var backupGeometry = Data.secondGeometry
+    var baseGeometry = GeoData.baseGeometry
+    var backupGeometry = GeoData.secondGeometry
     
     @Published var geometries: [Geometry]
     @Published var secondGeometry: Geometry
@@ -17,8 +17,8 @@ class GeometryModel: ObservableObject {
         secondGeometry = backupGeometry
         resultGeometry = baseGeometry
         geometries = [baseGeometry]
-        viewCircle = Data.baseCircle
-        viewPolygon = Data.polygon
+        viewCircle = GeoData.baseCircle
+        viewPolygon = GeoData.polygon
         hasError = false
         errorMessage = ""
     }
@@ -184,5 +184,9 @@ class GeometryModel: ObservableObject {
             hasError = true
             errorMessage = error.localizedDescription
         }
+    }
+    
+    func resetGeometry(input: Geometry) -> Void {
+        
     }
 }

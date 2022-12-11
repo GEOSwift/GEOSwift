@@ -23,8 +23,8 @@
 		2388CE50287A0B1A00363E75 /* ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2388CE4F287A0B1A00363E75 /* ExampleTests.swift */; };
 		2388CE5A287A0B1A00363E75 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2388CE59287A0B1A00363E75 /* ExampleUITests.swift */; };
 		2388CE5C287A0B1A00363E75 /* ExampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2388CE5B287A0B1A00363E75 /* ExampleUITestsLaunchTests.swift */; };
-		23A209DF288F59050086858D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A209DE288F59050086858D /* Data.swift */; };
-		23A209E0288F59050086858D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A209DE288F59050086858D /* Data.swift */; };
+		23A209DF288F59050086858D /* GeoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A209DE288F59050086858D /* GeoData.swift */; };
+		23A209E0288F59050086858D /* GeoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A209DE288F59050086858D /* GeoData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,7 +64,7 @@
 		2388CE59287A0B1A00363E75 /* ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUITests.swift; sourceTree = "<group>"; };
 		2388CE5B287A0B1A00363E75 /* ExampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2388CE69287A0BFB00363E75 /* GEOSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GEOSwift; path = ..; sourceTree = "<group>"; };
-		23A209DE288F59050086858D /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		23A209DE288F59050086858D /* GeoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,7 +142,7 @@
 				2385D85828EF5D3A0074F81A /* Views */,
 				2388CE3E287A0B0C00363E75 /* ExampleApp.swift */,
 				2388CE40287A0B0C00363E75 /* ContentView.swift */,
-				23A209DE288F59050086858D /* Data.swift */,
+				23A209DE288F59050086858D /* GeoData.swift */,
 				2385D85228EDB18A0074F81A /* Model.swift */,
 				2388CE42287A0B1800363E75 /* Assets.xcassets */,
 				2388CE44287A0B1800363E75 /* Preview Content */,
@@ -320,7 +320,7 @@
 				2385D85E28EF9C590074F81A /* LineStringView.swift in Sources */,
 				2385D85528EF554C0074F81A /* PointView.swift in Sources */,
 				2385D85728EF5CE50074F81A /* MultiPointView.swift in Sources */,
-				23A209DF288F59050086858D /* Data.swift in Sources */,
+				23A209DF288F59050086858D /* GeoData.swift in Sources */,
 				2388CE41287A0B0C00363E75 /* ContentView.swift in Sources */,
 				2388CE3F287A0B0C00363E75 /* ExampleApp.swift in Sources */,
 				2385D86228EFA7BA0074F81A /* GeometryView.swift in Sources */,
@@ -335,7 +335,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2388CE50287A0B1A00363E75 /* ExampleTests.swift in Sources */,
-				23A209E0288F59050086858D /* Data.swift in Sources */,
+				23A209E0288F59050086858D /* GeoData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,13 +486,18 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Example/Preview Content\"";
+				DEVELOPMENT_TEAM = 49D3W46UFC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "App wants to access your documents folder";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -514,13 +519,18 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Example/Preview Content\"";
+				DEVELOPMENT_TEAM = 49D3W46UFC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Example/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "App wants to access your documents folder";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

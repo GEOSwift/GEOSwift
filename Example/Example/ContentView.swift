@@ -1,16 +1,48 @@
 import SwiftUI
 import GEOSwift
+import UniformTypeIdentifiers
+import Foundation
+
 
 struct ContentView: View {
     @ObservedObject private var geometryModel = GeometryModel()
     @State private var index = 0
+    @State private var isImporting: Bool = false
     
     var body: some View {
         
         VStack {
-            Text("Geometry")
-                .font(.title)
-                .padding()
+            HStack {
+                Button("Add \n Geometry", action: { isImporting = true })
+                    .font(.system(.headline))
+                Text("Geometry")
+                    .font(.title)
+                    .padding()
+            }
+            .fileImporter(isPresented: $isImporting,
+                          allowedContentTypes: [.json]) { result in
+                do {
+                    let selectedFile: URL = try result.get()
+                    let isAccess = selectedFile.startAccessingSecurityScopedResource()
+                    let decoder = JSONDecoder()
+                    do {
+                        let data = try Data(contentsOf: selectedFile)
+                        let geoJSON = try decoder.decode(GeoJSON.self, from: data)
+                        if case let .feature(feature) = geoJSON,
+                           let geom = feature.geometry {
+                            geometryModel.resultGeometry = geom
+                            geometryModel.geometries = [geometryModel.resultGeometry]
+                        }
+//                        if isAccess {
+//                            selectedFile.stopAccessingSecurityScopedResource()
+//                        }
+                    } catch {
+                        print(error)
+                    }
+                } catch {
+                    // Handle failure.
+                }
+            }
             VStack{
                 TabView(selection: $index) {
                     ForEach((0..<geometryModel.geometries.count), id: \.self) { index in
