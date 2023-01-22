@@ -13,34 +13,32 @@ struct ContentView: View {
         
         VStack {
             HStack {
-                Button("Add \n Geometry", action: { isImporting = true })
+                Button("New", action: { isImporting = true })
                     .font(.system(.headline))
                 Text("Geometry")
                     .font(.title)
                     .padding()
+                Button("Clear", action: { geometryModel.clear() })
+                    .font(.system(.headline))
             }
             .fileImporter(isPresented: $isImporting,
                           allowedContentTypes: [.json]) { result in
                 do {
                     let selectedFile: URL = try result.get()
-                    let isAccess = selectedFile.startAccessingSecurityScopedResource()
+                    _ = selectedFile.startAccessingSecurityScopedResource()
                     let decoder = JSONDecoder()
-                    do {
-                        let data = try Data(contentsOf: selectedFile)
-                        let geoJSON = try decoder.decode(GeoJSON.self, from: data)
-                        if case let .feature(feature) = geoJSON,
-                           let geom = feature.geometry {
-                            geometryModel.resultGeometry = geom
-                            geometryModel.geometries = [geometryModel.resultGeometry]
+                    if let data = try? Data(contentsOf: selectedFile),
+                        let geoJSON = try? decoder.decode(GeoJSON.self, from: data),
+                        case let .featureCollection(featureCollection) = geoJSON {
+                        let geometriesArray = featureCollection.features.compactMap { feature in
+                            feature.geometry
                         }
-//                        if isAccess {
-//                            selectedFile.stopAccessingSecurityScopedResource()
-//                        }
-                    } catch {
-                        print(error)
+                        geometryModel.geometries = geometriesArray
                     }
+                    selectedFile.stopAccessingSecurityScopedResource()
                 } catch {
-                    // Handle failure.
+                    print(error)
+                    // Handle failure
                 }
             }
             VStack{
@@ -67,71 +65,68 @@ struct ContentView: View {
             List {
                 Group {
                     Button("buffer", action: {
-                        geometryModel.buffer(input: geometryModel.resultGeometry)
+                        geometryModel.buffer(input: geometryModel.geometries[index])
                     })
                     Button("convexHull", action: {
-                        geometryModel.convexHull(input: geometryModel.resultGeometry)
+                        geometryModel.convexHull(input: geometryModel.geometries[index])
                     })
                     Button("intersection", action: {
-                        geometryModel.intersection(input: geometryModel.resultGeometry, secondGeometry: nil)
+                        geometryModel.intersection(input: geometryModel.geometries[index], secondGeometry: nil)
                     })
                     Button("boundary", action: {
-                        geometryModel.boundary(input: geometryModel.resultGeometry)
+                        geometryModel.boundary(input: geometryModel.geometries[index])
                     })
                     Button("envelope", action: {
-                        geometryModel.envelope(input: geometryModel.resultGeometry)
+                        geometryModel.envelope(input: geometryModel.geometries[index])
                     })
                     Button("difference", action: {
-                        geometryModel.difference(input: geometryModel.resultGeometry, secondGeometry: nil)
+                        geometryModel.difference(input: geometryModel.geometries[index], secondGeometry: nil)
                     })
                     Button("union", action: {
-                        geometryModel.union(input: geometryModel.resultGeometry, secondGeometry: nil)
+                        geometryModel.union(input: geometryModel.geometries[index], secondGeometry: nil)
                     })
                     Button("point on surface", action: {
-                        geometryModel.pointOnSurface(input: geometryModel.resultGeometry)
+                        geometryModel.pointOnSurface(input: geometryModel.geometries[index])
                     })
                     Button("centroid", action: {
-                        geometryModel.centroid(input: geometryModel.resultGeometry)
+                        geometryModel.centroid(input: geometryModel.geometries[index])
                     })
                     Button("minimum bounding circle", action: {
-                        geometryModel.minimumBoundingCircle(input: geometryModel.resultGeometry)
+                        geometryModel.minimumBoundingCircle(input: geometryModel.geometries[index])
                     })
                 }
                 Group {
-                    Button("minimum rotated rectange", action: { geometryModel.minimumRotatedRectangle(input: geometryModel.resultGeometry)
+                    Button("minimum rotated rectange", action: { geometryModel.minimumRotatedRectangle(input: geometryModel.geometries[index])
                     })
                     Button("simplify", action: {
-                        geometryModel.simplify(input: geometryModel.resultGeometry)
+                        geometryModel.simplify(input: geometryModel.geometries[index])
                     })
                     Button("minimum Width", action: {
-                        geometryModel.minimumWidth(input: geometryModel.resultGeometry)
+                        geometryModel.minimumWidth(input: geometryModel.geometries[index])
                     })
                 }
-                // Temp geometries 
+                // Sample geometries
                 Group {
                     Button("point", action: {
-                        geometryModel.resultGeometry = .point(Point(x: 3, y: 4))
-                        geometryModel.geometries = [geometryModel.resultGeometry]
+                        geometryModel.geometries = [.point(Point(x: 3, y: 4))]
                     })
                     Button("multiPoint", action: {
-                        geometryModel.resultGeometry = .multiPoint(MultiPoint(
+                        geometryModel.geometries = [.multiPoint(MultiPoint(
                             points: [
                                 Point(x: 5, y: 9),
                                 Point(x: 90, y: 32),
-                                Point(x: 59, y: 89)]))
-                        geometryModel.geometries = [geometryModel.resultGeometry]
+                                Point(x: 59, y: 89)]))]
                     })
                     Button("polygon", action: {
-                        geometryModel.resultGeometry = .polygon(try! Polygon(exterior: Polygon.LinearRing(points: [
+                        geometryModel.geometries = [.polygon(try! Polygon(exterior: Polygon.LinearRing(points: [
                             Point(x: 5, y: 9),
                             Point(x: 90, y: 32),
                             Point(x: 59, y: 89),
                             Point(x: 5, y: 9)])
-                        ))
-                        geometryModel.geometries = [geometryModel.resultGeometry]
+                        ))]
                     })
                     Button("multiPolygon", action: {
-                        geometryModel.resultGeometry = .multiPolygon(MultiPolygon(polygons:
+                        geometryModel.geometries = [.multiPolygon(MultiPolygon(polygons:
                             [try! Polygon(exterior: Polygon.LinearRing(points: [
                                 Point(x: 5, y: 9),
                                 Point(x: 90, y: 32),
@@ -143,19 +138,17 @@ struct ContentView: View {
                                 Point(x: 20, y: 22),
                                 Point(x: 29, y: 89),
                                 Point(x: 25, y: 29)])
-                             )]))
-                        geometryModel.geometries = [geometryModel.resultGeometry]
+                             )]))]
                     })
                     Button("lineString", action: {
-                        geometryModel.resultGeometry = .lineString(try! LineString(points: [
+                        geometryModel.geometries = [.lineString(try! LineString(points: [
                             Point(x: 5, y: 9),
                             Point(x: 90, y: 32),
                             Point(x: 59, y: 89),
-                            Point(x: 5, y: 9)]))
-                        geometryModel.geometries = [geometryModel.resultGeometry]
+                            Point(x: 5, y: 9)]))]
                     })
                     Button("multiLineString", action: {
-                        geometryModel.resultGeometry = .multiLineString(MultiLineString(lineStrings:
+                        geometryModel.geometries = [.multiLineString(MultiLineString(lineStrings:
                             [try! LineString(points: [
                                 Point(x: 5, y: 9),
                                 Point(x: 90, y: 32),
@@ -166,8 +159,7 @@ struct ContentView: View {
                                 Point(x: 20, y: 22),
                                 Point(x: 29, y: 89),
                                 Point(x: 25, y: 29)])
-                            ]))
-                        geometryModel.geometries = [geometryModel.resultGeometry]
+                            ]))]
                     })
                 }
             }

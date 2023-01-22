@@ -186,7 +186,7 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func resetGeometry(input: Geometry) -> Void {
-        
+    func clear() {
+        geometries = []
     }
 }
