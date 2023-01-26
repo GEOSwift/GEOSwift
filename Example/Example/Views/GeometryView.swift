@@ -11,7 +11,10 @@ struct GeometryView: View {
         case let .multiPolygon(tempGeometry):
             MultiPolygonView(multiPolygon: tempGeometry)
         case let .point(tempGeometry):
-            PointView(point: tempGeometry)
+            VStack () {
+                PointView(point: tempGeometry)
+                Text("(\(tempGeometry.x.description), \(tempGeometry.y.description))")
+            }
         case let .multiPoint(tempGeometry):
             MultiPointView(multiPoint: tempGeometry)
         case let .lineString(tempGeometry):

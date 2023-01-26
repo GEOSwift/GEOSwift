@@ -10,7 +10,6 @@ struct ContentView: View {
     @State private var isImporting: Bool = false
     
     var body: some View {
-        
         VStack {
             HStack {
                 Button("New", action: { isImporting = true })
@@ -23,23 +22,7 @@ struct ContentView: View {
             }
             .fileImporter(isPresented: $isImporting,
                           allowedContentTypes: [.json]) { result in
-                do {
-                    let selectedFile: URL = try result.get()
-                    _ = selectedFile.startAccessingSecurityScopedResource()
-                    let decoder = JSONDecoder()
-                    if let data = try? Data(contentsOf: selectedFile),
-                        let geoJSON = try? decoder.decode(GeoJSON.self, from: data),
-                        case let .featureCollection(featureCollection) = geoJSON {
-                        let geometriesArray = featureCollection.features.compactMap { feature in
-                            feature.geometry
-                        }
-                        geometryModel.geometries = geometriesArray
-                    }
-                    selectedFile.stopAccessingSecurityScopedResource()
-                } catch {
-                    print(error)
-                    // Handle failure
-                }
+                geometryModel.importGeometry(result)
             }
             VStack{
                 TabView(selection: $index) {
@@ -55,8 +38,11 @@ struct ContentView: View {
                             Rectangle()
                                 .fill(index == self.index ? Color.purple : Color.purple.opacity(0.5))
                             .frame(height: 5)
-                            Text(index == geometryModel.geometries.count - 1 ? "Output" : "Input")
+                            Text(String(index))
                                 .foregroundColor(Color.purple)
+                        }
+                        .onTapGesture {
+                            self.index = index
                         }
                     }
                 }
@@ -170,7 +156,6 @@ struct ContentView: View {
             }
         }
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
