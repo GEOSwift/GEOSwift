@@ -6,17 +6,18 @@ struct PointView: View {
     var point: Point
     var body: some View {
         GeometryReader { geometry in
-            Path { path in
-                path.move(
-                    to: CGPoint(
-                        x: point.x,
-                        y: point.y
-                    )
-                )
-                path.addEllipse(in: CGRect(x: point.x - 8, y: point.y - 8, width: 16, height: 16))
+            let width = geometry.size.width
+            let height = geometry.size.height
+            let origin = CGPoint(x: 0, y: height)
+            ZStack {
+                Path { path in
+                    let cartesianPoint = CGPoint(x: point.x, y: origin.y - point.y)
+                    path.addEllipse(in: CGRect(x: cartesianPoint.x - 8, y: cartesianPoint.y - 8, width: 16, height: 16))
+                }
+                .foregroundColor(.pink)
+                .opacity(0.3)
+                Text("(\(point.x), \(point.y))").position(x: point.x, y: origin.y - point.y)
             }
-            .foregroundColor(.pink)
-            .opacity(0.3)
         }
     }
 }
