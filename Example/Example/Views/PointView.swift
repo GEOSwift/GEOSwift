@@ -16,7 +16,8 @@ struct PointView: View {
                 }
                 .foregroundColor(.pink)
                 .opacity(0.3)
-                Text("(\(point.x), \(point.y))").position(x: point.x, y: origin.y - point.y)
+                Text("(\(String(point.x.rounded())), \(String(point.y.rounded())))").position(x: point.x + 38, y: origin.y - point.y - 15)
+                    .font(.caption)
             }
         }
     }

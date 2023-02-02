@@ -9,24 +9,31 @@ struct LineStringView: View {
             let width = geometry.size.width
             let height = geometry.size.height
             let origin = CGPoint(x: 0, y: height)
-            Path { path in
-                path.move(
-                    to: CGPoint(
-                        x: lineString.points[0].x,
-                        y: origin.y - lineString.points[0].y
-                    )
-                )
-                lineString.points.forEach { point in
-                    path.addLine(
+            
+            ZStack {
+                Path { path in
+                    path.move(
                         to: CGPoint(
-                            x: point.x,
-                            y: origin.y - point.y
+                            x: lineString.points[0].x,
+                            y: origin.y - lineString.points[0].y
                         )
                     )
+                    lineString.points.forEach { point in
+                        path.addLine(
+                            to: CGPoint(
+                                x: point.x,
+                                y: origin.y - point.y
+                            )
+                        )
+                    }
+                }
+                .stroke(lineWidth: 2)
+                .opacity(0.3)
+                // TODO: Fix ID here
+                ForEach(lineString.points, id: \.self) { point in
+                    Text("(\(String(point.x.rounded())), \(String(point.y.rounded())))").position(x: point.x + 38, y: origin.y - point.y - 15)
                 }
             }
-            .stroke(lineWidth: 2)
-            .opacity(0.3)
         }
     }
 }
