@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct GridView: View {
-    var screenGeometry: GeometryProxy
+    var gridGeometry: GeometryProxy
     var body: some View {
         Path { path in
-            let width = screenGeometry.size.width
-            let height = screenGeometry.size.height
-            let origin = CGPoint(x: 0, y: height)
+            let width = gridGeometry.size.width
+            let height = gridGeometry.size.height
             
             // vertical lines
             for i in 0...Int(width / 50) {

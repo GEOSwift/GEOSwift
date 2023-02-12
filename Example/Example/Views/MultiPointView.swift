@@ -4,10 +4,12 @@ import GEOSwift
 
 struct MultiPointView: View {
     var multiPoint: MultiPoint
+    var gridGeometry: GeometryProxy
+    
     var body: some View {
         ZStack {
             ForEach(0..<multiPoint.points.count, id: \.self) {
-                PointView(point: multiPoint.points[$0])
+                PointView(point: multiPoint.points[$0], gridGeometry: gridGeometry)
             }
         }
     }

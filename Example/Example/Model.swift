@@ -132,7 +132,7 @@ class GeometryModel: ObservableObject {
     
     func minimumBoundingCircle(input: Geometry) -> Void {
         do {
-            var viewCircle = try input.minimumBoundingCircle()
+            let viewCircle = try input.minimumBoundingCircle()
             guard let resultGeometry = try viewCircle.center.buffer(by: viewCircle.radius) else {
                 print("Unable to return bounding circle")
                 hasError = true

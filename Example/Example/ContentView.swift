@@ -8,6 +8,7 @@ struct ContentView: View {
     @ObservedObject private var geometryModel = GeometryModel()
     @State private var index = 0
     @State private var isImporting: Bool = false
+    @State private var showSheet = false
     
     var body: some View {
         VStack {
@@ -25,13 +26,15 @@ struct ContentView: View {
                 geometryModel.importGeometry(result)
             }
             VStack{
-                TabView(selection: $index) {
-                    ForEach((0..<geometryModel.geometries.count), id: \.self) { index in
-                        GeometryView(geometry: geometryModel.geometries[index])
+                GeometryReader { gridGeometry in
+                    ZStack {
+                        GridView(gridGeometry: gridGeometry)
+                        ForEach((0..<geometryModel.geometries.count), id: \.self) { index in
+                            GeometryView(geometry: geometryModel.geometries[index], gridGeometry: gridGeometry)
+                        }
                     }
-                    .border(.gray, width: 1)
                 }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                .border(.gray, width: 1)
                 HStack(spacing: 2) {
                     ForEach((0..<geometryModel.geometries.count), id: \.self) { index in
                         VStack {
@@ -46,113 +49,136 @@ struct ContentView: View {
                         }
                     }
                 }
-                .padding()
             }
-            List {
-                Group {
-                    Button("buffer", action: {
-                        geometryModel.buffer(input: geometryModel.geometries[index])
-                    })
-                    Button("convexHull", action: {
-                        geometryModel.convexHull(input: geometryModel.geometries[index])
-                    })
-                    Button("intersection", action: {
-                        geometryModel.intersection(input: geometryModel.geometries[index], secondGeometry: nil)
-                    })
-                    Button("boundary", action: {
-                        geometryModel.boundary(input: geometryModel.geometries[index])
-                    })
-                    Button("envelope", action: {
-                        geometryModel.envelope(input: geometryModel.geometries[index])
-                    })
-                    Button("difference", action: {
-                        geometryModel.difference(input: geometryModel.geometries[index], secondGeometry: nil)
-                    })
-                    Button("union", action: {
-                        geometryModel.union(input: geometryModel.geometries[index], secondGeometry: nil)
-                    })
-                    Button("point on surface", action: {
-                        geometryModel.pointOnSurface(input: geometryModel.geometries[index])
-                    })
-                    Button("centroid", action: {
-                        geometryModel.centroid(input: geometryModel.geometries[index])
-                    })
-                    Button("minimum bounding circle", action: {
-                        geometryModel.minimumBoundingCircle(input: geometryModel.geometries[index])
-                    })
-                }
-                Group {
-                    Button("minimum rotated rectange", action: { geometryModel.minimumRotatedRectangle(input: geometryModel.geometries[index])
-                    })
-                    Button("simplify", action: {
-                        geometryModel.simplify(input: geometryModel.geometries[index])
-                    })
-                    Button("minimum Width", action: {
-                        geometryModel.minimumWidth(input: geometryModel.geometries[index])
-                    })
-                }
-                // Sample geometries
-                Group {
-                    Button("point", action: {
-                        geometryModel.geometries = [.point(Point(x: 3, y: 4))]
-                    })
-                    Button("multiPoint", action: {
-                        geometryModel.geometries = [.multiPoint(MultiPoint(
-                            points: [
-                                Point(x: 5, y: 9),
-                                Point(x: 90, y: 32),
-                                Point(x: 59, y: 89)]))]
-                    })
-                    Button("polygon", action: {
-                        geometryModel.geometries = [.polygon(try! Polygon(exterior: Polygon.LinearRing(points: [
-                            Point(x: 5, y: 9),
-                            Point(x: 90, y: 32),
-                            Point(x: 59, y: 89),
-                            Point(x: 5, y: 9)])
-                        ))]
-                    })
-                    Button("multiPolygon", action: {
-                        geometryModel.geometries = [.multiPolygon(MultiPolygon(polygons:
-                            [try! Polygon(exterior: Polygon.LinearRing(points: [
+            Button("Perform Operations") {
+                showSheet = true
+            }
+            .sheet(isPresented: $showSheet) {
+                List {
+                    Group {
+                        Button("buffer", action: {
+                            geometryModel.buffer(input: geometryModel.geometries[index])
+                            showSheet = false
+                        })
+                        Button("convexHull", action: {
+                            geometryModel.convexHull(input: geometryModel.geometries[index])
+                            showSheet = false
+                        })
+                        Button("intersection", action: {
+                            geometryModel.intersection(input: geometryModel.geometries[index], secondGeometry: nil)
+                            showSheet = false
+                        })
+                        Button("boundary", action: {
+                            geometryModel.boundary(input: geometryModel.geometries[index])
+                            showSheet = false
+                        })
+                        Button("envelope", action: {
+                            geometryModel.envelope(input: geometryModel.geometries[index])
+                            showSheet = false
+                        })
+                        Button("difference", action: {
+                            geometryModel.difference(input: geometryModel.geometries[index], secondGeometry: nil)
+                            showSheet = false
+                        })
+                        Button("union", action: {
+                            geometryModel.union(input: geometryModel.geometries[index], secondGeometry: nil)
+                            showSheet = false
+                        })
+                        Button("point on surface", action: {
+                            geometryModel.pointOnSurface(input: geometryModel.geometries[index])
+                            showSheet = false
+                        })
+                        Button("centroid", action: {
+                            geometryModel.centroid(input: geometryModel.geometries[index])
+                            showSheet = false
+                        })
+                        Button("minimum bounding circle", action: {
+                            geometryModel.minimumBoundingCircle(input: geometryModel.geometries[index])
+                            showSheet = false
+                        })
+                    }
+                    Group {
+                        Button("minimum rotated rectange", action: { geometryModel.minimumRotatedRectangle(input: geometryModel.geometries[index])
+                            showSheet = false
+                        })
+                        Button("simplify", action: {
+                            geometryModel.simplify(input: geometryModel.geometries[index])
+                            showSheet = false
+                        })
+                        Button("minimum Width", action: {
+                            geometryModel.minimumWidth(input: geometryModel.geometries[index])
+                            showSheet = false
+                        })
+                    }
+                    // Sample geometries
+                    Group {
+                        Button("point", action: {
+                            geometryModel.geometries = [.point(Point(x: 3, y: 4))]
+                            showSheet = false
+                        })
+                        Button("multiPoint", action: {
+                            geometryModel.geometries = [.multiPoint(MultiPoint(
+                                points: [
+                                    Point(x: 5, y: 9),
+                                    Point(x: 90, y: 32),
+                                    Point(x: 59, y: 89)]))]
+                            showSheet = false
+                        })
+                        Button("polygon", action: {
+                            geometryModel.geometries = [.polygon(try! Polygon(exterior: Polygon.LinearRing(points: [
                                 Point(x: 5, y: 9),
                                 Point(x: 90, y: 32),
                                 Point(x: 59, y: 89),
                                 Point(x: 5, y: 9)])
-                            ),
-                             try! Polygon(exterior: Polygon.LinearRing(points: [
-                                Point(x: 25, y: 29),
-                                Point(x: 20, y: 22),
-                                Point(x: 29, y: 89),
-                                Point(x: 25, y: 29)])
-                             )]))]
-                    })
-                    Button("lineString", action: {
-                        geometryModel.geometries = [.lineString(try! LineString(points: [
-                            Point(x: 5, y: 9),
-                            Point(x: 90, y: 32),
-                            Point(x: 59, y: 89),
-                            Point(x: 5, y: 9)]))]
-                    })
-                    Button("multiLineString", action: {
-                        geometryModel.geometries = [.multiLineString(MultiLineString(lineStrings:
-                            [try! LineString(points: [
+                            ))]
+                            showSheet = false
+                        })
+                        Button("multiPolygon", action: {
+                            geometryModel.geometries = [.multiPolygon(MultiPolygon(polygons:
+                                [try! Polygon(exterior: Polygon.LinearRing(points: [
+                                    Point(x: 5, y: 9),
+                                    Point(x: 90, y: 32),
+                                    Point(x: 59, y: 89),
+                                    Point(x: 5, y: 9)])
+                                ),
+                                 try! Polygon(exterior: Polygon.LinearRing(points: [
+                                    Point(x: 25, y: 29),
+                                    Point(x: 20, y: 22),
+                                    Point(x: 29, y: 89),
+                                    Point(x: 25, y: 29)])
+                                 )]))]
+                            showSheet = false
+                        })
+                        Button("lineString", action: {
+                            geometryModel.geometries = [.lineString(try! LineString(points: [
                                 Point(x: 5, y: 9),
                                 Point(x: 90, y: 32),
                                 Point(x: 59, y: 89),
-                                Point(x: 5, y: 9)]),
-                             try! LineString(points: [
-                                Point(x: 25, y: 29),
-                                Point(x: 20, y: 22),
-                                Point(x: 29, y: 89),
-                                Point(x: 25, y: 29)])
-                            ]))]
-                    })
+                                Point(x: 5, y: 9)]))]
+                            showSheet = false
+                        })
+                        Button("multiLineString", action: {
+                            geometryModel.geometries = [.multiLineString(MultiLineString(lineStrings:
+                                [try! LineString(points: [
+                                    Point(x: 5, y: 9),
+                                    Point(x: 90, y: 32),
+                                    Point(x: 59, y: 89),
+                                    Point(x: 5, y: 9)]),
+                                 try! LineString(points: [
+                                    Point(x: 25, y: 29),
+                                    Point(x: 20, y: 22),
+                                    Point(x: 29, y: 89),
+                                    Point(x: 25, y: 29)])
+                                ]))]
+                            showSheet = false
+                        })
+                    }
                 }
             }
         }
         .alert("Geometry Error: " + geometryModel.errorMessage, isPresented: $geometryModel.hasError) {
             Button("Try again", role: .cancel) {
-                
+
             }
         }
     }

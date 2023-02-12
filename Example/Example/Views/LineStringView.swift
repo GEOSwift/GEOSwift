@@ -4,35 +4,34 @@ import GEOSwift
 
 struct LineStringView: View {
     var lineString: LineString
+    var gridGeometry: GeometryProxy
+    
     var body: some View {
-        GeometryReader { geometry in
-            let width = geometry.size.width
-            let height = geometry.size.height
-            let origin = CGPoint(x: 0, y: height)
-            
-            ZStack {
-                Path { path in
-                    path.move(
+        let height = gridGeometry.size.height
+        
+        ZStack {
+            Path { path in
+                path.move(
+                    to: CGPoint(
+                        x: lineString.points[0].x,
+                        y: height - lineString.points[0].y
+                    )
+                )
+                lineString.points.forEach { point in
+                    path.addLine(
                         to: CGPoint(
-                            x: lineString.points[0].x,
-                            y: origin.y - lineString.points[0].y
+                            x: point.x,
+                            y: height - point.y
                         )
                     )
-                    lineString.points.forEach { point in
-                        path.addLine(
-                            to: CGPoint(
-                                x: point.x,
-                                y: origin.y - point.y
-                            )
-                        )
-                    }
                 }
-                .stroke(lineWidth: 2)
-                .opacity(0.3)
-                // TODO: Fix ID here
-                ForEach(lineString.points, id: \.self) { point in
-                    Text("(\(String(point.x.rounded())), \(String(point.y.rounded())))").position(x: point.x + 38, y: origin.y - point.y - 15)
-                }
+            }
+            .stroke(lineWidth: 2)
+            .opacity(0.3)
+            // TODO: Fix ID here
+            ForEach(0..<lineString.points.count, id: \.self) { index in
+                let point = lineString.points[index]
+                Text("(\(String(point.x.rounded())), \(String(point.y.rounded())))").position(x: point.x + 38, y: height - point.y - 15)
             }
         }
     }

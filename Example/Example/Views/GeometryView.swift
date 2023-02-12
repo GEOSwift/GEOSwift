@@ -4,28 +4,25 @@ import GEOSwift
 
 struct GeometryView: View {
     var geometry: Geometry
+    var gridGeometry: GeometryProxy
+    
     var body: some View {
-        GeometryReader { screenGeometry in
-            VStack {
-                GridView(screenGeometry: screenGeometry)
-                switch geometry {
-                case let .polygon(tempGeometry):
-                    PolygonView(polygon: tempGeometry)
-                case let .multiPolygon(tempGeometry):
-                    MultiPolygonView(multiPolygon: tempGeometry)
-                case let .point(tempGeometry):
-                    PointView(point: tempGeometry)
-                case let .multiPoint(tempGeometry):
-                    MultiPointView(multiPoint: tempGeometry)
-                case let .lineString(tempGeometry):
-                    LineStringView(lineString: tempGeometry)
-                case let .multiLineString(tempGeometry):
-                    MultiLineStringView(multiLineString: tempGeometry)
-                case let .geometryCollection(tempGeometry):
-                    ForEach(0..<tempGeometry.geometries.count, id: \.self) {
-                        GeometryView(geometry: tempGeometry.geometries[$0])
-                    }
-                }
+        switch geometry {
+        case let .polygon(geometry):
+            PolygonView(polygon: geometry, gridGeometry: gridGeometry)
+        case let .multiPolygon(geometry):
+            MultiPolygonView(multiPolygon: geometry, gridGeometry: gridGeometry)
+        case let .point(geometry):
+            PointView(point: geometry, gridGeometry: gridGeometry)
+        case let .multiPoint(geometry):
+            MultiPointView(multiPoint: geometry, gridGeometry: gridGeometry)
+        case let .lineString(geometry):
+            LineStringView(lineString: geometry, gridGeometry: gridGeometry)
+        case let .multiLineString(geometry):
+            MultiLineStringView(multiLineString: geometry, gridGeometry: gridGeometry)
+        case let .geometryCollection(geometry):
+            ForEach(0..<geometry.geometries.count, id: \.self) {
+                GeometryView(geometry: geometry.geometries[$0], gridGeometry: gridGeometry)
             }
         }
     }
