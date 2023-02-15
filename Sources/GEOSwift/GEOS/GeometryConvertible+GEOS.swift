@@ -390,6 +390,18 @@ public extension GeometryConvertible {
         }
         return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
     }
+
+    // MARK: - Snapping
+
+    func snap(to geometry: GeometryConvertible, tolerance: Double) throws -> Geometry {
+        let context = try GEOSContext()
+        let geosObject = try self.geometry.geosObject(with: context)
+        let otherGeosObject = try geometry.geometry.geosObject(with: context)
+        guard let pointer = GEOSSnap_r(context.handle, geosObject.pointer, otherGeosObject.pointer, tolerance) else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return try Geometry(geosObject: GEOSObject(context: context, pointer: pointer))
+    }
 }
 
 public extension Collection where Element: GeometryConvertible {
