@@ -11,7 +11,7 @@ jobs:
   swiftlint:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Swiftlint
         run: swiftlint
   podspec:
@@ -21,7 +21,7 @@ jobs:
       matrix:
         platform: [ios, osx, tvos, watchos]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Lint Podspec
         run: pod lib lint --platforms=${{ matrix.platform }}
   xcodebuild:
@@ -71,7 +71,7 @@ jobs:
             sdk: watchos7.0
             destination: "platform=watchOS Simulator,OS=7.0,name=Apple Watch Series 6 - 44mm"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Select Xcode Version
         run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode-version }}.app/Contents/Developer
       - name: Install xcpretty
@@ -104,7 +104,7 @@ jobs:
             flags: "--enable-code-coverage"
             upload-coverage: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: fwal/setup-swift@v1
         if: matrix.os == 'ubuntu-latest'
         with:
