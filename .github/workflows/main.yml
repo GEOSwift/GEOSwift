@@ -84,7 +84,7 @@ jobs:
             -destination "${{ matrix.destination }}" \
             clean test | xcpretty -c;
   swift-cli:
-    name: "swift-cli (${{ matrix.os }}"
+    name: "swift-cli (${{ matrix.os }})"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
