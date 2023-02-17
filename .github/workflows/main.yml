@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Lint Podspec
-        run: pod lib lint --platforms=${{ matrix.platform }} --verbose
+        run: pod lib lint --platforms=${{ matrix.platform }}
   xcodebuild:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
@@ -93,6 +93,8 @@ jobs:
           - os: macos-10.15
             xcode-version: "12"
             flags: "--enable-test-discovery"
+          - os: macos-11
+             xcode-version: "13.2.1"
           - os: macos-12
             xcode-version: "14.2"
             flags: "--enable-code-coverage"
