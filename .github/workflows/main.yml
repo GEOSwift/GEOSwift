@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Lint Podspec
-        run: pod lib lint --platforms=${{ matrix.platform }}
+        run: pod lib lint --platforms=${{ matrix.platform }} --verbose
   xcodebuild:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
