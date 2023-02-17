@@ -9,19 +9,19 @@ on:
 
 jobs:
   swiftlint:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Swiftlint
         run: swiftlint
   podspec:
     name: Lint Podspec for ${{ matrix.platform }}
-    runs-on: macos-latest
+    runs-on: macos-12
     strategy:
       matrix:
-        platform: [ios, osx, tvos, watchos]
+        platform: [ios, osx, tvos]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Lint Podspec
         run: pod lib lint --platforms=${{ matrix.platform }}
   xcodebuild:
@@ -30,6 +30,26 @@ jobs:
     strategy:
       matrix:
         include:
+          - name: "xcodebuild (iOS 16.2, Xcode 14.2)"
+            os: macos-12
+            xcode-version: "14.2"
+            sdk: iphonesimulator16.2
+            destination: "platform=iOS Simulator,OS=16.2,name=iPhone 14"
+          - name: "xcodebuild (tvOS 16.1, Xcode 14.2)"
+            os: macos-12
+            xcode-version: "14.2"
+            sdk: appletvsimulator16.1
+            destination: "platform=tvOS Simulator,OS=16.1,name=Apple TV"
+          - name: "xcodebuild (macOS 13.1, Xcode 14.2)"
+            os: macos-12
+            xcode-version: "14.2"
+            sdk: macosx13.1
+            destination: "platform=OS X"
+          - name: "xcodebuild (watchOS 9.1, Xcode 14.2)"
+            os: macos-12
+            xcode-version: "14.2"
+            sdk: watchsimulator9.1
+            destination: "platform=watchOS Simulator,OS=9.1,name=Apple Watch Series 8 - 45mm"
           - name: "xcodebuild (iOS 15.2, Xcode 13.2.1)"
             os: macos-11
             xcode-version: "13.2.1"
@@ -71,7 +91,7 @@ jobs:
             sdk: watchos7.0
             destination: "platform=watchOS Simulator,OS=7.0,name=Apple Watch Series 6 - 44mm"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Select Xcode Version
         run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode-version }}.app/Contents/Developer
       - name: Install xcpretty
@@ -84,31 +104,23 @@ jobs:
             -destination "${{ matrix.destination }}" \
             clean test | xcpretty -c;
   swift-cli:
-    name: "swift-cli (${{ matrix.os }}, Swift ${{ matrix.swift }})"
+    name: "swift-cli (${{ matrix.os }})"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
-            swift: "5.3"
-            flags: "--enable-test-discovery"
-          - os: ubuntu-latest
-            swift: "5.5"
+          - os: ubuntu-22.04
           - os: macos-10.15
             xcode-version: "12"
-            swift: "5.3"
             flags: "--enable-test-discovery"
           - os: macos-11
             xcode-version: "13.2.1"
-            swift: "5.5"
+          - os: macos-12
+            xcode-version: "14.2"
             flags: "--enable-code-coverage"
             upload-coverage: true
     steps:
-      - uses: actions/checkout@v2
-      - uses: fwal/setup-swift@v1
-        if: matrix.os == 'ubuntu-latest'
-        with:
-          swift-version: ${{ matrix.swift }}
+      - uses: actions/checkout@v3
       - name: Select Xcode Version
         if: startsWith(matrix.os, 'macos')
         run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode-version }}.app/Contents/Developer
@@ -122,7 +134,7 @@ jobs:
             -instr-profile "$(swift build --show-bin-path)/codecov/default.profdata" \
             "$(swift build --show-bin-path)/GEOSwiftPackageTests.xctest/Contents/MacOS/GEOSwiftPackageTests" \
             Sources/**/*.swift > GEOSwift.lcov
-      - uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v3
         if: matrix.upload-coverage
         with:
           fail_ci_if_error: true
