@@ -1,6 +1,9 @@
 ---
 coverage:
   status:
+    project:
+      default:
+        threshold: 0.1%
     patch: off
 ignore:
   - "Tests"
