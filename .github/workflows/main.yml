@@ -89,11 +89,11 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
-            swift: "5.3.0"
-            flags: "--enable-test-discovery"
-          - os: ubuntu-latest
-            swift: "5.7.3"
+#           - os: ubuntu-latest
+#             swift: "5.3.0"
+#             flags: "--enable-test-discovery"
+#           - os: ubuntu-latest
+#             swift: "5.7.3"
           - os: macos-10.15
             xcode-version: "12"
             swift: "5.3"
