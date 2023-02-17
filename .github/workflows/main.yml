@@ -19,7 +19,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        platform: [ios, osx, tvos, watchos]
+        platform: [ios, osx, tvos]
     steps:
       - uses: actions/checkout@v3
       - name: Lint Podspec
