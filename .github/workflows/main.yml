@@ -90,22 +90,22 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            swift: "5.3"
+            swift: "5.3.0"
             flags: "--enable-test-discovery"
           - os: ubuntu-latest
-            swift: "5.5"
+            swift: "5.7.3"
           - os: macos-10.15
             xcode-version: "12"
             swift: "5.3"
             flags: "--enable-test-discovery"
-          - os: macos-11
-            xcode-version: "13.2.1"
-            swift: "5.5"
+          - os: macos-12
+            xcode-version: "14.2"
+            swift: "5.7"
             flags: "--enable-code-coverage"
             upload-coverage: true
     steps:
       - uses: actions/checkout@v3
-      - uses: fwal/setup-swift@v1
+      - uses: swift-actions/setup-swift@v1.22.0
         if: matrix.os == 'ubuntu-latest'
         with:
           swift-version: ${{ matrix.swift }}
