@@ -89,26 +89,16 @@ jobs:
     strategy:
       matrix:
         include:
-#           - os: ubuntu-latest
-#             swift: "5.3.0"
-#             flags: "--enable-test-discovery"
-#           - os: ubuntu-latest
-#             swift: "5.7.3"
+          - os: ubuntu-latest
           - os: macos-10.15
             xcode-version: "12"
-            swift: "5.3"
             flags: "--enable-test-discovery"
           - os: macos-12
             xcode-version: "14.2"
-            swift: "5.7"
             flags: "--enable-code-coverage"
             upload-coverage: true
     steps:
       - uses: actions/checkout@v3
-      - uses: swift-actions/setup-swift@v1.22.0
-        if: matrix.os == 'ubuntu-latest'
-        with:
-          swift-version: ${{ matrix.swift }}
       - name: Select Xcode Version
         if: startsWith(matrix.os, 'macos')
         run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode-version }}.app/Contents/Developer
