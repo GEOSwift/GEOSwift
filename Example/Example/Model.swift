@@ -2,14 +2,15 @@ import Foundation
 import GEOSwift
 
 class GeometryModel: ObservableObject {
-    var backupGeometry = GeoData.secondGeometry
-    
-    @Published var geometries: [Geometry]
+    @Published var geometries: [IdentifiableGeometry]
+    var selectedGeometries: [IdentifiableGeometry] {
+        geometries.filter({ $0.selected })
+    }
     @Published var hasError: Bool
     @Published var errorMessage: String
     
     init (){
-        geometries = [backupGeometry]
+        geometries = [IdentifiableGeometry]()
         hasError = false
         errorMessage = ""
     }
@@ -17,7 +18,7 @@ class GeometryModel: ObservableObject {
     func buffer(input: Geometry, bufferSize: Double = 3) -> Void {
         do {
             let resultGeometry = try input.buffer(by: bufferSize)!
-            geometries = [input, resultGeometry]
+            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             print("Unable to buffer")
             hasError = true
@@ -28,7 +29,7 @@ class GeometryModel: ObservableObject {
     func convexHull(input: Geometry) -> Void {
         do {
             let resultGeometry = try input.convexHull()
-            geometries = [input, resultGeometry]
+            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             print("Unable to convex hull")
             hasError = true
@@ -36,10 +37,11 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func intersection(input: Geometry, secondGeometry: Geometry?) -> Void {
+    func intersection(input: Geometry, secondGeometry: Geometry) -> Void {
         do {
-            let resultGeometry = try input.intersection(with: secondGeometry ?? backupGeometry)!
-            geometries = [input, secondGeometry ?? backupGeometry, resultGeometry]
+            if let resultGeometry = try input.intersection(with: secondGeometry) {
+                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            }
         } catch {
             print("Unable to intersect")
             hasError = true
@@ -50,7 +52,7 @@ class GeometryModel: ObservableObject {
     func envelope(input: Geometry) -> Void {
         do {
             let resultGeometry = try input.envelope().geometry
-            geometries = [input, resultGeometry]
+            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             print("Unable to envelope")
             hasError = true
@@ -58,10 +60,11 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func difference(input: Geometry, secondGeometry: Geometry?) -> Void {
+    func difference(input: Geometry, secondGeometry: Geometry) -> Void {
         do {
-            let resultGeometry = try input.difference(with: secondGeometry ?? backupGeometry) ?? input // TODO: Decision: throw error here?
-            geometries = [input, secondGeometry ?? backupGeometry, resultGeometry]
+            if let resultGeometry = try input.difference(with: secondGeometry) {
+                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            }
         } catch {
             print("Unable to difference")
             hasError = true
@@ -69,10 +72,10 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func union(input: Geometry, secondGeometry: Geometry?) -> Void {
+    func union(input: Geometry, secondGeometry: Geometry) -> Void {
         do {
-            let resultGeometry = try input.union(with: secondGeometry ?? backupGeometry)
-            geometries = [input, secondGeometry ?? backupGeometry, resultGeometry]
+            let resultGeometry = try input.union(with: secondGeometry)
+            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             print("Unable to union")
             hasError = true
@@ -83,7 +86,7 @@ class GeometryModel: ObservableObject {
     func pointOnSurface(input: Geometry) -> Void {
         do {
             let resultGeometry = try Geometry.point(input.pointOnSurface())
-            geometries = [input, resultGeometry]
+            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             print("Unable to return point on surface")
             hasError = true
@@ -94,7 +97,7 @@ class GeometryModel: ObservableObject {
     func centroid(input: Geometry) -> Void {
         do {
             let resultGeometry = try Geometry.point(input.centroid())
-            geometries = [input, resultGeometry]
+            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             print("Unable to return centroid")
             hasError = true
@@ -103,25 +106,27 @@ class GeometryModel: ObservableObject {
     }
     
     func boundary(input: Geometry) -> Void {
-        var resultGeometry: Geometry?
+        var resultGeometry: Geometry
         do {
             switch input {
             case let .multiPoint(input):
                 resultGeometry = try input.boundary()
+                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
             case let .polygon(input):
                 resultGeometry = try input.boundary()
+                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
             case let .multiPolygon(input):
                 resultGeometry = try input.boundary()
+                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
             case let .lineString(input):
                 resultGeometry = try input.boundary()
+                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
             case let .multiLineString(input):
                 resultGeometry = try input.boundary()
+                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
             default:
                 print(input)
                 print("Unable to return boundary")
-            }
-            if resultGeometry != nil {
-                geometries = [input, resultGeometry!]
             }
         } catch {
             print("Unable to return boundary")
@@ -139,7 +144,7 @@ class GeometryModel: ObservableObject {
                 errorMessage = "failed to create circle"
                 return
             }
-            geometries = [input, resultGeometry]
+            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             print("Unable to return bounding circle")
             hasError = true
@@ -150,7 +155,7 @@ class GeometryModel: ObservableObject {
     func simplify(input: Geometry) -> Void {
         do {
             let resultGeometry = try input.simplify(withTolerance: 3)
-            geometries = [input, resultGeometry]
+            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             print("Unable to simplify")
             hasError = true
@@ -161,7 +166,7 @@ class GeometryModel: ObservableObject {
     func minimumRotatedRectangle(input: Geometry) -> Void {
         do {
             let resultGeometry = try input.minimumRotatedRectangle()
-            geometries = [input, resultGeometry]
+            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             print("Unable to return minimum rotated rectange")
             hasError = true
@@ -172,7 +177,7 @@ class GeometryModel: ObservableObject {
     func minimumWidth(input: Geometry) -> Void {
         do {
             let resultGeometry = try Geometry.lineString(input.minimumWidth())
-            geometries = [input, resultGeometry]
+            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             print("Unable to return minimum width")
             hasError = true
@@ -181,7 +186,7 @@ class GeometryModel: ObservableObject {
     }
     
     func clear() {
-        geometries = []
+        geometries = geometries.filter { !$0.selected }
     }
     
     func importGeometry(_ result: Result<URL, Error>) {
@@ -192,8 +197,11 @@ class GeometryModel: ObservableObject {
             if let data = try? Data(contentsOf: selectedFile),
                let geoJSON = try? decoder.decode(GeoJSON.self, from: data),
                case let .featureCollection(featureCollection) = geoJSON {
-                let geometriesArray = featureCollection.features.compactMap { feature in
-                    feature.geometry
+                let geometriesArray: [IdentifiableGeometry] = featureCollection.features.compactMap { feature in
+                    guard let geometry = feature.geometry else {
+                        return nil
+                    }
+                    return IdentifiableGeometry(geometry: geometry)
                 }
                 geometries = geometriesArray
             }

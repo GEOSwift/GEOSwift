@@ -5,6 +5,8 @@ import GEOSwift
 struct PolygonView: View {
     var polygon: Polygon
     var gridGeometry: GeometryProxy
+    var color: Color
+    var selected: Bool
     
     var body: some View {
         let height = gridGeometry.size.height
@@ -28,8 +30,8 @@ struct PolygonView: View {
                     pointsToLabel.append(point)
                 }
             }
-            .foregroundColor(.pink)
-            .opacity(0.3)
+            .foregroundColor(color)
+            .opacity(selected ? 1 : 0.3)
             Path { path in
                 polygon.holes.forEach{ hole in
                     path.move(
@@ -49,17 +51,14 @@ struct PolygonView: View {
                     }
                 }
             }
-            .foregroundColor(.black)
-            ForEach(0..<pointsToLabel.count, id: \.self) { index in
-                let point = pointsToLabel[index]
-                Text("(\(String(point.x.rounded())), \(String(point.y.rounded())))").position(x: point.x + 38, y: height - point.y - 15)
+            .foregroundColor(color)
+            .opacity(selected ? 1 : 0.3)
+            if selected {
+                ForEach(0..<pointsToLabel.count, id: \.self) { index in
+                    let point = pointsToLabel[index]
+                    Text("(\(String(point.x.rounded())), \(String(point.y.rounded())))").position(x: point.x + 38, y: height - point.y - 15)
+                }
             }
         }
     }
 }
-//
-//struct PolygonView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PolygonView(polygon: try! Polygon(wkt: "POLYGON((50 50, 300 121, 120 200, 30 150, 50 50))"))
-//    }
-//}

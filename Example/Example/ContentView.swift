@@ -12,168 +12,65 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Button("New", action: { isImporting = true })
-                    .font(.system(.headline))
-                Text("Geometry")
-                    .font(.title)
-                    .padding()
-                Button("Clear", action: { geometryModel.clear() })
-                    .font(.system(.headline))
-            }
-            .fileImporter(isPresented: $isImporting,
-                          allowedContentTypes: [.json]) { result in
-                geometryModel.importGeometry(result)
-            }
             VStack{
+                HStack(spacing: 2) {
+                    ForEach(geometryModel.geometries, id: \.id) { geometry in
+                        VStack {
+                            Rectangle()
+                                .fill(geometry.selected ? colorForUUID(geometry.id) : colorForUUID(geometry.id).opacity(0.2))
+                            .frame(height: 20)
+                        }
+                        .onTapGesture {
+                            if let selectedGeometryIndex = geometryModel.geometries.firstIndex(where: { $0.id == geometry.id }) {
+                                var modifiedGeometry = geometry
+                                modifiedGeometry.selected.toggle()
+                                geometryModel.geometries[selectedGeometryIndex] = modifiedGeometry
+                            }
+                        }
+                    }
+                }
                 GeometryReader { gridGeometry in
                     ZStack {
                         GridView(gridGeometry: gridGeometry)
-                        ForEach((0..<geometryModel.geometries.count), id: \.self) { index in
-                            GeometryView(geometry: geometryModel.geometries[index], gridGeometry: gridGeometry)
+                        ForEach(geometryModel.geometries, id: \.id) { geometry in
+                            GeometryView(identifiableGeometry: geometry, gridGeometry: gridGeometry)
                         }
                     }
                 }
                 .border(.gray, width: 1)
-                HStack(spacing: 2) {
-                    ForEach((0..<geometryModel.geometries.count), id: \.self) { index in
-                        VStack {
-                            Rectangle()
-                                .fill(index == self.index ? Color.purple : Color.purple.opacity(0.5))
-                            .frame(height: 5)
-                            Text(String(index))
-                                .foregroundColor(Color.purple)
-                        }
-                        .onTapGesture {
-                            self.index = index
-                        }
+            }
+            switch geometryModel.selectedGeometries.count {
+            case 0:
+                Button("Add Sample Geometries") {
+                    showSheet = true
+                }
+                .sheet(isPresented: $showSheet) {
+                    List {
+                        SampleGeometryOperationView(geometryModel: geometryModel, showSheet: $showSheet, isImporting: $isImporting)
                     }
                 }
-            }
-            Button("Perform Operations") {
-                showSheet = true
-            }
-            .sheet(isPresented: $showSheet) {
-                List {
-                    Group {
-                        Button("buffer", action: {
-                            geometryModel.buffer(input: geometryModel.geometries[index])
-                            showSheet = false
-                        })
-                        Button("convexHull", action: {
-                            geometryModel.convexHull(input: geometryModel.geometries[index])
-                            showSheet = false
-                        })
-                        Button("intersection", action: {
-                            geometryModel.intersection(input: geometryModel.geometries[index], secondGeometry: nil)
-                            showSheet = false
-                        })
-                        Button("boundary", action: {
-                            geometryModel.boundary(input: geometryModel.geometries[index])
-                            showSheet = false
-                        })
-                        Button("envelope", action: {
-                            geometryModel.envelope(input: geometryModel.geometries[index])
-                            showSheet = false
-                        })
-                        Button("difference", action: {
-                            geometryModel.difference(input: geometryModel.geometries[index], secondGeometry: nil)
-                            showSheet = false
-                        })
-                        Button("union", action: {
-                            geometryModel.union(input: geometryModel.geometries[index], secondGeometry: nil)
-                            showSheet = false
-                        })
-                        Button("point on surface", action: {
-                            geometryModel.pointOnSurface(input: geometryModel.geometries[index])
-                            showSheet = false
-                        })
-                        Button("centroid", action: {
-                            geometryModel.centroid(input: geometryModel.geometries[index])
-                            showSheet = false
-                        })
-                        Button("minimum bounding circle", action: {
-                            geometryModel.minimumBoundingCircle(input: geometryModel.geometries[index])
-                            showSheet = false
-                        })
-                    }
-                    Group {
-                        Button("minimum rotated rectange", action: { geometryModel.minimumRotatedRectangle(input: geometryModel.geometries[index])
-                            showSheet = false
-                        })
-                        Button("simplify", action: {
-                            geometryModel.simplify(input: geometryModel.geometries[index])
-                            showSheet = false
-                        })
-                        Button("minimum Width", action: {
-                            geometryModel.minimumWidth(input: geometryModel.geometries[index])
-                            showSheet = false
-                        })
-                    }
-                    // Sample geometries
-                    Group {
-                        Button("point", action: {
-                            geometryModel.geometries = [.point(Point(x: 3, y: 4))]
-                            showSheet = false
-                        })
-                        Button("multiPoint", action: {
-                            geometryModel.geometries = [.multiPoint(MultiPoint(
-                                points: [
-                                    Point(x: 5, y: 9),
-                                    Point(x: 90, y: 32),
-                                    Point(x: 59, y: 89)]))]
-                            showSheet = false
-                        })
-                        Button("polygon", action: {
-                            geometryModel.geometries = [.polygon(try! Polygon(exterior: Polygon.LinearRing(points: [
-                                Point(x: 5, y: 9),
-                                Point(x: 90, y: 32),
-                                Point(x: 59, y: 89),
-                                Point(x: 5, y: 9)])
-                            ))]
-                            showSheet = false
-                        })
-                        Button("multiPolygon", action: {
-                            geometryModel.geometries = [.multiPolygon(MultiPolygon(polygons:
-                                [try! Polygon(exterior: Polygon.LinearRing(points: [
-                                    Point(x: 5, y: 9),
-                                    Point(x: 90, y: 32),
-                                    Point(x: 59, y: 89),
-                                    Point(x: 5, y: 9)])
-                                ),
-                                 try! Polygon(exterior: Polygon.LinearRing(points: [
-                                    Point(x: 25, y: 29),
-                                    Point(x: 20, y: 22),
-                                    Point(x: 29, y: 89),
-                                    Point(x: 25, y: 29)])
-                                 )]))]
-                            showSheet = false
-                        })
-                        Button("lineString", action: {
-                            geometryModel.geometries = [.lineString(try! LineString(points: [
-                                Point(x: 5, y: 9),
-                                Point(x: 90, y: 32),
-                                Point(x: 59, y: 89),
-                                Point(x: 5, y: 9)]))]
-                            showSheet = false
-                        })
-                        Button("multiLineString", action: {
-                            geometryModel.geometries = [.multiLineString(MultiLineString(lineStrings:
-                                [try! LineString(points: [
-                                    Point(x: 5, y: 9),
-                                    Point(x: 90, y: 32),
-                                    Point(x: 59, y: 89),
-                                    Point(x: 5, y: 9)]),
-                                 try! LineString(points: [
-                                    Point(x: 25, y: 29),
-                                    Point(x: 20, y: 22),
-                                    Point(x: 29, y: 89),
-                                    Point(x: 25, y: 29)])
-                                ]))]
-                            showSheet = false
-                        })
+            case 1:
+                Button("Perform Single Geometry Operation") {
+                    showSheet = true
+                }
+                .sheet(isPresented: $showSheet) {
+                    List {
+                        SingleGeometryOperationView(geometryModel: geometryModel, showSheet: $showSheet)
                     }
                 }
+            case 2:
+                Button("Perform Double Geometry Operation") {
+                    showSheet = true
+                }
+                .sheet(isPresented: $showSheet) {
+                    List {
+                        DoubleGeometryOperationView(geometryModel: geometryModel, showSheet: $showSheet)
+                    }
+                }
+            default:
+                Button("Clear selected", action: {
+                    geometryModel.clear()
+                })
             }
         }
         .alert("Geometry Error: " + geometryModel.errorMessage, isPresented: $geometryModel.hasError) {

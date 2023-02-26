@@ -5,6 +5,8 @@ import GEOSwift
 struct LineStringView: View {
     var lineString: LineString
     var gridGeometry: GeometryProxy
+    var color: Color
+    var selected: Bool
     
     var body: some View {
         let height = gridGeometry.size.height
@@ -27,11 +29,13 @@ struct LineStringView: View {
                 }
             }
             .stroke(lineWidth: 2)
-            .opacity(0.3)
-            // TODO: Fix ID here
-            ForEach(0..<lineString.points.count, id: \.self) { index in
-                let point = lineString.points[index]
-                Text("(\(String(point.x.rounded())), \(String(point.y.rounded())))").position(x: point.x + 38, y: height - point.y - 15)
+            .foregroundColor(color)
+            .opacity(selected ? 1 : 0.3)
+            if selected {
+                ForEach(0..<lineString.points.count, id: \.self) { index in
+                    let point = lineString.points[index]
+                    Text("(\(String(point.x.rounded())), \(String(point.y.rounded())))").position(x: point.x + 38, y: height - point.y - 15)
+                }
             }
         }
     }
