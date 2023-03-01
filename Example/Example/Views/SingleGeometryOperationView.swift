@@ -27,7 +27,7 @@ struct SingleGeometryOperationView: View {
                 showSheet = false
             })
         }
-            Group {
+        Group {
             Button("centroid", action: {
                 geometryModel.centroid(input: geometryModel.selectedGeometries[0].geometry)
                 showSheet = false
