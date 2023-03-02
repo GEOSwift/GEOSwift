@@ -26,6 +26,32 @@ public extension GeometryConvertible {
         }
         return dist
     }
+    
+    func hausdorffDistance(to geometry: GeometryConvertible) throws -> Double {
+        let context = try GEOSContext()
+        let geosObject = try self.geometry.geosObject(with: context)
+        let otherGeosObject = try geometry.geometry.geosObject(with: context)
+        
+        var distance: Double = 0
+        // returns 0 on exception
+        guard GEOSHausdorffDistance_r(context.handle, geosObject.pointer, otherGeosObject.pointer, &distance) == 1 else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return distance
+    }
+    
+    func hausdorffDistanceDensify(to geometry: GeometryConvertible, densifyFraction: Double) throws -> Double {
+        let context = try GEOSContext()
+        let geosObject = try self.geometry.geosObject(with: context)
+        let otherGeosObject = try geometry.geometry.geosObject(with: context)
+        
+        var distance: Double = 0
+        // returns 0 on exception
+        guard GEOSHausdorffDistanceDensify_r(context.handle, geosObject.pointer, otherGeosObject.pointer, densifyFraction, &distance) == 1 else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return distance
+    }
 
     func area() throws -> Double {
         let context = try GEOSContext()
