@@ -7,20 +7,20 @@ struct DoubleGeometryOperationView: View {
     var body: some View {
         Group {
             Button("intersection", action: {
-                geometryModel.intersection(input: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
                 showSheet = false
+                geometryModel.intersection(input: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
             })
             Button("difference", action: {
-                geometryModel.difference(input: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
                 showSheet = false
+                geometryModel.difference(input: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
             })
             Button("union", action: {
-                geometryModel.union(input: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
                 showSheet = false
+                geometryModel.union(input: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
             })
             Button("clear selected", action: {
-                geometryModel.clear()
                 showSheet = false
+                geometryModel.clear()
             })
         }
     }

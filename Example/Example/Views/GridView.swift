@@ -1,10 +1,3 @@
-//
-//  GridView.swift
-//  Example
-//
-//  Created by Patrick Leonard on 1/29/23.
-//
-
 import SwiftUI
 
 struct GridView: View {

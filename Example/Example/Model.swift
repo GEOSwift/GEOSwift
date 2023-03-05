@@ -20,9 +20,7 @@ class GeometryModel: ObservableObject {
             let resultGeometry = try input.buffer(by: bufferSize)!
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
-            print("Unable to buffer")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -31,9 +29,7 @@ class GeometryModel: ObservableObject {
             let resultGeometry = try input.convexHull()
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
-            print("Unable to convex hull")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -43,9 +39,7 @@ class GeometryModel: ObservableObject {
                 geometries.append(IdentifiableGeometry(geometry: resultGeometry))
             }
         } catch {
-            print("Unable to intersect")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
 
@@ -54,9 +48,7 @@ class GeometryModel: ObservableObject {
             let resultGeometry = try input.envelope().geometry
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
-            print("Unable to envelope")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -66,9 +58,7 @@ class GeometryModel: ObservableObject {
                 geometries.append(IdentifiableGeometry(geometry: resultGeometry))
             }
         } catch {
-            print("Unable to difference")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -77,9 +67,7 @@ class GeometryModel: ObservableObject {
             let resultGeometry = try input.union(with: secondGeometry)
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
-            print("Unable to union")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -88,9 +76,7 @@ class GeometryModel: ObservableObject {
             let resultGeometry = try Geometry.point(input.pointOnSurface())
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
-            print("Unable to return point on surface")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -99,9 +85,7 @@ class GeometryModel: ObservableObject {
             let resultGeometry = try Geometry.point(input.centroid())
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
-            print("Unable to return centroid")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -129,9 +113,7 @@ class GeometryModel: ObservableObject {
                 print("Unable to return boundary")
             }
         } catch {
-            print("Unable to return boundary")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -146,9 +128,7 @@ class GeometryModel: ObservableObject {
             }
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
-            print("Unable to return bounding circle")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -157,9 +137,7 @@ class GeometryModel: ObservableObject {
             let resultGeometry = try input.simplify(withTolerance: 3)
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
-            print("Unable to simplify")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -168,9 +146,7 @@ class GeometryModel: ObservableObject {
             let resultGeometry = try input.minimumRotatedRectangle()
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
-            print("Unable to return minimum rotated rectange")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -179,9 +155,7 @@ class GeometryModel: ObservableObject {
             let resultGeometry = try Geometry.lineString(input.minimumWidth())
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
-            print("Unable to return minimum width")
-            hasError = true
-            errorMessage = error.localizedDescription
+            handleError(error)
         }
     }
     
@@ -207,8 +181,46 @@ class GeometryModel: ObservableObject {
             }
             selectedFile.stopAccessingSecurityScopedResource()
         } catch {
-            print(error)
-            // Handle failure
+            handleError(error)
+        }
+    }
+    
+    func handleError(_ error: Error) {
+        switch error {
+        case let GEOSError.libraryError(errorMessages: errorArray):
+            errorMessage = errorArray.first ?? "A library error occured"
+        case GEOSError.noMinimumBoundingCircle:
+            errorMessage = "No minimum bounding circle"
+        case let GEOSError.typeMismatch(actual: actual, expected: expected):
+            errorMessage = "Expected \(String(describing: expected)), but retured \(String(describing: actual))"
+        case GEOSError.unableToCreateContext:
+            errorMessage = "Unable to create context"
+        case GEOSError.wkbDataWasEmpty:
+            errorMessage = "WKB data was empty"
+        case GEOSwiftError.invalidCoordinates:
+            errorMessage = "Invalid coordinates"
+        case GEOSwiftError.invalidFeatureId:
+            errorMessage = "Invalid feature ID"
+        case GEOSwiftError.invalidGeoJSONType:
+            errorMessage = "Invalid GEOJSON type"
+        case GEOSwiftError.invalidJSON:
+            errorMessage = "Invalid JSON"
+        case GEOSwiftError.mismatchedGeoJSONType:
+            errorMessage = "Mismatched GEOJSON type"
+        case GEOSwiftError.ringNotClosed:
+            errorMessage = "Ring not closed"
+        case GEOSwiftError.tooFewPoints:
+            errorMessage = "Too few points"
+        case GEOSwiftError.tooFewRings:
+            errorMessage = "Too few rings"
+        case let GEOSwiftError.unexpectedEnvelopeResult(geometry):
+            errorMessage = "Unexpected envelope result with geometry: \(geometry)"
+        default:
+            errorMessage = error.localizedDescription
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.hasError = true
         }
     }
 }

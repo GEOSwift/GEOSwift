@@ -7,49 +7,50 @@ struct SingleGeometryOperationView: View {
     var body: some View {
         Group {
             Button("buffer", action: {
-                geometryModel.buffer(input: geometryModel.selectedGeometries[0].geometry)
                 showSheet = false
+                geometryModel.buffer(input: geometryModel.selectedGeometries[0].geometry)
             })
             Button("convexHull", action: {
-                geometryModel.convexHull(input: geometryModel.selectedGeometries[0].geometry)
                 showSheet = false
+                geometryModel.convexHull(input: geometryModel.selectedGeometries[0].geometry)
             })
             Button("boundary", action: {
-                geometryModel.boundary(input: geometryModel.selectedGeometries[0].geometry)
                 showSheet = false
+                geometryModel.boundary(input: geometryModel.selectedGeometries[0].geometry)
             })
             Button("envelope", action: {
-                geometryModel.envelope(input: geometryModel.selectedGeometries[0].geometry)
                 showSheet = false
+                geometryModel.envelope(input: geometryModel.selectedGeometries[0].geometry)
             })
             Button("point on surface", action: {
-                geometryModel.pointOnSurface(input: geometryModel.selectedGeometries[0].geometry)
                 showSheet = false
+                geometryModel.pointOnSurface(input: geometryModel.selectedGeometries[0].geometry)
             })
         }
         Group {
             Button("centroid", action: {
-                geometryModel.centroid(input: geometryModel.selectedGeometries[0].geometry)
                 showSheet = false
+                geometryModel.centroid(input: geometryModel.selectedGeometries[0].geometry)
             })
             Button("minimum bounding circle", action: {
+                showSheet = false
                 geometryModel.minimumBoundingCircle(input: geometryModel.selectedGeometries[0].geometry)
-                showSheet = false
             })
-            Button("minimum rotated rectange", action: { geometryModel.minimumRotatedRectangle(input: geometryModel.selectedGeometries[0].geometry)
+            Button("minimum rotated rectange", action: {
                 showSheet = false
+                geometryModel.minimumRotatedRectangle(input: geometryModel.selectedGeometries[0].geometry)
             })
             Button("simplify", action: {
-                geometryModel.simplify(input: geometryModel.selectedGeometries[0].geometry)
                 showSheet = false
+                geometryModel.simplify(input: geometryModel.selectedGeometries[0].geometry)
             })
             Button("minimum Width", action: {
-                geometryModel.minimumWidth(input: geometryModel.selectedGeometries[0].geometry)
                 showSheet = false
+                geometryModel.minimumWidth(input: geometryModel.selectedGeometries[0].geometry)
             })
             Button("Clear selected", action: {
-                geometryModel.clear()
                 showSheet = false
+                geometryModel.clear()
             })
         }
     }
