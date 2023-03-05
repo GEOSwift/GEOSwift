@@ -17,7 +17,7 @@ class GeometryModel: ObservableObject {
 
     func buffer(input: Geometry, bufferSize: Double = 3) -> Void {
         do {
-            let resultGeometry = try input.buffer(by: bufferSize)!
+            let resultGeometry = try input.geometry.buffer(by: bufferSize)!
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             handleError(error)
@@ -26,7 +26,7 @@ class GeometryModel: ObservableObject {
     
     func convexHull(input: Geometry) -> Void {
         do {
-            let resultGeometry = try input.convexHull()
+            let resultGeometry = try input.geometry.convexHull()
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             handleError(error)
@@ -219,6 +219,7 @@ class GeometryModel: ObservableObject {
             errorMessage = error.localizedDescription
         }
         
+        // Allow time for the previous view to be dismissed 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.hasError = true
         }

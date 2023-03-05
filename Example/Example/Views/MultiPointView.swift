@@ -3,15 +3,15 @@ import SwiftUI
 import GEOSwift
 
 struct MultiPointView: View {
-    var multiPoint: MultiPoint
+    var multiPoint: IdentifiableMultiPoint
     var gridGeometry: GeometryProxy
     var color: Color
     var selected: Bool
     
     var body: some View {
         ZStack {
-            ForEach(0..<multiPoint.points.count, id: \.self) {
-                PointView(point: multiPoint.points[$0], gridGeometry: gridGeometry, color: color, selected: selected)
+            ForEach(multiPoint.points, id: \.id) { point in
+                PointView(point: point, gridGeometry: gridGeometry, color: color, selected: selected)
             }
         }
     }

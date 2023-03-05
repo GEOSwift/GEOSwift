@@ -3,7 +3,7 @@ import SwiftUI
 import GEOSwift
 
 struct PolygonView: View {
-    var polygon: Polygon
+    var polygon: IdentifiablePolygon
     var gridGeometry: GeometryProxy
     var color: Color
     var selected: Bool
@@ -16,11 +16,11 @@ struct PolygonView: View {
             Path { path in
                 path.move(
                     to: CGPoint(
-                        x: polygon.exterior.points[0].x,
-                        y: height-polygon.exterior.points[0].y
+                        x: polygon.polygon.exterior.points[0].x,
+                        y: height-polygon.polygon.exterior.points[0].y
                     )
                 )
-                polygon.exterior.points.forEach { point in
+                polygon.polygon.exterior.points.forEach { point in
                     path.addLine(
                         to: CGPoint(
                             x: point.x,
@@ -33,7 +33,7 @@ struct PolygonView: View {
             .foregroundColor(color)
             .opacity(selected ? 1 : 0.3)
             Path { path in
-                polygon.holes.forEach{ hole in
+                polygon.polygon.holes.forEach{ hole in
                     path.move(
                         to: CGPoint(
                             x: hole.points[0].x,
