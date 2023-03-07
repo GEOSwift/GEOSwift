@@ -27,7 +27,7 @@ struct PolygonView: View {
                             y: height-point.y
                         )
                     )
-                    pointsToLabel.append(IdentifiablePoint(point: point))
+                    pointsToLabel.append(IdentifiablePoint(point: point))  // TODO: clear this somehow
                 }
             }
             .foregroundColor(color)
@@ -54,9 +54,18 @@ struct PolygonView: View {
             .foregroundColor(color)
             .opacity(selected ? 1 : 0.3)
             if selected {
-                // TODO: This produces too many labels
                 ForEach(pointsToLabel, id: \.id) { identifiablePoint in
-                    Text("(\(String(identifiablePoint.point.x.rounded())), \(String(identifiablePoint.point.y.rounded())))").position(x: identifiablePoint.point.x + 38, y: height - identifiablePoint.point.y - 15)
+                    let isCloseToAnotherPoint = pointsToLabel.contains { otherIdentifiablePoint in
+                        // Calculate the distance between the two points
+                        let distance = sqrt(pow(otherIdentifiablePoint.point.x - identifiablePoint.point.x, 2) + pow(otherIdentifiablePoint.point.y - identifiablePoint.point.y, 2))
+                        // Return true if the distance is less than a certain threshold value 5
+                        return otherIdentifiablePoint.id != identifiablePoint.id && distance < 5
+                    }
+                    // Add the Text only if there is no other point close to the current point
+                    if !isCloseToAnotherPoint {
+                        Text("(\(String(identifiablePoint.point.x.rounded())), \(String(identifiablePoint.point.y.rounded())))")
+                            .position(x: identifiablePoint.point.x + 38, y: height - identifiablePoint.point.y - 15)
+                    }
                 }
             }
         }
