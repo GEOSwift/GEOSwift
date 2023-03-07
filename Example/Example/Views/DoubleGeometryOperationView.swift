@@ -8,15 +8,15 @@ struct DoubleGeometryOperationView: View {
         Group {
             Button("intersection", action: {
                 showSheet = false
-                geometryModel.intersection(input: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
+                geometryModel.intersection(firstGeometry: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
             })
             Button("difference", action: {
                 showSheet = false
-                geometryModel.difference(input: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
+                geometryModel.difference(firstGeometry: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
             })
             Button("union", action: {
                 showSheet = false
-                geometryModel.union(input: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
+                geometryModel.union(firstGeometry: geometryModel.selectedGeometries[0].geometry, secondGeometry: geometryModel.selectedGeometries[1].geometry)
             })
             Button("clear selected", action: {
                 showSheet = false

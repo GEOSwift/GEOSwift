@@ -3,37 +3,37 @@ import SwiftUI
 import GEOSwift
 
 struct PolygonView: View {
-    var polygon: IdentifiablePolygon
+    var identifiablePolygon: IdentifiablePolygon
     var gridGeometry: GeometryProxy
     var color: Color
     var selected: Bool
     
     var body: some View {
         let height = gridGeometry.size.height
-        var pointsToLabel = [Point]()
+        var pointsToLabel = [IdentifiablePoint]()
         
         ZStack {
             Path { path in
                 path.move(
                     to: CGPoint(
-                        x: polygon.polygon.exterior.points[0].x,
-                        y: height-polygon.polygon.exterior.points[0].y
+                        x: identifiablePolygon.polygon.exterior.points[0].x,
+                        y: height-identifiablePolygon.polygon.exterior.points[0].y
                     )
                 )
-                polygon.polygon.exterior.points.forEach { point in
+                identifiablePolygon.polygon.exterior.points.forEach { point in
                     path.addLine(
                         to: CGPoint(
                             x: point.x,
                             y: height-point.y
                         )
                     )
-                    pointsToLabel.append(point)
+                    pointsToLabel.append(IdentifiablePoint(point: point))
                 }
             }
             .foregroundColor(color)
             .opacity(selected ? 1 : 0.3)
             Path { path in
-                polygon.polygon.holes.forEach{ hole in
+                identifiablePolygon.polygon.holes.forEach{ hole in
                     path.move(
                         to: CGPoint(
                             x: hole.points[0].x,
@@ -47,16 +47,16 @@ struct PolygonView: View {
                                 y: height - point.y
                             )
                         )
-                        pointsToLabel.append(point)
+                        pointsToLabel.append(IdentifiablePoint(point: point))
                     }
                 }
             }
             .foregroundColor(color)
             .opacity(selected ? 1 : 0.3)
             if selected {
-                ForEach(0..<pointsToLabel.count, id: \.self) { index in
-                    let point = pointsToLabel[index]
-                    Text("(\(String(point.x.rounded())), \(String(point.y.rounded())))").position(x: point.x + 38, y: height - point.y - 15)
+                // TODO: This produces too many labels
+                ForEach(pointsToLabel, id: \.id) { identifiablePoint in
+                    Text("(\(String(identifiablePoint.point.x.rounded())), \(String(identifiablePoint.point.y.rounded())))").position(x: identifiablePoint.point.x + 38, y: height - identifiablePoint.point.y - 15)
                 }
             }
         }

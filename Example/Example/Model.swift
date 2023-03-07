@@ -2,29 +2,24 @@ import Foundation
 import GEOSwift
 
 class GeometryModel: ObservableObject {
-    @Published var geometries: [IdentifiableGeometry]
+    @Published var geometries = [IdentifiableGeometry]()
     var selectedGeometries: [IdentifiableGeometry] {
         geometries.filter({ $0.selected })
     }
-    @Published var hasError: Bool
-    @Published var errorMessage: String
-    
-    init (){
-        geometries = [IdentifiableGeometry]()
-        hasError = false
-        errorMessage = ""
-    }
+    @Published var hasError = false
+    @Published var errorMessage = ""
 
-    func buffer(input: Geometry, bufferSize: Double = 3) -> Void {
+    func buffer(_ input: Geometry, bufferSize: Double = 3) -> Void {
         do {
-            let resultGeometry = try input.geometry.buffer(by: bufferSize)!
-            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            if let resultGeometry = try input.geometry.buffer(by: bufferSize) {
+                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            }
         } catch {
             handleError(error)
         }
     }
     
-    func convexHull(input: Geometry) -> Void {
+    func convexHull(_ input: Geometry) -> Void {
         do {
             let resultGeometry = try input.geometry.convexHull()
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
@@ -33,9 +28,9 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func intersection(input: Geometry, secondGeometry: Geometry) -> Void {
+    func intersection(firstGeometry: Geometry, secondGeometry: Geometry) -> Void {
         do {
-            if let resultGeometry = try input.intersection(with: secondGeometry) {
+            if let resultGeometry = try firstGeometry.intersection(with: secondGeometry) {
                 geometries.append(IdentifiableGeometry(geometry: resultGeometry))
             }
         } catch {
@@ -43,7 +38,7 @@ class GeometryModel: ObservableObject {
         }
     }
 
-    func envelope(input: Geometry) -> Void {
+    func envelope(_ input: Geometry) -> Void {
         do {
             let resultGeometry = try input.envelope().geometry
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
@@ -52,9 +47,9 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func difference(input: Geometry, secondGeometry: Geometry) -> Void {
+    func difference(firstGeometry: Geometry, secondGeometry: Geometry) -> Void {
         do {
-            if let resultGeometry = try input.difference(with: secondGeometry) {
+            if let resultGeometry = try firstGeometry.difference(with: secondGeometry) {
                 geometries.append(IdentifiableGeometry(geometry: resultGeometry))
             }
         } catch {
@@ -62,16 +57,16 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func union(input: Geometry, secondGeometry: Geometry) -> Void {
+    func union(firstGeometry: Geometry, secondGeometry: Geometry) -> Void {
         do {
-            let resultGeometry = try input.union(with: secondGeometry)
+            let resultGeometry = try firstGeometry.union(with: secondGeometry)
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             handleError(error)
         }
     }
     
-    func pointOnSurface(input: Geometry) -> Void {
+    func pointOnSurface(_ input: Geometry) -> Void {
         do {
             let resultGeometry = try Geometry.point(input.pointOnSurface())
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
@@ -80,7 +75,7 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func centroid(input: Geometry) -> Void {
+    func centroid(_ input: Geometry) -> Void {
         do {
             let resultGeometry = try Geometry.point(input.centroid())
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
@@ -89,7 +84,7 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func boundary(input: Geometry) -> Void {
+    func boundary(_ input: Geometry) -> Void {
         var resultGeometry: Geometry
         do {
             switch input {
@@ -108,31 +103,29 @@ class GeometryModel: ObservableObject {
             case let .multiLineString(input):
                 resultGeometry = try input.boundary()
                 geometries.append(IdentifiableGeometry(geometry: resultGeometry))
-            default:
-                print(input)
-                print("Unable to return boundary")
+            case let .point(input):
+                resultGeometry = try input.boundary()
+                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            case .geometryCollection:
+                handleError(GEOSError.libraryError(errorMessages: ["GeometryCollection is not Boundable"]))
             }
         } catch {
             handleError(error)
         }
     }
     
-    func minimumBoundingCircle(input: Geometry) -> Void {
+    func minimumBoundingCircle(_ input: Geometry) -> Void {
         do {
             let viewCircle = try input.minimumBoundingCircle()
-            guard let resultGeometry = try viewCircle.center.buffer(by: viewCircle.radius) else {
-                print("Unable to return bounding circle")
-                hasError = true
-                errorMessage = "failed to create circle"
-                return
+            if let resultGeometry = try viewCircle.center.buffer(by: viewCircle.radius) {
+                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
             }
-            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
         } catch {
             handleError(error)
         }
     }
     
-    func simplify(input: Geometry) -> Void {
+    func simplify(_ input: Geometry) -> Void {
         do {
             let resultGeometry = try input.simplify(withTolerance: 3)
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
@@ -141,7 +134,7 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func minimumRotatedRectangle(input: Geometry) -> Void {
+    func minimumRotatedRectangle(_ input: Geometry) -> Void {
         do {
             let resultGeometry = try input.minimumRotatedRectangle()
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))
@@ -150,7 +143,7 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func minimumWidth(input: Geometry) -> Void {
+    func minimumWidth(_ input: Geometry) -> Void {
         do {
             let resultGeometry = try Geometry.lineString(input.minimumWidth())
             geometries.append(IdentifiableGeometry(geometry: resultGeometry))

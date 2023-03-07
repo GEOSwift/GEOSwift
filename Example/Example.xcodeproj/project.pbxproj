@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2310BE0429ABC66100642AA0 /* IdentifiableGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2310BE0329ABC66100642AA0 /* IdentifiableGeometry.swift */; };
+		2310BE0429ABC66100642AA0 /* IdentifiableGeometries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2310BE0329ABC66100642AA0 /* IdentifiableGeometries.swift */; };
 		2310BE0629ABD58300642AA0 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2310BE0529ABD58300642AA0 /* Utils.swift */; };
 		2310BE0829AC061600642AA0 /* SingleGeometryOperationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2310BE0729AC061600642AA0 /* SingleGeometryOperationView.swift */; };
 		2310BE0A29AC088900642AA0 /* DoubleGeometryOperationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2310BE0929AC088900642AA0 /* DoubleGeometryOperationView.swift */; };
@@ -49,7 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2310BE0329ABC66100642AA0 /* IdentifiableGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableGeometry.swift; sourceTree = "<group>"; };
+		2310BE0329ABC66100642AA0 /* IdentifiableGeometries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableGeometries.swift; sourceTree = "<group>"; };
 		2310BE0529ABD58300642AA0 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		2310BE0729AC061600642AA0 /* SingleGeometryOperationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleGeometryOperationView.swift; sourceTree = "<group>"; };
 		2310BE0929AC088900642AA0 /* DoubleGeometryOperationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleGeometryOperationView.swift; sourceTree = "<group>"; };
@@ -156,7 +156,7 @@
 				2388CE3E287A0B0C00363E75 /* ExampleApp.swift */,
 				2388CE40287A0B0C00363E75 /* ContentView.swift */,
 				2385D85228EDB18A0074F81A /* Model.swift */,
-				2310BE0329ABC66100642AA0 /* IdentifiableGeometry.swift */,
+				2310BE0329ABC66100642AA0 /* IdentifiableGeometries.swift */,
 				2310BE0529ABD58300642AA0 /* Utils.swift */,
 				2388CE42287A0B1800363E75 /* Assets.xcassets */,
 				2388CE44287A0B1800363E75 /* Preview Content */,
@@ -345,7 +345,7 @@
 				2385D85328EDB18A0074F81A /* Model.swift in Sources */,
 				23567A332987093A0006CBBD /* GridView.swift in Sources */,
 				2385D85C28EF9B090074F81A /* MultiPolygonView.swift in Sources */,
-				2310BE0429ABC66100642AA0 /* IdentifiableGeometry.swift in Sources */,
+				2310BE0429ABC66100642AA0 /* IdentifiableGeometries.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

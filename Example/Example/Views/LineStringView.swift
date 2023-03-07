@@ -3,7 +3,7 @@ import SwiftUI
 import GEOSwift
 
 struct LineStringView: View {
-    var lineString: IdentifiableLineString
+    var identifiableLineString: IdentifiableLineString
     var gridGeometry: GeometryProxy
     var color: Color
     var selected: Bool
@@ -15,11 +15,11 @@ struct LineStringView: View {
             Path { path in
                 path.move(
                     to: CGPoint(
-                        x: lineString.lineString.points[0].x,
-                        y: height - lineString.lineString.points[0].y
+                        x: identifiableLineString.lineString.points[0].x,
+                        y: height - identifiableLineString.lineString.points[0].y
                     )
                 )
-                lineString.lineString.points.forEach { point in
+                identifiableLineString.lineString.points.forEach { point in
                     path.addLine(
                         to: CGPoint(
                             x: point.x,
@@ -32,7 +32,7 @@ struct LineStringView: View {
             .foregroundColor(color)
             .opacity(selected ? 1 : 0.3)
             if selected {
-                ForEach(lineString.lineString.points, id: \.self) { point in
+                ForEach(identifiableLineString.lineString.points, id: \.self) { point in
                     Text("(\(String(point.x.rounded())), \(String(point.y.rounded())))").position(x: point.x + 38, y: height - point.y - 15)
                 }
             }

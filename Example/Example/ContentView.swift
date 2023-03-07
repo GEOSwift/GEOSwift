@@ -3,10 +3,8 @@ import GEOSwift
 import UniformTypeIdentifiers
 import Foundation
 
-
 struct ContentView: View {
     @ObservedObject private var geometryModel = GeometryModel()
-    @State private var index = 0
     @State private var isImporting: Bool = false
     @State private var showSheet = false
     

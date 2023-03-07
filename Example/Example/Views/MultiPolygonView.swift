@@ -3,15 +3,15 @@ import SwiftUI
 import GEOSwift
 
 struct MultiPolygonView: View {
-    var multiPolygon: IdentifiableMultiPolygon
+    var identifiableMultiPolygon: IdentifiableMultiPolygon
     var gridGeometry: GeometryProxy
     var color: Color
     var selected: Bool
     
     var body: some View {
         ZStack {
-            ForEach(multiPolygon.polygons, id: \.id) { polygon in
-                PolygonView(polygon: polygon, gridGeometry: gridGeometry, color: color, selected: selected)
+            ForEach(identifiableMultiPolygon.polygons, id: \.id) { polygon in
+                PolygonView(identifiablePolygon: polygon, gridGeometry: gridGeometry, color: color, selected: selected)
             }
         }
     }
