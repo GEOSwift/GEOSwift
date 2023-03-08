@@ -18,7 +18,7 @@ struct PointView: View {
         .foregroundColor(color)
         .opacity(selected ? 1 : 0.3)
         if selected {
-            Text("(\(String(identifiablePoint.point.x.rounded())), \(String(identifiablePoint.point.y.rounded())))").position(x: identifiablePoint.point.x, y: height - identifiablePoint.point.y)
+            Text("(\(String(identifiablePoint.point.x.rounded())), \(String(identifiablePoint.point.y.rounded())))").position(x: identifiablePoint.point.x, y: height - identifiablePoint.point.y).position(x: identifiablePoint.point.x + 38, y: height - identifiablePoint.point.y - 15)
         }
     }
 }

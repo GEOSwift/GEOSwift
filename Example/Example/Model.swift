@@ -170,7 +170,7 @@ class GeometryModel: ObservableObject {
                     }
                     return IdentifiableGeometry(geometry: geometry)
                 }
-                geometries = geometriesArray
+                geometries.append(contentsOf: geometriesArray)
             }
             selectedFile.stopAccessingSecurityScopedResource()
         } catch {

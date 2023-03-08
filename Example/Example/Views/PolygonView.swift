@@ -27,7 +27,7 @@ struct PolygonView: View {
                             y: height-point.y
                         )
                     )
-                    pointsToLabel.append(IdentifiablePoint(point: point))  // TODO: clear this somehow
+                    pointsToLabel.append(IdentifiablePoint(point: point)) 
                 }
             }
             .foregroundColor(color)
