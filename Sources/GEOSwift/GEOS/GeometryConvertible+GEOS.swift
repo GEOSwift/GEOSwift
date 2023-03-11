@@ -314,6 +314,15 @@ public extension GeometryConvertible {
         try performUnaryTopologyOperation(GEOSConvexHull_r)
     }
 
+    func concaveHull(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry {
+        let context = try GEOSContext()
+        let geosObject = try geometry.geosObject(with: context)
+        guard let resultPointer = GEOSConcaveHull_r(context.handle, geosObject.pointer, ratio, allowHoles ? 1 : 0) else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
+    }
+
     func minimumRotatedRectangle() throws -> Geometry {
         try performUnaryTopologyOperation(GEOSMinimumRotatedRectangle_r)
     }
