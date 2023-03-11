@@ -26,5 +26,5 @@ Pod::Spec.new do |s|
     tag: s.version,
   }
   s.source_files = 'Sources/**/*.swift'
-  s.dependency 'geos', '~> 7.0'
+  s.dependency 'geos', '~> 8.0'
 end
