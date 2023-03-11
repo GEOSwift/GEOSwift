@@ -1,6 +1,6 @@
 import geos
 
-public struct Circle: Hashable {
+public struct Circle: Hashable, Sendable {
     public var center: Point
     public var radius: Double
 

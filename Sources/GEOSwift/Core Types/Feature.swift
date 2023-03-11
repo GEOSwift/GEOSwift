@@ -1,4 +1,4 @@
-public struct Feature: Hashable {
+public struct Feature: Hashable, Sendable {
     public var geometry: Geometry?
     public var properties: [String: JSON]?
     public var id: FeatureId?
@@ -19,7 +19,7 @@ public struct Feature: Hashable {
 
     // MARK: - Id
 
-    public enum FeatureId: Hashable {
+    public enum FeatureId: Hashable, Sendable {
         case string(String)
         case number(Double)
     }

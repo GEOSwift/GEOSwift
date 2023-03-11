@@ -1,6 +1,6 @@
 import geos
 
-public enum GEOSObjectType {
+public enum GEOSObjectType: Hashable, Sendable {
     case point
     case lineString
     case linearRing

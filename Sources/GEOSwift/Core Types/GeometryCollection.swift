@@ -1,4 +1,4 @@
-public struct GeometryCollection: Hashable {
+public struct GeometryCollection: Hashable, Sendable {
     public var geometries: [Geometry]
 
     public init(geometries: [GeometryConvertible]) {

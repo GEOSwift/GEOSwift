@@ -1,4 +1,4 @@
-public struct LineString: Hashable {
+public struct LineString: Hashable, Sendable {
     public let points: [Point]
 
     public var firstPoint: Point {

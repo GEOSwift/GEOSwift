@@ -453,7 +453,7 @@ public extension Collection where Element: GeometryConvertible {
     }
 }
 
-public enum IsValidDetailResult: Equatable {
+public enum IsValidDetailResult: Hashable, Sendable {
     case valid
     case invalid(reason: String?, location: Geometry?)
 }

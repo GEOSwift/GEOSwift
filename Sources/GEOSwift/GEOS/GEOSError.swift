@@ -1,4 +1,4 @@
-public enum GEOSError: Error {
+public enum GEOSError: Error, Hashable, Sendable {
     case unableToCreateContext
     case libraryError(errorMessages: [String])
     case wkbDataWasEmpty

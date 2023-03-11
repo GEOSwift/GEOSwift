@@ -1,4 +1,4 @@
-public enum Geometry: Hashable {
+public enum Geometry: Hashable, Sendable {
     case point(Point)
     case multiPoint(MultiPoint)
     case lineString(LineString)
