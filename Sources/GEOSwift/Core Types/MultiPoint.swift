@@ -1,4 +1,4 @@
-public struct MultiPoint: Hashable {
+public struct MultiPoint: Hashable, Sendable {
     public var points: [Point]
 
     public init(points: [Point]) {

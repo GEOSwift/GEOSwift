@@ -1,4 +1,4 @@
-public enum GeoJSONType: String, Codable {
+public enum GeoJSONType: String, Hashable, Sendable, Codable {
     case point = "Point"
     case multiPoint = "MultiPoint"
     case lineString = "LineString"

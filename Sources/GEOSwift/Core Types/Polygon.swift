@@ -1,4 +1,4 @@
-public struct Polygon: Hashable {
+public struct Polygon: Hashable, Sendable {
     public var exterior: LinearRing
     public var holes: [LinearRing]
 
@@ -7,7 +7,7 @@ public struct Polygon: Hashable {
         self.holes = holes
     }
 
-    public struct LinearRing: Hashable {
+    public struct LinearRing: Hashable, Sendable {
         public let points: [Point]
 
         public init(points: [Point]) throws {

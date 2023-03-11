@@ -1,4 +1,4 @@
-public struct MultiLineString: Hashable {
+public struct MultiLineString: Hashable, Sendable {
     public var lineStrings: [LineString]
 
     public init(lineStrings: [LineString]) {

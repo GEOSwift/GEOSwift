@@ -1,4 +1,4 @@
-public enum GEOSwiftError: Error, Equatable {
+public enum GEOSwiftError: Error, Hashable, Sendable {
     case invalidJSON
     case invalidGeoJSONType
     case invalidCoordinates

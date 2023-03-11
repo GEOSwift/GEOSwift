@@ -1,4 +1,4 @@
-public struct Envelope: Hashable {
+public struct Envelope: Hashable, Sendable {
     public internal(set) var minX: Double
     public internal(set) var maxX: Double
     public internal(set) var minY: Double
