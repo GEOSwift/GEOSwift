@@ -136,8 +136,6 @@ To make a contribution:
   your contribution
 * Run `$ xed Package.swift` to open the project in Xcode.
 * Run `$ swiftlint` from the repo root and resolve any issues.
-* Sign in to travis-ci.com (if you've never signed in before, CI won't run to
-  verify your pull request)
 * Push your branch and create a pull request to `main`
 * One of the maintainers will review your code and may request changes
 * If your pull request is accepted, one of the maintainers should update the
