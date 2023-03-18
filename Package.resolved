@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/GEOSwift/geos.git",
         "state": {
           "branch": null,
-          "revision": "486705f2c11c4b18db73425140e7bf581c55aa80",
-          "version": "8.0.0"
+          "revision": "f510e634c822116fca615064d889300dba40d761",
+          "version": "8.1.0"
         }
       }
     ]
