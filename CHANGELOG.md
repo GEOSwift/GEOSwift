@@ -1,3 +1,16 @@
+## 10.0.0
+
+* [#250](https://github.com/GEOSwift/GEOSwift/pull/250) Add
+  `GeometryConvertible.snap(to:)`.
+* [#255](https://github.com/GEOSwift/GEOSwift/pull/255) Add
+  `GeometryConvertible.hausdorffDistance(to:)` and
+  `GeometryConvertible.hausdorffDistance(to:densifyFraction:)`.
+* [#256](https://github.com/GEOSwift/GEOSwift/issues/256) Add
+  `GeometryConvertible.concaveHull(withRatio:allowHoles:)`.
+* [#247](https://github.com/GEOSwift/GEOSwift/issues/247) Add
+  `Sendable` conformances and more `Hashable` conformances.
+* Update to GEOSwift/geos 8.1.0 (geos 3.11.2)
+
 ## 9.0.0
 
 * [#224](https://github.com/GEOSwift/GEOSwift/pull/224)
