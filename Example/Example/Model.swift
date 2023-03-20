@@ -2,110 +2,110 @@ import Foundation
 import GEOSwift
 
 class GeometryModel: ObservableObject {
-    @Published var geometries = [IdentifiableGeometry]()
-    var selectedGeometries: [IdentifiableGeometry] {
+    @Published var geometries = [SelectableIdentifiableGeometry]()
+    var selectedGeometries: [SelectableIdentifiableGeometry] {
         geometries.filter({ $0.selected })
     }
     @Published var hasError = false
     @Published var errorMessage = ""
 
-    func buffer(_ input: Geometry, bufferSize: Double = 3) -> Void {
+    func buffer(_ input: GeometryConvertible, bufferSize: Double = 3) -> Void {
         do {
             if let resultGeometry = try input.geometry.buffer(by: bufferSize) {
-                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+                geometries.append(SelectableIdentifiableGeometry(resultGeometry))
             }
         } catch {
             handleError(error)
         }
     }
     
-    func convexHull(_ input: Geometry) -> Void {
+    func convexHull(_ input: GeometryConvertible) -> Void {
         do {
             let resultGeometry = try input.geometry.convexHull()
-            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            geometries.append(SelectableIdentifiableGeometry(resultGeometry))
         } catch {
             handleError(error)
         }
     }
     
-    func intersection(firstGeometry: Geometry, secondGeometry: Geometry) -> Void {
+    func intersection(firstGeometry: GeometryConvertible, secondGeometry: GeometryConvertible) -> Void {
         do {
             if let resultGeometry = try firstGeometry.intersection(with: secondGeometry) {
-                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+                geometries.append(SelectableIdentifiableGeometry(resultGeometry))
             }
         } catch {
             handleError(error)
         }
     }
 
-    func envelope(_ input: Geometry) -> Void {
+    func envelope(_ input: GeometryConvertible) -> Void {
         do {
             let resultGeometry = try input.envelope().geometry
-            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            geometries.append(SelectableIdentifiableGeometry(resultGeometry))
         } catch {
             handleError(error)
         }
     }
     
-    func difference(firstGeometry: Geometry, secondGeometry: Geometry) -> Void {
+    func difference(firstGeometry: GeometryConvertible, secondGeometry: GeometryConvertible) -> Void {
         do {
             if let resultGeometry = try firstGeometry.difference(with: secondGeometry) {
-                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+                geometries.append(SelectableIdentifiableGeometry(resultGeometry))
             }
         } catch {
             handleError(error)
         }
     }
     
-    func union(firstGeometry: Geometry, secondGeometry: Geometry) -> Void {
+    func union(firstGeometry: GeometryConvertible, secondGeometry: GeometryConvertible) -> Void {
         do {
             let resultGeometry = try firstGeometry.union(with: secondGeometry)
-            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            geometries.append(SelectableIdentifiableGeometry(resultGeometry))
         } catch {
             handleError(error)
         }
     }
     
-    func pointOnSurface(_ input: Geometry) -> Void {
+    func pointOnSurface(_ input: GeometryConvertible) -> Void {
         do {
             let resultGeometry = try Geometry.point(input.pointOnSurface())
-            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            geometries.append(SelectableIdentifiableGeometry(resultGeometry))
         } catch {
             handleError(error)
         }
     }
     
-    func centroid(_ input: Geometry) -> Void {
+    func centroid(_ input: GeometryConvertible) -> Void {
         do {
             let resultGeometry = try Geometry.point(input.centroid())
-            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            geometries.append(SelectableIdentifiableGeometry(resultGeometry))
         } catch {
             handleError(error)
         }
     }
     
-    func boundary(_ input: Geometry) -> Void {
+    func boundary(_ input: GeometryConvertible) -> Void {
         var resultGeometry: Geometry
         do {
-            switch input {
+            switch input.geometry {
             case let .multiPoint(input):
                 resultGeometry = try input.boundary()
-                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+                geometries.append(SelectableIdentifiableGeometry(resultGeometry))
             case let .polygon(input):
                 resultGeometry = try input.boundary()
-                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+                geometries.append(SelectableIdentifiableGeometry(resultGeometry))
             case let .multiPolygon(input):
                 resultGeometry = try input.boundary()
-                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+                geometries.append(SelectableIdentifiableGeometry(resultGeometry))
             case let .lineString(input):
                 resultGeometry = try input.boundary()
-                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+                geometries.append(SelectableIdentifiableGeometry(resultGeometry))
             case let .multiLineString(input):
                 resultGeometry = try input.boundary()
-                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+                geometries.append(SelectableIdentifiableGeometry(resultGeometry))
             case let .point(input):
                 resultGeometry = try input.boundary()
-                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+                geometries.append(SelectableIdentifiableGeometry(resultGeometry))
             case .geometryCollection:
                 handleError(GEOSError.libraryError(errorMessages: ["GeometryCollection is not Boundable"]))
             }
@@ -114,39 +114,39 @@ class GeometryModel: ObservableObject {
         }
     }
     
-    func minimumBoundingCircle(_ input: Geometry) -> Void {
+    func minimumBoundingCircle(_ input: GeometryConvertible) -> Void {
         do {
             let viewCircle = try input.minimumBoundingCircle()
             if let resultGeometry = try viewCircle.center.buffer(by: viewCircle.radius) {
-                geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+                geometries.append(SelectableIdentifiableGeometry(resultGeometry))
             }
         } catch {
             handleError(error)
         }
     }
     
-    func simplify(_ input: Geometry) -> Void {
+    func simplify(_ input: GeometryConvertible) -> Void {
         do {
             let resultGeometry = try input.simplify(withTolerance: 3)
-            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            geometries.append(SelectableIdentifiableGeometry(resultGeometry))
         } catch {
             handleError(error)
         }
     }
     
-    func minimumRotatedRectangle(_ input: Geometry) -> Void {
+    func minimumRotatedRectangle(_ input: GeometryConvertible) -> Void {
         do {
             let resultGeometry = try input.minimumRotatedRectangle()
-            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            geometries.append(SelectableIdentifiableGeometry(resultGeometry))
         } catch {
             handleError(error)
         }
     }
     
-    func minimumWidth(_ input: Geometry) -> Void {
+    func minimumWidth(_ input: GeometryConvertible) -> Void {
         do {
             let resultGeometry = try Geometry.lineString(input.minimumWidth())
-            geometries.append(IdentifiableGeometry(geometry: resultGeometry))
+            geometries.append(SelectableIdentifiableGeometry(resultGeometry))
         } catch {
             handleError(error)
         }
@@ -164,11 +164,12 @@ class GeometryModel: ObservableObject {
             if let data = try? Data(contentsOf: selectedFile),
                let geoJSON = try? decoder.decode(GeoJSON.self, from: data),
                case let .featureCollection(featureCollection) = geoJSON {
-                let geometriesArray: [IdentifiableGeometry] = featureCollection.features.compactMap { feature in
+                let geometriesArray: [SelectableIdentifiableGeometry] = featureCollection.features.compactMap { feature in
                     guard let geometry = feature.geometry else {
+                        handleError(GEOSwiftError.invalidJSON)
                         return nil
                     }
-                    return IdentifiableGeometry(geometry: geometry)
+                    return SelectableIdentifiableGeometry(geometry)
                 }
                 geometries.append(contentsOf: geometriesArray)
             }

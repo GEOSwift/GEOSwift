@@ -31,7 +31,9 @@ struct ContentView: View {
                     ZStack {
                         GridView(gridGeometry: gridGeometry)
                         ForEach(geometryModel.geometries, id: \.id) { geometry in
-                            GeometryView(identifiableGeometry: geometry, gridGeometry: gridGeometry)
+                            GeometryView(selectableIdentifiableGeometry: geometry, gridGeometry: gridGeometry)
+                                .opacity(geometry.selected ? 1 : 0.4)
+                                .foregroundColor(colorForUUID(geometry.identifiableGeometry.id))
                         }
                     }
                 }

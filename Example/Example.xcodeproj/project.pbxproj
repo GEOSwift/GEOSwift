@@ -29,6 +29,9 @@
 		2388CE50287A0B1A00363E75 /* ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2388CE4F287A0B1A00363E75 /* ExampleTests.swift */; };
 		2388CE5A287A0B1A00363E75 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2388CE59287A0B1A00363E75 /* ExampleUITests.swift */; };
 		2388CE5C287A0B1A00363E75 /* ExampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2388CE5B287A0B1A00363E75 /* ExampleUITestsLaunchTests.swift */; };
+		23ADF94729C9228E0013E9AD /* GeometryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23ADF94629C9228E0013E9AD /* GeometryCollectionView.swift */; };
+		23ADF94929C9242B0013E9AD /* IdentifiableGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23ADF94829C9242B0013E9AD /* IdentifiableGeometry.swift */; };
+		23ADF94C29C9245D0013E9AD /* SelectableIdentifiableGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23ADF94B29C9245D0013E9AD /* SelectableIdentifiableGeometry.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +77,9 @@
 		2388CE59287A0B1A00363E75 /* ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUITests.swift; sourceTree = "<group>"; };
 		2388CE5B287A0B1A00363E75 /* ExampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2388CE69287A0BFB00363E75 /* GEOSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GEOSwift; path = ..; sourceTree = "<group>"; };
+		23ADF94629C9228E0013E9AD /* GeometryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryCollectionView.swift; sourceTree = "<group>"; };
+		23ADF94829C9242B0013E9AD /* IdentifiableGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableGeometry.swift; sourceTree = "<group>"; };
+		23ADF94B29C9245D0013E9AD /* SelectableIdentifiableGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableIdentifiableGeometry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,12 +118,14 @@
 		2385D85828EF5D3A0074F81A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2388CE40287A0B0C00363E75 /* ContentView.swift */,
 				2385D85428EF554C0074F81A /* PointView.swift */,
 				2385D85628EF5CE50074F81A /* MultiPointView.swift */,
 				2385D85928EF9A870074F81A /* PolygonView.swift */,
 				2385D85B28EF9B090074F81A /* MultiPolygonView.swift */,
 				2385D85D28EF9C590074F81A /* LineStringView.swift */,
 				2385D85F28EF9CD80074F81A /* MultiLineStringView.swift */,
+				23ADF94629C9228E0013E9AD /* GeometryCollectionView.swift */,
 				2385D86128EFA7BA0074F81A /* GeometryView.swift */,
 				23567A322987093A0006CBBD /* GridView.swift */,
 				2310BE0729AC061600642AA0 /* SingleGeometryOperationView.swift */,
@@ -152,11 +160,10 @@
 		2388CE3D287A0B0C00363E75 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				23ADF94A29C924340013E9AD /* Geometries */,
 				2385D85828EF5D3A0074F81A /* Views */,
 				2388CE3E287A0B0C00363E75 /* ExampleApp.swift */,
-				2388CE40287A0B0C00363E75 /* ContentView.swift */,
 				2385D85228EDB18A0074F81A /* Model.swift */,
-				2310BE0329ABC66100642AA0 /* IdentifiableGeometries.swift */,
 				2310BE0529ABD58300642AA0 /* Utils.swift */,
 				2388CE42287A0B1800363E75 /* Assets.xcassets */,
 				2388CE44287A0B1800363E75 /* Preview Content */,
@@ -195,6 +202,16 @@
 				2388CE69287A0BFB00363E75 /* GEOSwift */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		23ADF94A29C924340013E9AD /* Geometries */ = {
+			isa = PBXGroup;
+			children = (
+				23ADF94829C9242B0013E9AD /* IdentifiableGeometry.swift */,
+				23ADF94B29C9245D0013E9AD /* SelectableIdentifiableGeometry.swift */,
+				2310BE0329ABC66100642AA0 /* IdentifiableGeometries.swift */,
+			);
+			path = Geometries;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,7 +354,10 @@
 				2310BE0C29AC08E000642AA0 /* SampleGeometryOperationView.swift in Sources */,
 				2385D85528EF554C0074F81A /* PointView.swift in Sources */,
 				2385D85728EF5CE50074F81A /* MultiPointView.swift in Sources */,
+				23ADF94C29C9245D0013E9AD /* SelectableIdentifiableGeometry.swift in Sources */,
+				23ADF94729C9228E0013E9AD /* GeometryCollectionView.swift in Sources */,
 				2310BE0629ABD58300642AA0 /* Utils.swift in Sources */,
+				23ADF94929C9242B0013E9AD /* IdentifiableGeometry.swift in Sources */,
 				2388CE41287A0B0C00363E75 /* ContentView.swift in Sources */,
 				2388CE3F287A0B0C00363E75 /* ExampleApp.swift in Sources */,
 				2385D86228EFA7BA0074F81A /* GeometryView.swift in Sources */,

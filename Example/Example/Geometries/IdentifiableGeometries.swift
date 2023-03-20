@@ -1,16 +1,6 @@
 import Foundation
 import GEOSwift
 
-struct IdentifiableGeometry: Identifiable, Hashable {
-    let id = UUID()
-    let geometry: Geometry
-    var selected = false
-    public init(geometry: Geometry, selected: Bool = false) {
-        self.geometry = geometry
-        self.selected = selected
-    }
-}
-
 struct IdentifiablePoint: Identifiable, Hashable {
     var id = UUID()
     var point: Point
@@ -19,10 +9,12 @@ struct IdentifiablePoint: Identifiable, Hashable {
 struct IdentifiableMultiPoint: Identifiable, Hashable {
     var id = UUID()
     var points: [IdentifiablePoint]
+    var multiPoint: MultiPoint
     public init(multiPoint: MultiPoint) {
         self.points = multiPoint.points.map { point in
             IdentifiablePoint(point: point)
         }
+        self.multiPoint = multiPoint
     }
 }
 
@@ -34,10 +26,12 @@ struct IdentifiableLineString: Identifiable, Hashable {
 struct IdentifiableMultiLineString: Identifiable, Hashable {
     var id = UUID()
     var lineStrings: [IdentifiableLineString]
+    var multiLineString: MultiLineString
     public init(multiLineString: MultiLineString) {
         self.lineStrings = multiLineString.lineStrings.map { lineString in
             IdentifiableLineString(lineString: lineString)
         }
+        self.multiLineString = multiLineString
     }
 }
 
@@ -49,19 +43,23 @@ struct IdentifiablePolygon: Identifiable, Hashable {
 struct IdentifiableMultiPolygon: Identifiable, Hashable {
     var id = UUID()
     var polygons: [IdentifiablePolygon]
+    var multiPolygon: MultiPolygon
     public init(multiPolygon: MultiPolygon) {
         self.polygons = multiPolygon.polygons.map { polygon in
             IdentifiablePolygon(polygon: polygon)
         }
+        self.multiPolygon = multiPolygon
     }
 }
 
 struct IdentifiableGeometryCollection: Identifiable, Hashable {
     var id = UUID()
     var geometries: [IdentifiableGeometry]
+    var geometryCollection: GeometryCollection
     public init(geometryCollection: GeometryCollection) {
         self.geometries = geometryCollection.geometries.map { geometry in
-            IdentifiableGeometry(geometry: geometry)
+            IdentifiableGeometry(geometry)
         }
+        self.geometryCollection = geometryCollection
     }
 }

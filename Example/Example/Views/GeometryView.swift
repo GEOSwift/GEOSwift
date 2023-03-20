@@ -3,28 +3,25 @@ import SwiftUI
 import GEOSwift
 
 struct GeometryView: View {
-    var identifiableGeometry: IdentifiableGeometry
+    var selectableIdentifiableGeometry: SelectableIdentifiableGeometry
     var gridGeometry: GeometryProxy
     
     var body: some View {
-        switch identifiableGeometry.geometry {
-        case let .polygon(geometry):
-            PolygonView(identifiablePolygon: IdentifiablePolygon(polygon: geometry), gridGeometry: gridGeometry, color: colorForUUID(identifiableGeometry.id), selected: identifiableGeometry.selected)
-        case let .multiPolygon(geometry):
-            MultiPolygonView(identifiableMultiPolygon: IdentifiableMultiPolygon(multiPolygon: geometry), gridGeometry: gridGeometry, color: colorForUUID(identifiableGeometry.id), selected: identifiableGeometry.selected)
-        case let .point(geometry):
-            PointView(identifiablePoint: IdentifiablePoint(point: geometry), gridGeometry: gridGeometry, color: colorForUUID(identifiableGeometry.id), selected: identifiableGeometry.selected)
-        case let .multiPoint(geometry):
-            MultiPointView(identifiableMultiPoint: IdentifiableMultiPoint(multiPoint: geometry), gridGeometry: gridGeometry, color: colorForUUID(identifiableGeometry.id), selected: identifiableGeometry.selected)
-        case let .lineString(geometry):
-            LineStringView(identifiableLineString: IdentifiableLineString(lineString: geometry), gridGeometry: gridGeometry, color: colorForUUID(identifiableGeometry.id), selected: identifiableGeometry.selected)
-        case let .multiLineString(geometry):
-            MultiLineStringView(identifiableMultiLineString: IdentifiableMultiLineString(multiLineString: geometry), gridGeometry: gridGeometry, color: colorForUUID(identifiableGeometry.id), selected: identifiableGeometry.selected)
-        case let .geometryCollection(geometry):
-            let identifiableGeometryCollection = IdentifiableGeometryCollection(geometryCollection: geometry)
-            ForEach(identifiableGeometryCollection.geometries, id: \.id) { geometry in
-                GeometryView(identifiableGeometry: geometry, gridGeometry: gridGeometry)
-            }
+        switch selectableIdentifiableGeometry.identifiableGeometry {
+        case let .polygon(polygon):
+            PolygonView(identifiablePolygon: polygon, gridGeometry: gridGeometry)
+        case let .multiPolygon(MultiPolygon):
+            MultiPolygonView(identifiableMultiPolygon: MultiPolygon, gridGeometry: gridGeometry)
+        case let .point(point):
+            PointView(identifiablePoint: point, gridGeometry: gridGeometry)
+        case let .multiPoint(multiPoint):
+            MultiPointView(identifiableMultiPoint: multiPoint, gridGeometry: gridGeometry)
+        case let .lineString(lineString):
+            LineStringView(identifiableLineString: lineString, gridGeometry: gridGeometry)
+        case let .multiLineString(multiLineString):
+            MultiLineStringView(identifiableMultiLineString: multiLineString, gridGeometry: gridGeometry)
+        case let .geometryCollection(geometryCollection):
+            GeometryCollectionView(identifiableGeometryCollection: geometryCollection, gridGeometry: gridGeometry)
         }
     }
 }

@@ -19,11 +19,11 @@ struct SampleGeometryOperationView: View {
             }
             Button("point", action: {
                 showSheet = false
-                geometryModel.geometries.append(IdentifiableGeometry(geometry: .point(Point(x: 3, y: 4))))
+                geometryModel.geometries.append(SelectableIdentifiableGeometry(.point(Point(x: 3, y: 4))))
             })
             Button("multiPoint", action: {
                 showSheet = false
-                geometryModel.geometries.append(IdentifiableGeometry(geometry: .multiPoint(MultiPoint(
+                geometryModel.geometries.append(SelectableIdentifiableGeometry(.multiPoint(MultiPoint(
                     points: [
                         Point(x: 135, y: 509),
                         Point(x: 290, y: 132),
@@ -31,7 +31,7 @@ struct SampleGeometryOperationView: View {
             })
             Button("polygon", action: {
                 showSheet = false
-                geometryModel.geometries.append(IdentifiableGeometry(geometry: .polygon(try! Polygon(exterior: Polygon.LinearRing(points: [
+                geometryModel.geometries.append(SelectableIdentifiableGeometry(.polygon(try! Polygon(exterior: Polygon.LinearRing(points: [
                     Point(x: 5, y: 9),
                     Point(x: 390, y: 632),
                     Point(x: 159, y: 409),
@@ -40,7 +40,7 @@ struct SampleGeometryOperationView: View {
             })
             Button("multiPolygon", action: {
                 showSheet = false
-                geometryModel.geometries.append(IdentifiableGeometry(geometry: .multiPolygon(MultiPolygon(polygons:
+                geometryModel.geometries.append(SelectableIdentifiableGeometry(.multiPolygon(MultiPolygon(polygons:
                     [try! Polygon(exterior: Polygon.LinearRing(points: [
                         Point(x: 305, y: 9),
                         Point(x: 250, y: 532),
@@ -56,7 +56,7 @@ struct SampleGeometryOperationView: View {
             })
             Button("lineString", action: {
                 showSheet = false
-                geometryModel.geometries.append(IdentifiableGeometry(geometry: .lineString(try! LineString(points: [
+                geometryModel.geometries.append(SelectableIdentifiableGeometry(.lineString(try! LineString(points: [
                     Point(x: 105, y: 9),
                     Point(x: 90, y: 532),
                     Point(x: 259, y: 389),
@@ -64,7 +64,7 @@ struct SampleGeometryOperationView: View {
             })
             Button("multiLineString", action: {
                 showSheet = false
-                geometryModel.geometries.append(IdentifiableGeometry(geometry: .multiLineString(MultiLineString(lineStrings:
+                geometryModel.geometries.append(SelectableIdentifiableGeometry(.multiLineString(MultiLineString(lineStrings:
                     [try! LineString(points: [
                         Point(x: 5, y: 9),
                         Point(x: 390, y: 312),
