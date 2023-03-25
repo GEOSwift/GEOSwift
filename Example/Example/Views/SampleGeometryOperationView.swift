@@ -77,6 +77,34 @@ struct SampleGeometryOperationView: View {
                         Point(x: 25, y: 29)])
                     ]))))
             })
+            Button("geometryCollection", action: {
+                showSheet = false
+                geometryModel.geometries.append(SelectableIdentifiableGeometry(
+                    .geometryCollection(GeometryCollection(geometries:
+                        [try! LineString(points: [
+                            Point(x: 5, y: 9),
+                            Point(x: 390, y: 312),
+                            Point(x: 59, y: 489),
+                            Point(x: 5, y: 9)]),
+                         try! LineString(points: [
+                            Point(x: 25, y: 29),
+                            Point(x: 120, y: 22),
+                            Point(x: 229, y: 489),
+                            Point(x: 25, y: 29)]),
+                         MultiPoint(
+                            points: [
+                                Point(x: 135, y: 509),
+                                Point(x: 290, y: 132),
+                                Point(x: 359, y: 689)]),
+                         try! Polygon(exterior: Polygon.LinearRing(points: [
+                            Point(x: 305, y: 9),
+                            Point(x: 250, y: 532),
+                            Point(x: 5, y: 389),
+                            Point(x: 305, y: 9)])
+                         )]
+                      ))
+                ))
+            })
         }
     }
 }

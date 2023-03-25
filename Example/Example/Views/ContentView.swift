@@ -35,6 +35,16 @@ struct ContentView: View {
                                 .opacity(geometry.selected ? 1 : 0.4)
                                 .foregroundColor(colorForUUID(geometry.identifiableGeometry.id))
                         }
+                        ForEach(1...Int(gridGeometry.size.height / 50), id: \.self) { i in
+                            Text("\(i * 50)")
+                                .font(.caption)
+                                .position(x: 12, y: gridGeometry.size.height - CGFloat(i) * 50 + 8)
+                        }
+                        ForEach(1...Int(gridGeometry.size.width / 50), id: \.self) { i in
+                            Text("\(i * 50)")
+                                .font(.caption)
+                                .position(x: CGFloat(i) * 50 - 12, y: gridGeometry.size.height - 8)
+                        }
                     }
                 }
                 .border(.gray, width: 1)

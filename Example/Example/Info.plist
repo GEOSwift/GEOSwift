@@ -6,6 +6,13 @@
 	<array>
 		<dict/>
 	</array>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>(no name)</key>
+		<dict/>
+		<key>UISceneConfigurations</key>
+		<dict/>
+	</dict>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 </dict>
