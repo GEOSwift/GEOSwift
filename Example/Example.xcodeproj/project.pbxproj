@@ -76,10 +76,10 @@
 		2388CE55287A0B1A00363E75 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2388CE59287A0B1A00363E75 /* ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUITests.swift; sourceTree = "<group>"; };
 		2388CE5B287A0B1A00363E75 /* ExampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		2388CE69287A0BFB00363E75 /* GEOSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GEOSwift; path = ..; sourceTree = "<group>"; };
 		23ADF94629C9228E0013E9AD /* GeometryCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryCollectionView.swift; sourceTree = "<group>"; };
 		23ADF94829C9242B0013E9AD /* IdentifiableGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableGeometry.swift; sourceTree = "<group>"; };
 		23ADF94B29C9245D0013E9AD /* SelectableIdentifiableGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableIdentifiableGeometry.swift; sourceTree = "<group>"; };
+		23FACA2D29D8D189004F1862 /* GEOSwift */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = GEOSwift; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,7 +199,7 @@
 		2388CE68287A0BFB00363E75 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				2388CE69287A0BFB00363E75 /* GEOSwift */,
+				23FACA2D29D8D189004F1862 /* GEOSwift */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
