@@ -300,6 +300,16 @@ public extension GeometryConvertible {
         try performUnaryTopologyOperation(GEOSMakeValid_r)
     }
 
+    func makeValid(method: MakeValidMethod) throws -> Geometry {
+        let context = try GEOSContext()
+        let geosObject = try geometry.geosObject(with: context)
+        let params = MakeValidParams(context: context, method: method)
+        guard let pointer = GEOSMakeValidWithParams_r(context.handle, geosObject.pointer, params.pointer) else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return try Geometry(geosObject: GEOSObject(context: context, pointer: pointer))
+    }
+
     func normalized() throws -> Geometry {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
@@ -456,4 +466,45 @@ public extension Collection where Element: GeometryConvertible {
 public enum IsValidDetailResult: Hashable, Sendable {
     case valid
     case invalid(reason: String?, location: Geometry?)
+}
+
+public enum MakeValidMethod {
+    case linework
+    case structure(keepCollapsed: Bool)
+
+    var geosMethod: GEOSMakeValidMethods {
+        switch self {
+        case .linework:
+            return GEOS_MAKE_VALID_LINEWORK
+        case .structure:
+            return GEOS_MAKE_VALID_STRUCTURE
+        }
+    }
+
+    var keepCollapsed: Int32? {
+        switch self {
+        case .linework:
+            return nil
+        case .structure(let keepCollapsed):
+            return keepCollapsed ? 1 : 0
+        }
+    }
+}
+
+private class MakeValidParams {
+    let context: GEOSContext
+    let pointer: OpaquePointer
+
+    init(context: GEOSContext, method: MakeValidMethod) {
+        self.context = context
+        self.pointer = GEOSMakeValidParams_create_r(context.handle)
+        assert(GEOSMakeValidParams_setMethod_r(context.handle, pointer, method.geosMethod) == 1)
+        if let keepCollapsed = method.keepCollapsed {
+            assert(GEOSMakeValidParams_setKeepCollapsed_r(context.handle, pointer, keepCollapsed) == 1)
+        }
+    }
+
+    deinit {
+        GEOSMakeValidParams_destroy_r(context.handle, pointer)
+    }
 }

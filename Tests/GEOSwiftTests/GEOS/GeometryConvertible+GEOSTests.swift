@@ -595,6 +595,36 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
+    func testMakeValidUsingLineworkMethodAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.makeValid(method: .linework)
+            } catch {
+                XCTFail("Unexpected error for \(g) makeValid(method: .linework) \(error)")
+            }
+        }
+    }
+
+    func testMakeValidUsingStructureKeepCollapsedMethodAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.makeValid(method: .structure(keepCollapsed: true))
+            } catch {
+                XCTFail("Unexpected error for \(g) makeValid(method: .structure(keepCollapsed: true)) \(error)")
+            }
+        }
+    }
+
+    func testMakeValidUsingStructureDoNotKeepCollapsedMethodAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.makeValid(method: .structure(keepCollapsed: false))
+            } catch {
+                XCTFail("Unexpected error for \(g) makeValid(method: .structure(keepCollapsed: false)) \(error)")
+            }
+        }
+    }
+
     func testNormalizedMultiLineString() {
         let multiLineString = try! MultiLineString(
             lineStrings: [
