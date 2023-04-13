@@ -1,3 +1,9 @@
+## 10.1.0
+
+* [#259](https://github.com/GEOSwift/GEOSwift/pull/259) Expose
+  `GeometryConvertible.makeValid(method:)`.
+* Fix warnings when building tests with Xcode 14.3.
+
 ## 10.0.0
 
 * [#250](https://github.com/GEOSwift/GEOSwift/pull/250) Add
