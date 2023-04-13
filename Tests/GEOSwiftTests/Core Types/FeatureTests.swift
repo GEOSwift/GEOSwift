@@ -59,7 +59,7 @@ final class FeatureTests: XCTestCase {
             "n": 1,
             "null": NSNull(),
             "s": "x",
-            "o": ["x": 123, "y": false, "z": NSNull()]]
+            "o": ["x": 123, "y": false, "z": NSNull()] as [String : Any]]
         XCTAssertEqual(untypedProperties, expected)
     }
 }
