@@ -1047,7 +1047,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         try XCTAssertTrue(actualGeometry?.isTopologicallyEquivalent(to: expectedGeometry) ?? false)
     }
 
-    func testBufferWithFlatEndCap() throws {
+    func testBufferWithStyleWithFlatEndCap() throws {
         let expectedGeometry = try Geometry.polygon(GEOSwift.Polygon(
             exterior: GEOSwift.Polygon.LinearRing(points: [
                 Point(x: 1, y: 1),
