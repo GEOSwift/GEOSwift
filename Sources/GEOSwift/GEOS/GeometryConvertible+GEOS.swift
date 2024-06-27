@@ -425,11 +425,11 @@ public extension GeometryConvertible {
         }
     }
 
-    func bufferWithStyle(width: Double, quadsegs: Int32 = 8, endCapStyle: Int32 = 1, joinStyle: Int32 = 1, mitreLimit: Double = 5.0) throws -> Geometry? {
+    func bufferWithStyle(width: Double, quadsegs: Int32 = 8, endCapStyle: EndCapStyle = .round, joinStyle: JoinStyle = .round, mitreLimit: Double = 5.0) throws -> Geometry? {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
 
-        guard let resultPointer = GEOSBufferWithStyle_r(context.handle, geosObject.pointer, width, quadsegs, endCapStyle, joinStyle, mitreLimit) else {
+        guard let resultPointer = GEOSBufferWithStyle_r(context.handle, geosObject.pointer, width, quadsegs, endCapStyle.rawValue, joinStyle.rawValue, mitreLimit) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         do {
@@ -477,6 +477,20 @@ public extension Collection where Element: GeometryConvertible {
         }
         return try GeometryCollection(geosObject: GEOSObject(context: context, pointer: pointer))
     }
+}
+
+/// Buffer end cap styles
+public enum EndCapStyle: Int32 {
+    case round = 1
+    case flat = 2
+    case square = 3
+}
+
+/// Buffer join styles
+public enum JoinStyle: Int32 {
+    case round = 1
+    case mitre = 2
+    case bevel = 3
 }
 
 public enum IsValidDetailResult: Hashable, Sendable {

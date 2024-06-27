@@ -1056,7 +1056,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
                 Point(x: 0, y: 1),
                 Point(x: 1, y: 1)])))
 
-        let actualGeometry = try lineString1.bufferWithStyle(width: 1, endCapStyle: 2)
+        let actualGeometry = try lineString1.bufferWithStyle(width: 1, endCapStyle: .flat)
 
         try XCTAssertTrue(actualGeometry?.isTopologicallyEquivalent(to: expectedGeometry) ?? false)
     }
