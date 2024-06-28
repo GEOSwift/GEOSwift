@@ -116,7 +116,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             }
         }
     }
-    
+
     func testHausdorffDistance() {
         let point1 = Point(x: 0, y: 0)
         let point2 = Point(x: 10, y: 0)
@@ -152,7 +152,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             }
         }
     }
-    
+
     func testAreaOfPolygon() {
         XCTAssertEqual(try? unitPoly.area(), 1)
     }
@@ -610,7 +610,9 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             do {
                 _ = try g.makeValid(method: .structure(keepCollapsed: true))
             } catch {
-                XCTFail("Unexpected error for \(g) makeValid(method: .structure(keepCollapsed: true)) \(error)")
+                XCTFail(
+                    "Unexpected error for \(g) makeValid(method: .structure(keepCollapsed: true)) \(error)"
+                )
             }
         }
     }
@@ -620,7 +622,9 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             do {
                 _ = try g.makeValid(method: .structure(keepCollapsed: false))
             } catch {
-                XCTFail("Unexpected error for \(g) makeValid(method: .structure(keepCollapsed: false)) \(error)")
+                XCTFail(
+                    "Unexpected error for \(g) makeValid(method: .structure(keepCollapsed: false)) \(error)"
+                )
             }
         }
     }

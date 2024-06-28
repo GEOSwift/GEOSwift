@@ -22,7 +22,11 @@ public extension LineStringConvertible {
         let lineStringGeosObject = try lineString.geosObject(with: context)
         let pointGeosObject = try point.geosObject(with: context)
         // returns -1 on exception
-        let result = GEOSProjectNormalized_r(context.handle, lineStringGeosObject.pointer, pointGeosObject.pointer)
+        let result = GEOSProjectNormalized_r(
+            context.handle,
+            lineStringGeosObject.pointer,
+            pointGeosObject.pointer
+        )
         guard result != -1 else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
@@ -43,7 +47,11 @@ public extension LineStringConvertible {
     func interpolatedPoint(withFraction fraction: Double) throws -> Point {
         let context = try GEOSContext()
         let lineStringGeosObject = try lineString.geosObject(with: context)
-        guard let pointer = GEOSInterpolateNormalized_r(context.handle, lineStringGeosObject.pointer, fraction) else {
+        guard let pointer = GEOSInterpolateNormalized_r(
+            context.handle,
+            lineStringGeosObject.pointer,
+            fraction
+        ) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         return try Point(geosObject: GEOSObject(context: context, pointer: pointer))

@@ -26,28 +26,42 @@ public extension GeometryConvertible {
         }
         return dist
     }
-    
+
     func hausdorffDistance(to geometry: GeometryConvertible) throws -> Double {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
-        
+
         var distance: Double = 0
         // returns 0 on exception
-        guard GEOSHausdorffDistance_r(context.handle, geosObject.pointer, otherGeosObject.pointer, &distance) == 1 else {
+        guard GEOSHausdorffDistance_r(
+            context.handle,
+            geosObject.pointer,
+            otherGeosObject.pointer,
+            &distance
+        ) == 1 else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         return distance
     }
-    
-    func hausdorffDistanceDensify(to geometry: GeometryConvertible, densifyFraction: Double) throws -> Double {
+
+    func hausdorffDistanceDensify(
+        to geometry: GeometryConvertible,
+        densifyFraction: Double
+    ) throws -> Double {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
-        
+
         var distance: Double = 0
         // returns 0 on exception
-        guard GEOSHausdorffDistanceDensify_r(context.handle, geosObject.pointer, otherGeosObject.pointer, densifyFraction, &distance) == 1 else {
+        guard GEOSHausdorffDistanceDensify_r(
+            context.handle,
+            geosObject.pointer,
+            otherGeosObject.pointer,
+            densifyFraction,
+            &distance
+        ) == 1 else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         return distance
@@ -304,7 +318,11 @@ public extension GeometryConvertible {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         let params = MakeValidParams(context: context, method: method)
-        guard let pointer = GEOSMakeValidWithParams_r(context.handle, geosObject.pointer, params.pointer) else {
+        guard let pointer = GEOSMakeValidWithParams_r(
+            context.handle,
+            geosObject.pointer,
+            params.pointer
+        ) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         return try Geometry(geosObject: GEOSObject(context: context, pointer: pointer))
@@ -327,7 +345,12 @@ public extension GeometryConvertible {
     func concaveHull(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
-        guard let resultPointer = GEOSConcaveHull_r(context.handle, geosObject.pointer, ratio, allowHoles ? 1 : 0) else {
+        guard let resultPointer = GEOSConcaveHull_r(
+            context.handle,
+            geosObject.pointer,
+            ratio,
+            allowHoles ? 1 : 0
+        ) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
@@ -425,11 +448,25 @@ public extension GeometryConvertible {
         }
     }
 
-    func bufferWithStyle(width: Double, quadsegs: Int32 = 8, endCapStyle: BufferEndCapStyle = .round, joinStyle: BufferJoinStyle = .round, mitreLimit: Double = 5.0) throws -> Geometry? {
+    func bufferWithStyle(
+        width: Double,
+        quadsegs: Int32 = 8,
+        endCapStyle: BufferEndCapStyle = .round,
+        joinStyle: BufferJoinStyle = .round,
+        mitreLimit: Double = 5.0
+    ) throws -> Geometry? {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
 
-        guard let resultPointer = GEOSBufferWithStyle_r(context.handle, geosObject.pointer, width, quadsegs, Int32(endCapStyle.geosValue.rawValue), Int32(joinStyle.geosValue.rawValue), mitreLimit) else {
+        guard let resultPointer = GEOSBufferWithStyle_r(
+            context.handle,
+            geosObject.pointer,
+            width,
+            quadsegs,
+            Int32(endCapStyle.geosValue.rawValue),
+            Int32(joinStyle.geosValue.rawValue),
+            mitreLimit
+        ) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         do {
@@ -458,7 +495,12 @@ public extension GeometryConvertible {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
-        guard let pointer = GEOSSnap_r(context.handle, geosObject.pointer, otherGeosObject.pointer, tolerance) else {
+        guard let pointer = GEOSSnap_r(
+            context.handle,
+            geosObject.pointer,
+            otherGeosObject.pointer,
+            tolerance
+        ) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         return try Geometry(geosObject: GEOSObject(context: context, pointer: pointer))
@@ -483,7 +525,7 @@ public enum BufferEndCapStyle: Hashable, Sendable {
     case round
     case flat
     case square
-    
+
     var geosValue: GEOSBufCapStyles {
         switch self {
         case .round:
@@ -500,7 +542,7 @@ public enum BufferJoinStyle: Hashable, Sendable {
     case round
     case mitre
     case bevel
-    
+
     var geosValue: GEOSBufJoinStyles {
         switch self {
         case .round:
