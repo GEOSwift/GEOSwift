@@ -1023,6 +1023,48 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         try XCTAssertNil(Point.testValue1.buffer(by: -1))
     }
 
+    func testBufferWithStyleAllTypes() {
+        for geometry in geometryConvertibles {
+            do {
+                _ = try geometry.bufferWithStyle(width: 0.5)
+            } catch {
+                XCTFail("Unexpected error for \(geometry) bufferWithStyle(width: 0.5) \(error)")
+            }
+        }
+    }
+
+    func testNegativeBufferWithStyleWidthWithNonNilResult() throws {
+        let expectedGeometry = try Geometry.polygon(GEOSwift.Polygon(
+            exterior: GEOSwift.Polygon.LinearRing(points: [
+                Point(x: 6, y: 1),
+                Point(x: 4, y: 1),
+                Point(x: 4, y: -1),
+                Point(x: 6, y: -1),
+                Point(x: 6, y: 1)])))
+
+        let actualGeometry = try Polygon.testValueWithoutHole.bufferWithStyle(width: -1)
+
+        try XCTAssertTrue(actualGeometry?.isTopologicallyEquivalent(to: expectedGeometry) ?? false)
+    }
+
+    func testBufferWithStyleWithFlatEndCap() throws {
+        let expectedGeometry = try Geometry.polygon(GEOSwift.Polygon(
+            exterior: GEOSwift.Polygon.LinearRing(points: [
+                Point(x: 1, y: 1),
+                Point(x: 1, y: -1),
+                Point(x: 0, y: -1),
+                Point(x: 0, y: 1),
+                Point(x: 1, y: 1)])))
+
+        let actualGeometry = try lineString1.bufferWithStyle(width: 1, endCapStyle: .flat)
+
+        try XCTAssertTrue(actualGeometry?.isTopologicallyEquivalent(to: expectedGeometry) ?? false)
+    }
+
+    func testBufferWithStyleNegativeBufferWidthWithNilResult() throws {
+        try XCTAssertNil(Point.testValue1.bufferWithStyle(width: -1))
+    }
+
     // MARK: - Simplify Functions
 
     func testSimplifyAllTypes() {

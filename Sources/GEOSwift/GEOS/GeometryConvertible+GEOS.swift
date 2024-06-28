@@ -425,6 +425,22 @@ public extension GeometryConvertible {
         }
     }
 
+    func bufferWithStyle(width: Double, quadsegs: Int32 = 8, endCapStyle: BufferEndCapStyle = .round, joinStyle: BufferJoinStyle = .round, mitreLimit: Double = 5.0) throws -> Geometry? {
+        let context = try GEOSContext()
+        let geosObject = try geometry.geosObject(with: context)
+
+        guard let resultPointer = GEOSBufferWithStyle_r(context.handle, geosObject.pointer, width, quadsegs, Int32(endCapStyle.geosValue.rawValue), Int32(joinStyle.geosValue.rawValue), mitreLimit) else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        do {
+            return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
+        } catch GEOSwiftError.tooFewPoints {
+            return nil
+        } catch {
+            throw error
+        }
+    }
+
     // MARK: - Simplify Functions
 
     func simplify(withTolerance tolerance: Double) throws -> Geometry {
@@ -460,6 +476,40 @@ public extension Collection where Element: GeometryConvertible {
                 throw GEOSError.libraryError(errorMessages: context.errors)
         }
         return try GeometryCollection(geosObject: GEOSObject(context: context, pointer: pointer))
+    }
+}
+
+public enum BufferEndCapStyle: Hashable, Sendable {
+    case round
+    case flat
+    case square
+    
+    var geosValue: GEOSBufCapStyles {
+        switch self {
+        case .round:
+            return GEOSBUF_CAP_ROUND
+        case .flat:
+            return GEOSBUF_CAP_FLAT
+        case .square:
+            return GEOSBUF_CAP_SQUARE
+        }
+    }
+}
+
+public enum BufferJoinStyle: Hashable, Sendable {
+    case round
+    case mitre
+    case bevel
+    
+    var geosValue: GEOSBufJoinStyles {
+        switch self {
+        case .round:
+            return GEOSBUF_JOIN_ROUND
+        case .mitre:
+            return GEOSBUF_JOIN_MITRE
+        case .bevel:
+            return GEOSBUF_JOIN_BEVEL
+        }
     }
 }
 
