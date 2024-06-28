@@ -19,7 +19,7 @@ final class JSONTests: XCTestCase {
             "n": 1,
             "null": NSNull(),
             "s": "x",
-            "o": ["x": 123, "y": false, "z": NSNull()] as [String : Any]]
+            "o": ["x": 123, "y": false, "z": NSNull()] as [String: Any]]
         XCTAssertEqual(untypedValue, expected)
     }
 

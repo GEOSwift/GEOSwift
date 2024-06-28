@@ -3,9 +3,11 @@ public struct Feature: Hashable, Sendable {
     public var properties: [String: JSON]?
     public var id: FeatureId?
 
-    public init(geometry: GeometryConvertible? = nil,
-                properties: [String: JSON]? = nil,
-                id: FeatureId? = nil) {
+    public init(
+        geometry: GeometryConvertible? = nil,
+        properties: [String: JSON]? = nil,
+        id: FeatureId? = nil
+    ) {
         self.geometry = geometry?.geometry
         self.properties = properties
         self.id = id

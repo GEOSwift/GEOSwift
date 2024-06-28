@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Swiftlint
-        run: swiftlint
+        run: swiftlint --strict
   podspec:
     name: Lint Podspec for ${{ matrix.platform }}
     runs-on: macos-12

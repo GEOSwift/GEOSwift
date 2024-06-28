@@ -54,9 +54,11 @@ private final class WKTWriter {
     private let context: GEOSContext
     private let writer: OpaquePointer
 
-    init(context: GEOSContext,
-         trim: Trim,
-         roundingPrecision: RoundingPrecision) throws {
+    init(
+        context: GEOSContext,
+        trim: Trim,
+        roundingPrecision: RoundingPrecision
+    ) throws {
         guard let writer = GEOSWKTWriter_create_r(context.handle) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
