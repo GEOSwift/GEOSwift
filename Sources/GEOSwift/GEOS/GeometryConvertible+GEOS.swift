@@ -170,8 +170,10 @@ public extension GeometryConvertible {
 
     private typealias BinaryPredicate = (GEOSContextHandle_t, OpaquePointer, OpaquePointer) -> Int8
 
-    private func evaluateBinaryPredicate(_ predicate: BinaryPredicate,
-                                         with geometry: GeometryConvertible) throws -> Bool {
+    private func evaluateBinaryPredicate(
+        _ predicate: BinaryPredicate,
+        with geometry: GeometryConvertible
+    ) throws -> Bool {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
@@ -267,8 +269,10 @@ public extension GeometryConvertible {
 
     private typealias BinaryOperation = (GEOSContextHandle_t, OpaquePointer, OpaquePointer) -> OpaquePointer?
 
-    private func performBinaryTopologyOperation(_ operation: BinaryOperation,
-                                                geometry: GeometryConvertible) throws -> Geometry {
+    private func performBinaryTopologyOperation(
+        _ operation: BinaryOperation,
+        geometry: GeometryConvertible
+    ) throws -> Geometry {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
