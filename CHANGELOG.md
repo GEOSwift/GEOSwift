@@ -1,3 +1,8 @@
+## 10.2.0
+
+* [#271](https://github.com/GEOSwift/GEOSwift/pull/271) Expose `GeometryConvertible.bufferWithStyle(width:quadsegs:endCapStyle:joinStyle:mitreLimit:)`
+* [#274](https://github.com/GEOSwift/GEOSwift/pull/274) Treat lint warnings as errors in CI
+
 ## 10.1.0
 
 * [#259](https://github.com/GEOSwift/GEOSwift/pull/259) Expose
