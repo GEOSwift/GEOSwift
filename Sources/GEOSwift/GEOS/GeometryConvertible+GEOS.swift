@@ -225,6 +225,14 @@ public extension GeometryConvertible {
         try evaluateBinaryPredicate(GEOSCoveredBy_r, with: geometry)
     }
 
+    // MARK: - Prepared Geometry
+
+    func makePrepared() throws -> PreparedGeometry {
+        let context = try GEOSContext()
+        let geosObject = try geometry.geosObject(with: context)
+        return try PreparedGeometry(context: context, base: geosObject)
+    }
+
     // MARK: - Dimensionally Extended 9 Intersection Model Functions
 
     /// Parameter mask: A DE9-IM mask pattern

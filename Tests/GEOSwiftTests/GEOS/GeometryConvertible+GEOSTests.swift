@@ -496,6 +496,18 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
+    // MARK: - Prepared Geometry
+
+    func testMakePreparedAllTypes() {
+        for g in geometryConvertibles {
+            do {
+                _ = try g.makePrepared()
+            } catch {
+                XCTFail("Unexpected error for \(g) makePrepared() \(error)")
+            }
+        }
+    }
+
     // MARK: - Dimensionally Extended 9 Intersection Model Functions
 
     func testRelateMaskBetweenPoints() {
