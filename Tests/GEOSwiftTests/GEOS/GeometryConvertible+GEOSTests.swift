@@ -1069,6 +1069,38 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         try XCTAssertNil(Point.testValue1.bufferWithStyle(width: -1))
     }
 
+    func testOffsetCurve() throws {
+        let lineString = try LineString(points: [
+            Point(x: 0, y: 0),
+            Point(x: 10, y: 0),
+            Point(x: 10, y: 10)])
+
+        let expextedLineString = try LineString(points: [
+            Point(x: 0, y: 5),
+            Point(x: 5, y: 5),
+            Point(x: 5, y: 10)])
+
+        let actualGeometry = try lineString.offsetCurve(width: 5, joinStyle: .bevel)
+
+        XCTAssertEqual(actualGeometry, .lineString(expextedLineString))
+    }
+
+    func testOffsetCurveWithNegativeWidth() throws {
+        let lineString = try LineString(points: [
+            Point(x: 0, y: 0),
+            Point(x: 10, y: 0),
+            Point(x: 10, y: 10)])
+
+        let expextedLineString = try LineString(points: [
+            Point(x: 0, y: -5),
+            Point(x: 10, y: -5),
+            Point(x: 15, y: 0),
+            Point(x: 15, y: 10)])
+
+        let actualGeometry = try lineString.offsetCurve(width: -5, joinStyle: .bevel)
+        XCTAssertTrue(try actualGeometry?.isTopologicallyEquivalent(to: expextedLineString) == true)
+    }
+
     // MARK: - Simplify Functions
 
     func testSimplifyAllTypes() {
