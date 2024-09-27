@@ -3,20 +3,20 @@ name: GEOSwift
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   swiftlint:
-    runs-on: macos-12
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v3
       - name: Swiftlint
         run: swiftlint --strict
   podspec:
     name: Lint Podspec for ${{ matrix.platform }}
-    runs-on: macos-12
+    runs-on: macos-14
     strategy:
       matrix:
         platform: [ios, osx, tvos]
@@ -30,46 +30,26 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: "xcodebuild (iOS 16.2, Xcode 14.2)"
-            os: macos-12
-            xcode-version: "14.2"
-            sdk: iphonesimulator16.2
-            destination: "platform=iOS Simulator,OS=16.2,name=iPhone 14"
-          - name: "xcodebuild (tvOS 16.1, Xcode 14.2)"
-            os: macos-12
-            xcode-version: "14.2"
-            sdk: appletvsimulator16.1
-            destination: "platform=tvOS Simulator,OS=16.1,name=Apple TV"
-          - name: "xcodebuild (macOS 13.1, Xcode 14.2)"
-            os: macos-12
-            xcode-version: "14.2"
-            sdk: macosx13.1
+          - name: "xcodebuild (iOS 17.5, Xcode 15.4)"
+            os: macos-14
+            xcode-version: "15.4"
+            sdk: iphonesimulator17.5
+            destination: "platform=iOS Simulator,OS=17.5,name=iPhone 15"
+          - name: "xcodebuild (tvOS 17.5, Xcode 15.4)"
+            os: macos-14
+            xcode-version: "15.4"
+            sdk: appletvsimulator17.5
+            destination: "platform=tvOS Simulator,OS=17.5,name=Apple TV"
+          - name: "xcodebuild (macOS 14.5, Xcode 15.4)"
+            os: macos-14
+            xcode-version: "15.4"
+            sdk: macosx14.5
             destination: "platform=OS X"
-          - name: "xcodebuild (watchOS 9.1, Xcode 14.2)"
-            os: macos-12
-            xcode-version: "14.2"
-            sdk: watchsimulator9.1
-            destination: "platform=watchOS Simulator,OS=9.1,name=Apple Watch Series 8 (45mm)"
-          - name: "xcodebuild (iOS 15.2, Xcode 13.2.1)"
-            os: macos-11
-            xcode-version: "13.2.1"
-            sdk: iphonesimulator15.2
-            destination: "platform=iOS Simulator,OS=15.2,name=iPhone 13"
-          - name: "xcodebuild (tvOS 15.2, Xcode 13.2.1)"
-            os: macos-11
-            xcode-version: "13.2.1"
-            sdk: appletvsimulator15.2
-            destination: "platform=tvOS Simulator,OS=15.2,name=Apple TV"
-          - name: "xcodebuild (macOS 12.1, Xcode 13.2.1)"
-            os: macos-11
-            xcode-version: "13.2.1"
-            sdk: macosx12.1
-            destination: "platform=OS X"
-          - name: "xcodebuild (watchOS 8.3, Xcode 13.2.1)"
-            os: macos-11
-            xcode-version: "13.2.1"
-            sdk: watchos8.3
-            destination: "platform=watchOS Simulator,OS=8.3,name=Apple Watch Series 7 - 45mm"
+          - name: "xcodebuild (watchOS 10.5, Xcode 15.4)"
+            os: macos-14
+            xcode-version: "15.4"
+            sdk: watchsimulator10.5
+            destination: "platform=watchOS Simulator,OS=10.5,name=Apple Watch Series 9 (45mm)"
     steps:
       - uses: actions/checkout@v3
       - name: Select Xcode Version
@@ -89,10 +69,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-11
-            xcode-version: "13.2.1"
-          - os: macos-12
-            xcode-version: "14.2"
+          - os: macos-14
+            xcode-version: "15.4"
     steps:
       - uses: actions/checkout@v3
       - name: Select Xcode Version
@@ -105,7 +83,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-22.04
+          - os: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
       - name: Build & Test
