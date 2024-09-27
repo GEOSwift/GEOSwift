@@ -12,7 +12,9 @@ jobs:
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v3
-      - name: Swiftlint
+      - name: Install SwiftLint
+        run: brew install swiftlint
+      - name: SwiftLint
         run: swiftlint --strict
   podspec:
     name: Lint Podspec for ${{ matrix.platform }}
