@@ -997,6 +997,34 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         XCTAssertTrue(try lineStrings.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
     }
 
+    func testLineMerge() {
+        let multiLineString = try! MultiLineString(lineStrings: [
+            LineString(points: [Point(x: 0, y: 0), Point(x: 1, y: 0)]),
+            LineString(points: [Point(x: 1, y: 0), Point(x: 0, y: 1)]),
+            LineString(points: [Point(x: 0, y: 0), Point(x: 2, y: 1)])])
+
+        let expectedLineString = try! LineString(points: [
+            Point(x: 2, y: 1),
+            Point(x: 0, y: 0),
+            Point(x: 1, y: 0),
+            Point(x: 0, y: 1)])
+
+        XCTAssertEqual(try multiLineString.lineMerge(), .lineString(expectedLineString))
+    }
+
+    func testLineMergeDirected() {
+        let multiLineString = try! MultiLineString(lineStrings: [
+            LineString(points: [Point(x: 0, y: 0), Point(x: 1, y: 0)]),
+            LineString(points: [Point(x: 1, y: 0), Point(x: 0, y: 1)]),
+            LineString(points: [Point(x: 0, y: 0), Point(x: 2, y: 1)])])
+
+        let expectedMultiLineString = try! MultiLineString(lineStrings: [
+            LineString(points: [Point(x: 0, y: 0), Point(x: 1, y: 0), Point(x: 0, y: 1)]),
+            LineString(points: [Point(x: 0, y: 0), Point(x: 2, y: 1)])])
+
+        XCTAssertEqual(try multiLineString.lineMergeDirected(), .multiLineString(expectedMultiLineString))
+    }
+
     // MARK: - Buffer Functions
 
     func testBufferAllTypes() {

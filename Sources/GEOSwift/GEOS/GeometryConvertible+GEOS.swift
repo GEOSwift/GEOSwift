@@ -431,6 +431,14 @@ public extension GeometryConvertible {
         try [self].polygonize()
     }
 
+    func lineMerge() throws -> Geometry {
+        try performUnaryTopologyOperation(GEOSLineMerge_r)
+    }
+
+    func lineMergeDirected() throws -> Geometry {
+        try performUnaryTopologyOperation(GEOSLineMergeDirected_r)
+    }
+
     // MARK: - Buffer Functions
 
     func buffer(by width: Double) throws -> Geometry? {
