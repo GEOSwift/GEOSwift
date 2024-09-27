@@ -1,3 +1,8 @@
+## 10.3.0
+
+* [#281](https://github.com/GEOSwift/GEOSwift/pull/281) Add `GeometryConvertible.lineMergeDirected()` and `GeometryConvertible.lineMerge()`
+* [#282](https://github.com/GEOSwift/GEOSwift/pull/282) Add `GeometryConvertible.offsetCurve(width:quadsegs:joinStyle:mitreLimit:)`
+
 ## 10.2.0
 
 * [#271](https://github.com/GEOSwift/GEOSwift/pull/271) Expose `GeometryConvertible.bufferWithStyle(width:quadsegs:endCapStyle:joinStyle:mitreLimit:)`
