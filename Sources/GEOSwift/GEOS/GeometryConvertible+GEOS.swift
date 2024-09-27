@@ -482,6 +482,34 @@ public extension GeometryConvertible {
         }
     }
 
+    func offsetCurve(
+        width: Double,
+        quadsegs: Int32 = 8,
+        joinStyle: BufferJoinStyle = .bevel,
+        mitreLimit: Double = 5.0
+    ) throws -> Geometry? {
+        let context = try GEOSContext()
+        let geosObject = try geometry.geosObject(with: context)
+
+        guard let resultPointer = GEOSOffsetCurve_r(
+            context.handle,
+            geosObject.pointer,
+            width,
+            quadsegs,
+            Int32(joinStyle.geosValue.rawValue),
+            mitreLimit
+        ) else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        do {
+            return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
+        } catch GEOSwiftError.tooFewPoints {
+            return nil
+        } catch {
+            throw error
+        }
+    }
+
     // MARK: - Simplify Functions
 
     func simplify(withTolerance tolerance: Double) throws -> Geometry {
