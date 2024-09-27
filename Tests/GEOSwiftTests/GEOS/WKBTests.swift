@@ -53,7 +53,7 @@ final class WKBTests: XCTestCase {
     }
 
     func verifyInitWithInvalidWKB<T>(type: T.Type, line: UInt = #line) where T: WKBInitializable {
-        let invalidWKB = "invalid".data(using: .utf8)!
+        let invalidWKB = Data("invalid".utf8)
         do {
             _ = try T(wkb: invalidWKB)
             XCTFail("Unexpected success", line: line)
