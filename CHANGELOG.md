@@ -1,3 +1,7 @@
+## 11.0.0
+
+* [#284](https://github.com/GEOSwift/GEOSwift/pull/284) Update GEOS, CI, and Apple Platform Versions
+
 ## 10.3.0
 
 * [#281](https://github.com/GEOSwift/GEOSwift/pull/281) Add `GeometryConvertible.lineMergeDirected()` and `GeometryConvertible.lineMerge()`

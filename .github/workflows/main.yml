@@ -24,6 +24,8 @@ jobs:
         platform: [ios, osx, tvos]
     steps:
       - uses: actions/checkout@v3
+      - name: Update CocoaPods Specs
+        run: pod repo update
       - name: Lint Podspec
         run: pod lib lint --platforms=${{ matrix.platform }}
   # xcodebuild:
