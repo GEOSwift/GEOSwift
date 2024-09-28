@@ -64,6 +64,7 @@ jobs:
             -scheme GEOSwift \
             -sdk "${{ matrix.sdk }}" \
             -destination "${{ matrix.destination }}" \
+            -testPlan GEOSwift
             clean test | xcpretty -c;
   swift-cli-macos:
     name: "swift-cli (${{ matrix.os }}, Xcode ${{matrix.xcode-version}})"
