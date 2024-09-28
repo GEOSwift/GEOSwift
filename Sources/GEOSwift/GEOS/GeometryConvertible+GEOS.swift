@@ -551,11 +551,11 @@ public extension Collection where Element: GeometryConvertible {
     func polygonize() throws -> GeometryCollection {
         let context = try GEOSContext()
         let geosObjects = try map { try $0.geometry.geosObject(with: context) }
-        guard let pointer = GEOSPolygonize_r(
-            context.handle,
-            geosObjects.map { $0.pointer },
-            UInt32(geosObjects.count)) else {
-                throw GEOSError.libraryError(errorMessages: context.errors)
+        let pointer = withExtendedLifetime(geosObjects) { geosObjects in
+            GEOSPolygonize_r(context.handle, geosObjects.map { $0.pointer }, UInt32(geosObjects.count))
+        }
+        guard let pointer else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
         }
         return try GeometryCollection(geosObject: GEOSObject(context: context, pointer: pointer))
     }
