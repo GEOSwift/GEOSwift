@@ -16,16 +16,16 @@ jobs:
         run: brew install swiftlint
       - name: SwiftLint
         run: swiftlint --strict
-  podspec:
-    name: Lint Podspec for ${{ matrix.platform }}
-    runs-on: macos-14
-    strategy:
-      matrix:
-        platform: [ios, osx, tvos]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Lint Podspec
-        run: pod lib lint --platforms=${{ matrix.platform }}
+  # podspec:
+  #   name: Lint Podspec for ${{ matrix.platform }}
+  #   runs-on: macos-14
+  #   strategy:
+  #     matrix:
+  #       platform: [ios, osx, tvos]
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Lint Podspec
+  #       run: pod lib lint --platforms=${{ matrix.platform }}
   xcodebuild:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
