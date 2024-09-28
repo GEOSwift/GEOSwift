@@ -28,9 +28,9 @@ migrating from version 4, see [VERSION_5.md](VERSION_5.md).
 
 ## Requirements
 
-* iOS 9.0+, tvOS 9.0+, macOS 10.9+, watchOS 2.0+ (Swift Package Manager, CocoaPods)
+* iOS 12.0+, tvOS 12.0+, macOS 10.13+, watchOS 4.0+ (Swift Package Manager, CocoaPods)
 * Linux (Swift Package Manager)
-* Swift 5.5
+* Swift 5.9
 
 > GEOS is licensed under LGPL 2.1 and its compatibility with static linking is
 at least controversial. Use of geos without dynamic linking is discouraged.

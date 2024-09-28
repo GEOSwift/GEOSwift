@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name = 'GEOSwift'
   s.version = '10.3.0'
-  s.swift_version = '5.5'
+  s.swift_version = '5.9'
   s.cocoapods_version = '~> 1.10'
   s.summary = 'The Swift Geometry Engine.'
   s.description  = <<~DESC
@@ -16,10 +16,10 @@ Pod::Spec.new do |s|
   }
   s.authors = 'Andrea Cremaschi', 'Andrew Hershberger', 'Virgilio Favero Neto'
   s.platforms = {
-    ios: '9.0',
-    osx: '10.9',
-    tvos: '9.0',
-    watchos: '2.0',
+    ios: '12.0',
+    osx: '10.13',
+    tvos: '12.0',
+    watchos: '4.0',
   }
   s.source = {
     git: 'https://github.com/GEOSwift/GEOSwift.git',
