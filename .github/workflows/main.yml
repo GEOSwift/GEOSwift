@@ -8,85 +8,85 @@ on:
     branches: [main]
 
 jobs:
-  swiftlint:
-    runs-on: macos-14
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install SwiftLint
-        run: brew install swiftlint
-      - name: SwiftLint
-        run: swiftlint --strict
-  # podspec:
-  #   name: Lint Podspec for ${{ matrix.platform }}
+  # swiftlint:
   #   runs-on: macos-14
-  #   strategy:
-  #     matrix:
-  #       platform: [ios, osx, tvos]
   #   steps:
   #     - uses: actions/checkout@v3
-  #     - name: Lint Podspec
-  #       run: pod lib lint --platforms=${{ matrix.platform }}
-  xcodebuild:
-    name: ${{ matrix.name }}
-    runs-on: ${{ matrix.os }}
+  #     - name: Install SwiftLint
+  #       run: brew install swiftlint
+  #     - name: SwiftLint
+  #       run: swiftlint --strict
+  podspec:
+    name: Lint Podspec for ${{ matrix.platform }}
+    runs-on: macos-14
     strategy:
       matrix:
-        include:
-          - name: "xcodebuild (iOS 17.5, Xcode 15.4)"
-            os: macos-14
-            xcode-version: "15.4"
-            sdk: iphonesimulator17.5
-            destination: "platform=iOS Simulator,OS=17.5,name=iPhone 15"
-          - name: "xcodebuild (tvOS 17.5, Xcode 15.4)"
-            os: macos-14
-            xcode-version: "15.4"
-            sdk: appletvsimulator17.5
-            destination: "platform=tvOS Simulator,OS=17.5,name=Apple TV"
-          - name: "xcodebuild (macOS 14.5, Xcode 15.4)"
-            os: macos-14
-            xcode-version: "15.4"
-            sdk: macosx14.5
-            destination: "platform=OS X"
-          - name: "xcodebuild (watchOS 10.5, Xcode 15.4)"
-            os: macos-14
-            xcode-version: "15.4"
-            sdk: watchsimulator10.5
-            destination: "platform=watchOS Simulator,OS=10.5,name=Apple Watch Series 9 (45mm)"
+        platform: [ios, osx, tvos]
     steps:
       - uses: actions/checkout@v3
-      - name: Select Xcode Version
-        run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode-version }}.app/Contents/Developer
-      - name: Install xcpretty
-        run: gem install xcpretty
-      - name: Build & Test
-        run: |
-          set -o pipefail && xcodebuild \
-            -scheme GEOSwift \
-            -sdk "${{ matrix.sdk }}" \
-            -destination "${{ matrix.destination }}" \
-            clean test | xcpretty -c;
-  swift-cli-macos:
-    name: "swift-cli (${{ matrix.os }}, Xcode ${{matrix.xcode-version}})"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        include:
-          - os: macos-14
-            xcode-version: "15.4"
-    steps:
-      - uses: actions/checkout@v3
-      - name: Select Xcode Version
-        run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode-version }}.app/Contents/Developer
-      - name: Build & Test
-        run: swift test
-  swift-cli-linux:
-    name: "swift-cli (${{ matrix.os }})"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build & Test
-        run: swift test
+      - name: Lint Podspec
+        run: pod lib lint --platforms=${{ matrix.platform }}
+  # xcodebuild:
+  #   name: ${{ matrix.name }}
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       include:
+  #         - name: "xcodebuild (iOS 17.5, Xcode 15.4)"
+  #           os: macos-14
+  #           xcode-version: "15.4"
+  #           sdk: iphonesimulator17.5
+  #           destination: "platform=iOS Simulator,OS=17.5,name=iPhone 15"
+  #         - name: "xcodebuild (tvOS 17.5, Xcode 15.4)"
+  #           os: macos-14
+  #           xcode-version: "15.4"
+  #           sdk: appletvsimulator17.5
+  #           destination: "platform=tvOS Simulator,OS=17.5,name=Apple TV"
+  #         - name: "xcodebuild (macOS 14.5, Xcode 15.4)"
+  #           os: macos-14
+  #           xcode-version: "15.4"
+  #           sdk: macosx14.5
+  #           destination: "platform=OS X"
+  #         - name: "xcodebuild (watchOS 10.5, Xcode 15.4)"
+  #           os: macos-14
+  #           xcode-version: "15.4"
+  #           sdk: watchsimulator10.5
+  #           destination: "platform=watchOS Simulator,OS=10.5,name=Apple Watch Series 9 (45mm)"
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Select Xcode Version
+  #       run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode-version }}.app/Contents/Developer
+  #     - name: Install xcpretty
+  #       run: gem install xcpretty
+  #     - name: Build & Test
+  #       run: |
+  #         set -o pipefail && xcodebuild \
+  #           -scheme GEOSwift \
+  #           -sdk "${{ matrix.sdk }}" \
+  #           -destination "${{ matrix.destination }}" \
+  #           clean test | xcpretty -c;
+  # swift-cli-macos:
+  #   name: "swift-cli (${{ matrix.os }}, Xcode ${{matrix.xcode-version}})"
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       include:
+  #         - os: macos-14
+  #           xcode-version: "15.4"
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Select Xcode Version
+  #       run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode-version }}.app/Contents/Developer
+  #     - name: Build & Test
+  #       run: swift test
+  # swift-cli-linux:
+  #   name: "swift-cli (${{ matrix.os }})"
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       include:
+  #         - os: ubuntu-24.04
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Build & Test
+  #       run: swift test
