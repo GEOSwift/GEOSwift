@@ -234,21 +234,21 @@ final class WKTTests: XCTestCase {
             wktConvertible: point,
             trim: true,
             roundingPrecision: -1,
-            expectedWKT: "POINT (0.1 0.000000123456)")
+            expectedWKT: "POINT (0.1 1.23456e-7)")
         verifyWKTOptions(
             wktConvertible: point,
             trim: true,
             roundingPrecision: 0,
-            expectedWKT: "POINT (0 0)")
+            expectedWKT: "POINT (0.1 1e-7)")
         verifyWKTOptions(
             wktConvertible: point,
             trim: true,
             roundingPrecision: 1,
-            expectedWKT: "POINT (0.1 0)")
+            expectedWKT: "POINT (0.1 1.2e-7)")
         verifyWKTOptions(
             wktConvertible: point,
             trim: true,
             roundingPrecision: 5,
-            expectedWKT: "POINT (0.1 0)")
+            expectedWKT: "POINT (0.1 1.23456e-7)")
     }
 }
