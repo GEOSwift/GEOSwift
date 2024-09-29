@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   }
   s.authors = 'Andrea Cremaschi', 'Andrew Hershberger', 'Virgilio Favero Neto'
   s.ios.deployment_target = '12.0'
-  s.osx.deployment_target = '10.13'
+  s.macos.deployment_target = '10.13'
   s.tvos.deployment_target = '12.0'
   s.watchos.deployment_target = '4.0'
   s.source = {
