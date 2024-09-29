@@ -21,7 +21,7 @@ jobs:
     runs-on: macos-14
     strategy:
       matrix:
-        platform: [ios, osx, tvos, watchos]
+        platform: [ios, macos, tvos, watchos]
     steps:
       - uses: actions/checkout@v3
       - name: Update CocoaPods Specs
