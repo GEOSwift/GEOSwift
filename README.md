@@ -26,10 +26,9 @@ migrating from version 4, see [VERSION_5.md](VERSION_5.md).
 * Swift-native error handling
 * Extensively tested
 
-## Requirements
+## Minimum Requirements
 
-* iOS 12.0+, tvOS 12.0+, macOS 10.13+, watchOS 4.0+ (Swift Package Manager, CocoaPods)
-* Linux (Swift Package Manager)
+* iOS 12.0, tvOS 12.0, macOS 10.13, watchOS 4.0, Linux
 * Swift 5.9
 
 > GEOS is licensed under LGPL 2.1 and its compatibility with static linking is
