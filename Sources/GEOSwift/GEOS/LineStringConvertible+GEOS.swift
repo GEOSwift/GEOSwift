@@ -56,4 +56,19 @@ public extension LineStringConvertible {
         }
         return try Point(geosObject: GEOSObject(context: context, pointer: pointer))
     }
+
+    /// - returns: A substring of the LineString defined by the start and end fractions
+    func substring(fromFraction: Double, toFraction: Double) throws -> LineString {
+        let context = try GEOSContext()
+        let lineStringGeosObject = try lineString.geosObject(with: context)
+        guard let pointer = GEOSLineSubstring_r(
+            context.handle,
+            lineStringGeosObject.pointer,
+            fromFraction,
+            toFraction
+        ) else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return try LineString(geosObject: GEOSObject(context: context, pointer: pointer))
+    }
 }

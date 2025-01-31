@@ -184,4 +184,43 @@ final class LineStringConvertible_GEOSTests: XCTestCase {
         XCTAssertEqual(try! linearRing.interpolatedPoint(withFraction: -0.125), Point(x: 0, y: 1))
         XCTAssertEqual(try! linearRing.interpolatedPoint(withFraction: 1.375), Point(x: 1, y: 1))
     }
+
+    func testSubstring_LineString() throws {
+        let lineString = try LineString(points: [
+            Point(x: 0, y: 0),
+            Point(x: 10, y: 0)])
+
+        XCTAssertEqual(try lineString.substring(fromFraction: 0, toFraction: 1).points, [
+            Point(x: 0, y: 0),
+            Point(x: 10, y: 0)])
+        XCTAssertEqual(try lineString.substring(fromFraction: 0.625, toFraction: 0.8125).points, [
+            Point(x: 6.25, y: 0),
+            Point(x: 8.125, y: 0)])
+        XCTAssertEqual(try lineString.substring(fromFraction: 0.7, toFraction: 1).points, [
+            Point(x: 7, y: 0),
+            Point(x: 10, y: 0)])
+    }
+
+    func testSubstring_LinearRing() throws {
+        let linearRing = try Polygon.LinearRing(points: [
+            Point(x: 1, y: 1),
+            Point(x: 1, y: -1),
+            Point(x: -1, y: -1),
+            Point(x: -1, y: 1),
+            Point(x: 1, y: 1)])
+
+        XCTAssertEqual(try linearRing.substring(fromFraction: 0, toFraction: 1).points, [
+            Point(x: 1, y: 1),
+            Point(x: 1, y: -1),
+            Point(x: -1, y: -1),
+            Point(x: -1, y: 1),
+            Point(x: 1, y: 1)])
+        XCTAssertEqual(try linearRing.substring(fromFraction: 0.625, toFraction: 0.8125).points, [
+            Point(x: -1, y: 0),
+            Point(x: -1, y: 1),
+            Point(x: -0.5, y: 1)])
+        XCTAssertEqual(try linearRing.substring(fromFraction: 0.8125, toFraction: 1).points, [
+            Point(x: -0.5, y: 1),
+            Point(x: 1, y: 1)])
+    }
 }
