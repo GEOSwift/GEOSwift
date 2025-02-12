@@ -1,3 +1,7 @@
+## 11.1.0
+
+* [#290](https://github.com/GEOSwift/GEOSwift/pull/290) Add `LineStringConvertible.substring(fromFraction:toFraction:)`
+
 ## 11.0.0
 
 * [#284](https://github.com/GEOSwift/GEOSwift/pull/284) Update GEOS, CI, and Apple Platform Versions
