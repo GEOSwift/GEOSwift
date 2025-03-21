@@ -1,3 +1,7 @@
+## 11.2.0
+
+* [#264](https://github.com/GEOSwift/GEOSwift/pull/264) Add initial support for prepared geometry
+
 ## 11.1.0
 
 * [#290](https://github.com/GEOSwift/GEOSwift/pull/290) Add `LineStringConvertible.substring(fromFraction:toFraction:)`

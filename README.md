@@ -49,7 +49,7 @@ at least controversial. Use of geos without dynamic linking is discouraged.
 
 1. Update the top-level dependencies in your `Package.swift` to include:
 
-        .package(url: "https://github.com/GEOSwift/GEOSwift.git", from: "11.1.0")
+        .package(url: "https://github.com/GEOSwift/GEOSwift.git", from: "11.2.0")
 
 2. Update the target dependencies in your `Package.swift` to include
 
