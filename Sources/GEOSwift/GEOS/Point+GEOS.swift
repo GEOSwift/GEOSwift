@@ -16,12 +16,23 @@ extension Point: GEOSObjectInitializable {
         }
         var x: Double = 0
         var y: Double = 0
+        var z: Double?
+        let hasZ = GEOSGeom_getCoordinateDimension_r(geosObject.context.handle, geosObject.pointer) > 2
         // returns 1 on success
         guard GEOSGeomGetX_r(geosObject.context.handle, geosObject.pointer, &x) == 1,
             GEOSGeomGetY_r(geosObject.context.handle, geosObject.pointer, &y) == 1 else {
                 throw GEOSError.libraryError(errorMessages: geosObject.context.errors)
         }
-        self.init(x: x, y: y)
+        
+        if hasZ {
+            var zVal: Double = 0
+            guard GEOSGeomGetZ_r(geosObject.context.handle, geosObject.pointer, &zVal) == 1 else {
+                throw GEOSError.libraryError(errorMessages: geosObject.context.errors)
+            }
+            z = zVal
+        }
+
+        self.init(x: x, y: y, z: z)
     }
 }
 

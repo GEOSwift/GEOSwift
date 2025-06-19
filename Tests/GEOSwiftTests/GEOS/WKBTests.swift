@@ -40,6 +40,11 @@ final class WKBTests: XCTestCase {
         verifyGeometryRoundtripToWKB(GeometryCollection.testValue)
         verifyGeometryRoundtripToWKB(GeometryCollection.testValueWithRecursion)
     }
+    
+    func testGeometryTypesRoundtripToWKBWithZ() {
+        verifyGeometryRoundtripToWKB(Point.testValueZ1)
+        verifyGeometryRoundtripToWKB(LineString.testValueZ1)
+    }
 
     func testLinearRingRoundtripToWKB() {
         let value = Polygon.LinearRing.testValueHole1

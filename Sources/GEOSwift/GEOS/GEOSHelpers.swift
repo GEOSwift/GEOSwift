@@ -23,6 +23,11 @@ func makePoints(from geometry: GEOSObject) throws -> [Point] {
     guard GEOSCoordSeq_getSize_r(geometry.context.handle, sequence, &count) != 0 else {
         throw GEOSError.libraryError(errorMessages: geometry.context.errors)
     }
+    
+    // Check coordinate dimension to see if we have Z coordinates
+    let dimensions = GEOSGeom_getCoordinateDimension_r(geometry.context.handle, geometry.pointer)
+    let hasZ = dimensions > 2
+    
     return try Array(0..<count).map { (index) -> Point in
         var point = Point(x: 0, y: 0)
         // returns 0 on exception
@@ -30,12 +35,24 @@ func makePoints(from geometry: GEOSObject) throws -> [Point] {
             GEOSCoordSeq_getY_r(geometry.context.handle, sequence, index, &point.y) != 0 else {
                 throw GEOSError.libraryError(errorMessages: geometry.context.errors)
         }
+        
+        if hasZ {
+            var zVal: Double = 0
+            guard GEOSCoordSeq_getZ_r(geometry.context.handle, sequence, index, &zVal) != 0 else {
+                throw GEOSError.libraryError(errorMessages: geometry.context.errors)
+            }
+            point.z = zVal
+        }
+        
         return point
     }
 }
 
 func makeCoordinateSequence(with context: GEOSContext, points: [Point]) throws -> OpaquePointer {
-    guard let sequence = GEOSCoordSeq_create_r(context.handle, UInt32(points.count), 2) else {
+    let hasZ = points.first { $0.z != nil } != nil
+    let dimensions: UInt32 = hasZ ? 3 : 2
+    
+    guard let sequence = GEOSCoordSeq_create_r(context.handle, UInt32(points.count), dimensions) else {
         throw GEOSError.libraryError(errorMessages: context.errors)
     }
     try points.enumerated().forEach { (i, point) in
@@ -43,6 +60,10 @@ func makeCoordinateSequence(with context: GEOSContext, points: [Point]) throws -
             GEOSCoordSeq_setY_r(context.handle, sequence, UInt32(i), point.y) != 0 else {
                 GEOSCoordSeq_destroy_r(context.handle, sequence)
                 throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        if let z = point.z, GEOSCoordSeq_setZ_r(context.handle, sequence, UInt32(i), z) == 0 {
+            GEOSCoordSeq_destroy_r(context.handle, sequence)
+            throw GEOSError.libraryError(errorMessages: context.errors)
         }
     }
     return sequence

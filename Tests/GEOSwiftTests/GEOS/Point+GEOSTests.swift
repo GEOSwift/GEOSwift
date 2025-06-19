@@ -5,6 +5,10 @@ final class Point_GEOSTests: GEOSContextTestCase {
     func testRoundtripToGEOS() {
         verifyRoundtripToGEOS(value: Point.testValue1)
     }
+    
+    func testRoundtripToGEOSWithZ() {
+        verifyRoundtripToGEOS(value: Point.testValueZ1)
+    }
 
     func testInitFromWrongGEOSType() {
         do {

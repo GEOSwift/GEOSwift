@@ -10,12 +10,21 @@ extension Point {
     static let testValue5 = Point(x: 5, y: 6)
 
     static let testValue7 = Point(x: 7, y: 8)
+    
+    static let testValueZ1 = Point(x: 1, y: 2, z: 3)
+    static let testJsonZ1 = #"{"coordinates":[1,2,3],"type":"Point"}"#
+    
+    static let testValueZ2 = Point(x: 4, y: 5, z: 6)
 }
 
 @available(iOS 11.0, macOS 10.13, tvOS 11.0, *)
 final class Point_CodableTests: CodableTestCase {
     func testCodable() {
         verifyCodable(with: Point.testValue1, json: Point.testJson1)
+    }
+    
+    func testCodableWithZ() {
+        verifyCodable(with: Point.testValueZ1, json: Point.testJsonZ1)
     }
 
     func testDecodableThrowsWithLessThanTwoValues() {

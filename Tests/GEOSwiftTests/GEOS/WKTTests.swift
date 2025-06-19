@@ -41,6 +41,11 @@ final class WKTTests: XCTestCase {
         verifyGeometryRoundtripToWKT(GeometryCollection.testValue)
         verifyGeometryRoundtripToWKT(GeometryCollection.testValueWithRecursion)
     }
+    
+    func testGeometryTypesRoundtripToWKTWithZ() {
+        verifyGeometryRoundtripToWKT(Point.testValueZ1)
+        verifyGeometryRoundtripToWKT(LineString.testValueZ1)
+    }
 
     func verifyInitWithInvalidWKT<T>(type: T.Type, line: UInt = #line) where T: WKTInitializable {
         let invalidWKT = "invalid"
