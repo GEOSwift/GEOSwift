@@ -1,9 +1,9 @@
-public enum Geometry: Hashable, Sendable {
-    case point(Point)
-    case multiPoint(MultiPoint)
-    case lineString(LineString)
-    case multiLineString(MultiLineString)
-    case polygon(Polygon)
-    case multiPolygon(MultiPolygon)
-    case geometryCollection(GeometryCollection)
+public enum Geometry<C: CoordinateType>: Hashable, Sendable {
+    case point(Point<C>)
+    case multiPoint(MultiPoint<C>)
+    case lineString(LineString<C>)
+    case multiLineString(MultiLineString<C>)
+    case polygon(Polygon<C>)
+    case multiPolygon(MultiPolygon<C>)
+    case geometryCollection(GeometryCollection<C>)
 }

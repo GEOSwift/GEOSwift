@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-extension FeatureCollection {
+extension FeatureCollection where C == XY {
     static let testValue = FeatureCollection(
         features: [.testValueWithNumberId, .testValueWithNils])
     static let testJson = #"{"features":[\#(Feature.testJsonWithNumberId),"#
@@ -19,12 +19,12 @@ final class FeatureCollection_CodableTests: CodableTestCase {
     func testDecodableThrowsWithTypeMismatch() {
         let json = #"{"coordinates":[1],"type":"Point"}"#
 
-        verifyDecodable(with: FeatureCollection.self, json: json, expectedError: .mismatchedGeoJSONType)
+        verifyDecodable(with: FeatureCollection<XY>.self, json: json, expectedError: .mismatchedGeoJSONType)
     }
 
     func testDecodableThrowsWithInvalidType() {
         let json = #"{"coordinates":[1],"type":"p"}"#
 
-        verifyDecodable(with: FeatureCollection.self, json: json, expectedError: .invalidGeoJSONType)
+        verifyDecodable(with: FeatureCollection<XY>.self, json: json, expectedError: .invalidGeoJSONType)
     }
 }

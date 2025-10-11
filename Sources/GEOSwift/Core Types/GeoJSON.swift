@@ -1,5 +1,5 @@
-public enum GeoJSON: Hashable, Sendable {
-    case featureCollection(FeatureCollection)
-    case feature(Feature)
-    case geometry(Geometry)
+public enum GeoJSON<C: CoordinateType>: Hashable, Sendable {
+    case featureCollection(FeatureCollection<C>)
+    case feature(Feature<C>)
+    case geometry(Geometry<C>)
 }

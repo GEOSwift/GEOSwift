@@ -14,14 +14,13 @@ extension Point: GEOSObjectInitializable {
         guard isEmpty == 0 else {
             throw GEOSwiftError.tooFewPoints
         }
-        var x: Double = 0
-        var y: Double = 0
-        // returns 1 on success
-        guard GEOSGeomGetX_r(geosObject.context.handle, geosObject.pointer, &x) == 1,
-            GEOSGeomGetY_r(geosObject.context.handle, geosObject.pointer, &y) == 1 else {
-                throw GEOSError.libraryError(errorMessages: geosObject.context.errors)
+        // returns nil on failure
+        guard let cSeq = GEOSGeom_getCoordSeq_r(geosObject.context.handle, geosObject.pointer) else {
+            throw GEOSError.libraryError(errorMessages: geosObject.context.errors)
         }
-        self.init(x: x, y: y)
+        
+        let coordinate = try C.bridge.getter(geosObject.context, cSeq, 0)
+        self.init(coordinates: coordinate)
     }
 }
 

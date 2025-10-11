@@ -3,7 +3,7 @@ import GEOSwift
 
 final class LineStringConvertibleTests: XCTestCase {
     func testLineStringLineString() {
-        XCTAssertEqual(LineString.testValue1.lineString, .testValue1)
+        XCTAssertEqual(LineString<XY>.testValue1.lineString, .testValue1)
     }
 
     func testPolygon_LinearRingLineString() {

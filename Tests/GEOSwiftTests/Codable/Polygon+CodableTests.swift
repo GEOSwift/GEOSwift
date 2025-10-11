@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-extension GEOSwift.Polygon.LinearRing {
+extension GEOSwift.Polygon.LinearRing where C == XY {
     // counterclockwise
     static let testValueExterior2 = try! GEOSwift.Polygon.LinearRing(points: [
         Point(x: 2, y: 2),
@@ -27,7 +27,7 @@ extension GEOSwift.Polygon.LinearRing {
         Point(x: 7, y: 2)])
 }
 
-extension GEOSwift.Polygon {
+extension GEOSwift.Polygon where C == XY {
     static let testValueWithHole = GEOSwift.Polygon(
         exterior: .testValueExterior2,
         holes: [.testValueHole1])
@@ -57,18 +57,18 @@ final class Polygon_CodableTests: CodableTestCase {
     func testDecodingPolygonWithTooFewRings() {
         let json = #"{"type":"Polygon","coordinates":[]}"#
 
-        verifyDecodable(with: Polygon.self, json: json, expectedError: GEOSwiftError.tooFewRings)
+        verifyDecodable(with: Polygon<XY>.self, json: json, expectedError: GEOSwiftError.tooFewRings)
     }
 
     func testDecodableThrowsWithTypeMismatch() {
         let json = #"{"coordinates":[1],"type":"Point"}"#
 
-        verifyDecodable(with: Polygon.self, json: json, expectedError: .mismatchedGeoJSONType)
+        verifyDecodable(with: Polygon<XY>.self, json: json, expectedError: .mismatchedGeoJSONType)
     }
 
     func testDecodableThrowsWithInvalidType() {
         let json = #"{"coordinates":[1],"type":"p"}"#
 
-        verifyDecodable(with: Polygon.self, json: json, expectedError: .invalidGeoJSONType)
+        verifyDecodable(with: Polygon<XY>.self, json: json, expectedError: .invalidGeoJSONType)
     }
 }

@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-extension LineString {
+extension LineString where C == XY {
     static let testValue1 = try! LineString(points: [.testValue1, .testValue3])
     static let testJson1 = #"{"coordinates":[[1,2],[3,4]],"type":"LineString"}"#
 
@@ -11,18 +11,18 @@ extension LineString {
 @available(iOS 11.0, macOS 10.13, tvOS 11.0, *)
 final class LineString_CodableTests: CodableTestCase {
     func testCodable() {
-        verifyCodable(with: LineString.testValue1, json: LineString.testJson1)
+        verifyCodable(with: LineString<XY>.testValue1, json: LineString<XY>.testJson1)
     }
 
     func testDecodableThrowsWithTypeMismatch() {
         let json = #"{"coordinates":[1],"type":"Point"}"#
 
-        verifyDecodable(with: LineString.self, json: json, expectedError: .mismatchedGeoJSONType)
+        verifyDecodable(with: LineString<XY>.self, json: json, expectedError: .mismatchedGeoJSONType)
     }
 
     func testDecodableThrowsWithInvalidType() {
         let json = #"{"coordinates":[1],"type":"p"}"#
 
-        verifyDecodable(with: LineString.self, json: json, expectedError: .invalidGeoJSONType)
+        verifyDecodable(with: LineString<XY>.self, json: json, expectedError: .invalidGeoJSONType)
     }
 }

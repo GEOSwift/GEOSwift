@@ -1,7 +1,7 @@
 import geos
 
 /// A prepared geometry. Unlike most of GEOSwift, this type is not thread safe.
-public final class PreparedGeometry {
+public final class PreparedGeometry<C: CoordinateType> {
     let context: GEOSContext
     private let base: GEOSObject
     let pointer: OpaquePointer
@@ -19,7 +19,7 @@ public final class PreparedGeometry {
         GEOSPreparedGeom_destroy_r(context.handle, pointer)
     }
 
-    public func contains(_ geometry: GeometryConvertible) throws -> Bool {
+    public func contains(_ geometry: any GeometryConvertible<C>) throws -> Bool {
         let geosObject = try geometry.geometry.geosObject(with: context)
         // returns 1 on true, 0 on false, 2 on exception
         let result = GEOSPreparedContains_r(context.handle, pointer, geosObject.pointer)
@@ -29,7 +29,7 @@ public final class PreparedGeometry {
         return result == 1
     }
 
-    public func containsProperly(_ geometry: GeometryConvertible) throws -> Bool {
+    public func containsProperly(_ geometry: any GeometryConvertible<C>) throws -> Bool {
         let geosObject = try geometry.geometry.geosObject(with: context)
         // returns 1 on true, 0 on false, 2 on exception
         let result = GEOSPreparedContainsProperly_r(context.handle, pointer, geosObject.pointer)

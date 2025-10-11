@@ -1,5 +1,6 @@
-public protocol LineStringConvertible {
-    var lineString: LineString { get }
+public protocol LineStringConvertible<C> {
+    associatedtype C: CoordinateType
+    var lineString: LineString<C> { get }
 }
 
 extension LineString: LineStringConvertible {
@@ -10,7 +11,7 @@ extension LineString: LineStringConvertible {
 
 extension Polygon.LinearRing: LineStringConvertible {
     // converts LinearRing to LineString
-    public var lineString: LineString {
+    public var lineString: LineString<C> {
         LineString(self)
     }
 }

@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-extension MultiPolygon {
+extension MultiPolygon where C == XY {
     static let testValue = MultiPolygon(
         polygons: [.testValueWithHole, .testValueWithoutHole])
     static let testJson = #"{"coordinates":[[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2"#
@@ -18,12 +18,12 @@ final class MultiPolygon_CodableTests: CodableTestCase {
     func testDecodableThrowsWithTypeMismatch() {
         let json = #"{"coordinates":[1],"type":"Point"}"#
 
-        verifyDecodable(with: MultiPolygon.self, json: json, expectedError: .mismatchedGeoJSONType)
+        verifyDecodable(with: MultiPolygon<XY>.self, json: json, expectedError: .mismatchedGeoJSONType)
     }
 
     func testDecodableThrowsWithInvalidType() {
         let json = #"{"coordinates":[1],"type":"p"}"#
 
-        verifyDecodable(with: MultiPolygon.self, json: json, expectedError: .invalidGeoJSONType)
+        verifyDecodable(with: MultiPolygon<XY>.self, json: json, expectedError: .invalidGeoJSONType)
     }
 }

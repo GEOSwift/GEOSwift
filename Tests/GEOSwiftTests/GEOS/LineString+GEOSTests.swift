@@ -9,7 +9,7 @@ final class LineString_GEOSTests: GEOSContextTestCase {
     func testInitFromWrongGEOSType() {
         do {
             let geosObject = try Point.testValue1.geosObject(with: context)
-            _ = try LineString(geosObject: geosObject)
+            _ = try LineString<XY>(geosObject: geosObject)
         } catch let GEOSError.typeMismatch(actual, expected) {
             XCTAssertEqual(actual, .point)
             XCTAssertEqual(expected, .lineString)

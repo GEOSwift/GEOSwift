@@ -1,12 +1,12 @@
 // for internal use only; GeoJSON encoding & decoding helpers
 extension LineString: CodableGeometry {
-    static let geoJSONType = GeoJSONType.lineString
+    static var geoJSONType: GeoJSONType { .lineString }
 
-    var coordinates: [[Double]] {
+    var coordinates: [C] {
         points.map { $0.coordinates }
     }
 
-    init(coordinates: [[Double]]) throws {
-        try self.init(points: coordinates.map(Point.init))
+    init(coordinates: [C]) throws {
+        try self.init(points: coordinates.map(Point.init(_:)))
     }
 }

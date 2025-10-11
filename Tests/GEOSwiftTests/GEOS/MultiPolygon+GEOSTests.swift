@@ -9,7 +9,7 @@ final class MultiPolygon_GEOSTests: GEOSContextTestCase {
     func testInitFromWrongGEOSType() {
         do {
             let geosObject = try Point.testValue1.geosObject(with: context)
-            _ = try MultiPolygon(geosObject: geosObject)
+            _ = try MultiPolygon<XY>(geosObject: geosObject)
         } catch let GEOSError.typeMismatch(actual, expected) {
             XCTAssertEqual(actual, .point)
             XCTAssertEqual(expected, .multiPolygon)

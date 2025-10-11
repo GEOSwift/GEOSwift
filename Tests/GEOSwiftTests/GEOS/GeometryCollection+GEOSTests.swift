@@ -10,7 +10,7 @@ final class GeometryCollection_GEOSTests: GEOSContextTestCase {
     func testInitFromWrongGEOSType() {
         do {
             let geosObject = try Point.testValue1.geosObject(with: context)
-            _ = try GeometryCollection(geosObject: geosObject)
+            _ = try GeometryCollection<XY>(geosObject: geosObject)
         } catch let GEOSError.typeMismatch(actual, expected) {
             XCTAssertEqual(actual, .point)
             XCTAssertEqual(expected, .geometryCollection)

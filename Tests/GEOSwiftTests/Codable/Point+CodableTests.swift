@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-extension Point {
+extension Point where C == XY {
     static let testValue1 = Point(x: 1, y: 2)
     static let testJson1 = #"{"coordinates":[1,2],"type":"Point"}"#
 
@@ -21,18 +21,18 @@ final class Point_CodableTests: CodableTestCase {
     func testDecodableThrowsWithLessThanTwoValues() {
         let json = #"{"coordinates":[1],"type":"Point"}"#
 
-        verifyDecodable(with: Point.self, json: json, expectedError: .invalidCoordinates)
+        verifyDecodable(with: Point<XY>.self, json: json, expectedError: .invalidCoordinates)
     }
 
     func testDecodableThrowsWithTypeMismatch() {
         let json = #"{"coordinates":[1],"type":"MultiPoint"}"#
 
-        verifyDecodable(with: Point.self, json: json, expectedError: .mismatchedGeoJSONType)
+        verifyDecodable(with: Point<XY>.self, json: json, expectedError: .mismatchedGeoJSONType)
     }
 
     func testDecodableThrowsWithInvalidType() {
         let json = #"{"coordinates":[1],"type":"p"}"#
 
-        verifyDecodable(with: Point.self, json: json, expectedError: .invalidGeoJSONType)
+        verifyDecodable(with: Point<XY>.self, json: json, expectedError: .invalidGeoJSONType)
     }
 }

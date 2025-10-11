@@ -30,3 +30,7 @@ Carthage/Build
 # Swift Package Manager
 
 .build/
+
+# Claude
+CLAUDE.md
+.claude

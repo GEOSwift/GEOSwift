@@ -1,11 +1,11 @@
 import geos
 
-public protocol Boundable: GeometryConvertible {
-    func boundary() throws -> Geometry
+public protocol Boundable<C>: GeometryConvertible {
+    func boundary() throws -> Geometry<C>
 }
 
 extension Boundable {
-    public func boundary() throws -> Geometry {
+    public func boundary() throws -> Geometry<C> {
         try performUnaryTopologyOperation(GEOSBoundary_r)
     }
 }

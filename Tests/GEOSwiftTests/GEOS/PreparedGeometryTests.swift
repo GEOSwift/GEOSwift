@@ -10,7 +10,7 @@ import GEOSwift
 
 final class PreparedGeometryTests: XCTestCase {
 
-    let geometryConvertibles: [GeometryConvertible] = [
+    let geometryConvertibles: [any GeometryConvertible<XY>] = [
         Point.testValue1,
         Geometry.point(.testValue1),
         MultiPoint.testValue,

@@ -1,6 +1,6 @@
 import geos
 
-public protocol ClosednessTestable: GeometryConvertible {
+public protocol ClosednessTestable<C>: GeometryConvertible {
     func isClosed() throws -> Bool
 }
 

@@ -1,7 +1,7 @@
-public struct GeometryCollection: Hashable, Sendable {
-    public var geometries: [Geometry]
+public struct GeometryCollection<C: CoordinateType>: Hashable, Sendable {
+    public var geometries: [Geometry<C>]
 
-    public init(geometries: [GeometryConvertible]) {
+    public init(geometries: [any GeometryConvertible<C>]) {
         self.geometries = geometries.map { $0.geometry }
     }
 }
