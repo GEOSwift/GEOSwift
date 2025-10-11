@@ -24,6 +24,6 @@ final class GeoJSON_CodableTests: CodableTestCase {
     func testDecodableThrowsWithInvalidType() {
         let json = #"{"coordinates":[1],"type":"p"}"#
 
-        verifyDecodable(with: GeoJSON.self, json: json, expectedError: .invalidGeoJSONType)
+        verifyDecodable(with: GeoJSON<XY>.self, json: json, expectedError: .invalidGeoJSONType)
     }
 }

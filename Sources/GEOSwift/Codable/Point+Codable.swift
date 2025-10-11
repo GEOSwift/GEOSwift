@@ -1,15 +1,8 @@
 // for internal use only; GeoJSON encoding & decoding helpers
-extension Point: CodableGeometry {
-    static let geoJSONType = GeoJSONType.point
+extension Point: CodableGeometry where C: Codable {
+    static var geoJSONType: GeoJSONType { .point }
 
-    var coordinates: [Double] {
-        [x, y]
-    }
-
-    init(coordinates: [Double]) throws {
-        guard coordinates.count >= 2 else {
-            throw GEOSwiftError.invalidCoordinates
-        }
-        self.init(x: coordinates[0], y: coordinates[1])
+    public init(coordinates: C) {
+        self.coordinates = coordinates
     }
 }

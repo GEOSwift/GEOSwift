@@ -1,24 +1,24 @@
 // for internal use only; GeoJSON encoding & decoding helpers
 extension Polygon.LinearRing {
-    var coordinates: [[Double]] {
+    var coordinates: [C] {
         points.map { $0.coordinates }
     }
 
-    init(coordinates: [[Double]]) throws {
-        try self.init(points: coordinates.map(Point.init))
+    init(coordinates: [C]) throws {
+        try self.init(points: coordinates.map(Point.init(_:)))
     }
 }
 
 // for internal use only; GeoJSON encoding & decoding helpers
 extension Polygon: CodableGeometry {
-    static let geoJSONType = GeoJSONType.polygon
+    static var geoJSONType: GeoJSONType { .polygon }
 
-    var coordinates: [[[Double]]] {
+    var coordinates: [[C]] {
         let allRings = [exterior] + holes
         return allRings.map { $0.coordinates }
     }
 
-    init(coordinates: [[[Double]]]) throws {
+    init(coordinates: [[C]]) throws {
         let rings = try coordinates.map(LinearRing.init)
         guard rings.count >= 1 else {
             throw GEOSwiftError.tooFewRings

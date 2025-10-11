@@ -1,10 +1,10 @@
-public struct Feature: Hashable, Sendable {
-    public var geometry: Geometry?
+public struct Feature<C: CoordinateType>: Hashable, Sendable {
+    public var geometry: Geometry<C>?
     public var properties: [String: JSON]?
     public var id: FeatureId?
 
     public init(
-        geometry: GeometryConvertible? = nil,
+        geometry: (any GeometryConvertible<C>)? = nil,
         properties: [String: JSON]? = nil,
         id: FeatureId? = nil
     ) {
@@ -18,28 +18,27 @@ public struct Feature: Hashable, Sendable {
     public var untypedProperties: [String: Any]? {
         properties?.mapValues { $0.untypedValue }
     }
-
-    // MARK: - Id
-
-    public enum FeatureId: Hashable, Sendable {
-        case string(String)
-        case number(Double)
-    }
 }
 
-extension Feature.FeatureId: ExpressibleByStringLiteral {
+// Need to unnest FeatureId from Feature to avoid making it needlessly generic
+public enum FeatureId: Hashable, Sendable {
+    case string(String)
+    case number(Double)
+}
+
+extension FeatureId: ExpressibleByStringLiteral {
     public init(stringLiteral value: String) {
         self = .string(value)
     }
 }
 
-extension Feature.FeatureId: ExpressibleByIntegerLiteral {
+extension FeatureId: ExpressibleByIntegerLiteral {
     public init(integerLiteral value: Int) {
         self = .number(Double(value))
     }
 }
 
-extension Feature.FeatureId: ExpressibleByFloatLiteral {
+extension FeatureId: ExpressibleByFloatLiteral {
     public init(floatLiteral value: Double) {
         self = .number(value)
     }

@@ -2,7 +2,7 @@ import XCTest
 import GEOSwift
 
 final class SimplicityTestableTests: XCTestCase {
-    let simplicityTestables: [SimplicityTestable] = [
+    let simplicityTestables: [any SimplicityTestable] = [
         Point.testValue1,
         MultiPoint.testValue,
         LineString.testValue1,

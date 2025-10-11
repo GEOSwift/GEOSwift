@@ -7,5 +7,5 @@ public enum GEOSwiftError: Error, Hashable, Sendable {
     case ringNotClosed
     case tooFewRings
     case invalidFeatureId
-    case unexpectedEnvelopeResult(Geometry)
+    case unexpectedEnvelopeResult(AnyGeometry)
 }

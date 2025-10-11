@@ -1,5 +1,6 @@
 import geos
 
+// TODO: Current approach restrics geos operations to geometries with the same coordinate dimensionality--which is more restrictive than geos. Decide whether/where to allow this.
 public extension GeometryConvertible {
 
     // MARK: - Misc Functions
@@ -15,7 +16,7 @@ public extension GeometryConvertible {
         return length
     }
 
-    func distance(to geometry: GeometryConvertible) throws -> Double {
+    func distance(to geometry: any GeometryConvertible<C>) throws -> Double {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
@@ -27,7 +28,7 @@ public extension GeometryConvertible {
         return dist
     }
 
-    func hausdorffDistance(to geometry: GeometryConvertible) throws -> Double {
+    func hausdorffDistance(to geometry: any GeometryConvertible<C>) throws -> Double {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
@@ -46,7 +47,7 @@ public extension GeometryConvertible {
     }
 
     func hausdorffDistanceDensify(
-        to geometry: GeometryConvertible,
+        to geometry: any GeometryConvertible<C>,
         densifyFraction: Double
     ) throws -> Double {
         let context = try GEOSContext()
@@ -78,7 +79,7 @@ public extension GeometryConvertible {
         return area
     }
 
-    func nearestPoints(with geometry: GeometryConvertible) throws -> [Point] {
+    func nearestPoints(with geometry: any GeometryConvertible<C>) throws -> [Point<C>] {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
@@ -87,12 +88,9 @@ public extension GeometryConvertible {
                 throw GEOSError.libraryError(errorMessages: context.errors)
         }
         defer { GEOSCoordSeq_destroy_r(context.handle, coordSeq) }
-        var point0 = Point(x: 0, y: 0)
-        GEOSCoordSeq_getX_r(context.handle, coordSeq, 0, &point0.x)
-        GEOSCoordSeq_getY_r(context.handle, coordSeq, 0, &point0.y)
-        var point1 = Point(x: 0, y: 0)
-        GEOSCoordSeq_getX_r(context.handle, coordSeq, 1, &point1.x)
-        GEOSCoordSeq_getY_r(context.handle, coordSeq, 1, &point1.y)
+
+        let point0 = try Point(coordinates: C.bridge.getter(context, coordSeq, 0))
+        let point1 = try Point(coordinates: C.bridge.getter(context, coordSeq, 1))
         return [point0, point1]
     }
 
@@ -133,7 +131,7 @@ public extension GeometryConvertible {
         return String(cString: cString)
     }
 
-    func isValidDetail(allowSelfTouchingRingFormingHole: Bool = false) throws -> IsValidDetailResult {
+    func isValidDetail(allowSelfTouchingRingFormingHole: Bool = false) throws -> IsValidDetailResult<C> {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let flags: Int32 = allowSelfTouchingRingFormingHole
@@ -156,7 +154,7 @@ public extension GeometryConvertible {
                 defer { GEOSFree_r(context.handle, reason) }
                 return String(cString: reason)
             }
-            let location = try optionalLocation.map { (location) -> Geometry in
+            let location = try optionalLocation.map { (location) -> Geometry<C> in
                 let locationGEOSObject = GEOSObject(context: context, pointer: location)
                 return try Geometry(geosObject: locationGEOSObject)
             }
@@ -172,7 +170,7 @@ public extension GeometryConvertible {
 
     private func evaluateBinaryPredicate(
         _ predicate: BinaryPredicate,
-        with geometry: GeometryConvertible
+        with geometry: any GeometryConvertible<C>
     ) throws -> Bool {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
@@ -185,49 +183,49 @@ public extension GeometryConvertible {
         return result == 1
     }
 
-    func isTopologicallyEquivalent(to geometry: GeometryConvertible) throws -> Bool {
+    func isTopologicallyEquivalent(to geometry: any GeometryConvertible<C>) throws -> Bool {
         try evaluateBinaryPredicate(GEOSEquals_r, with: geometry)
     }
 
-    func isDisjoint(with geometry: GeometryConvertible) throws -> Bool {
+    func isDisjoint(with geometry: any GeometryConvertible<C>) throws -> Bool {
         try evaluateBinaryPredicate(GEOSDisjoint_r, with: geometry)
     }
 
-    func touches(_ geometry: GeometryConvertible) throws -> Bool {
+    func touches(_ geometry: any GeometryConvertible<C>) throws -> Bool {
         try evaluateBinaryPredicate(GEOSTouches_r, with: geometry)
     }
 
-    func intersects(_ geometry: GeometryConvertible) throws -> Bool {
+    func intersects(_ geometry: any GeometryConvertible<C>) throws -> Bool {
         try evaluateBinaryPredicate(GEOSIntersects_r, with: geometry)
     }
 
-    func crosses(_ geometry: GeometryConvertible) throws -> Bool {
+    func crosses(_ geometry: any GeometryConvertible<C>) throws -> Bool {
         try evaluateBinaryPredicate(GEOSCrosses_r, with: geometry)
     }
 
-    func isWithin(_ geometry: GeometryConvertible) throws -> Bool {
+    func isWithin(_ geometry: any GeometryConvertible<C>) throws -> Bool {
         try evaluateBinaryPredicate(GEOSWithin_r, with: geometry)
     }
 
-    func contains(_ geometry: GeometryConvertible) throws -> Bool {
+    func contains(_ geometry: any GeometryConvertible<C>) throws -> Bool {
         try evaluateBinaryPredicate(GEOSContains_r, with: geometry)
     }
 
-    func overlaps(_ geometry: GeometryConvertible) throws -> Bool {
+    func overlaps(_ geometry: any GeometryConvertible<C>) throws -> Bool {
         try evaluateBinaryPredicate(GEOSOverlaps_r, with: geometry)
     }
 
-    func covers(_ geometry: GeometryConvertible) throws -> Bool {
+    func covers(_ geometry: any GeometryConvertible<C>) throws -> Bool {
         try evaluateBinaryPredicate(GEOSCovers_r, with: geometry)
     }
 
-    func isCovered(by geometry: GeometryConvertible) throws -> Bool {
+    func isCovered(by geometry: any GeometryConvertible<C>) throws -> Bool {
         try evaluateBinaryPredicate(GEOSCoveredBy_r, with: geometry)
     }
 
     // MARK: - Prepared Geometry
 
-    func makePrepared() throws -> PreparedGeometry {
+    func makePrepared() throws -> PreparedGeometry<C> {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         return try PreparedGeometry(context: context, base: geosObject)
@@ -236,7 +234,7 @@ public extension GeometryConvertible {
     // MARK: - Dimensionally Extended 9 Intersection Model Functions
 
     /// Parameter mask: A DE9-IM mask pattern
-    func relate(_ geometry: GeometryConvertible, mask: String) throws -> Bool {
+    func relate(_ geometry: any GeometryConvertible<C>, mask: String) throws -> Bool {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
@@ -250,7 +248,7 @@ public extension GeometryConvertible {
         return result == 1
     }
 
-    func relate(_ geometry: GeometryConvertible) throws -> String {
+    func relate(_ geometry: any GeometryConvertible<C>) throws -> String {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
@@ -279,8 +277,8 @@ public extension GeometryConvertible {
 
     private func performBinaryTopologyOperation(
         _ operation: BinaryOperation,
-        geometry: GeometryConvertible
-    ) throws -> Geometry {
+        geometry: any GeometryConvertible<C>
+    ) throws -> Geometry<C> {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
@@ -291,28 +289,28 @@ public extension GeometryConvertible {
     }
 
     func envelope() throws -> Envelope {
-        let geometry: Geometry = try performUnaryTopologyOperation(GEOSEnvelope_r)
+        let geometry: Geometry<C> = try performUnaryTopologyOperation(GEOSEnvelope_r)
         switch geometry {
         case let .point(point):
-            return Envelope(minX: point.x, maxX: point.x, minY: point.y, maxY: point.y)
+            return Envelope(minX: point.coordinates.x, maxX: point.coordinates.x, minY: point.coordinates.y, maxY: point.coordinates.y)
         case let .polygon(polygon):
             var minX = Double.nan
             var maxX = Double.nan
             var minY = Double.nan
             var maxY = Double.nan
             for point in polygon.exterior.points {
-                minX = .minimum(minX, point.x)
-                maxX = .maximum(maxX, point.x)
-                minY = .minimum(minY, point.y)
-                maxY = .maximum(maxY, point.y)
+                minX = .minimum(minX, point.coordinates.x)
+                maxX = .maximum(maxX, point.coordinates.x)
+                minY = .minimum(minY, point.coordinates.y)
+                maxY = .maximum(maxY, point.coordinates.y)
             }
             return Envelope(minX: minX, maxX: maxX, minY: minY, maxY: maxY)
         default:
-            throw GEOSwiftError.unexpectedEnvelopeResult(geometry)
+            throw GEOSwiftError.unexpectedEnvelopeResult(AnyGeometry(geometry))
         }
     }
 
-    func intersection(with geometry: GeometryConvertible) throws -> Geometry? {
+    func intersection(with geometry: any GeometryConvertible<C>) throws -> Geometry<C>? {
         do {
             return try performBinaryTopologyOperation(GEOSIntersection_r, geometry: geometry)
         } catch GEOSwiftError.tooFewPoints {
@@ -322,11 +320,11 @@ public extension GeometryConvertible {
         }
     }
 
-    func makeValid() throws -> Geometry {
+    func makeValid() throws -> Geometry<C> {
         try performUnaryTopologyOperation(GEOSMakeValid_r)
     }
 
-    func makeValid(method: MakeValidMethod) throws -> Geometry {
+    func makeValid(method: MakeValidMethod) throws -> Geometry<C> {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         let params = MakeValidParams(context: context, method: method)
@@ -340,7 +338,7 @@ public extension GeometryConvertible {
         return try Geometry(geosObject: GEOSObject(context: context, pointer: pointer))
     }
 
-    func normalized() throws -> Geometry {
+    func normalized() throws -> Geometry<C> {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         // GEOSNormalize_r returns -1 on exception
@@ -350,11 +348,11 @@ public extension GeometryConvertible {
         return try Geometry(geosObject: geosObject)
     }
 
-    func convexHull() throws -> Geometry {
+    func convexHull() throws -> Geometry<C> {
         try performUnaryTopologyOperation(GEOSConvexHull_r)
     }
 
-    func concaveHull(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry {
+    func concaveHull(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry<C> {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         guard let resultPointer = GEOSConcaveHull_r(
@@ -368,15 +366,15 @@ public extension GeometryConvertible {
         return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
     }
 
-    func minimumRotatedRectangle() throws -> Geometry {
+    func minimumRotatedRectangle() throws -> Geometry<C> {
         try performUnaryTopologyOperation(GEOSMinimumRotatedRectangle_r)
     }
 
-    func minimumWidth() throws -> LineString {
+    func minimumWidth() throws -> LineString<C> {
         try performUnaryTopologyOperation(GEOSMinimumWidth_r)
     }
 
-    func difference(with geometry: GeometryConvertible) throws -> Geometry? {
+    func difference(with geometry: any GeometryConvertible<C>) throws -> Geometry<C>? {
         do {
             return try performBinaryTopologyOperation(GEOSDifference_r, geometry: geometry)
         } catch GEOSwiftError.tooFewPoints {
@@ -386,7 +384,7 @@ public extension GeometryConvertible {
         }
     }
 
-    func symmetricDifference(with geometry: GeometryConvertible) throws -> Geometry? {
+    func symmetricDifference(with geometry: any GeometryConvertible<C>) throws -> Geometry<C>? {
         do {
             return try performBinaryTopologyOperation(GEOSSymDifference_r, geometry: geometry)
         } catch GEOSwiftError.tooFewPoints {
@@ -396,23 +394,23 @@ public extension GeometryConvertible {
         }
     }
 
-    func union(with geometry: GeometryConvertible) throws -> Geometry {
+    func union(with geometry: any GeometryConvertible<C>) throws -> Geometry<C> {
         try performBinaryTopologyOperation(GEOSUnion_r, geometry: geometry)
     }
 
-    func unaryUnion() throws -> Geometry {
+    func unaryUnion() throws -> Geometry<C> {
         try performUnaryTopologyOperation(GEOSUnaryUnion_r)
     }
 
-    func pointOnSurface() throws -> Point {
+    func pointOnSurface() throws -> Point<C> {
         try performUnaryTopologyOperation(GEOSPointOnSurface_r)
     }
 
-    func centroid() throws -> Point {
+    func centroid() throws -> Point<C> {
         try performUnaryTopologyOperation(GEOSGetCentroid_r)
     }
 
-    func minimumBoundingCircle() throws -> Circle {
+    func minimumBoundingCircle() throws -> Circle<C> {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         var radius: Double = 0
@@ -431,25 +429,25 @@ public extension GeometryConvertible {
         guard let centerPointer = optionalCenterPointer else {
             throw GEOSError.noMinimumBoundingCircle
         }
-        let center = try Point(geosObject: GEOSObject(context: context, pointer: centerPointer))
+        let center = try Point<C>(geosObject: GEOSObject(context: context, pointer: centerPointer))
         return Circle(center: center, radius: radius)
     }
 
-    func polygonize() throws -> GeometryCollection {
+    func polygonize() throws -> GeometryCollection<C> {
         try [self].polygonize()
     }
 
-    func lineMerge() throws -> Geometry {
+    func lineMerge() throws -> Geometry<C> {
         try performUnaryTopologyOperation(GEOSLineMerge_r)
     }
 
-    func lineMergeDirected() throws -> Geometry {
+    func lineMergeDirected() throws -> Geometry<C> {
         try performUnaryTopologyOperation(GEOSLineMergeDirected_r)
     }
 
     // MARK: - Buffer Functions
 
-    func buffer(by width: Double) throws -> Geometry? {
+    func buffer(by width: Double) throws -> Geometry<C>? {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         // the last parameter in GEOSBuffer_r is called `quadsegs` and in other places in GEOS, it defaults to
@@ -474,7 +472,7 @@ public extension GeometryConvertible {
         endCapStyle: BufferEndCapStyle = .round,
         joinStyle: BufferJoinStyle = .round,
         mitreLimit: Double = 5.0
-    ) throws -> Geometry? {
+    ) throws -> Geometry<C>? {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
 
@@ -503,7 +501,7 @@ public extension GeometryConvertible {
         quadsegs: Int32 = 8,
         joinStyle: BufferJoinStyle = .bevel,
         mitreLimit: Double = 5.0
-    ) throws -> Geometry? {
+    ) throws -> Geometry<C>? {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
 
@@ -528,7 +526,7 @@ public extension GeometryConvertible {
 
     // MARK: - Simplify Functions
 
-    func simplify(withTolerance tolerance: Double) throws -> Geometry {
+    func simplify(withTolerance tolerance: Double) throws -> Geometry<C> {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         guard let resultPointer = GEOSSimplify_r(context.handle, geosObject.pointer, tolerance) else {
@@ -539,7 +537,7 @@ public extension GeometryConvertible {
 
     // MARK: - Snapping
 
-    func snap(to geometry: GeometryConvertible, tolerance: Double) throws -> Geometry {
+    func snap(to geometry: any GeometryConvertible<C>, tolerance: Double) throws -> Geometry<C> {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
         let otherGeosObject = try geometry.geometry.geosObject(with: context)
@@ -556,7 +554,7 @@ public extension GeometryConvertible {
 }
 
 public extension Collection where Element: GeometryConvertible {
-    func polygonize() throws -> GeometryCollection {
+    func polygonize() throws -> GeometryCollection<Element.C> {
         let context = try GEOSContext()
         let geosObjects = try map { try $0.geometry.geosObject(with: context) }
         let pointer = withExtendedLifetime(geosObjects) { geosObjects in
@@ -603,9 +601,9 @@ public enum BufferJoinStyle: Hashable, Sendable {
     }
 }
 
-public enum IsValidDetailResult: Hashable, Sendable {
+public enum IsValidDetailResult<C: CoordinateType>: Hashable, Sendable {
     case valid
-    case invalid(reason: String?, location: Geometry?)
+    case invalid(reason: String?, location: Geometry<C>?)
 }
 
 public enum MakeValidMethod {

@@ -13,25 +13,25 @@ public struct Envelope: Hashable, Sendable {
         self.maxY = maxY
     }
 
-    public var minXMaxY: Point {
+    public var minXMaxY: Point<XY> {
         Point(x: minX, y: maxY)
     }
 
-    public var maxXMaxY: Point {
+    public var maxXMaxY: Point<XY> {
         Point(x: maxX, y: maxY)
     }
 
-    public var minXMinY: Point {
+    public var minXMinY: Point<XY> {
         Point(x: minX, y: minY)
     }
 
-    public var maxXMinY: Point {
+    public var maxXMinY: Point<XY> {
         Point(x: maxX, y: minY)
     }
 }
 
 extension Envelope: GeometryConvertible {
-    public var geometry: Geometry {
+    public var geometry: Geometry<XY> {
         if minX == maxX, minY == maxY {
             return .point(Point(x: minX, y: minY))
         } else {

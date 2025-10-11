@@ -9,7 +9,7 @@ final class MultiPoint_GEOSTests: GEOSContextTestCase {
     func testInitFromWrongGEOSType() {
         do {
             let geosObject = try Point.testValue1.geosObject(with: context)
-            _ = try MultiPoint(geosObject: geosObject)
+            _ = try MultiPoint<XY>(geosObject: geosObject)
         } catch let GEOSError.typeMismatch(actual, expected) {
             XCTAssertEqual(actual, .point)
             XCTAssertEqual(expected, .multiPoint)

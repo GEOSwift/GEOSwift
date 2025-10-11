@@ -5,7 +5,7 @@ public extension LineStringConvertible {
     // MARK: - Linear Referencing Functions
 
     /// - returns: The distance of a point projected on the calling line
-    func distanceFromStart(toProjectionOf point: Point) throws -> Double {
+    func distanceFromStart(toProjectionOf point: Point<C>) throws -> Double {
         let context = try GEOSContext()
         let lineStringGeosObject = try lineString.geosObject(with: context)
         let pointGeosObject = try point.geosObject(with: context)
@@ -17,7 +17,7 @@ public extension LineStringConvertible {
         return result
     }
 
-    func normalizedDistanceFromStart(toProjectionOf point: Point) throws -> Double {
+    func normalizedDistanceFromStart(toProjectionOf point: Point<C>) throws -> Double {
         let context = try GEOSContext()
         let lineStringGeosObject = try lineString.geosObject(with: context)
         let pointGeosObject = try point.geosObject(with: context)
@@ -34,7 +34,7 @@ public extension LineStringConvertible {
     }
 
     /// If distance is negative, the interpolation starts from the end and works backwards
-    func interpolatedPoint(withDistance distance: Double) throws -> Point {
+    func interpolatedPoint(withDistance distance: Double) throws -> Point<C> {
         let context = try GEOSContext()
         let lineStringGeosObject = try lineString.geosObject(with: context)
         guard let pointer = GEOSInterpolate_r(context.handle, lineStringGeosObject.pointer, distance) else {
@@ -44,7 +44,7 @@ public extension LineStringConvertible {
     }
 
     /// If fraction is negative, the interpolation starts from the end and works backwards
-    func interpolatedPoint(withFraction fraction: Double) throws -> Point {
+    func interpolatedPoint(withFraction fraction: Double) throws -> Point<C> {
         let context = try GEOSContext()
         let lineStringGeosObject = try lineString.geosObject(with: context)
         guard let pointer = GEOSInterpolateNormalized_r(
@@ -58,7 +58,7 @@ public extension LineStringConvertible {
     }
 
     /// - returns: A substring of the LineString defined by the start and end fractions
-    func substring(fromFraction: Double, toFraction: Double) throws -> LineString {
+    func substring(fromFraction: Double, toFraction: Double) throws -> LineString<C> {
         let context = try GEOSContext()
         let lineStringGeosObject = try lineString.geosObject(with: context)
         guard let pointer = GEOSLineSubstring_r(

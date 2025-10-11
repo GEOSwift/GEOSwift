@@ -3,19 +3,19 @@ import GEOSwift
 
 final class Feature_FeatureIdTests: XCTestCase {
     func testInitWithStringLiteral() {
-        let featureId: Feature.FeatureId = "test"
+        let featureId: FeatureId = "test"
 
         XCTAssertEqual(featureId, .string("test"))
     }
 
     func testInitWithIntegerLiteral() {
-        let featureId: Feature.FeatureId = 1
+        let featureId: FeatureId = 1
 
         XCTAssertEqual(featureId, .number(1))
     }
 
     func testInitWithFloatLiteral() {
-        let featureId: Feature.FeatureId = 2.0
+        let featureId: FeatureId = 2.0
 
         XCTAssertEqual(featureId, .number(2))
     }
@@ -25,7 +25,7 @@ final class FeatureTests: XCTestCase {
     func testInitWithGeometryPropertiesId() {
         let geometry = Geometry.point(Point(x: 0, y: 0))
         let properties: [String: JSON] = ["a": "b"]
-        let id: Feature.FeatureId = 2
+        let id: FeatureId = 2
 
         let feature = Feature(geometry: geometry, properties: properties, id: id)
 
@@ -35,7 +35,7 @@ final class FeatureTests: XCTestCase {
     }
 
     func testInitWithDefaultValues() {
-        let feature = Feature()
+        let feature = Feature<XY>()
 
         XCTAssertNil(feature.geometry)
         XCTAssertNil(feature.properties)
@@ -43,7 +43,7 @@ final class FeatureTests: XCTestCase {
     }
 
     func testUntypedProperties() {
-        let feature = Feature(properties: [
+        let feature = Feature<XY>(properties: [
             "a": ["y"],
             "b": true,
             "n": 1,

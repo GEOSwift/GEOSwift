@@ -1,4 +1,4 @@
-public struct Polygon: Hashable, Sendable {
+public struct Polygon<C: CoordinateType>: Hashable, Sendable {
     public var exterior: LinearRing
     public var holes: [LinearRing]
 
@@ -8,9 +8,9 @@ public struct Polygon: Hashable, Sendable {
     }
 
     public struct LinearRing: Hashable, Sendable {
-        public let points: [Point]
+        public let points: [Point<C>]
 
-        public init(points: [Point]) throws {
+        public init(points: [Point<C>]) throws {
             guard points.count >= 4 else {
                 throw GEOSwiftError.tooFewPoints
             }

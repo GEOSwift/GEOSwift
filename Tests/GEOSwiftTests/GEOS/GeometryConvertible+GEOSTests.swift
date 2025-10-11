@@ -10,7 +10,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         Point(x: 0, y: 0),
         Point(x: 1, y: 0),
         Point(x: 1, y: 1)])
-    let multiLineString0 = MultiLineString(lineStrings: [])
+    let multiLineString0 = MultiLineString<XY>(lineStrings: [])
     lazy var multiLineString1 = MultiLineString(lineStrings: [lineString1])
     lazy var multiLineString2 = MultiLineString(lineStrings: [lineString1, lineString2])
     let linearRing0 = try! Polygon.LinearRing(points: Array(repeating: Point(x: 0, y: 0), count: 4))
@@ -30,7 +30,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             MultiPolygon.testValue])
     lazy var recursiveCollection = GeometryCollection(
         geometries: [collection])
-    let geometryConvertibles: [GeometryConvertible] = [
+    let geometryConvertibles: [any GeometryConvertible<XY>] = [
         Point.testValue1,
         Geometry.point(.testValue1),
         MultiPoint.testValue,
@@ -185,7 +185,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
     // MARK: - Unary Predicates
 
     func testIsEmpty() {
-        var collection = GeometryCollection(geometries: [])
+        var collection = GeometryCollection<XY>(geometries: [])
 
         XCTAssertTrue(try collection.isEmpty())
 
@@ -994,7 +994,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
     }
 
     func testPolygonizeEmptyArray() {
-        XCTAssertEqual(try [Geometry]().polygonize(), GeometryCollection(geometries: []))
+        XCTAssertEqual(try [Geometry<XY>]().polygonize(), GeometryCollection(geometries: []))
     }
 
     func testPolygonizeArray() {

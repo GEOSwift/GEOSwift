@@ -9,7 +9,7 @@ final class MultiLineString_GEOSTests: GEOSContextTestCase {
     func testInitFromWrongGEOSType() {
         do {
             let geosObject = try Point.testValue1.geosObject(with: context)
-            _ = try MultiLineString(geosObject: geosObject)
+            _ = try MultiLineString<XY>(geosObject: geosObject)
         } catch let GEOSError.typeMismatch(actual, expected) {
             XCTAssertEqual(actual, .point)
             XCTAssertEqual(expected, .multiLineString)

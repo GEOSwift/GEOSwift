@@ -45,7 +45,7 @@ final class WKBTests: XCTestCase {
         let value = Polygon.LinearRing.testValueHole1
         do {
             let wkb = try value.wkb()
-            let actual = try LineString(wkb: wkb)
+            let actual = try LineString<XY>(wkb: wkb)
             XCTAssertEqual(actual, LineString(value))
         } catch {
             XCTFail("Unexpected error: \(error)")
@@ -65,14 +65,14 @@ final class WKBTests: XCTestCase {
     }
 
     func testInitWithInvalidWKB() {
-        verifyInitWithInvalidWKB(type: Point.self)
-        verifyInitWithInvalidWKB(type: LineString.self)
-        verifyInitWithInvalidWKB(type: Polygon.self)
-        verifyInitWithInvalidWKB(type: MultiPoint.self)
-        verifyInitWithInvalidWKB(type: MultiLineString.self)
-        verifyInitWithInvalidWKB(type: MultiPolygon.self)
-        verifyInitWithInvalidWKB(type: GeometryCollection.self)
-        verifyInitWithInvalidWKB(type: Geometry.self)
+        verifyInitWithInvalidWKB(type: Point<XY>.self)
+        verifyInitWithInvalidWKB(type: LineString<XY>.self)
+        verifyInitWithInvalidWKB(type: Polygon<XY>.self)
+        verifyInitWithInvalidWKB(type: MultiPoint<XY>.self)
+        verifyInitWithInvalidWKB(type: MultiLineString<XY>.self)
+        verifyInitWithInvalidWKB(type: MultiPolygon<XY>.self)
+        verifyInitWithInvalidWKB(type: GeometryCollection<XY>.self)
+        verifyInitWithInvalidWKB(type: Geometry<XY>.self)
     }
 
     func verifyInitWithEmptyWKB<T>(type: T.Type, line: UInt = #line) where T: WKBInitializable {
@@ -88,13 +88,13 @@ final class WKBTests: XCTestCase {
     }
 
     func testInitWithEmptyWKB() {
-        verifyInitWithEmptyWKB(type: Point.self)
-        verifyInitWithEmptyWKB(type: LineString.self)
-        verifyInitWithEmptyWKB(type: Polygon.self)
-        verifyInitWithEmptyWKB(type: MultiPoint.self)
-        verifyInitWithEmptyWKB(type: MultiLineString.self)
-        verifyInitWithEmptyWKB(type: MultiPolygon.self)
-        verifyInitWithEmptyWKB(type: GeometryCollection.self)
-        verifyInitWithEmptyWKB(type: Geometry.self)
+        verifyInitWithEmptyWKB(type: Point<XY>.self)
+        verifyInitWithEmptyWKB(type: LineString<XY>.self)
+        verifyInitWithEmptyWKB(type: Polygon<XY>.self)
+        verifyInitWithEmptyWKB(type: MultiPoint<XY>.self)
+        verifyInitWithEmptyWKB(type: MultiLineString<XY>.self)
+        verifyInitWithEmptyWKB(type: MultiPolygon<XY>.self)
+        verifyInitWithEmptyWKB(type: GeometryCollection<XY>.self)
+        verifyInitWithEmptyWKB(type: Geometry<XY>.self)
     }
 }

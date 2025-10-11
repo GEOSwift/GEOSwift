@@ -2,7 +2,7 @@ import XCTest
 import GEOSwift
 
 final class ClosednessTestableTests: XCTestCase {
-    let closednessTestables: [ClosednessTestable] = [
+    let closednessTestables: [any ClosednessTestable<XY>] = [
         LineString.testValue1,
         MultiLineString.testValue,
         Polygon.LinearRing.testValueHole1]

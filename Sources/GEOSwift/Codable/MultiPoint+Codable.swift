@@ -1,12 +1,12 @@
 // for internal use only; GeoJSON encoding & decoding helpers
 extension MultiPoint: CodableGeometry {
-    static let geoJSONType = GeoJSONType.multiPoint
+    static var geoJSONType: GeoJSONType { .multiPoint }
 
-    var coordinates: [[Double]] {
+    var coordinates: [C] {
         points.map { $0.coordinates }
     }
 
-    init(coordinates: [[Double]]) throws {
-        try self.init(points: coordinates.map(Point.init))
+    init(coordinates: [C]) throws {
+        self.init(points: coordinates.map(Point.init(_:)))
     }
 }

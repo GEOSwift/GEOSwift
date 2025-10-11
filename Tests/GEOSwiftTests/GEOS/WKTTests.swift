@@ -55,15 +55,15 @@ final class WKTTests: XCTestCase {
     }
 
     func testInitWithInvalidWKT() {
-        verifyInitWithInvalidWKT(type: Point.self)
-        verifyInitWithInvalidWKT(type: LineString.self)
-        verifyInitWithInvalidWKT(type: Polygon.LinearRing.self)
-        verifyInitWithInvalidWKT(type: Polygon.self)
-        verifyInitWithInvalidWKT(type: MultiPoint.self)
-        verifyInitWithInvalidWKT(type: MultiLineString.self)
-        verifyInitWithInvalidWKT(type: MultiPolygon.self)
-        verifyInitWithInvalidWKT(type: GeometryCollection.self)
-        verifyInitWithInvalidWKT(type: Geometry.self)
+        verifyInitWithInvalidWKT(type: Point<XY>.self)
+        verifyInitWithInvalidWKT(type: LineString<XY>.self)
+        verifyInitWithInvalidWKT(type: Polygon<XY>.LinearRing.self)
+        verifyInitWithInvalidWKT(type: Polygon<XY>.self)
+        verifyInitWithInvalidWKT(type: MultiPoint<XY>.self)
+        verifyInitWithInvalidWKT(type: MultiLineString<XY>.self)
+        verifyInitWithInvalidWKT(type: MultiPolygon<XY>.self)
+        verifyInitWithInvalidWKT(type: GeometryCollection<XY>.self)
+        verifyInitWithInvalidWKT(type: Geometry<XY>.self)
     }
 
     func verifyInitWithEmptyWKT<T>(type: T.Type, line: UInt = #line) where T: WKTInitializable {
@@ -79,15 +79,15 @@ final class WKTTests: XCTestCase {
     }
 
     func testInitWithEmptyWKT() {
-        verifyInitWithEmptyWKT(type: Point.self)
-        verifyInitWithEmptyWKT(type: LineString.self)
-        verifyInitWithEmptyWKT(type: Polygon.LinearRing.self)
-        verifyInitWithEmptyWKT(type: Polygon.self)
-        verifyInitWithEmptyWKT(type: MultiPoint.self)
-        verifyInitWithEmptyWKT(type: MultiLineString.self)
-        verifyInitWithEmptyWKT(type: MultiPolygon.self)
-        verifyInitWithEmptyWKT(type: GeometryCollection.self)
-        verifyInitWithEmptyWKT(type: Geometry.self)
+        verifyInitWithEmptyWKT(type: Point<XY>.self)
+        verifyInitWithEmptyWKT(type: LineString<XY>.self)
+        verifyInitWithEmptyWKT(type: Polygon<XY>.LinearRing.self)
+        verifyInitWithEmptyWKT(type: Polygon<XY>.self)
+        verifyInitWithEmptyWKT(type: MultiPoint<XY>.self)
+        verifyInitWithEmptyWKT(type: MultiLineString<XY>.self)
+        verifyInitWithEmptyWKT(type: MultiPolygon<XY>.self)
+        verifyInitWithEmptyWKT(type: GeometryCollection<XY>.self)
+        verifyInitWithEmptyWKT(type: Geometry<XY>.self)
     }
 
     func verifyWKTOptions<T>(wktConvertible: T,

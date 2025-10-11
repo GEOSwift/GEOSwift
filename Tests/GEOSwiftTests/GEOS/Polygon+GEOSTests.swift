@@ -13,7 +13,7 @@ final class Polygon_LinearRing_GEOSTests: GEOSContextTestCase {
     func testInitFromWrongGEOSType() {
         do {
             let geosObject = try Point.testValue1.geosObject(with: context)
-            _ = try Polygon.LinearRing(geosObject: geosObject)
+            _ = try Polygon<XY>.LinearRing(geosObject: geosObject)
         } catch let GEOSError.typeMismatch(actual, expected) {
             XCTAssertEqual(actual, .point)
             XCTAssertEqual(expected, .linearRing)
@@ -34,7 +34,7 @@ final class Polygon_GEOSTests: GEOSContextTestCase {
     func testInitFromWrongGEOSType() {
         do {
             let geosObject = try Point.testValue1.geosObject(with: context)
-            _ = try Polygon(geosObject: geosObject)
+            _ = try Polygon<XY>(geosObject: geosObject)
         } catch let GEOSError.typeMismatch(actual, expected) {
             XCTAssertEqual(actual, .point)
             XCTAssertEqual(expected, .polygon)

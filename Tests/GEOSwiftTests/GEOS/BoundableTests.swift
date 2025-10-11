@@ -2,7 +2,7 @@ import XCTest
 import GEOSwift
 
 final class BoundableTests: XCTestCase {
-    let boundables: [Boundable] = [
+    let boundables: [any Boundable<XY>] = [
         Point.testValue1,
         MultiPoint.testValue,
         LineString.testValue1,

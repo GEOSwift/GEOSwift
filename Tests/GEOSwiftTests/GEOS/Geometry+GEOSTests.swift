@@ -22,7 +22,7 @@ final class Geometry_GEOSTests: GEOSContextTestCase {
         do {
             let geosObject = try linearRing.geosObject(with: context)
 
-            let geometry = try Geometry(geosObject: geosObject)
+            let geometry = try Geometry<XY>(geosObject: geosObject)
 
             XCTAssertEqual(geometry, .lineString(LineString(linearRing)))
         } catch {

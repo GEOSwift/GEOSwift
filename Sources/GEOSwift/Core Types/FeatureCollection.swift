@@ -1,7 +1,7 @@
-public struct FeatureCollection: Hashable, Sendable {
-    public var features: [Feature]
+public struct FeatureCollection<C: CoordinateType>: Hashable, Sendable {
+    public var features: [Feature<C>]
 
-    public init(features: [Feature]) {
+    public init(features: [Feature<C>]) {
         self.features = features
     }
 }

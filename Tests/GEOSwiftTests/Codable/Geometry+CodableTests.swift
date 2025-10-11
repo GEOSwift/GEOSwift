@@ -49,20 +49,20 @@ final class Geometry_CodableTests: CodableTestCase {
         // point should be capitalized
         let json = #"{"coordinates":[1,2],"type":"point"}"#
 
-        verifyDecodable(with: Geometry.self, json: json, expectedError: GEOSwiftError.invalidGeoJSONType)
+        verifyDecodable(with: Geometry<XY>.self, json: json, expectedError: GEOSwiftError.invalidGeoJSONType)
     }
 
     func testDecodingFeature() {
         // Feature is not a geometry
         let json = #"{"type":"Feature"}"#
 
-        verifyDecodable(with: Geometry.self, json: json, expectedError: GEOSwiftError.mismatchedGeoJSONType)
+        verifyDecodable(with: Geometry<XY>.self, json: json, expectedError: GEOSwiftError.mismatchedGeoJSONType)
     }
 
     func testDecodingFeatureCollection() {
         // FeatureCollection is not a geometry
         let json = #"{"type":"FeatureCollection"}"#
 
-        verifyDecodable(with: Geometry.self, json: json, expectedError: GEOSwiftError.mismatchedGeoJSONType)
+        verifyDecodable(with: Geometry<XY>.self, json: json, expectedError: GEOSwiftError.mismatchedGeoJSONType)
     }
 }

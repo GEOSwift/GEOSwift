@@ -1,19 +1,19 @@
 import GEOSwift
 
-func makePoints(withCount count: UInt) -> [Point] {
+func makePoints(withCount count: UInt) -> [Point<XY>] {
     (0..<count)
         .map(Double.init)
         .map { Point(x: $0, y: $0) }
 }
 
-func makeLineStrings(withCount count: UInt) -> [LineString] {
+func makeLineStrings(withCount count: UInt) -> [LineString<XY>] {
     (0..<count).compactMap { (i) in
         let points = makePoints(withCount: 2 + i)
         return try? LineString(points: points)
     }
 }
 
-func makeLinearRings(withCount count: UInt) -> [Polygon.LinearRing] {
+func makeLinearRings(withCount count: UInt) -> [Polygon<XY>.LinearRing] {
     (0..<count).compactMap { (i) in
         var points = makePoints(withCount: 3 + i)
         points.append(points[0])
@@ -21,7 +21,7 @@ func makeLinearRings(withCount count: UInt) -> [Polygon.LinearRing] {
     }
 }
 
-func makePolygons(withCount count: UInt) -> [Polygon] {
+func makePolygons(withCount count: UInt) -> [Polygon<XY>] {
     (0..<count).map { (i) in
         let points = makeLinearRings(withCount: 1 + i)
         return Polygon(exterior: points[0], holes: Array(points[1..<points.count]))
@@ -38,7 +38,7 @@ enum GeometryType: CaseIterable {
     case geometryCollection
 }
 
-func makeGeometries(withTypes types: [GeometryType]) -> [Geometry] {
+func makeGeometries(withTypes types: [GeometryType]) -> [Geometry<XY>] {
     types.enumerated().map { (idx, type) in
         switch type {
         case .point:
@@ -65,7 +65,7 @@ func makeGeometries(withTypes types: [GeometryType]) -> [Geometry] {
     }
 }
 
-func makeFeatures(withCount count: UInt) -> [Feature] {
+func makeFeatures(withCount count: UInt) -> [Feature<XY>] {
     (0..<count).map { (i) in
         let point = Point(x: Double(i), y: Double(i))
         return Feature(geometry: point, properties: nil, id: .number(Double(i)))
