@@ -3,12 +3,12 @@ import PackageDescription
 
 let package = Package(
     name: "GEOSwift",
-    platforms: [.iOS(.v12), .macOS(.v10_13), .tvOS(.v12), .watchOS(.v4)],
+    platforms: [.iOS(.v16), .macOS(.v13), .tvOS(.v16), .watchOS(.v9), .visionOS(.v1)],
     products: [
         .library(name: "GEOSwift", targets: ["GEOSwift"])
     ],
     dependencies: [
-        .package(url: "https://github.com/GEOSwift/geos.git", from: "9.0.0")
+        .package(url: "https://github.com/GEOSwift/geos.git", from: "10.0.0")
     ],
     targets: [
         .target(

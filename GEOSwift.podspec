@@ -15,14 +15,15 @@ Pod::Spec.new do |s|
     file: 'LICENSE'
   }
   s.authors = 'Andrea Cremaschi', 'Andrew Hershberger', 'Virgilio Favero Neto'
-  s.ios.deployment_target = '12.0'
-  s.macos.deployment_target = '10.13'
-  s.tvos.deployment_target = '12.0'
-  s.watchos.deployment_target = '4.0'
+  s.ios.deployment_target = '16.0'
+  s.macos.deployment_target = '13.0'
+  s.tvos.deployment_target = '16.0'
+  s.watchos.deployment_target = '9.0'
+  s.visionos.deployment_target = '1.0'
   s.source = {
     git: 'https://github.com/GEOSwift/GEOSwift.git',
     tag: s.version,
   }
   s.source_files = 'Sources/**/*.swift'
-  s.dependency 'geos', '~> 9.0'
+  s.dependency 'geos', '~> 10.0.0'
 end
