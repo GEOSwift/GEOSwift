@@ -11,6 +11,8 @@ public struct AnyGeometry: Hashable, @unchecked(Sendable) {
     // We can mark box as sendable in this case since its wrapping the known Sendable `Geometry` type
     private let box: AnyHashable
     
+    /// Box input as an ``AnyGeometry``
+    /// - parameter geometry: The input ``Geometry`` to box
     public init<C>(_ geometry: Geometry<C>) {
         self.box = AnyHashable(geometry)
         self.dimension = geometry.dimension
@@ -18,9 +20,19 @@ public struct AnyGeometry: Hashable, @unchecked(Sendable) {
         self.hasM = geometry.hasM
     }
     
+    /// Box input as an ``AnyGeometry``
+    /// - parameter geometry: The input ``Geometry`` to box
+    /// - returns: `nil` if the input geometry is `nil`.
+    public init?<C>(_ geometry: Geometry<C>?) {
+        guard let geometry else { return nil }
+        
+        self.init(geometry)
+    }
+    
     /// Attempts to unbox the `Geometry` with the given `CoordinateType`.
-    /// - returns: `nil` if the boxed geometry does not have the given `CoordinateType`.
-    public func asGeometry<T>() -> Geometry<T>? {
+    /// - parameter type: The ``CoordinateType`` to try casting to.
+    /// - returns: `nil` if the boxed geometry does not have the given ``CoordinateType``.
+    public func asGeometry<T: CoordinateType>(_ type: T.Type) -> Geometry<T>? {
         return box.base as? Geometry<T>
     }
 }
