@@ -8,7 +8,6 @@ extension MultiLineString where C == XY {
         + #"":"MultiLineString"}"#
 }
 
-@available(iOS 11.0, macOS 10.13, tvOS 11.0, *)
 final class MultiLineString_CodableTests: CodableTestCase {
     func testCodable() {
         verifyCodable(

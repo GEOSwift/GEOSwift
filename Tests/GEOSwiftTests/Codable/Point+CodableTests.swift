@@ -12,7 +12,6 @@ extension Point where C == XY {
     static let testValue7 = Point(x: 7, y: 8)
 }
 
-@available(iOS 11.0, macOS 10.13, tvOS 11.0, *)
 final class Point_CodableTests: CodableTestCase {
     func testCodable() {
         verifyCodable(with: Point.testValue1, json: Point.testJson1)

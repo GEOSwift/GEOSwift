@@ -22,7 +22,6 @@ extension Feature where C == XY {
         + #""Feature"}"#
 }
 
-@available(iOS 11.0, macOS 10.13, tvOS 11.0, *)
 final class Feature_CodableTests: CodableTestCase {
     func testCodableWithNumberId() {
         verifyCodable(

@@ -987,7 +987,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             LineString(points: [Point(x: 1, y: 0), Point(x: 0, y: 1)]),
             LineString(points: [Point(x: 0, y: 1), Point(x: 0, y: 0)])])
 
-        let expectedPolygon = try! GEOSwift.Polygon(exterior: GEOSwift.Polygon.LinearRing(points: [
+        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(points: [
             Point(x: 0, y: 0), Point(x: 1, y: 0), Point(x: 0, y: 1), Point(x: 0, y: 0)]))
 
         XCTAssertTrue(try multiLineString.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
@@ -1003,7 +1003,7 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
             LineString(points: [Point(x: 1, y: 0), Point(x: 0, y: 1)]),
             LineString(points: [Point(x: 0, y: 1), Point(x: 0, y: 0)])]
 
-        let expectedPolygon = try! GEOSwift.Polygon(exterior: GEOSwift.Polygon.LinearRing(points: [
+        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(points: [
             Point(x: 0, y: 0), Point(x: 1, y: 0), Point(x: 0, y: 1), Point(x: 0, y: 0)]))
 
         XCTAssertTrue(try lineStrings.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
@@ -1050,8 +1050,8 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
     }
 
     func testNegativeBufferWidthWithNonNilResult() throws {
-        let expectedGeometry = try Geometry.polygon(GEOSwift.Polygon(
-            exterior: GEOSwift.Polygon.LinearRing(points: [
+        let expectedGeometry = try Geometry.polygon(Polygon(
+            exterior: Polygon.LinearRing(points: [
                 Point(x: 6, y: 1),
                 Point(x: 4, y: 1),
                 Point(x: 4, y: -1),
@@ -1078,8 +1078,8 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
     }
 
     func testNegativeBufferWithStyleWidthWithNonNilResult() throws {
-        let expectedGeometry = try Geometry.polygon(GEOSwift.Polygon(
-            exterior: GEOSwift.Polygon.LinearRing(points: [
+        let expectedGeometry = try Geometry.polygon(Polygon(
+            exterior: Polygon.LinearRing(points: [
                 Point(x: 6, y: 1),
                 Point(x: 4, y: 1),
                 Point(x: 4, y: -1),
@@ -1092,8 +1092,8 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
     }
 
     func testBufferWithStyleWithFlatEndCap() throws {
-        let expectedGeometry = try Geometry.polygon(GEOSwift.Polygon(
-            exterior: GEOSwift.Polygon.LinearRing(points: [
+        let expectedGeometry = try Geometry.polygon(Polygon(
+            exterior: Polygon.LinearRing(points: [
                 Point(x: 1, y: 1),
                 Point(x: 1, y: -1),
                 Point(x: 0, y: -1),

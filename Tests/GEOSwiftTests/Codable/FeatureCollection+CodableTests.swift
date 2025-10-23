@@ -8,7 +8,6 @@ extension FeatureCollection where C == XY {
         + #"\#(Feature.testJsonWithNils)],"type":"FeatureCollection"}"#
 }
 
-@available(iOS 11.0, macOS 10.13, tvOS 11.0, *)
 final class FeatureCollection_CodableTests: CodableTestCase {
     func testCodable() {
         verifyCodable(
