@@ -1,7 +1,6 @@
 import XCTest
 import GEOSwift
 
-@available(iOS 11.0, macOS 10.13, tvOS 11.0, *)
 class CodableTestCase: XCTestCase {
     var encoder: JSONEncoder!
     var decoder: JSONDecoder!

@@ -15,9 +15,9 @@ private extension LineString where C == XYZ {
     static let testValue5 = try! LineString(points: [.testValue5, .testValue7])
 }
 
-private extension GEOSwift.Polygon.LinearRing where C == XYZ {
+private extension Polygon.LinearRing where C == XYZ {
     // counterclockwise
-    static let testValueExterior2 = try! GEOSwift.Polygon.LinearRing(points: [
+    static let testValueExterior2 = try! Polygon.LinearRing(points: [
         Point(x: 2, y: 2, z: 0),
         Point(x: -2, y: 2, z: 1),
         Point(x: -2, y: -2, z: 2),
@@ -25,7 +25,7 @@ private extension GEOSwift.Polygon.LinearRing where C == XYZ {
         Point(x: 2, y: 2, z: 4)])
 
     // clockwise
-    static let testValueHole1 = try! GEOSwift.Polygon.LinearRing(points: [
+    static let testValueHole1 = try! Polygon.LinearRing(points: [
         Point(x: 1, y: 1, z: 4),
         Point(x: 1, y: -1, z: 3),
         Point(x: -1, y: -1, z: 2),
@@ -33,7 +33,7 @@ private extension GEOSwift.Polygon.LinearRing where C == XYZ {
         Point(x: 1, y: 1, z: 0)])
 
     // counterclockwise
-    static let testValueExterior7 = try! GEOSwift.Polygon.LinearRing(points: [
+    static let testValueExterior7 = try! Polygon.LinearRing(points: [
         Point(x: 7, y: 2, z: 5),
         Point(x: 3, y: 2, z: 6),
         Point(x: 3, y: -2, z: 7),
@@ -41,13 +41,13 @@ private extension GEOSwift.Polygon.LinearRing where C == XYZ {
         Point(x: 7, y: 2, z: 9)])
 }
 
-private extension GEOSwift.Polygon where C == XYZ {
-    static let testValueWithHole = GEOSwift.Polygon(
-        exterior: GEOSwift.Polygon<XYZ>.LinearRing.testValueExterior2,
-        holes: [GEOSwift.Polygon<XYZ>.LinearRing.testValueHole1])
+private extension Polygon where C == XYZ {
+    static let testValueWithHole = Polygon(
+        exterior: Polygon<XYZ>.LinearRing.testValueExterior2,
+        holes: [Polygon<XYZ>.LinearRing.testValueHole1])
 
-    static let testValueWithoutHole = GEOSwift.Polygon(
-        exterior: GEOSwift.Polygon<XYZ>.LinearRing.testValueExterior7)
+    static let testValueWithoutHole = Polygon(
+        exterior: Polygon<XYZ>.LinearRing.testValueExterior7)
 }
 
 private extension MultiPoint where C == XYZ {
@@ -71,7 +71,7 @@ private extension GeometryCollection where C == XYZ {
             MultiPoint<XYZ>.testValue,
             LineString<XYZ>.testValue1,
             MultiLineString<XYZ>.testValue,
-            GEOSwift.Polygon<XYZ>.testValueWithHole,
+            Polygon<XYZ>.testValueWithHole,
             MultiPolygon<XYZ>.testValue])
 
     static let testValueWithRecursion = GeometryCollection(
@@ -105,7 +105,7 @@ final class GeometryConvertible_GEOSTests_XYZ: XCTestCase {
             MultiPoint<XYZ>.testValue,
             lineString1,
             multiLineString1,
-            GEOSwift.Polygon<XYZ>.testValueWithoutHole,
+            Polygon<XYZ>.testValueWithoutHole,
             MultiPolygon<XYZ>.testValue])
     lazy var recursiveCollection = GeometryCollection(
         geometries: [collection])
@@ -118,9 +118,9 @@ final class GeometryConvertible_GEOSTests_XYZ: XCTestCase {
         Geometry.lineString(LineString<XYZ>.testValue1),
         MultiLineString<XYZ>.testValue,
         Geometry.multiLineString(MultiLineString<XYZ>.testValue),
-        GEOSwift.Polygon<XYZ>.LinearRing.testValueHole1,
-        GEOSwift.Polygon<XYZ>.testValueWithHole,
-        Geometry.polygon(GEOSwift.Polygon<XYZ>.testValueWithHole),
+        Polygon<XYZ>.LinearRing.testValueHole1,
+        Polygon<XYZ>.testValueWithHole,
+        Geometry.polygon(Polygon<XYZ>.testValueWithHole),
         MultiPolygon<XYZ>.testValue,
         Geometry.multiPolygon(MultiPolygon<XYZ>.testValue),
         GeometryCollection<XYZ>.testValue,
@@ -163,11 +163,11 @@ final class GeometryConvertible_GEOSTests_XYZ: XCTestCase {
 
     // Polygon lengths equal the sum of their exterior & interior ring lengths
     func testLength_Polygons() {
-        XCTAssertEqual(try? GEOSwift.Polygon<XYZ>.testValueWithoutHole.length(), 16)
-        XCTAssertEqual(try? GEOSwift.Polygon<XYZ>.testValueWithHole.length(), 24)
+        XCTAssertEqual(try? Polygon<XYZ>.testValueWithoutHole.length(), 16)
+        XCTAssertEqual(try? Polygon<XYZ>.testValueWithHole.length(), 24)
         XCTAssertEqual(try? MultiPolygon<XYZ>.testValue.length(), 40)
-        XCTAssertEqual(try? Geometry.polygon(GEOSwift.Polygon<XYZ>.testValueWithoutHole).length(), 16)
-        XCTAssertEqual(try? Geometry.polygon(GEOSwift.Polygon<XYZ>.testValueWithHole).length(), 24)
+        XCTAssertEqual(try? Geometry.polygon(Polygon<XYZ>.testValueWithoutHole).length(), 16)
+        XCTAssertEqual(try? Geometry.polygon(Polygon<XYZ>.testValueWithHole).length(), 24)
         XCTAssertEqual(try? Geometry.multiPolygon(MultiPolygon<XYZ>.testValue).length(), 40)
     }
 
@@ -1126,7 +1126,7 @@ final class GeometryConvertible_GEOSTests_XYZ: XCTestCase {
             LineString(points: [Point(x: 1, y: 0, z: 2), Point(x: 0, y: 1, z: 3)]),
             LineString(points: [Point(x: 0, y: 1, z: 4), Point(x: 0, y: 0, z: 0)])])
 
-        let expectedPolygon = try! GEOSwift.Polygon(exterior: GEOSwift.Polygon.LinearRing(points: [
+        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(points: [
             Point(x: 0, y: 0, z: 0), Point(x: 1, y: 0, z: 0), Point(x: 0, y: 1, z: 0), Point(x: 0, y: 0, z: 0)]))
 
         // Topological equivalence only checks XY geometry
@@ -1144,7 +1144,7 @@ final class GeometryConvertible_GEOSTests_XYZ: XCTestCase {
             LineString(points: [Point(x: 0, y: 1, z: 4), Point(x: 0, y: 0, z: 0)])] 
 
         // Topological equivalence only checks XY geometry
-        let expectedPolygon = try! GEOSwift.Polygon(exterior: GEOSwift.Polygon.LinearRing(points: [
+        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(points: [
             Point(x: 0, y: 0, z: 0), Point(x: 1, y: 0, z: 0), Point(x: 0, y: 1, z: 0), Point(x: 0, y: 0, z: 0)]))
 
         XCTAssertTrue(try lineStrings.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
@@ -1197,7 +1197,7 @@ final class GeometryConvertible_GEOSTests_XYZ: XCTestCase {
     }
 
     func testNegativeBufferWidthWithNonNilResult() throws {
-        let expectedGeometry = try Geometry.polygon(GEOSwift.Polygon(
+        let expectedGeometry = try Geometry.polygon(Polygon(
             exterior: Polygon.LinearRing(points: [
                 Point(x: 6, y: 1, z: 0),
                 Point(x: 4, y: 1, z: 1),
@@ -1241,8 +1241,8 @@ final class GeometryConvertible_GEOSTests_XYZ: XCTestCase {
     }
 
     func testBufferWithStyleWithFlatEndCap() throws {
-        let expectedGeometry = try Geometry.polygon(GEOSwift.Polygon(
-            exterior: GEOSwift.Polygon.LinearRing(points: [
+        let expectedGeometry = try Geometry.polygon(Polygon(
+            exterior: Polygon.LinearRing(points: [
                 Point(x: 1, y: 1, z: 0),
                 Point(x: 1, y: -1, z: 1),
                 Point(x: 0, y: -1, z: 2),

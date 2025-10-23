@@ -6,7 +6,6 @@ extension MultiPoint where C == XY {
     static let testJson = #"{"coordinates":[[1,2],[3,4]],"type":"MultiPoint"}"#
 }
 
-@available(iOS 11.0, macOS 10.13, tvOS 11.0, *)
 final class MultiPoint_CodableTests: CodableTestCase {
     func testCodable() {
         verifyCodable(with: MultiPoint<XY>.testValue, json: MultiPoint<XY>.testJson)

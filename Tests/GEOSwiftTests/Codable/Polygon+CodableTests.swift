@@ -1,9 +1,9 @@
 import XCTest
 import GEOSwift
 
-extension GEOSwift.Polygon.LinearRing where C == XY {
+extension Polygon.LinearRing where C == XY {
     // counterclockwise
-    static let testValueExterior2 = try! GEOSwift.Polygon.LinearRing(points: [
+    static let testValueExterior2 = try! Polygon.LinearRing(points: [
         Point(x: 2, y: 2),
         Point(x: -2, y: 2),
         Point(x: -2, y: -2),
@@ -11,7 +11,7 @@ extension GEOSwift.Polygon.LinearRing where C == XY {
         Point(x: 2, y: 2)])
 
     // clockwise
-    static let testValueHole1 = try! GEOSwift.Polygon.LinearRing(points: [
+    static let testValueHole1 = try! Polygon.LinearRing(points: [
         Point(x: 1, y: 1),
         Point(x: 1, y: -1),
         Point(x: -1, y: -1),
@@ -19,7 +19,7 @@ extension GEOSwift.Polygon.LinearRing where C == XY {
         Point(x: 1, y: 1)])
 
     // counterclockwise
-    static let testValueExterior7 = try! GEOSwift.Polygon.LinearRing(points: [
+    static let testValueExterior7 = try! Polygon.LinearRing(points: [
         Point(x: 7, y: 2),
         Point(x: 3, y: 2),
         Point(x: 3, y: -2),
@@ -27,20 +27,19 @@ extension GEOSwift.Polygon.LinearRing where C == XY {
         Point(x: 7, y: 2)])
 }
 
-extension GEOSwift.Polygon where C == XY {
-    static let testValueWithHole = GEOSwift.Polygon(
+extension Polygon where C == XY {
+    static let testValueWithHole = Polygon(
         exterior: .testValueExterior2,
         holes: [.testValueHole1])
     static let testJsonWithHole = #"{"coordinates":[[[2,2],[-2,2],[-2,-2],[2,-"#
         + #"2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],"type":"Polygon"}"#
 
-    static let testValueWithoutHole = GEOSwift.Polygon(
+    static let testValueWithoutHole = Polygon(
         exterior: .testValueExterior7)
     static let testJsonWithoutHole = #"{"coordinates":[[[7,2],[3,2],[3,-2],[7,"#
         + #"-2],[7,2]]],"type":"Polygon"}"#
 }
 
-@available(iOS 11.0, macOS 10.13, tvOS 11.0, *)
 final class Polygon_CodableTests: CodableTestCase {
     func testCodableWithoutHoles() {
         verifyCodable(

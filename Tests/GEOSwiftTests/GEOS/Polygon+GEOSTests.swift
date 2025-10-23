@@ -3,7 +3,7 @@ import XCTest
 
 final class Polygon_LinearRing_GEOSTests: GEOSContextTestCase {
     func testRoundtripToGEOS() {
-        let linearRings: [GEOSwift.Polygon.LinearRing] = [
+        let linearRings: [Polygon.LinearRing] = [
             .testValueHole1, .testValueExterior2, .testValueExterior7]
         for linearRing in linearRings {
             verifyRoundtripToGEOS(value: linearRing)
@@ -25,7 +25,7 @@ final class Polygon_LinearRing_GEOSTests: GEOSContextTestCase {
 
 final class Polygon_GEOSTests: GEOSContextTestCase {
     func testRoundtripToGEOS() {
-        let polygons: [GEOSwift.Polygon] = [.testValueWithHole, .testValueWithoutHole]
+        let polygons: [Polygon] = [.testValueWithHole, .testValueWithoutHole]
         for polygon in polygons {
             verifyRoundtripToGEOS(value: polygon)
         }

@@ -8,7 +8,6 @@ extension LineString where C == XY {
     static let testValue5 = try! LineString(points: [.testValue5, .testValue7])
 }
 
-@available(iOS 11.0, macOS 10.13, tvOS 11.0, *)
 final class LineString_CodableTests: CodableTestCase {
     func testCodable() {
         verifyCodable(with: LineString<XY>.testValue1, json: LineString<XY>.testJson1)
