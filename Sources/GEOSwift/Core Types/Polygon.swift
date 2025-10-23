@@ -14,10 +14,19 @@ public struct Polygon<C: CoordinateType>: Hashable, Sendable {
             guard points.count >= 4 else {
                 throw GEOSwiftError.tooFewPoints
             }
-            guard points.first == points.last else {
+            guard LinearRing.ringClosed(points: points) else {
                 throw GEOSwiftError.ringNotClosed
             }
             self.points = points
+        }
+        
+        private static func ringClosed(points: [Point<C>]) -> Bool {
+            guard let start = points.first, let end = points.last else {
+                return false
+            }
+            
+            // Only XY coordinates need match for a valid ring closure.
+            return Point<XY>(start) == Point<XY>(end)
         }
     }
 }
