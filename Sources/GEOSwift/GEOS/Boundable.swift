@@ -5,6 +5,8 @@ public protocol Boundable<C>: GeometryConvertible {
 }
 
 extension Boundable {
+    /// Gives the boundary of the geometry
+    /// - returns: ``Geometry`` with the same ``CoordinateType`` as the receiver.
     public func boundary() throws -> Geometry<C> {
         try performUnaryTopologyOperation(GEOSBoundary_r)
     }
