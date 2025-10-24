@@ -29,28 +29,67 @@ extension Polygon.LinearRing where C == XY {
 
 extension Polygon where C == XY {
     static let testValueWithHole = Polygon(
-        exterior: .testValueExterior2,
-        holes: [.testValueHole1])
+        exterior: Polygon<XY>.LinearRing.testValueExterior2,
+        holes: [Polygon<XY>.LinearRing.testValueHole1])
     static let testJsonWithHole = #"{"coordinates":[[[2,2],[-2,2],[-2,-2],[2,-"#
         + #"2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],"type":"Polygon"}"#
 
     static let testValueWithoutHole = Polygon(
-        exterior: .testValueExterior7)
+        exterior: Polygon<XY>.LinearRing.testValueExterior7)
     static let testJsonWithoutHole = #"{"coordinates":[[[7,2],[3,2],[3,-2],[7,"#
         + #"-2],[7,2]]],"type":"Polygon"}"#
 }
 
-final class Polygon_CodableTests: CodableTestCase {
+fileprivate extension Polygon.LinearRing where C == XYZ {
+    // counterclockwise
+    static let testValueExterior2 = try! Polygon.LinearRing(points: [
+        Point(x: 2, y: 2, z: 1),
+        Point(x: -2, y: 2, z: 2),
+        Point(x: -2, y: -2, z: 3),
+        Point(x: 2, y: -2, z: 4),
+        Point(x: 2, y: 2, z: 5)])
+
+    // clockwise
+    static let testValueHole1 = try! Polygon.LinearRing(points: [
+        Point(x: 1, y: 1, z: 6),
+        Point(x: 1, y: -1, z: 7),
+        Point(x: -1, y: -1, z: 8),
+        Point(x: -1, y: 1, z: 9),
+        Point(x: 1, y: 1, z: 10)])
+
+    // counterclockwise
+    static let testValueExterior7 = try! Polygon.LinearRing(points: [
+        Point(x: 7, y: 2, z: 11),
+        Point(x: 3, y: 2, z: 12),
+        Point(x: 3, y: -2, z: 13),
+        Point(x: 7, y: -2, z: 14),
+        Point(x: 7, y: 2, z: 15)])
+}
+
+fileprivate extension Polygon where C == XYZ {
+    static let testValueWithHole = Polygon(
+        exterior: Polygon<XYZ>.LinearRing.testValueExterior2,
+        holes: [Polygon<XYZ>.LinearRing.testValueHole1])
+    static let testJsonWithHole = #"{"coordinates":[[[2,2,1],[-2,2,2],[-2,-2,3],[2,-"#
+        + #"2,4],[2,2,5]],[[1,1,6],[1,-1,7],[-1,-1,8],[-1,1,9],[1,1,10]]],"type":"Polygon"}"#
+
+    static let testValueWithoutHole = Polygon(
+        exterior: Polygon<XYZ>.LinearRing.testValueExterior7)
+    static let testJsonWithoutHole = #"{"coordinates":[[[7,2,11],[3,2,12],[3,-2,13],[7,"#
+        + #"-2,14],[7,2,15]]],"type":"Polygon"}"#
+}
+
+final class Polygon_CodableTestsXY: CodableTestCase {
     func testCodableWithoutHoles() {
         verifyCodable(
-            with: Polygon.testValueWithoutHole,
-            json: Polygon.testJsonWithoutHole)
+            with: Polygon<XY>.testValueWithoutHole,
+            json: Polygon<XY>.testJsonWithoutHole)
     }
 
     func testCodableWithHole() {
         verifyCodable(
-            with: Polygon.testValueWithHole,
-            json: Polygon.testJsonWithHole)
+            with: Polygon<XY>.testValueWithHole,
+            json: Polygon<XY>.testJsonWithHole)
     }
 
     func testDecodingPolygonWithTooFewRings() {
@@ -69,5 +108,37 @@ final class Polygon_CodableTests: CodableTestCase {
         let json = #"{"coordinates":[1],"type":"p"}"#
 
         verifyDecodable(with: Polygon<XY>.self, json: json, expectedError: .invalidGeoJSONType)
+    }
+}
+
+final class Polygon_CodableTestsXYZ: CodableTestCase {
+    func testCodableWithoutHoles() {
+        verifyCodable(
+            with: Polygon<XYZ>.testValueWithoutHole,
+            json: Polygon<XYZ>.testJsonWithoutHole)
+    }
+
+    func testCodableWithHole() {
+        verifyCodable(
+            with: Polygon<XYZ>.testValueWithHole,
+            json: Polygon<XYZ>.testJsonWithHole)
+    }
+
+    func testDecodingPolygonWithTooFewRings() {
+        let json = #"{"type":"Polygon","coordinates":[]}"#
+
+        verifyDecodable(with: Polygon<XYZ>.self, json: json, expectedError: GEOSwiftError.tooFewRings)
+    }
+
+    func testDecodableThrowsWithTypeMismatch() {
+        let json = #"{"coordinates":[1,2,3],"type":"Point"}"#
+
+        verifyDecodable(with: Polygon<XYZ>.self, json: json, expectedError: .mismatchedGeoJSONType)
+    }
+
+    func testDecodableThrowsWithInvalidType() {
+        let json = #"{"coordinates":[1,2,3],"type":"p"}"#
+
+        verifyDecodable(with: Polygon<XYZ>.self, json: json, expectedError: .invalidGeoJSONType)
     }
 }

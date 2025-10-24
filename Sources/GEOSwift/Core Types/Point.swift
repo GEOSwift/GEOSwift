@@ -4,7 +4,6 @@ public struct Point<C: CoordinateType>: Hashable, Sendable {
     public var x: Double { get { coordinates.x } set { coordinates.x = newValue } }
     public var y: Double { get { coordinates.y } set { coordinates.y = newValue } }
 
-    // TODO: Decide if this initializer is needed. There already exist similar for `CodableGeometry` support but the `coordinates:` label is a bit unwieldy for a point
     public init(_ coordinates: C) {
         self.coordinates = coordinates
     }

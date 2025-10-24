@@ -1,4 +1,4 @@
-extension FeatureCollection: Codable {
+extension FeatureCollection: Codable where C: GeoJSONCoordinate {
     enum CodingKeys: CodingKey {
         case type
         case features

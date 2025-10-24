@@ -21,7 +21,7 @@ extension FeatureId: Codable {
     }
 }
 
-extension Feature: Codable {
+extension Feature: Codable where C: GeoJSONCoordinate {
     enum CodingKeys: CodingKey {
         case type
         case geometry
