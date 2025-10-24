@@ -1,4 +1,4 @@
-extension GeoJSON: Codable {
+extension GeoJSON: Codable where C: GeoJSONCoordinate {
     enum CodingKeys: CodingKey {
         case type
     }

@@ -10,7 +10,7 @@ extension Polygon.LinearRing {
 }
 
 // for internal use only; GeoJSON encoding & decoding helpers
-extension Polygon: CodableGeometry {
+extension Polygon: CodableGeometry, Codable where C: GeoJSONCoordinate {
     static var geoJSONType: GeoJSONType { .polygon }
 
     var coordinates: [[C]] {

@@ -20,7 +20,7 @@ extension Point: GEOSObjectInitializable {
         }
         
         let coordinate = try C.bridge.getter(geosObject.context, cSeq, 0)
-        self.init(coordinates: coordinate)
+        self.init(coordinate)
     }
 }
 

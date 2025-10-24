@@ -1,5 +1,5 @@
 // for internal use only; GeoJSON encoding & decoding helpers
-extension MultiPoint: CodableGeometry {
+extension MultiPoint: CodableGeometry, Codable where C: GeoJSONCoordinate {
     static var geoJSONType: GeoJSONType { .multiPoint }
 
     var coordinates: [C] {

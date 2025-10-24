@@ -1,4 +1,4 @@
-extension GeometryCollection: Codable {
+extension GeometryCollection: Codable where C: GeoJSONCoordinate {
     enum CodingKeys: CodingKey {
         case type
         case geometries

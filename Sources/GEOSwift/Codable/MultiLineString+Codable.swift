@@ -1,5 +1,5 @@
 // for internal use only; GeoJSON encoding & decoding helpers
-extension MultiLineString: CodableGeometry {
+extension MultiLineString: CodableGeometry, Codable where C: GeoJSONCoordinate {
     static var geoJSONType: GeoJSONType { .multiLineString }
 
     var coordinates: [[C]] {

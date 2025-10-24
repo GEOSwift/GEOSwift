@@ -25,7 +25,7 @@ func makePoints<C: CoordinateType>(from geometry: GEOSObject) throws -> [Point<C
     }
     return try Array(0..<count).map { (index) -> Point in
         let coordinate = try C.bridge.getter(geometry.context, sequence, Int32(index))
-        return Point(coordinates: coordinate)
+        return Point(coordinate)
     }
 }
 

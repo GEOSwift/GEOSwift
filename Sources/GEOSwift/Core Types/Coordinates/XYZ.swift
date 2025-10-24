@@ -1,7 +1,7 @@
 import Foundation
 import geos
 
-public struct XYZ: CoordinateType, HasZ {
+public struct XYZ: CoordinateType, HasZ, GeoJSONCoordinate {
     
     // MARK: Public API
     
