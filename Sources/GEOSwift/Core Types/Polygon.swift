@@ -19,12 +19,12 @@ public struct Polygon<C: CoordinateType>: Hashable, Sendable {
             }
             self.points = points
         }
-        
+
         private static func ringClosed(points: [Point<C>]) -> Bool {
             guard let start = points.first, let end = points.last else {
                 return false
             }
-            
+
             // Only XY coordinates need match for a valid ring closure.
             return Point<XY>(start) == Point<XY>(end)
         }
@@ -32,6 +32,8 @@ public struct Polygon<C: CoordinateType>: Hashable, Sendable {
 }
 
 // MARK: - Convenience methods
+
+// swiftlint:disable force_try
 
 public extension Polygon.LinearRing where C == XY {
     init<D: CoordinateType>(_ ring: Polygon<D>.LinearRing) {
@@ -42,7 +44,10 @@ public extension Polygon.LinearRing where C == XY {
 
 public extension Polygon where C == XY {
     init<D: CoordinateType>(_ polygon: Polygon<D>) {
-        self.init(exterior: Polygon<XY>.LinearRing(polygon.exterior), holes: polygon.holes.map(Polygon<XY>.LinearRing.init))
+        self.init(
+            exterior: Polygon<XY>.LinearRing(polygon.exterior),
+            holes: polygon.holes.map(Polygon<XY>.LinearRing.init)
+        )
     }
 }
 
@@ -55,7 +60,10 @@ public extension Polygon.LinearRing where C == XYZ {
 
 public extension Polygon where C == XYZ {
     init<D: CoordinateType & HasZ>(_ polygon: Polygon<D>) {
-        self.init(exterior: Polygon<XYZ>.LinearRing(polygon.exterior), holes: polygon.holes.map(Polygon<XYZ>.LinearRing.init))
+        self.init(
+            exterior: Polygon<XYZ>.LinearRing(polygon.exterior),
+            holes: polygon.holes.map(Polygon<XYZ>.LinearRing.init)
+        )
     }
 }
 
@@ -68,7 +76,10 @@ public extension Polygon.LinearRing where C == XYZM {
 
 public extension Polygon where C == XYZM {
     init<D: CoordinateType & HasZ & HasM>(_ polygon: Polygon<D>) {
-        self.init(exterior: Polygon<XYZM>.LinearRing(polygon.exterior), holes: polygon.holes.map(Polygon<XYZM>.LinearRing.init))
+        self.init(
+            exterior: Polygon<XYZM>.LinearRing(polygon.exterior),
+            holes: polygon.holes.map(Polygon<XYZM>.LinearRing.init)
+        )
     }
 }
 
@@ -81,6 +92,11 @@ public extension Polygon.LinearRing where C == XYM {
 
 public extension Polygon where C == XYM {
     init<D: CoordinateType & HasM>(_ polygon: Polygon<D>) {
-        self.init(exterior: Polygon<XYM>.LinearRing(polygon.exterior), holes: polygon.holes.map(Polygon<XYM>.LinearRing.init))
+        self.init(
+            exterior: Polygon<XYM>.LinearRing(polygon.exterior),
+            holes: polygon.holes.map(Polygon<XYM>.LinearRing.init)
+        )
     }
 }
+
+// swiftlint:enable force_try

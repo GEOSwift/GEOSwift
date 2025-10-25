@@ -179,6 +179,8 @@ final class WKTTestsXYZM: XCTestCase {
         XCTAssertEqual(wktString, expectedWKT, line: line)
     }
 
+    // swiftlint:disable line_length
+
     func testWKTOptionsWithoutFixedPrecisionAndALongFraction() {
         let point = Point(x: 1.11111111111111111, y: 987654321.1234567890, z: 42.123456789, m: 99.987654321)
 
@@ -328,4 +330,6 @@ final class WKTTestsXYZM: XCTestCase {
             roundingPrecision: 5,
             expectedWKT: "POINT ZM (0.1 1.23456e-7 4.2e-5 7.89e-6)")
     }
+
+    // swiftlint:enable line_length
 }

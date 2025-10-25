@@ -1,10 +1,10 @@
 public protocol GeometryConvertible<C> {
     associatedtype C: CoordinateType
-    
+
     var dimension: Int { get }
     var hasZ: Bool { get }
     var hasM: Bool { get }
-    
+
     var geometry: Geometry<C> { get }
 }
 

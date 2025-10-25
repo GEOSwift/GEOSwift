@@ -8,10 +8,10 @@ disabled_rules:
   - type_name
   - file_length
   - no_space_in_method_call  # https://github.com/realm/SwiftLint/issues/2793
+  - todo #temporary during coordinate type rewrite
 opt_in_rules:
   - closure_spacing
   - empty_count
-  - implicit_return
   - pattern_matching_keywords
   - vertical_parameter_alignment_on_call
-line_length: 110
+line_length: 120

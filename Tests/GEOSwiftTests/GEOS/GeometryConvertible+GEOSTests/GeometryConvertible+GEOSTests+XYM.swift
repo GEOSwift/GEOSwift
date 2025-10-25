@@ -375,6 +375,8 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
             try polyWithSelfTouchingRingFormingHole.isValidDetail(allowSelfTouchingRingFormingHole: true),
             .valid)
 
+        // swiftlint:disable line_length
+
         guard
             let result = try? polyWithSelfTouchingRingFormingHole.isValidDetail(allowSelfTouchingRingFormingHole: false),
             case let .invalid(reason, .some(.point(location))) = result,
@@ -384,6 +386,8 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
             XCTFail("Did not receive expected validation error.")
             return
         }
+
+        // swiftlint:enable line_length
     }
 
     func testIsValidDetailAllTypes() {
@@ -404,7 +408,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
         let point3 = Point(x: 2, y: 2, m: 1)
         XCTAssertEqual(try? point1.isTopologicallyEquivalent(to: point1), true)
         XCTAssertEqual(try? point1.isTopologicallyEquivalent(to: point2), false)
-        XCTAssertEqual(try? point2.isTopologicallyEquivalent(to: point3), true) // M coordinates not taken into account in topographical equivalence
+
+        // M coordinates not taken into account in topographical equivalence
+        XCTAssertEqual(try? point2.isTopologicallyEquivalent(to: point3), true)
     }
 
     func testIsTopologicallyEquivalentAllPairs() {
@@ -423,7 +429,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
         let point3 = Point(x: 2, y: 2, m: 1)
         XCTAssertEqual(try? point1.isDisjoint(with: point1), false)
         XCTAssertEqual(try? point1.isDisjoint(with: point2), true)
-        XCTAssertEqual(try? point2.isDisjoint(with: point3), false) // M coordinates not taken into account in topological tests
+
+        // M coordinates not taken into account in topological tests
+        XCTAssertEqual(try? point2.isDisjoint(with: point3), false)
     }
 
     func testIsDisjointAllPairs() {
@@ -441,7 +449,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
         let point1 = Point(x: 1, y: 1, m: 0)
         let point2 = Point(x: 2, y: 2, m: 2)
         XCTAssertEqual(try? point05.touches(unitPoly), false)
-        XCTAssertEqual(try? point1.touches(unitPoly), true) // M coordinates not taken into account in topological tests
+        XCTAssertEqual(try? point1.touches(unitPoly), true)
+
+        // M coordinates not taken into account in topological tests
         XCTAssertEqual(try? point2.touches(unitPoly), false)
     }
 
@@ -461,7 +471,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
         let point3 = Point(x: 2, y: 2, m: 1)
         XCTAssertEqual(try? point1.intersects(point1), true)
         XCTAssertEqual(try? point1.intersects(point2), false)
-        XCTAssertEqual(try? point2.intersects(point3), true) // M coordinates not taken into account in topological tests
+
+        // M coordinates not taken into account in topological tests
+        XCTAssertEqual(try? point2.intersects(point3), true)
     }
 
     func testIntersectsAllPairs() {
@@ -478,7 +490,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
         let horizontalLine = try! LineString(points: [Point(x: -1, y: 0, m: 1), Point(x: 1, y: 0, m: 2)])
         let verticalLine = try! LineString(points: [Point(x: 0, y: -1, m: 0), Point(x: 0, y: 1, m: 1)])
         let otherVerticalLine = try! LineString(points: [Point(x: 2, y: -1, m: 0), Point(x: 2, y: 1, m: 1)])
-        XCTAssertEqual(try? horizontalLine.crosses(verticalLine), true) // M coordinates not taken into account in topological tests
+        XCTAssertEqual(try? horizontalLine.crosses(verticalLine), true)
+
+        // M coordinates not taken into account in topological tests
         XCTAssertEqual(try? horizontalLine.crosses(otherVerticalLine), false)
     }
 

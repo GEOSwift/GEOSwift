@@ -29,8 +29,16 @@ func makePoints<C: CoordinateType>(from geometry: GEOSObject) throws -> [Point<C
     }
 }
 
-func makeCoordinateSequence<C: CoordinateType>(with context: GEOSContext, points: [Point<C>]) throws -> OpaquePointer {
-    guard let sequence = GEOSCoordSeq_createWithDimensions_r(context.handle, UInt32(points.count), Int32(C.hasZ), Int32(C.hasM)) else {
+func makeCoordinateSequence<C: CoordinateType>(
+    with context: GEOSContext,
+    points: [Point<C>]
+) throws -> OpaquePointer {
+    guard let sequence = GEOSCoordSeq_createWithDimensions_r(
+        context.handle,
+        UInt32(points.count),
+        Int32(C.hasZ),
+        Int32(C.hasM)
+    ) else {
         throw GEOSError.libraryError(errorMessages: context.errors)
     }
     try points.enumerated().forEach { (i, point) in

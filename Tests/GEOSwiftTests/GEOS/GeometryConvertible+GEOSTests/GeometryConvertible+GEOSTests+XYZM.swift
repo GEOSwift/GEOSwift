@@ -362,6 +362,8 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         XCTAssertEqual(location.y, invalidPoint.y)
     }
 
+    // swiftlint:disable line_length
+
     func testIsValidDetail_AllowSelfTouchingRingFormingHole() {
         let polyWithSelfTouchingRingFormingHole = try! Polygon(exterior: Polygon.LinearRing(points: [
             Point(x: 0, y: 0, z: 0, m: 0),
@@ -386,6 +388,8 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         }
     }
 
+    // swiftlint:enable line_length
+
     func testIsValidDetailAllTypes() {
         for g in geometryConvertibles {
             do {
@@ -404,7 +408,9 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         let point3 = Point(x: 2, y: 2, z: 1, m: 1)
         XCTAssertEqual(try? point1.isTopologicallyEquivalent(to: point1), true)
         XCTAssertEqual(try? point1.isTopologicallyEquivalent(to: point2), false)
-        XCTAssertEqual(try? point2.isTopologicallyEquivalent(to: point3), true) // Z and M coordinates not taken into account in topographical equivalence
+
+        // Z and M coordinates not taken into account in topographical equivalence
+        XCTAssertEqual(try? point2.isTopologicallyEquivalent(to: point3), true)
     }
 
     func testIsTopologicallyEquivalentAllPairs() {
@@ -423,7 +429,9 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         let point3 = Point(x: 2, y: 2, z: 1, m: 1)
         XCTAssertEqual(try? point1.isDisjoint(with: point1), false)
         XCTAssertEqual(try? point1.isDisjoint(with: point2), true)
-        XCTAssertEqual(try? point2.isDisjoint(with: point3), false) // Z and M coordinates not taken into account in topological tests
+
+        // Z and M coordinates not taken into account in topographical equivalence
+        XCTAssertEqual(try? point2.isDisjoint(with: point3), false)
     }
 
     func testIsDisjointAllPairs() {
@@ -441,7 +449,9 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         let point1 = Point(x: 1, y: 1, z: 0, m: 0)
         let point2 = Point(x: 2, y: 2, z: 2, m: 2)
         XCTAssertEqual(try? point05.touches(unitPoly), false)
-        XCTAssertEqual(try? point1.touches(unitPoly), true) // Z and M coordinates not taken into account in topological tests
+        XCTAssertEqual(try? point1.touches(unitPoly), true)
+
+        // Z and M coordinates not taken into account in topographical equivalence
         XCTAssertEqual(try? point2.touches(unitPoly), false)
     }
 
@@ -461,7 +471,9 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         let point3 = Point(x: 2, y: 2, z: 1, m: 1)
         XCTAssertEqual(try? point1.intersects(point1), true)
         XCTAssertEqual(try? point1.intersects(point2), false)
-        XCTAssertEqual(try? point2.intersects(point3), true) // Z and M coordinates not taken into account in topological tests
+
+        // Z and M coordinates not taken into account in topographical equivalence
+        XCTAssertEqual(try? point2.intersects(point3), true)
     }
 
     func testIntersectsAllPairs() {
@@ -478,7 +490,9 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         let horizontalLine = try! LineString(points: [Point(x: -1, y: 0, z: 1, m: 1), Point(x: 1, y: 0, z: 2, m: 2)])
         let verticalLine = try! LineString(points: [Point(x: 0, y: -1, z: 0, m: 0), Point(x: 0, y: 1, z: 0, m: 1)])
         let otherVerticalLine = try! LineString(points: [Point(x: 2, y: -1, z: 0, m: 0), Point(x: 2, y: 1, z: 0, m: 1)])
-        XCTAssertEqual(try? horizontalLine.crosses(verticalLine), true) // Z and M coordinates not taken into account in topological tests
+        XCTAssertEqual(try? horizontalLine.crosses(verticalLine), true)
+
+        // Z and M coordinates not taken into account in topographical equivalence
         XCTAssertEqual(try? horizontalLine.crosses(otherVerticalLine), false)
     }
 
@@ -1124,10 +1138,16 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         let multiLineString = try! MultiLineString(lineStrings: [
             LineString(points: [Point(x: 0, y: 0, z: 0, m: 0), Point(x: 1, y: 0, z: 1, m: 1)]),
             LineString(points: [Point(x: 1, y: 0, z: 2, m: 2), Point(x: 0, y: 1, z: 3, m: 3)]),
-            LineString(points: [Point(x: 0, y: 1, z: 4, m: 4), Point(x: 0, y: 0, z: 0, m: 0)])])
+            LineString(points: [Point(x: 0, y: 1, z: 4, m: 4), Point(x: 0, y: 0, z: 0, m: 0)])
+        ])
 
-        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0, y: 0, z: 0, m: 0), Point(x: 1, y: 0, z: 0, m: 1), Point(x: 0, y: 1, z: 0, m: 2), Point(x: 0, y: 0, z: 0, m: 0)]))
+        let expectedPolygon = try! Polygon(
+            exterior: Polygon.LinearRing(points: [
+                Point(x: 0, y: 0, z: 0, m: 0),
+                Point(x: 1, y: 0, z: 0, m: 1),
+                Point(x: 0, y: 1, z: 0, m: 2),
+                Point(x: 0, y: 0, z: 0, m: 0)
+            ]))
 
         // Topological equivalence only checks XY geometry
         XCTAssertTrue(try multiLineString.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
@@ -1141,11 +1161,17 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         let lineStrings = try! [
             LineString(points: [Point(x: 0, y: 0, z: 0, m: 0), Point(x: 1, y: 0, z: 1, m: 1)]),
             LineString(points: [Point(x: 1, y: 0, z: 2, m: 2), Point(x: 0, y: 1, z: 3, m: 3)]),
-            LineString(points: [Point(x: 0, y: 1, z: 4, m: 4), Point(x: 0, y: 0, z: 0, m: 0)])]
+            LineString(points: [Point(x: 0, y: 1, z: 4, m: 4), Point(x: 0, y: 0, z: 0, m: 0)])
+        ]
 
         // Topological equivalence only checks XY geometry
-        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0, y: 0, z: 0, m: 0), Point(x: 1, y: 0, z: 0, m: 1), Point(x: 0, y: 1, z: 0, m: 2), Point(x: 0, y: 0, z: 0, m: 0)]))
+        let expectedPolygon = try! Polygon(
+            exterior: Polygon.LinearRing(points: [
+                Point(x: 0, y: 0, z: 0, m: 0),
+                Point(x: 1, y: 0, z: 0, m: 1),
+                Point(x: 0, y: 1, z: 0, m: 2),
+                Point(x: 0, y: 0, z: 0, m: 0)
+            ]))
 
         XCTAssertTrue(try lineStrings.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
     }
