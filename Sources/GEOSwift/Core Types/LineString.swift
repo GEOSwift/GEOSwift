@@ -25,6 +25,8 @@ public struct LineString<C: CoordinateType>: Hashable, Sendable {
 
 // MARK: - Convenience Methods
 
+// swiftlint:disable force_try
+
 public extension LineString where C == XY {
     init<D: CoordinateType>(_ linestring: LineString<D>) {
         // It's safe to force try here since we've already validated the number of points
@@ -52,3 +54,5 @@ public extension LineString where C == XYM {
         try! self.init(points: linestring.points.map(Point<XYM>.init))
     }
 }
+
+// swiftlint:enable force_try

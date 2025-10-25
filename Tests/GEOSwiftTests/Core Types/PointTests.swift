@@ -8,30 +8,30 @@ final class PointTestsXY: XCTestCase {
         XCTAssertEqual(point.x, 1)
         XCTAssertEqual(point.y, 2)
     }
-    
+
     func testInitWithCoordinate() {
         let point = Point(XY(1, 2))
-        
+
         XCTAssertEqual(point.x, 1)
         XCTAssertEqual(point.y, 2)
     }
-    
+
     func testInitWithXYZ() {
         let point1 = Point(x: 1, y: 2, z: 3)
         let point2 = Point<XY>(point1)
-        
+
         XCTAssertEqual(point2.x, 1)
         XCTAssertEqual(point2.y, 2)
     }
-    
+
     func testInitWithXYM() {
         let point1 = Point(x: 1, y: 2, m: 3)
         let point2 = Point<XY>(point1)
-        
+
         XCTAssertEqual(point2.x, 1)
         XCTAssertEqual(point2.y, 2)
     }
-    
+
     func testInitWithXYZM() {
         let point1 = Point(x: 1, y: 2, z: 3, m: 4)
         let point2 = Point<XY>(point1)

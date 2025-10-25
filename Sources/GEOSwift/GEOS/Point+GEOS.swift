@@ -18,7 +18,7 @@ extension Point: GEOSObjectInitializable {
         guard let cSeq = GEOSGeom_getCoordSeq_r(geosObject.context.handle, geosObject.pointer) else {
             throw GEOSError.libraryError(errorMessages: geosObject.context.errors)
         }
-        
+
         let coordinate = try C.bridge.getter(geosObject.context, cSeq, 0)
         self.init(coordinate)
     }

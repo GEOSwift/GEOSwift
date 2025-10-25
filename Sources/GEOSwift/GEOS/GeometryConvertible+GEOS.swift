@@ -260,7 +260,7 @@ public extension GeometryConvertible {
     }
 
     // MARK: - Topology Operations
-    
+
     private func nilIfTooFewPoints<D: CoordinateType>(op: () throws -> Geometry<D>) throws -> Geometry<D>? {
         do {
             return try op()
@@ -304,7 +304,12 @@ public extension GeometryConvertible {
         let geometry: Geometry<XY> = try performUnaryTopologyOperation(GEOSEnvelope_r)
         switch geometry {
         case let .point(point):
-            return Envelope(minX: point.coordinates.x, maxX: point.coordinates.x, minY: point.coordinates.y, maxY: point.coordinates.y)
+            return Envelope(
+                minX: point.coordinates.x,
+                maxX: point.coordinates.x,
+                minY: point.coordinates.y,
+                maxY: point.coordinates.y
+            )
         case let .polygon(polygon):
             var minX = Double.nan
             var maxX = Double.nan
@@ -476,7 +481,7 @@ public extension GeometryConvertible {
         guard let resultPointer = GEOSBuffer_r(context.handle, geosObject.pointer, width, 8) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
-        
+
         return try nilIfTooFewPoints {
             try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
         }
@@ -504,7 +509,7 @@ public extension GeometryConvertible {
         ) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
-        
+
         return try nilIfTooFewPoints {
             try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
         }
@@ -530,7 +535,7 @@ public extension GeometryConvertible {
         ) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
-        
+
         return try nilIfTooFewPoints {
             try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
         }

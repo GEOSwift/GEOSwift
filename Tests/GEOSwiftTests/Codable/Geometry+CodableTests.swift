@@ -178,4 +178,3 @@ final class Geometry_CodableTestsXYZ: CodableTestCase {
         verifyDecodable(with: Geometry<XYZ>.self, json: json, expectedError: GEOSwiftError.mismatchedGeoJSONType)
     }
 }
-
