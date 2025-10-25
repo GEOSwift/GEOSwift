@@ -16,7 +16,7 @@ final class WKBTests: XCTestCase {
     }
 
     func testGeometryRoundtripToWKB() {
-        let values: [Geometry] = [
+        let values: [Geometry<XY>] = [
             .point(.testValue1),
             .lineString(.testValue1),
             .polygon(.testValueWithHole),
@@ -31,18 +31,18 @@ final class WKBTests: XCTestCase {
     }
 
     func testGeometryTypesRoundtripToWKB() {
-        verifyGeometryRoundtripToWKB(Point.testValue1)
-        verifyGeometryRoundtripToWKB(LineString.testValue1)
-        verifyGeometryRoundtripToWKB(Polygon.testValueWithHole)
-        verifyGeometryRoundtripToWKB(MultiPoint.testValue)
-        verifyGeometryRoundtripToWKB(MultiLineString.testValue)
-        verifyGeometryRoundtripToWKB(MultiPolygon.testValue)
-        verifyGeometryRoundtripToWKB(GeometryCollection.testValue)
-        verifyGeometryRoundtripToWKB(GeometryCollection.testValueWithRecursion)
+        verifyGeometryRoundtripToWKB(Point<XY>.testValue1)
+        verifyGeometryRoundtripToWKB(LineString<XY>.testValue1)
+        verifyGeometryRoundtripToWKB(Polygon<XY>.testValueWithHole)
+        verifyGeometryRoundtripToWKB(MultiPoint<XY>.testValue)
+        verifyGeometryRoundtripToWKB(MultiLineString<XY>.testValue)
+        verifyGeometryRoundtripToWKB(MultiPolygon<XY>.testValue)
+        verifyGeometryRoundtripToWKB(GeometryCollection<XY>.testValue)
+        verifyGeometryRoundtripToWKB(GeometryCollection<XY>.testValueWithRecursion)
     }
 
     func testLinearRingRoundtripToWKB() {
-        let value = Polygon.LinearRing.testValueHole1
+        let value = Polygon<XY>.LinearRing.testValueHole1
         do {
             let wkb = try value.wkb()
             let actual = try LineString<XY>(wkb: wkb)
