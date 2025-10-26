@@ -20,6 +20,7 @@ migrating from version 4, see [VERSION_5.md](VERSION_5.md).
 ## Features
 
 * A pure-Swift, type-safe, optional-aware programming interface
+* Support for XY, XYZ, XYM, and XYZM geometries
 * WKT and WKB reading & writing
 * Robust support for *GeoJSON* via Codable
 * Thread-safe
@@ -28,7 +29,7 @@ migrating from version 4, see [VERSION_5.md](VERSION_5.md).
 
 ## Minimum Requirements
 
-* iOS 12.0, tvOS 12.0, macOS 10.13, watchOS 4.0, Linux
+* iOS 16.0, tvOS 16.0, macOS 13.0, watchOS 9.0, visionOS 1.0, Linux
 * Swift 5.9
 
 > GEOS is licensed under LGPL 2.1 and its compatibility with static linking is
@@ -64,25 +65,58 @@ In certain cases, you may also need to explicitly include
 ### Geometry creation
 
 ```swift
+// Note that in decoding, you must explicitly declare the expected geometry coordinate type (e.g. Geometry<XY>)
+
 // 1. From Well Known Text (WKT) representation
-let point = try Point(wkt: "POINT(10 45)")
-let polygon = try Geometry(wkt: "POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
+let point = try Point<XY>(wkt: "POINT(10 45)")
+let polygon = try Geometry<XY>(wkt: "POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
 
 // 2. From a Well Known Binary (WKB)
 let wkb: NSData = geometryWKB()
-let geometry2 = try Geometry(wkb: wkb)
+let geometry2 = try Geometry<XY>(wkb: wkb)
 
 // 3. From a GeoJSON file:
 let decoder = JSONDecoder()
 if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: "geojson"),
     let data = try? Data(contentsOf: geoJSONURL),
-    let geoJSON = try? decoder.decode(GeoJSON.self, from: data),
+    let geoJSON = try? decoder.decode(GeoJSON<XY>.self, from: data),
     case let .feature(feature) = geoJSON,
     let italy = feature.geometry
 {
     italy
 }
 ```
+
+### Coordinate Dimensions
+
+GEOSwift, like GEOS, supports geometry with 2 (`XY`), 3 (`XYZ`/`XYM`), and 4 (`XYZM`) coordinates. There are some important
+things to know about using various coordinate types, mixing dimensionalities, and the impact on encoding/decoding
+and geometric operations.
+
+* The `XY` coordinate type is generally the safest and most intuitive. If you don't *need* Z/M, prefer keeping things 2D.
+* With the exception of decoding, see below, you usually don't need to explicitly specialize the geometry to a specific
+  `CoordinateType`. The dimensionality is inferred from the initializer used (e.g. `Point(x: 1, y: 2)`, the base geometry 
+  that you are composing with (e.g. `MultiLine`, `GeometryCollection`), or the result of a geometric operation.
+* When decoding geometry from GeoJSON or WKB/WKT, you *must* specify the expected coordinate dimensions, e.g. 
+  `try Geometry<XY>(wkb: wkb)`. `XY` coordinates will always work assuming the geometry is valid. Higher dimensions will
+  throw an error if they don't have the appropriate coordinates available to decode.
+* GeoJSON does not support M coordinates, so you cannot decode from JSON into that coordinate type.
+* You can initialize a lower-dimensioned coordinate from a higher one assuming it has the relevant coordinates, e.g
+  `let pointXY = Point<XY>(Point(x: 1, y: 2, z: 3))`. You cannot initialize a `XYM` type from a `XYZ` type or vice versa.
+  
+For geographic operations, specifically:
+* For the most part, Z/M coordinates are treated as user data that do not impact the result of the topological operations and
+  predicates which are XY planar by nature.
+* To the extent that GEOS handles Z/M, there are 4 behaviors: preserve, drop, interpolate, set NaN. The behavior varies by
+  function in a relatively intuitive way, but there are some inconsistencies (e.g. `simplify` drops M coordinates).
+* It is common for GEOS to set Z and--especially--M coordinates to `nan` in the cases that it is creating new coordinates.
+  Be aware that in Swift, `nan != nan`, so if you need to do equality checks on coordinates from an operation, it is safest
+  to create an `XY` version of the geometry since X and Y coordinates will always be non-`nan`. Another option is to use a
+  topological predicate--which don't check Z/M coordinates.
+* It is also common to receive back `XY` geometry even when using higher-dimension inputs because the semantics of the
+  operation imply only `XY` results (e.g. `minimumWidth` or `nearestPoints`).
+* GEOSwift encodes the proper return dimensions in the type given by an operation, so other than being aware of the
+  information above, you can trust the dimensions of the return type.
 
 ### Topological operations
 
