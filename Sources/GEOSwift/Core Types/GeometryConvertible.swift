@@ -1,10 +1,17 @@
+/// A type that can represent itself as a ``Geometry``
 public protocol GeometryConvertible<C> {
     associatedtype C: CoordinateType
 
+    /// The number of dimensions of the underlying ``CoordinateType``
     var dimension: Int { get }
+
+    /// A flag as to whether the underlying ``CoordinateType`` contains *z* coordinates.
     var hasZ: Bool { get }
+
+    /// A flag as to whether the underlying ``CoordinateType`` contains *m* coordinates.
     var hasM: Bool { get }
 
+    /// The wrapped ``Geometry`` value
     var geometry: Geometry<C> { get }
 }
 
