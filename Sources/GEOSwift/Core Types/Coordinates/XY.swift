@@ -1,6 +1,7 @@
 import Foundation
 import geos
 
+/// A 2-dimensional coordinate with x and y values.
 public struct XY: CoordinateType, GeoJSONCoordinate {
 
     // MARK: Public API
@@ -9,16 +10,27 @@ public struct XY: CoordinateType, GeoJSONCoordinate {
     public static let hasZ = false
     public static let hasM = false
 
+    /// The x coordinate
     public var x: Double
+
+    /// The y coordinate
     public var y: Double
 
+    /// All coordinate values as an array
     public var values: [Double] { [x, y] }
 
+    /// Initialize an `XY` coordinate from x and y values.
+    /// - parameters:
+    ///   - x: The x coordinate.
+    ///   - y: The y coordinate.
     public init(_ x: Double, _ y: Double) {
         self.x = x
         self.y = y
     }
 
+    /// Initialize an `XY` coordinate from another coordinate, copying only the x and y values.
+    /// - parameters:
+    ///   - coordinate: The coordinate to copy from.
     public init<C: CoordinateType>(_ coordinate: C) {
         self.x = coordinate.x
         self.y = coordinate.y
