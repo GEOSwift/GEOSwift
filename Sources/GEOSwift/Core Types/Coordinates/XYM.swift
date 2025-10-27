@@ -1,6 +1,7 @@
 import Foundation
 import geos
 
+/// A 3-dimensional coordinate with x, y, and m (measure) values.
 public struct XYM: CoordinateType, HasM {
 
     // MARK: Public API
@@ -9,18 +10,32 @@ public struct XYM: CoordinateType, HasM {
     public static let hasZ = false
     public static let hasM = true
 
+    /// The x coordinate
     public var x: Double
+
+    /// The y coordinate
     public var y: Double
+
+    /// The m coordinate (measure)
     public var m: Double
 
+    /// All coordinate values as an array
     public var values: [Double] { [x, y, m] }
 
+    /// Initialize an `XYM` coordinate from x, y, and m values.
+    /// - parameters:
+    ///   - x: The x coordinate.
+    ///   - y: The y coordinate.
+    ///   - m: The m coordinate (measure).
     public init(_ x: Double, _ y: Double, _ m: Double) {
         self.x = x
         self.y = y
         self.m = m
     }
 
+    /// Initialize an `XYM` coordinate from another coordinate with an m dimension.
+    /// - parameters:
+    ///   - coordinate: The coordinate to copy from.
     public init<C: CoordinateType>(_ coordinate: C) where C: HasM {
         self.x = coordinate.x
         self.y = coordinate.y
@@ -45,7 +60,7 @@ public struct XYM: CoordinateType, HasM {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        try container.encode([x, y, .nan, m]) // TODO: Decide whether/how to encode XYM into GeoJSON.
+        try container.encode([x, y, .nan, m])
     }
 
     // MARK: Internal API
