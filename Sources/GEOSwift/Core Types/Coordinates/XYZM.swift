@@ -1,6 +1,7 @@
 import Foundation
 import geos
 
+/// A 4-dimensional coordinate with x, y, z (altitude/elevation), and m (measure) values.
 public struct XYZM: CoordinateType, HasZ, HasM {
 
     // MARK: Public API
@@ -9,13 +10,27 @@ public struct XYZM: CoordinateType, HasZ, HasM {
     public static let hasZ = true
     public static let hasM = true
 
+    /// The x coordinate
     public var x: Double
+
+    /// The y coordinate
     public var y: Double
+
+    /// The z coordinate (altitude/elevation)
     public var z: Double
+
+    /// The m coordinate (measure)
     public var m: Double
 
+    /// All coordinate values as an array
     public var values: [Double] { [x, y, z, m] }
 
+    /// Initialize an `XYZM` coordinate from x, y, z, and m values.
+    /// - parameters:
+    ///   - x: The x coordinate.
+    ///   - y: The y coordinate.
+    ///   - z: The z coordinate (altitude/elevation).
+    ///   - m: The m coordinate (measure).
     public init(_ x: Double, _ y: Double, _ z: Double, _ m: Double) {
         self.x = x
         self.y = y
@@ -23,6 +38,9 @@ public struct XYZM: CoordinateType, HasZ, HasM {
         self.m = m
     }
 
+    /// Initialize an `XYZM` coordinate from another coordinate with z and m dimensions.
+    /// - parameters:
+    ///   - coordinate: The coordinate to copy from.
     public init<C: CoordinateType>(_ coordinate: C) where C: HasZ & HasM {
         self.x = coordinate.x
         self.y = coordinate.y
