@@ -14,11 +14,11 @@ public struct Polygon<C: CoordinateType>: Hashable, Sendable {
             guard coordinates.count >= 4 else {
                 throw GEOSwiftError.tooFewCoordinates
             }
-            
+
             guard LinearRing.ringClosed(coordinates: coordinates) else {
                 throw GEOSwiftError.ringNotClosed
             }
-            
+
             self.coordinates = coordinates
         }
 
