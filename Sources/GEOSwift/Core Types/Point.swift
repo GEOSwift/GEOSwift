@@ -4,7 +4,7 @@ public struct Point<C: CoordinateType>: Hashable, Sendable {
 
     /// The x coordinate of the `Point`
     public var x: Double { get { coordinates.x } set { coordinates.x = newValue } }
-    
+
     /// The y coordinate of the `Point`
     public var y: Double { get { coordinates.y } set { coordinates.y = newValue } }
 
