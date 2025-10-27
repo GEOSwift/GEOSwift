@@ -4,6 +4,7 @@
 * Introduce `AnyGeometry` to type erase coordinate type information on geoemetry.
 * Introduce `GeoJSONCoordinate` to enable GeoJSON encoding/decoding only for XY and XYZ coordinates.
 * Update `geos` dependency to 11.0.0 for MIT Licensing and upstream GEOS 3.14.1
+* The base data types for geometries are now `CoordinateType`s rather than `Point`s, though convenience initializers for points remain.
 
 ## 11.2.0
 
