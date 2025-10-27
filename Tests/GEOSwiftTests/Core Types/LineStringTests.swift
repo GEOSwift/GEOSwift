@@ -8,10 +8,10 @@ final class LineStringTestsXY: XCTestCase {
         do {
             _ = try LineString(coordinates: coordinates)
             XCTFail("Expected constructor to throw")
-        } catch GEOSwiftError.tooFewPoints {
+        } catch GEOSwiftError.tooFewCoordinates {
             // Pass
         } catch {
-            XCTFail("Expected GEOSwiftError.tooFewPoints, but got \(error)")
+            XCTFail("Expected GEOSwiftError.tooFewCoordinates, but got \(error)")
         }
     }
 

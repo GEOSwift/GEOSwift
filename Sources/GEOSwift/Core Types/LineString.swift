@@ -11,7 +11,7 @@ public struct LineString<C: CoordinateType>: Hashable, Sendable {
 
     public init(coordinates: [C]) throws {
         guard coordinates.count >= 2 else {
-            throw GEOSwiftError.tooFewPoints // TODO: Rename
+            throw GEOSwiftError.tooFewCoordinates
         }
         
         self.coordinates = coordinates
