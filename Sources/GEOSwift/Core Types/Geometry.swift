@@ -1,16 +1,29 @@
+/// A geometry value that can represent any of the seven OGC geometry types.
+///
+/// The underlying ``CoordinateType`` (e.g. ``XY``, ``XYZ``) determines the dimensionality.
 public enum Geometry<C: CoordinateType>: Hashable, Sendable {
+    /// A ``Point`` geometry
     case point(Point<C>)
+    /// A ``MultiPoint`` geometry
     case multiPoint(MultiPoint<C>)
+    /// A ``LineString`` geometry
     case lineString(LineString<C>)
+    /// A ``MultiLineString`` geometry
     case multiLineString(MultiLineString<C>)
+    /// A ``Polygon`` geometry
     case polygon(Polygon<C>)
+    /// A ``MultiPolygon`` geometry
     case multiPolygon(MultiPolygon<C>)
+    /// A ``GeometryCollection`` geometry
     case geometryCollection(GeometryCollection<C>)
 }
 
 // MARK: Convenience Methods
 
 public extension Geometry where C == XY {
+    /// Initialize a `Geometry<XY>` from another `Geometry`.
+    /// - parameters:
+    ///   - geometry: The geometry to copy from.
     init<D: CoordinateType>(_ geometry: Geometry<D>) {
         switch geometry {
         case .point(let point):
@@ -32,6 +45,9 @@ public extension Geometry where C == XY {
 }
 
 public extension Geometry where C == XYZ {
+    /// Initialize a `Geometry<XYZ>` from another `Geometry` with Z coordinates.
+    /// - parameters:
+    ///   - geometry: The geometry to copy from.
     init<D: CoordinateType & HasZ>(_ geometry: Geometry<D>) {
         switch geometry {
         case .point(let point):
@@ -53,6 +69,9 @@ public extension Geometry where C == XYZ {
 }
 
 public extension Geometry where C == XYZM {
+    /// Initialize a `Geometry<XYZM>` from another `Geometry` with Z and M coordinates.
+    /// - parameters:
+    ///   - geometry: The geometry to copy from.
     init<D: CoordinateType & HasZ & HasM>(_ geometry: Geometry<D>) {
         switch geometry {
         case .point(let point):
@@ -74,6 +93,9 @@ public extension Geometry where C == XYZM {
 }
 
 public extension Geometry where C == XYM {
+    /// Initialize a `Geometry<XYM>` from another `Geometry` with M coordinates.
+    /// - parameters:
+    ///   - geometry: The geometry to copy from.
     init<D: CoordinateType & HasM>(_ geometry: Geometry<D>) {
         switch geometry {
         case .point(let point):
