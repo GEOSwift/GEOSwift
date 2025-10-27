@@ -12,7 +12,7 @@ public struct Polygon<C: CoordinateType>: Hashable, Sendable {
 
         public init(coordinates: [C]) throws {
             guard coordinates.count >= 4 else {
-                throw GEOSwiftError.tooFewPoints
+                throw GEOSwiftError.tooFewCoordinates
             }
             
             guard LinearRing.ringClosed(coordinates: coordinates) else {

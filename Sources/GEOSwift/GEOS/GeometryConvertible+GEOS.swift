@@ -264,7 +264,7 @@ public extension GeometryConvertible {
     private func nilIfTooFewPoints<D: CoordinateType>(op: () throws -> Geometry<D>) throws -> Geometry<D>? {
         do {
             return try op()
-        } catch GEOSwiftError.tooFewPoints {
+        } catch GEOSwiftError.tooFewCoordinates {
             return nil
         } catch {
             throw error

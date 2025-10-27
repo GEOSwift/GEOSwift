@@ -12,7 +12,7 @@ extension Point: GEOSObjectInitializable {
         }
         // returns 0 on false (non-empty)
         guard isEmpty == 0 else {
-            throw GEOSwiftError.tooFewPoints
+            throw GEOSwiftError.tooFewCoordinates
         }
         // returns nil on failure
         guard let cSeq = GEOSGeom_getCoordSeq_r(geosObject.context.handle, geosObject.pointer) else {

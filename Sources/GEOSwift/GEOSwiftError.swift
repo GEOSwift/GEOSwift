@@ -3,7 +3,7 @@ public enum GEOSwiftError: Error, Hashable, Sendable {
     case invalidGeoJSONType
     case invalidCoordinates
     case mismatchedGeoJSONType
-    case tooFewPoints
+    case tooFewCoordinates
     case ringNotClosed
     case tooFewRings
     case invalidFeatureId
