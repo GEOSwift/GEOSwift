@@ -1,5 +1,6 @@
 import Foundation
 
+/// JSON types
 public enum JSON: Hashable, Sendable {
     case string(String)
     case number(Double)
