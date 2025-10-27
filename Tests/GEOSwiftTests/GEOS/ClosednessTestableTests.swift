@@ -8,16 +8,16 @@ final class ClosednessTestableTests: XCTestCase {
         Polygon.LinearRing.testValueHole1]
 
     func testIsClosed() {
-        var lineString = try! LineString(points: [
-            Point(x: 0, y: 0),
-            Point(x: 1, y: 0),
-            Point(x: 1, y: 1),
-            Point(x: 0, y: 1),
-            Point(x: 0, y: 0)])
+        var lineString = try! LineString(coordinates: [
+            XY(0, 0),
+            XY(1, 0),
+            XY(1, 1),
+            XY(0, 1),
+            XY(0, 0)])
 
         XCTAssertTrue(try lineString.isClosed())
 
-        lineString = try! LineString(points: lineString.points.dropLast())
+        lineString = try! LineString(coordinates: lineString.coordinates.dropLast())
 
         XCTAssertFalse(try lineString.isClosed())
     }

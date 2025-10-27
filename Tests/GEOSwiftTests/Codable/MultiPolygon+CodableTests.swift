@@ -12,18 +12,20 @@ extension MultiPolygon where C == XY {
 fileprivate extension MultiPolygon where C == XYZ {
     static let testValue = MultiPolygon(
         polygons: [
-            Polygon(exterior: try! Polygon.LinearRing(points: [
-                Point(x: 0, y: 0, z: 1),
-                Point(x: 4, y: 0, z: 2),
-                Point(x: 4, y: 4, z: 3),
-                Point(x: 0, y: 4, z: 4),
-                Point(x: 0, y: 0, z: 1)])),
-            Polygon(exterior: try! Polygon.LinearRing(points: [
-                Point(x: 5, y: 5, z: 5),
-                Point(x: 9, y: 5, z: 6),
-                Point(x: 9, y: 9, z: 7),
-                Point(x: 5, y: 9, z: 8),
-                Point(x: 5, y: 5, z: 5)]))
+            Polygon(exterior: try! Polygon.LinearRing(coordinates: [
+                XYZ(0, 0, 1),
+                XYZ(4, 0, 2),
+                XYZ(4, 4, 3),
+                XYZ(0, 4, 4),
+                XYZ(0, 0, 1)
+            ])),
+            Polygon(exterior: try! Polygon.LinearRing(coordinates: [
+                XYZ(5, 5, 5),
+                XYZ(9, 5, 6),
+                XYZ(9, 9, 7),
+                XYZ(5, 9, 8),
+                XYZ(5, 5, 5)
+            ]))
         ])
     static let testJson = #"{"coordinates":[[[[0,0,1],[4,0,2],[4,4,3],[0,4,4],"#
         + #"[0,0,1]]],[[[5,5,5],[9,5,6],[9,9,7],[5,9,8],[5,5,5]]]],"#

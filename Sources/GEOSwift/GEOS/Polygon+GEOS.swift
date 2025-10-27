@@ -5,13 +5,14 @@ extension Polygon.LinearRing: GEOSObjectInitializable {
         guard case .some(.linearRing) = geosObject.type else {
             throw GEOSError.typeMismatch(actual: geosObject.type, expected: .linearRing)
         }
-        try self.init(points: makePoints(from: geosObject))
+        
+        try self.init(coordinates: makeCoordinates(from: geosObject))
     }
 }
 
 extension Polygon.LinearRing: GEOSObjectConvertible {
     func geosObject(with context: GEOSContext) throws -> GEOSObject {
-        try makeGEOSObject(with: context, points: points) { (context, sequence) in
+        try makeGEOSObject(with: context, coordinates: coordinates) { (context, sequence) in
             GEOSGeom_createLinearRing_r(context.handle, sequence)
         }
     }

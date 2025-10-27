@@ -1,57 +1,64 @@
-// TODO: Decide if multi-coordinate geometries should take `Point`s or coordinates
 public struct LineString<C: CoordinateType>: Hashable, Sendable {
-    public let points: [Point<C>]
+    public let coordinates: [C]
 
-    public var firstPoint: Point<C> {
-        points[0]
+    public var firstCoordinate: C {
+        coordinates[0]
     }
 
-    public var lastPoint: Point<C> {
-        points.last!
+    public var lastCoordinate: C {
+        coordinates.last!
     }
 
-    public init(points: [Point<C>]) throws {
-        guard points.count >= 2 else {
-            throw GEOSwiftError.tooFewPoints
+    public init(coordinates: [C]) throws {
+        guard coordinates.count >= 2 else {
+            throw GEOSwiftError.tooFewPoints // TODO: Rename
         }
-        self.points = points
+        
+        self.coordinates = coordinates
     }
 
     public init(_ linearRing: Polygon<C>.LinearRing) {
         // No checks needed because LinearRing's invariants are more strict than LineString's
-        self.points = linearRing.points
+        self.coordinates = linearRing.coordinates
     }
 }
 
 // MARK: - Convenience Methods
+
+/// Convenience initialization from ``Point``s.
+public extension LineString {
+    init(points: [Point<C>]) throws {
+        try self.init(coordinates: points.map(\.coordinates))
+    }
+}
 
 // swiftlint:disable force_try
 
 public extension LineString where C == XY {
     init<D: CoordinateType>(_ linestring: LineString<D>) {
         // It's safe to force try here since we've already validated the number of points
-        try! self.init(points: linestring.points.map(Point<XY>.init))
+        try! self.init(coordinates: linestring.coordinates.map(XY.init))
     }
 }
 
 public extension LineString where C == XYZ {
     init<D: CoordinateType & HasZ>(_ linestring: LineString<D>) {
         // It's safe to force try here since we've already validated the number of points
-        try! self.init(points: linestring.points.map(Point<XYZ>.init))
+        try! self.init(coordinates: linestring.coordinates.map(XYZ.init))
     }
 }
 
 public extension LineString where C == XYZM {
     init<D: CoordinateType & HasZ & HasM>(_ linestring: LineString<D>) {
         // It's safe to force try here since we've already validated the number of points
-        try! self.init(points: linestring.points.map(Point<XYZM>.init))
+        try! self.init(coordinates: linestring.coordinates.map(XYZM.init))
     }
 }
 
 public extension LineString where C == XYM {
     init<D: CoordinateType & HasM>(_ linestring: LineString<D>) {
         // It's safe to force try here since we've already validated the number of points
-        try! self.init(points: linestring.points.map(Point<XYM>.init))
+        try! self.init(coordinates: linestring.coordinates.map(XYM.init))
     }
 }
 

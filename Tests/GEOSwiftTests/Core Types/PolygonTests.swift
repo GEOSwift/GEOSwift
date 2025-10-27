@@ -2,11 +2,11 @@ import XCTest
 import GEOSwift
 
 final class Polygon_LinearRingTests: XCTestCase {
-    func testInitWithTooFewPoints() {
-        let points = makePoints(withCount: 3)
+    func testInitWithTooFewCoordinates() {
+        let coordinates: [XY] = [XY(0, 0), XY(1, 1), XY(2, 2)]
 
         do {
-            _ = try Polygon.LinearRing(points: points)
+            _ = try Polygon.LinearRing(coordinates: coordinates)
             XCTFail("Expected constructor to throw")
         } catch GEOSwiftError.tooFewPoints {
             // Pass
@@ -16,10 +16,10 @@ final class Polygon_LinearRingTests: XCTestCase {
     }
 
     func testInitWithUnclosedRing() {
-        let points = makePoints(withCount: 4)
+        let coordinates: [XY] = [XY(0, 0), XY(1, 1), XY(2, 2), XY(3, 3)]
 
         do {
-            _ = try Polygon.LinearRing(points: points)
+            _ = try Polygon.LinearRing(coordinates: coordinates)
             XCTFail("Expected constructor to throw")
         } catch GEOSwiftError.ringNotClosed {
             // Pass
@@ -29,12 +29,20 @@ final class Polygon_LinearRingTests: XCTestCase {
     }
 
     func testInitSuccess() {
+        let coordinates: [XY] = [XY(0, 0), XY(1, 1), XY(2, 2), XY(0, 0)]
+
+        let linearRing = try? Polygon.LinearRing(coordinates: coordinates)
+
+        XCTAssertEqual(linearRing?.coordinates, coordinates)
+    }
+
+    func testInitWithPoints() {
         var points = makePoints(withCount: 3)
         points.append(points[0])
 
-        let linearRing = try? Polygon.LinearRing(points: points)
+        let linearRing: Polygon<XY>.LinearRing? = try? Polygon.LinearRing(coordinates: points.map { $0.coordinates })
 
-        XCTAssertEqual(linearRing?.points, points)
+        XCTAssertEqual(linearRing?.coordinates.count, 4)
     }
 }
 
@@ -58,134 +66,134 @@ final class PolygonTestsXY: XCTestCase {
     }
 
     func testInitWithXYZ() throws {
-        let points = [
-            Point(x: 0, y: 0, z: 1),
-            Point(x: 1, y: 0, z: 2),
-            Point(x: 1, y: 1, z: 3),
-            Point(x: 0, y: 0, z: 4)
+        let coordinates: [XYZ] = [
+            XYZ(0, 0, 1),
+            XYZ(1, 0, 2),
+            XYZ(1, 1, 3),
+            XYZ(0, 0, 4)
         ]
-        let ring = try Polygon<XYZ>.LinearRing(points: points)
+        let ring = try Polygon<XYZ>.LinearRing(coordinates: coordinates)
         let polygon1 = Polygon(exterior: ring)
         let polygon2 = Polygon<XY>(polygon1)
 
-        XCTAssertEqual(polygon2.exterior.points.count, 4)
-        XCTAssertEqual(polygon2.exterior.points[0].x, 0)
-        XCTAssertEqual(polygon2.exterior.points[0].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[1].x, 1)
-        XCTAssertEqual(polygon2.exterior.points[1].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].x, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].x, 1)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].y, 0)
     }
 
     func testInitWithXYM() throws {
-        let points = [
-            Point(x: 0, y: 0, m: 1),
-            Point(x: 1, y: 0, m: 2),
-            Point(x: 1, y: 1, m: 3),
-            Point(x: 0, y: 0, m: 4)
+        let coordinates: [XYM] = [
+            XYM(0, 0, 1),
+            XYM(1, 0, 2),
+            XYM(1, 1, 3),
+            XYM(0, 0, 4)
         ]
-        let ring = try Polygon<XYM>.LinearRing(points: points)
+        let ring = try Polygon<XYM>.LinearRing(coordinates: coordinates)
         let polygon1 = Polygon(exterior: ring)
         let polygon2 = Polygon<XY>(polygon1)
 
-        XCTAssertEqual(polygon2.exterior.points.count, 4)
-        XCTAssertEqual(polygon2.exterior.points[0].x, 0)
-        XCTAssertEqual(polygon2.exterior.points[0].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[1].x, 1)
-        XCTAssertEqual(polygon2.exterior.points[1].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].x, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].x, 1)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].y, 0)
     }
 
     func testInitWithXYZM() throws {
-        let points = [
-            Point(x: 0, y: 0, z: 1, m: 2),
-            Point(x: 1, y: 0, z: 3, m: 4),
-            Point(x: 1, y: 1, z: 5, m: 6),
-            Point(x: 0, y: 0, z: 7, m: 8)
+        let coordinates: [XYZM] = [
+            XYZM(0, 0, 1, 2),
+            XYZM(1, 0, 3, 4),
+            XYZM(1, 1, 5, 6),
+            XYZM(0, 0, 7, 8)
         ]
-        let ring = try Polygon<XYZM>.LinearRing(points: points)
+        let ring = try Polygon<XYZM>.LinearRing(coordinates: coordinates)
         let polygon1 = Polygon(exterior: ring)
         let polygon2 = Polygon<XY>(polygon1)
 
-        XCTAssertEqual(polygon2.exterior.points.count, 4)
-        XCTAssertEqual(polygon2.exterior.points[0].x, 0)
-        XCTAssertEqual(polygon2.exterior.points[0].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[1].x, 1)
-        XCTAssertEqual(polygon2.exterior.points[1].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].x, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].x, 1)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].y, 0)
     }
 }
 
 final class PolygonTestsXYZ: XCTestCase {
     func testInitWithXYZM() throws {
-        let points = [
-            Point(x: 0, y: 0, z: 1, m: 2),
-            Point(x: 1, y: 0, z: 3, m: 4),
-            Point(x: 1, y: 1, z: 5, m: 6),
-            Point(x: 0, y: 0, z: 7, m: 8)
+        let coordinates: [XYZM] = [
+            XYZM(0, 0, 1, 2),
+            XYZM(1, 0, 3, 4),
+            XYZM(1, 1, 5, 6),
+            XYZM(0, 0, 7, 8)
         ]
-        let ring = try Polygon<XYZM>.LinearRing(points: points)
+        let ring = try Polygon<XYZM>.LinearRing(coordinates: coordinates)
         let polygon1 = Polygon(exterior: ring)
         let polygon2 = Polygon<XYZ>(polygon1)
 
-        XCTAssertEqual(polygon2.exterior.points.count, 4)
-        XCTAssertEqual(polygon2.exterior.points[0].x, 0)
-        XCTAssertEqual(polygon2.exterior.points[0].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[0].z, 1)
-        XCTAssertEqual(polygon2.exterior.points[1].x, 1)
-        XCTAssertEqual(polygon2.exterior.points[1].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[1].z, 3)
-        XCTAssertEqual(polygon2.exterior.points[3].x, 0)
-        XCTAssertEqual(polygon2.exterior.points[3].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[3].z, 7)
+        XCTAssertEqual(polygon2.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].x, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].z, 1)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].x, 1)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].z, 3)
+        XCTAssertEqual(polygon2.exterior.coordinates[3].x, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[3].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[3].z, 7)
     }
 }
 
 final class PolygonTestsXYM: XCTestCase {
     func testInitWithXYZM() throws {
-        let points = [
-            Point(x: 0, y: 0, z: 1, m: 2),
-            Point(x: 1, y: 0, z: 3, m: 4),
-            Point(x: 1, y: 1, z: 5, m: 6),
-            Point(x: 0, y: 0, z: 7, m: 8)
+        let coordinates: [XYZM] = [
+            XYZM(0, 0, 1, 2),
+            XYZM(1, 0, 3, 4),
+            XYZM(1, 1, 5, 6),
+            XYZM(0, 0, 7, 8)
         ]
-        let ring = try Polygon<XYZM>.LinearRing(points: points)
+        let ring = try Polygon<XYZM>.LinearRing(coordinates: coordinates)
         let polygon1 = Polygon(exterior: ring)
         let polygon2 = Polygon<XYM>(polygon1)
 
-        XCTAssertEqual(polygon2.exterior.points.count, 4)
-        XCTAssertEqual(polygon2.exterior.points[0].x, 0)
-        XCTAssertEqual(polygon2.exterior.points[0].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[0].m, 2)
-        XCTAssertEqual(polygon2.exterior.points[1].x, 1)
-        XCTAssertEqual(polygon2.exterior.points[1].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[1].m, 4)
-        XCTAssertEqual(polygon2.exterior.points[3].x, 0)
-        XCTAssertEqual(polygon2.exterior.points[3].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[3].m, 8)
+        XCTAssertEqual(polygon2.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].x, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].m, 2)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].x, 1)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].m, 4)
+        XCTAssertEqual(polygon2.exterior.coordinates[3].x, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[3].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[3].m, 8)
     }
 }
 
 final class PolygonTestsXYZM: XCTestCase {
     func testInitWithXYZM() throws {
-        let points = [
-            Point(x: 0, y: 0, z: 1, m: 2),
-            Point(x: 1, y: 0, z: 3, m: 4),
-            Point(x: 1, y: 1, z: 5, m: 6),
-            Point(x: 0, y: 0, z: 7, m: 8)
+        let coordinates: [XYZM] = [
+            XYZM(0, 0, 1, 2),
+            XYZM(1, 0, 3, 4),
+            XYZM(1, 1, 5, 6),
+            XYZM(0, 0, 7, 8)
         ]
-        let ring = try Polygon<XYZM>.LinearRing(points: points)
+        let ring = try Polygon<XYZM>.LinearRing(coordinates: coordinates)
         let polygon1 = Polygon(exterior: ring)
         let polygon2 = Polygon<XYZM>(polygon1)
 
-        XCTAssertEqual(polygon2.exterior.points.count, 4)
-        XCTAssertEqual(polygon2.exterior.points[0].x, 0)
-        XCTAssertEqual(polygon2.exterior.points[0].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[0].z, 1)
-        XCTAssertEqual(polygon2.exterior.points[0].m, 2)
-        XCTAssertEqual(polygon2.exterior.points[1].x, 1)
-        XCTAssertEqual(polygon2.exterior.points[1].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[1].z, 3)
-        XCTAssertEqual(polygon2.exterior.points[1].m, 4)
-        XCTAssertEqual(polygon2.exterior.points[3].x, 0)
-        XCTAssertEqual(polygon2.exterior.points[3].y, 0)
-        XCTAssertEqual(polygon2.exterior.points[3].z, 7)
-        XCTAssertEqual(polygon2.exterior.points[3].m, 8)
+        XCTAssertEqual(polygon2.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].x, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].z, 1)
+        XCTAssertEqual(polygon2.exterior.coordinates[0].m, 2)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].x, 1)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].z, 3)
+        XCTAssertEqual(polygon2.exterior.coordinates[1].m, 4)
+        XCTAssertEqual(polygon2.exterior.coordinates[3].x, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[3].y, 0)
+        XCTAssertEqual(polygon2.exterior.coordinates[3].z, 7)
+        XCTAssertEqual(polygon2.exterior.coordinates[3].m, 8)
     }
 }

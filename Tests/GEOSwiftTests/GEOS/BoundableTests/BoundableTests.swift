@@ -12,7 +12,7 @@ final class BoundableTests: XCTestCase {
         MultiPolygon.testValue]
 
     func testBoundaryLine() {
-        let line = try! LineString(points: [Point(x: 0, y: 0), Point(x: 1, y: 0)])
+        let line = try! LineString(coordinates: [XY(0, 0), XY(1, 0)])
 
         do {
             let boundary = try line.boundary()
@@ -21,8 +21,8 @@ final class BoundableTests: XCTestCase {
                 return
             }
             XCTAssertEqual(multiPoint.points.count, 2)
-            XCTAssertTrue(multiPoint.points.contains(line.points[0]))
-            XCTAssertTrue(multiPoint.points.contains(line.points[1]))
+            XCTAssertTrue(multiPoint.points.contains(Point(line.coordinates[0])))
+            XCTAssertTrue(multiPoint.points.contains(Point(line.coordinates[1])))
         } catch {
             XCTFail("Unexpected error for \(line) boundary() \(error)")
         }
