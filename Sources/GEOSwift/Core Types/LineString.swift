@@ -13,7 +13,7 @@ public struct LineString<C: CoordinateType>: Hashable, Sendable {
         guard coordinates.count >= 2 else {
             throw GEOSwiftError.tooFewCoordinates
         }
-        
+
         self.coordinates = coordinates
     }
 

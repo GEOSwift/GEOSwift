@@ -18,13 +18,13 @@ func makeCoordinates<C: CoordinateType>(from geometry: GEOSObject) throws -> [C]
     guard let sequence = GEOSGeom_getCoordSeq_r(geometry.context.handle, geometry.pointer) else {
         throw GEOSError.libraryError(errorMessages: geometry.context.errors)
     }
-    
+
     var count: UInt32 = 0
     // returns 0 on exception
     guard GEOSCoordSeq_getSize_r(geometry.context.handle, sequence, &count) != 0 else {
         throw GEOSError.libraryError(errorMessages: geometry.context.errors)
     }
-    
+
     return try (0..<count).map { (index) -> C in
         try C.bridge.getter(geometry.context, sequence, Int32(index))
     }
@@ -42,11 +42,11 @@ func makeCoordinateSequence<C: CoordinateType>(
     ) else {
         throw GEOSError.libraryError(errorMessages: context.errors)
     }
-    
+
     try coordinates.enumerated().forEach { (i, coordinate) in
         try C.bridge.setter(context, sequence, Int32(i), coordinate)
     }
-    
+
     return sequence
 }
 
@@ -60,7 +60,7 @@ func makeGEOSObject<C: CoordinateType>(
         GEOSCoordSeq_destroy_r(context.handle, sequence)
         throw GEOSError.libraryError(errorMessages: context.errors)
     }
-    
+
     return GEOSObject(context: context, pointer: geometry)
 }
 

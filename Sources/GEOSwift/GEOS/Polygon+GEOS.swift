@@ -5,7 +5,7 @@ extension Polygon.LinearRing: GEOSObjectInitializable {
         guard case .some(.linearRing) = geosObject.type else {
             throw GEOSError.typeMismatch(actual: geosObject.type, expected: .linearRing)
         }
-        
+
         try self.init(coordinates: makeCoordinates(from: geosObject))
     }
 }

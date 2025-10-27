@@ -11,8 +11,14 @@ private extension Point where C == XYM {
 }
 
 private extension LineString where C == XYM {
-    static let testValue1 = try! LineString(coordinates: [Point<XYM>.testValue1.coordinates, Point<XYM>.testValue3.coordinates])
-    static let testValue5 = try! LineString(coordinates: [Point<XYM>.testValue5.coordinates, Point<XYM>.testValue7.coordinates])
+    static let testValue1 = try! LineString(coordinates: [
+        Point<XYM>.testValue1.coordinates,
+        Point<XYM>.testValue3.coordinates
+    ])
+    static let testValue5 = try! LineString(coordinates: [
+        Point<XYM>.testValue5.coordinates,
+        Point<XYM>.testValue7.coordinates
+    ])
 }
 
 private extension Polygon.LinearRing where C == XYM {
