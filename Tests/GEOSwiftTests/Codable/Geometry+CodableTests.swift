@@ -107,18 +107,18 @@ final class Geometry_CodableTestsXYZ: CodableTestCase {
 
     func testCodablePolygon() {
         let polygon = Polygon(
-            exterior: try! Polygon.LinearRing(points: [
-                Point(x: 2, y: 2, z: 1),
-                Point(x: -2, y: 2, z: 2),
-                Point(x: -2, y: -2, z: 3),
-                Point(x: 2, y: -2, z: 4),
-                Point(x: 2, y: 2, z: 1)]),
-            holes: [try! Polygon.LinearRing(points: [
-                Point(x: 1, y: 1, z: 5),
-                Point(x: 1, y: -1, z: 6),
-                Point(x: -1, y: -1, z: 7),
-                Point(x: -1, y: 1, z: 8),
-                Point(x: 1, y: 1, z: 5)])])
+            exterior: try! Polygon.LinearRing(coordinates: [
+                XYZ(2, 2, 1),
+                XYZ(-2, 2, 2),
+                XYZ(-2, -2, 3),
+                XYZ(2, -2, 4),
+                XYZ(2, 2, 1)]),
+            holes: [try! Polygon.LinearRing(coordinates: [
+                XYZ(1, 1, 5),
+                XYZ(1, -1, 6),
+                XYZ(-1, -1, 7),
+                XYZ(-1, 1, 8),
+                XYZ(1, 1, 5)])])
         let json = #"{"coordinates":[[[2,2,1],[-2,2,2],[-2,-2,3],[2,-"#
             + #"2,4],[2,2,1]],[[1,1,5],[1,-1,6],[-1,-1,7],[-1,1,8],[1,1,5]]],"type":"Polygon"}"#
         verifyCodable(with: Geometry.polygon(polygon), json: json)
@@ -126,19 +126,19 @@ final class Geometry_CodableTestsXYZ: CodableTestCase {
 
     func testCodableMultiPolygon() {
         let polygon1 = Polygon(
-            exterior: try! Polygon.LinearRing(points: [
-                Point(x: 0, y: 0, z: 1),
-                Point(x: 4, y: 0, z: 2),
-                Point(x: 4, y: 4, z: 3),
-                Point(x: 0, y: 4, z: 4),
-                Point(x: 0, y: 0, z: 1)]))
+            exterior: try! Polygon.LinearRing(coordinates: [
+                XYZ(0, 0, 1),
+                XYZ(4, 0, 2),
+                XYZ(4, 4, 3),
+                XYZ(0, 4, 4),
+                XYZ(0, 0, 1)]))
         let polygon2 = Polygon(
-            exterior: try! Polygon.LinearRing(points: [
-                Point(x: 8, y: 0, z: 11),
-                Point(x: 12, y: 0, z: 12),
-                Point(x: 12, y: 4, z: 13),
-                Point(x: 8, y: 4, z: 14),
-                Point(x: 8, y: 0, z: 11)]))
+            exterior: try! Polygon.LinearRing(coordinates: [
+                XYZ(8, 0, 11),
+                XYZ(12, 0, 12),
+                XYZ(12, 4, 13),
+                XYZ(8, 4, 14),
+                XYZ(8, 0, 11)]))
         let multiPolygon = MultiPolygon(polygons: [polygon1, polygon2])
         let json = #"{"coordinates":[[[[0,0,1],[4,0,2],[4,4,3],[0,4,4],"#
             + #"[0,0,1]]],[[[8,0,11],[12,0,12],[12,4,13],[8,4,14],[8,0,11]]]],"type":"MultiPolygon"}"#

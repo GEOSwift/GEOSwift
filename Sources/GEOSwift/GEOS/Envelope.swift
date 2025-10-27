@@ -37,12 +37,13 @@ extension Envelope: GeometryConvertible {
         } else {
             // swiftlint:disable:next force_try
             return try! .polygon(Polygon(exterior: Polygon.LinearRing(
-                points: [
-                    Point(x: minX, y: minY),
-                    Point(x: maxX, y: minY),
-                    Point(x: maxX, y: maxY),
-                    Point(x: minX, y: maxY),
-                    Point(x: minX, y: minY)])))
+                coordinates: [
+                    XY(minX, minY),
+                    XY(maxX, minY),
+                    XY(maxX, maxY),
+                    XY(minX, maxY),
+                    XY(minX, minY)
+                ])))
         }
     }
 }

@@ -3,28 +3,28 @@ import GEOSwift
 
 extension Polygon.LinearRing where C == XY {
     // counterclockwise
-    static let testValueExterior2 = try! Polygon.LinearRing(points: [
-        Point(x: 2, y: 2),
-        Point(x: -2, y: 2),
-        Point(x: -2, y: -2),
-        Point(x: 2, y: -2),
-        Point(x: 2, y: 2)])
+    static let testValueExterior2 = try! Polygon.LinearRing(coordinates: [
+        XY(2, 2),
+        XY(-2, 2),
+        XY(-2, -2),
+        XY(2, -2),
+        XY(2, 2)])
 
     // clockwise
-    static let testValueHole1 = try! Polygon.LinearRing(points: [
-        Point(x: 1, y: 1),
-        Point(x: 1, y: -1),
-        Point(x: -1, y: -1),
-        Point(x: -1, y: 1),
-        Point(x: 1, y: 1)])
+    static let testValueHole1 = try! Polygon.LinearRing(coordinates: [
+        XY(1, 1),
+        XY(1, -1),
+        XY(-1, -1),
+        XY(-1, 1),
+        XY(1, 1)])
 
     // counterclockwise
-    static let testValueExterior7 = try! Polygon.LinearRing(points: [
-        Point(x: 7, y: 2),
-        Point(x: 3, y: 2),
-        Point(x: 3, y: -2),
-        Point(x: 7, y: -2),
-        Point(x: 7, y: 2)])
+    static let testValueExterior7 = try! Polygon.LinearRing(coordinates: [
+        XY(7, 2),
+        XY(3, 2),
+        XY(3, -2),
+        XY(7, -2),
+        XY(7, 2)])
 }
 
 extension Polygon where C == XY {
@@ -42,28 +42,28 @@ extension Polygon where C == XY {
 
 fileprivate extension Polygon.LinearRing where C == XYZ {
     // counterclockwise
-    static let testValueExterior2 = try! Polygon.LinearRing(points: [
-        Point(x: 2, y: 2, z: 1),
-        Point(x: -2, y: 2, z: 2),
-        Point(x: -2, y: -2, z: 3),
-        Point(x: 2, y: -2, z: 4),
-        Point(x: 2, y: 2, z: 5)])
+    static let testValueExterior2 = try! Polygon.LinearRing(coordinates: [
+        XYZ(2, 2, 1),
+        XYZ(-2, 2, 2),
+        XYZ(-2, -2, 3),
+        XYZ(2, -2, 4),
+        XYZ(2, 2, 5)])
 
     // clockwise
-    static let testValueHole1 = try! Polygon.LinearRing(points: [
-        Point(x: 1, y: 1, z: 6),
-        Point(x: 1, y: -1, z: 7),
-        Point(x: -1, y: -1, z: 8),
-        Point(x: -1, y: 1, z: 9),
-        Point(x: 1, y: 1, z: 10)])
+    static let testValueHole1 = try! Polygon.LinearRing(coordinates: [
+        XYZ(1, 1, 6),
+        XYZ(1, -1, 7),
+        XYZ(-1, -1, 8),
+        XYZ(-1, 1, 9),
+        XYZ(1, 1, 10)])
 
     // counterclockwise
-    static let testValueExterior7 = try! Polygon.LinearRing(points: [
-        Point(x: 7, y: 2, z: 11),
-        Point(x: 3, y: 2, z: 12),
-        Point(x: 3, y: -2, z: 13),
-        Point(x: 7, y: -2, z: 14),
-        Point(x: 7, y: 2, z: 15)])
+    static let testValueExterior7 = try! Polygon.LinearRing(coordinates: [
+        XYZ(7, 2, 11),
+        XYZ(3, 2, 12),
+        XYZ(3, -2, 13),
+        XYZ(7, -2, 14),
+        XYZ(7, 2, 15)])
 }
 
 fileprivate extension Polygon where C == XYZ {

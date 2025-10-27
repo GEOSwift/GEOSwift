@@ -17,28 +17,28 @@ private extension LineString where C == XYZM {
 
 private extension Polygon.LinearRing where C == XYZM {
     // counterclockwise
-    static let testValueExterior2 = try! Polygon.LinearRing(points: [
-        Point(x: 2, y: 2, z: 0, m: 0),
-        Point(x: -2, y: 2, z: 0, m: 0),
-        Point(x: -2, y: -2, z: 0, m: 0),
-        Point(x: 2, y: -2, z: 0, m: 0),
-        Point(x: 2, y: 2, z: 1, m: 1)])
+    static let testValueExterior2 = try! Polygon.LinearRing(coordinates: [
+        XYZM(2, 2, 0, 0),
+        XYZM(-2, 2, 0, 0),
+        XYZM(-2, -2, 0, 0),
+        XYZM(2, -2, 0, 0),
+        XYZM(2, 2, 1, 1)])
 
     // clockwise
-    static let testValueHole1 = try! Polygon.LinearRing(points: [
-        Point(x: 1, y: 1, z: 0, m: 0),
-        Point(x: 1, y: -1, z: 0, m: 0),
-        Point(x: -1, y: -1, z: 0, m: 0),
-        Point(x: -1, y: 1, z: 0, m: 0),
-        Point(x: 1, y: 1, z: 1, m: 1)])
+    static let testValueHole1 = try! Polygon.LinearRing(coordinates: [
+        XYZM(1, 1, 0, 0),
+        XYZM(1, -1, 0, 0),
+        XYZM(-1, -1, 0, 0),
+        XYZM(-1, 1, 0, 0),
+        XYZM(1, 1, 1, 1)])
 
     // counterclockwise
-    static let testValueExterior7 = try! Polygon.LinearRing(points: [
-        Point(x: 7, y: 2, z: 0, m: 0),
-        Point(x: 3, y: 2, z: 0, m: 0),
-        Point(x: 3, y: -2, z: 0, m: 0),
-        Point(x: 7, y: -2, z: 0, m: 0),
-        Point(x: 7, y: 2, z: 1, m: 1)])
+    static let testValueExterior7 = try! Polygon.LinearRing(coordinates: [
+        XYZM(7, 2, 0, 0),
+        XYZM(3, 2, 0, 0),
+        XYZM(3, -2, 0, 0),
+        XYZM(7, -2, 0, 0),
+        XYZM(7, 2, 1, 1)])
 }
 
 private extension Polygon where C == XYZM {

@@ -8,37 +8,46 @@ public struct Polygon<C: CoordinateType>: Hashable, Sendable {
     }
 
     public struct LinearRing: Hashable, Sendable {
-        public let points: [Point<C>]
+        public let coordinates: [C]
 
-        public init(points: [Point<C>]) throws {
-            guard points.count >= 4 else {
+        public init(coordinates: [C]) throws {
+            guard coordinates.count >= 4 else {
                 throw GEOSwiftError.tooFewPoints
             }
-            guard LinearRing.ringClosed(points: points) else {
+            
+            guard LinearRing.ringClosed(coordinates: coordinates) else {
                 throw GEOSwiftError.ringNotClosed
             }
-            self.points = points
+            
+            self.coordinates = coordinates
         }
 
-        private static func ringClosed(points: [Point<C>]) -> Bool {
-            guard let start = points.first, let end = points.last else {
+        private static func ringClosed(coordinates: [C]) -> Bool {
+            guard let start = coordinates.first, let end = coordinates.last else {
                 return false
             }
 
             // Only XY coordinates need match for a valid ring closure.
-            return Point<XY>(start) == Point<XY>(end)
+            return XY(start) == XY(end)
         }
     }
 }
 
 // MARK: - Convenience methods
 
+/// Convenience initialization from ``Point``s.
+public extension Polygon.LinearRing {
+    init(points: [Point<C>]) throws {
+        try self.init(coordinates: points.map(\.coordinates))
+    }
+}
+
 // swiftlint:disable force_try
 
 public extension Polygon.LinearRing where C == XY {
     init<D: CoordinateType>(_ ring: Polygon<D>.LinearRing) {
         // It is safe to force try here since we've already validated number of points
-        try! self.init(points: ring.points.map(Point<XY>.init))
+        try! self.init(coordinates: ring.coordinates.map(XY.init))
     }
 }
 
@@ -54,7 +63,7 @@ public extension Polygon where C == XY {
 public extension Polygon.LinearRing where C == XYZ {
     init<D: CoordinateType & HasZ>(_ ring: Polygon<D>.LinearRing) {
         // It is safe to force try here since we've already validated number of points
-        try! self.init(points: ring.points.map(Point<XYZ>.init))
+        try! self.init(coordinates: ring.coordinates.map(XYZ.init))
     }
 }
 
@@ -70,7 +79,7 @@ public extension Polygon where C == XYZ {
 public extension Polygon.LinearRing where C == XYZM {
     init<D: CoordinateType & HasZ & HasM>(_ ring: Polygon<D>.LinearRing) {
         // It is safe to force try here since we've already validated number of points
-        try! self.init(points: ring.points.map(Point<XYZM>.init))
+        try! self.init(coordinates: ring.coordinates.map(XYZM.init))
     }
 }
 
@@ -86,7 +95,7 @@ public extension Polygon where C == XYZM {
 public extension Polygon.LinearRing where C == XYM {
     init<D: CoordinateType & HasM>(_ ring: Polygon<D>.LinearRing) {
         // It is safe to force try here since we've already validated number of points
-        try! self.init(points: ring.points.map(Point<XYM>.init))
+        try! self.init(coordinates: ring.coordinates.map(XYM.init))
     }
 }
 

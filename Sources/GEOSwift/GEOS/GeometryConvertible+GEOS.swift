@@ -315,11 +315,11 @@ public extension GeometryConvertible {
             var maxX = Double.nan
             var minY = Double.nan
             var maxY = Double.nan
-            for point in polygon.exterior.points {
-                minX = .minimum(minX, point.coordinates.x)
-                maxX = .maximum(maxX, point.coordinates.x)
-                minY = .minimum(minY, point.coordinates.y)
-                maxY = .maximum(maxY, point.coordinates.y)
+            for coordinate in polygon.exterior.coordinates {
+                minX = .minimum(minX, coordinate.x)
+                maxX = .maximum(maxX, coordinate.x)
+                minY = .minimum(minY, coordinate.y)
+                maxY = .maximum(maxY, coordinate.y)
             }
             return Envelope(minX: minX, maxX: maxX, minY: minY, maxY: maxY)
         default:

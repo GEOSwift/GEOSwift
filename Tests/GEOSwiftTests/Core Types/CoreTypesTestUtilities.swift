@@ -6,18 +6,24 @@ func makePoints(withCount count: UInt) -> [Point<XY>] {
         .map { Point(x: $0, y: $0) }
 }
 
+func makeCoordinates(withCount count: UInt) -> [XY] {
+    (0..<count)
+        .map(Double.init)
+        .map { XY($0, $0) }
+}
+
 func makeLineStrings(withCount count: UInt) -> [LineString<XY>] {
     (0..<count).compactMap { (i) in
-        let points = makePoints(withCount: 2 + i)
-        return try? LineString(points: points)
+        let coordinates = makeCoordinates(withCount: 2 + i)
+        return try? LineString(coordinates: coordinates)
     }
 }
 
 func makeLinearRings(withCount count: UInt) -> [Polygon<XY>.LinearRing] {
     (0..<count).compactMap { (i) in
-        var points = makePoints(withCount: 3 + i)
-        points.append(points[0])
-        return try? Polygon.LinearRing(points: points)
+        var coordinates = makeCoordinates(withCount: 3 + i)
+        coordinates.append(coordinates[0])
+        return try? Polygon.LinearRing(coordinates: coordinates)
     }
 }
 
@@ -46,7 +52,7 @@ func makeGeometries(withTypes types: [GeometryType]) -> [Geometry<XY>] {
         case .multiPoint:
             return .multiPoint(MultiPoint(points: makePoints(withCount: UInt(idx))))
         case .lineString:
-            return .lineString(try! LineString(points: makePoints(withCount: 2 + UInt(idx))))
+            return .lineString(try! LineString(coordinates: makeCoordinates(withCount: 2 + UInt(idx))))
         case .multiLineString:
             return .multiLineString(MultiLineString(lineStrings: makeLineStrings(withCount: UInt(idx))))
         case .polygon:

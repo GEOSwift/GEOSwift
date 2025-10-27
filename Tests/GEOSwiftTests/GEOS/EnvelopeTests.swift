@@ -22,12 +22,12 @@ final class EnvelopeTests: XCTestCase {
 
     func testGeometry() {
         let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(
-            points: [
-                Point(x: 0, y: 2),
-                Point(x: 1, y: 2),
-                Point(x: 1, y: 3),
-                Point(x: 0, y: 3),
-                Point(x: 0, y: 2)]))
+            coordinates: [
+                XY(0, 2),
+                XY(1, 2),
+                XY(1, 3),
+                XY(0, 3),
+                XY(0, 2)]))
 
         XCTAssertEqual(envelope.geometry, expectedPolygon.geometry)
     }

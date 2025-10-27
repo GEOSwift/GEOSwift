@@ -4,41 +4,41 @@ import GEOSwift
 // MARK: - Test Value Extensions for XYM
 
 private extension Point where C == XYM {
-    static let testValue1 = Point(x: 1, y: 2, m: 0)
-    static let testValue3 = Point(x: 3, y: 4, m: 1)
-    static let testValue5 = Point(x: 5, y: 6, m: 2)
-    static let testValue7 = Point(x: 7, y: 8, m: 3)
+    static let testValue1 = Point(XYM(1, 2, 0))
+    static let testValue3 = Point(XYM(3, 4, 1))
+    static let testValue5 = Point(XYM(5, 6, 2))
+    static let testValue7 = Point(XYM(7, 8, 3))
 }
 
 private extension LineString where C == XYM {
-    static let testValue1 = try! LineString(points: [.testValue1, .testValue3])
-    static let testValue5 = try! LineString(points: [.testValue5, .testValue7])
+    static let testValue1 = try! LineString(coordinates: [Point<XYM>.testValue1.coordinates, Point<XYM>.testValue3.coordinates])
+    static let testValue5 = try! LineString(coordinates: [Point<XYM>.testValue5.coordinates, Point<XYM>.testValue7.coordinates])
 }
 
 private extension Polygon.LinearRing where C == XYM {
     // counterclockwise
-    static let testValueExterior2 = try! Polygon.LinearRing(points: [
-        Point(x: 2, y: 2, m: 0),
-        Point(x: -2, y: 2, m: 0),
-        Point(x: -2, y: -2, m: 0),
-        Point(x: 2, y: -2, m: 0),
-        Point(x: 2, y: 2, m: 1)])
+    static let testValueExterior2 = try! Polygon.LinearRing(coordinates: [
+        XYM(2, 2, 0),
+        XYM(-2, 2, 0),
+        XYM(-2, -2, 0),
+        XYM(2, -2, 0),
+        XYM(2, 2, 1)])
 
     // clockwise
-    static let testValueHole1 = try! Polygon.LinearRing(points: [
-        Point(x: 1, y: 1, m: 0),
-        Point(x: 1, y: -1, m: 0),
-        Point(x: -1, y: -1, m: 0),
-        Point(x: -1, y: 1, m: 0),
-        Point(x: 1, y: 1, m: 1)])
+    static let testValueHole1 = try! Polygon.LinearRing(coordinates: [
+        XYM(1, 1, 0),
+        XYM(1, -1, 0),
+        XYM(-1, -1, 0),
+        XYM(-1, 1, 0),
+        XYM(1, 1, 1)])
 
     // counterclockwise
-    static let testValueExterior7 = try! Polygon.LinearRing(points: [
-        Point(x: 7, y: 2, m: 0),
-        Point(x: 3, y: 2, m: 0),
-        Point(x: 3, y: -2, m: 0),
-        Point(x: 7, y: -2, m: 0),
-        Point(x: 7, y: 2, m: 1)])
+    static let testValueExterior7 = try! Polygon.LinearRing(coordinates: [
+        XYM(7, 2, 0),
+        XYM(3, 2, 0),
+        XYM(3, -2, 0),
+        XYM(7, -2, 0),
+        XYM(7, 2, 1)])
 }
 
 private extension Polygon where C == XYM {
@@ -81,24 +81,24 @@ private extension GeometryCollection where C == XYM {
 // MARK: - Tests
 
 final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
-    let lineString0 = try! LineString(points: Array(repeating: Point(x: 0, y: 0, m: 0), count: 2))
-    let lineString1 = try! LineString(points: [
-        Point(x: 0, y: 0, m: 0),
-        Point(x: 1, y: 0, m: 1)])
-    let lineString2 = try! LineString(points: [
-        Point(x: 0, y: 0, m: 0),
-        Point(x: 1, y: 0, m: 1),
-        Point(x: 1, y: 1, m: 2)])
+    let lineString0 = try! LineString(coordinates: Array(repeating: XYM(0, 0, 0), count: 2))
+    let lineString1 = try! LineString(coordinates: [
+        XYM(0, 0, 0),
+        XYM(1, 0, 1)])
+    let lineString2 = try! LineString(coordinates: [
+        XYM(0, 0, 0),
+        XYM(1, 0, 1),
+        XYM(1, 1, 2)])
     let multiLineString0 = MultiLineString<XYM>(lineStrings: [])
     lazy var multiLineString1 = MultiLineString(lineStrings: [lineString1])
     lazy var multiLineString2 = MultiLineString(lineStrings: [lineString1, lineString2])
-    let linearRing0 = try! Polygon.LinearRing(points: Array(repeating: Point(x: 0, y: 0, m: 0), count: 4))
-    let linearRing1 = try! Polygon.LinearRing(points: [
-        Point(x: 0, y: 0, m: 0),
-        Point(x: 1, y: 0, m: 1),
-        Point(x: 1, y: 1, m: 2),
-        Point(x: 0, y: 1, m: 3),
-        Point(x: 0, y: 0, m: 4)])
+    let linearRing0 = try! Polygon.LinearRing(coordinates: Array(repeating: XYM(0, 0, 0), count: 4))
+    let linearRing1 = try! Polygon.LinearRing(coordinates: [
+        XYM(0, 0, 0),
+        XYM(1, 0, 1),
+        XYM(1, 1, 2),
+        XYM(0, 1, 3),
+        XYM(0, 0, 4)])
     lazy var collection = GeometryCollection(
         geometries: [
             Point<XYM>.testValue1,
@@ -126,12 +126,12 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
         GeometryCollection<XYM>.testValue,
         GeometryCollection<XYM>.testValueWithRecursion,
         Geometry.geometryCollection(GeometryCollection<XYM>.testValue)]
-    let unitPoly = try! Polygon(exterior: Polygon.LinearRing(points: [
-        Point(x: 0, y: 0, m: 0),
-        Point(x: 1, y: 0, m: 1),
-        Point(x: 1, y: 1, m: 2),
-        Point(x: 0, y: 1, m: 3),
-        Point(x: 0, y: 0, m: 4)]))
+    let unitPoly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+        XYM(0, 0, 0),
+        XYM(1, 0, 1),
+        XYM(1, 1, 2),
+        XYM(0, 1, 3),
+        XYM(0, 0, 4)]))
 
     // MARK: - Misc Functions
 
@@ -180,8 +180,8 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testDistanceBetweenPoints() {
-        let point1 = Point(x: 0, y: 0, m: 0)
-        let point2 = Point(x: 10, y: 0, m: 10)
+        let point1 = Point(XYM(0, 0, 0))
+        let point2 = Point(XYM(10, 0, 10))
         XCTAssertEqual(try? point1.distance(to: point2), 10)
         XCTAssertEqual(try? point2.distance(to: point1), 10)
     }
@@ -197,8 +197,8 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testHausdorffDistance() {
-        let point1 = Point(x: 0, y: 0, m: 0)
-        let point2 = Point(x: 10, y: 0, m: 10)
+        let point1 = Point(XYM(0, 0, 0))
+        let point2 = Point(XYM(10, 0, 10))
         XCTAssertEqual(try? point1.hausdorffDistance(to: point2), 10)
         XCTAssertEqual(try? point2.hausdorffDistance(to: point1), 10)
     }
@@ -214,8 +214,8 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testHausdorffDistanceDensify() {
-        let point1 = Point(x: 0, y: 0, m: 0)
-        let point2 = Point(x: 10, y: 0, m: 10)
+        let point1 = Point(XYM(0, 0, 0))
+        let point2 = Point(XYM(10, 0, 10))
         let densifyFraction = Double(0.5)
         XCTAssertEqual(try? point1.hausdorffDistanceDensify(to: point2, densifyFraction: densifyFraction), 10)
         XCTAssertEqual(try? point2.hausdorffDistanceDensify(to: point1, densifyFraction: densifyFraction), 10)
@@ -247,7 +247,7 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testNearestPointsBetweenPolygonAndLine() {
-        let line = try! LineString(points: [Point(x: 1, y: 3, m: 0), Point(x: 3, y: 1, m: 1)])
+        let line = try! LineString(coordinates: [XYM(1, 3, 0), XYM(3, 1, 1)])
         let expected = [Point(x: 1, y: 1), Point(x: 2, y: 2)]
         XCTAssertEqual(try? unitPoly.nearestPoints(with: line), expected)
     }
@@ -289,7 +289,7 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
 
         XCTAssertTrue(try lineString.isRing())
 
-        lineString = try! LineString(points: lineString.points.dropLast())
+        lineString = try! LineString(coordinates: lineString.coordinates.dropLast())
 
         XCTAssertFalse(try lineString.isRing())
     }
@@ -305,11 +305,11 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testIsValid() {
-        let validPoint = Point(x: 0, y: 0, m: 0)
+        let validPoint = Point(XYM(0, 0, 0))
 
         XCTAssertTrue(try validPoint.isValid())
 
-        let invalidPoint = Point(x: .nan, y: 0, m: 0)
+        let invalidPoint = Point(XYM(.nan, 0, 0))
 
         XCTAssertFalse(try invalidPoint.isValid())
     }
@@ -325,11 +325,11 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testIsValidReason() throws {
-        let validPoint = Point(x: 0, y: 0, m: 0)
+        let validPoint = Point(XYM(0, 0, 0))
 
         XCTAssertEqual(try validPoint.isValidReason(), "Valid Geometry")
 
-        let invalidPoint = Point(x: .nan, y: 0, m: 0)
+        let invalidPoint = Point(XYM(.nan, 0, 0))
 
         // NOTE: Currently geos 3.14.0 only returns XY coordinates in the reason.
         XCTAssertEqual(try invalidPoint.isValidReason(), "Invalid Coordinate[nan 0]")
@@ -346,11 +346,11 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testIsValidDetail() throws {
-        let validPoint = Point(x: 0, y: 0, m: 0)
+        let validPoint = Point(XYM(0, 0, 0))
 
         XCTAssertEqual(try validPoint.isValidDetail(), .valid)
 
-        let invalidPoint = Point(x: .nan, y: 0, m: 0)
+        let invalidPoint = Point(XYM(.nan, 0, 0))
 
         let result = try invalidPoint.isValidDetail()
         guard case let .invalid(.some(reason), .some(.point(location))) = result else {
@@ -363,14 +363,14 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testIsValidDetail_AllowSelfTouchingRingFormingHole() {
-        let polyWithSelfTouchingRingFormingHole = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0, y: 0, m: 0),
-            Point(x: 0, y: 4, m: 1),
-            Point(x: 4, y: 0, m: 2),
-            Point(x: 0, y: 0, m: 3),
-            Point(x: 2, y: 1, m: 4),
-            Point(x: 1, y: 2, m: 5),
-            Point(x: 0, y: 0, m: 6)]))
+        let polyWithSelfTouchingRingFormingHole = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(0, 0, 0),
+            XYM(0, 4, 1),
+            XYM(4, 0, 2),
+            XYM(0, 0, 3),
+            XYM(2, 1, 4),
+            XYM(1, 2, 5),
+            XYM(0, 0, 6)]))
         XCTAssertEqual(
             try polyWithSelfTouchingRingFormingHole.isValidDetail(allowSelfTouchingRingFormingHole: true),
             .valid)
@@ -403,9 +403,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     // MARK: - Binary Predicates
 
     func testIsTopologicallyEquivalentBetweenPoints() {
-        let point1 = Point(x: 1, y: 1, m: 1)
-        let point2 = Point(x: 2, y: 2, m: 2)
-        let point3 = Point(x: 2, y: 2, m: 1)
+        let point1 = Point(XYM(1, 1, 1))
+        let point2 = Point(XYM(2, 2, 2))
+        let point3 = Point(XYM(2, 2, 1))
         XCTAssertEqual(try? point1.isTopologicallyEquivalent(to: point1), true)
         XCTAssertEqual(try? point1.isTopologicallyEquivalent(to: point2), false)
 
@@ -424,9 +424,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testIsDisjointBetweenPoints() {
-        let point1 = Point(x: 1, y: 1, m: 1)
-        let point2 = Point(x: 2, y: 2, m: 2)
-        let point3 = Point(x: 2, y: 2, m: 1)
+        let point1 = Point(XYM(1, 1, 1))
+        let point2 = Point(XYM(2, 2, 2))
+        let point3 = Point(XYM(2, 2, 1))
         XCTAssertEqual(try? point1.isDisjoint(with: point1), false)
         XCTAssertEqual(try? point1.isDisjoint(with: point2), true)
 
@@ -445,9 +445,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testTouchesPointsAndPolygon() {
-        let point05 = Point(x: 0.5, y: 0.5, m: 0)
-        let point1 = Point(x: 1, y: 1, m: 0)
-        let point2 = Point(x: 2, y: 2, m: 2)
+        let point05 = Point(XYM(0.5, 0.5, 0))
+        let point1 = Point(XYM(1, 1, 0))
+        let point2 = Point(XYM(2, 2, 2))
         XCTAssertEqual(try? point05.touches(unitPoly), false)
         XCTAssertEqual(try? point1.touches(unitPoly), true)
 
@@ -466,9 +466,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testIntersectsBetweenPoints() {
-        let point1 = Point(x: 1, y: 1, m: 1)
-        let point2 = Point(x: 2, y: 2, m: 2)
-        let point3 = Point(x: 2, y: 2, m: 1)
+        let point1 = Point(XYM(1, 1, 1))
+        let point2 = Point(XYM(2, 2, 2))
+        let point3 = Point(XYM(2, 2, 1))
         XCTAssertEqual(try? point1.intersects(point1), true)
         XCTAssertEqual(try? point1.intersects(point2), false)
 
@@ -487,9 +487,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testCrossesBetweenLineStrings() {
-        let horizontalLine = try! LineString(points: [Point(x: -1, y: 0, m: 1), Point(x: 1, y: 0, m: 2)])
-        let verticalLine = try! LineString(points: [Point(x: 0, y: -1, m: 0), Point(x: 0, y: 1, m: 1)])
-        let otherVerticalLine = try! LineString(points: [Point(x: 2, y: -1, m: 0), Point(x: 2, y: 1, m: 1)])
+        let horizontalLine = try! LineString(coordinates: [XYM(-1, 0, 1), XYM(1, 0, 2)])
+        let verticalLine = try! LineString(coordinates: [XYM(0, -1, 0), XYM(0, 1, 1)])
+        let otherVerticalLine = try! LineString(coordinates: [XYM(2, -1, 0), XYM(2, 1, 1)])
         XCTAssertEqual(try? horizontalLine.crosses(verticalLine), true)
 
         // M coordinates not taken into account in topological tests
@@ -507,9 +507,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testIsWithinPolygonAndPoints() {
-        let point05 = Point(x: 0.5, y: 0.5, m: 0)
-        let point1 = Point(x: 1, y: 1, m: 0)
-        let point2 = Point(x: 2, y: 2, m: 2)
+        let point05 = Point(XYM(0.5, 0.5, 0))
+        let point1 = Point(XYM(1, 1, 0))
+        let point2 = Point(XYM(2, 2, 2))
 
         // M coordinates not taken into account in topological tests
         XCTAssertEqual(try? point05.isWithin(unitPoly), true)
@@ -528,9 +528,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testContainsPolygonAndPoints() {
-        let point05 = Point(x: 0.5, y: 0.5, m: 0)
-        let point1 = Point(x: 1, y: 1, m: 0)
-        let point2 = Point(x: 2, y: 2, m: 2)
+        let point05 = Point(XYM(0.5, 0.5, 0))
+        let point1 = Point(XYM(1, 1, 0))
+        let point2 = Point(XYM(2, 2, 2))
 
         // M coordinates not taken into account in topological tests
         XCTAssertEqual(try? unitPoly.contains(point05), true)
@@ -549,9 +549,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testOverlapsLines() {
-        let line1 = try! LineString(points: [Point(x: 0, y: 0, m: 0), Point(x: 1, y: 0, m: 1)])
-        let line2 = try! LineString(points: [Point(x: 0.5, y: 0, m: 2), Point(x: 1.5, y: 0, m: 3)])
-        let line3 = try! LineString(points: [Point(x: 0, y: 0, m: 4), Point(x: 0.5, y: 0, m: 5)])
+        let line1 = try! LineString(coordinates: [XYM(0, 0, 0), XYM(1, 0, 1)])
+        let line2 = try! LineString(coordinates: [XYM(0.5, 0, 2), XYM(1.5, 0, 3)])
+        let line3 = try! LineString(coordinates: [XYM(0, 0, 4), XYM(0.5, 0, 5)])
 
         // M coordinates not taken into account in topological tests
         XCTAssertEqual(try? line1.overlaps(line2), true)
@@ -573,9 +573,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testCoversPointsAndPolygon() {
-        let point05 = Point(x: 0.5, y: 0.5, m: 0.5)
-        let point1 = Point(x: 1, y: 1, m: 1)
-        let point2 = Point(x: 2, y: 2, m: 2)
+        let point05 = Point(XYM(0.5, 0.5, 0.5))
+        let point1 = Point(XYM(1, 1, 1))
+        let point2 = Point(XYM(2, 2, 2))
 
         // M coordinates not taken into account in topological tests
         XCTAssertEqual(try? unitPoly.covers(point05), true)
@@ -594,9 +594,9 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testIsCoveredByPointsAndPolygon() {
-        let point05 = Point(x: 0.5, y: 0.5, m: 0.5)
-        let point1 = Point(x: 1, y: 1, m: 1)
-        let point2 = Point(x: 2, y: 2, m: 2)
+        let point05 = Point(XYM(0.5, 0.5, 0.5))
+        let point1 = Point(XYM(1, 1, 1))
+        let point2 = Point(XYM(2, 2, 2))
 
         // M coordinates not taken into account in topological tests
         XCTAssertEqual(try? point05.isCovered(by: unitPoly), true)
@@ -629,8 +629,8 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     // MARK: - Dimensionally Extended 9 Intersection Model Functions
 
     func testRelateMaskBetweenPoints() {
-        let point1 = Point(x: 1, y: 1, m: 1)
-        let point2 = Point(x: 2, y: 2, m: 2)
+        let point1 = Point(XYM(1, 1, 1))
+        let point2 = Point(XYM(2, 2, 2))
 
         // M coordinates not taken into account in topological tests
         // Test using the mask-version of isTopologicallyEquivalent(to:)
@@ -639,7 +639,7 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testRelateInvalidMask() {
-        let point1 = Point(x: 1, y: 1, m: 1)
+        let point1 = Point(XYM(1, 1, 1))
 
         // M coordinates not taken into account in topological tests
         // Test using the mask-version of isTopologicallyEquivalent(to:)
@@ -664,8 +664,8 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testRelateBetweenPoints() {
-        let point1 = Point(x: 1, y: 1, m: 1)
-        let point2 = Point(x: 2, y: 2, m: 2)
+        let point1 = Point(XYM(1, 1, 1))
+        let point2 = Point(XYM(2, 2, 2))
 
         // M coordinates not taken into account in topological tests
         XCTAssertEqual(try? point1.relate(point1), "0FFFFFFF2")
@@ -685,26 +685,26 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     // MARK: - Topology Operations
 
     func testMakeValidWhenItIsAPolygon() {
-        let poly = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0, y: 0, m: 0),
-            Point(x: 2, y: 0, m: 1),
-            Point(x: 1, y: 1, m: 2),
-            Point(x: 0, y: 2, m: 3),
-            Point(x: 2, y: 2, m: 4),
-            Point(x: 1, y: 1, m: 2),
-            Point(x: 0, y: 0, m: 0)]))
+        let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(0, 0, 0),
+            XYM(2, 0, 1),
+            XYM(1, 1, 2),
+            XYM(0, 2, 3),
+            XYM(2, 2, 4),
+            XYM(1, 1, 2),
+            XYM(0, 0, 0)]))
 
-        let expectedPoly1 = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 1, y: 1, m: 0),
-            Point(x: 2, y: 0, m: 1),
-            Point(x: 0, y: 0, m: 2),
-            Point(x: 1, y: 1, m: 0)]))
+        let expectedPoly1 = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(1, 1, 0),
+            XYM(2, 0, 1),
+            XYM(0, 0, 2),
+            XYM(1, 1, 0)]))
 
-        let expectedPoly2 = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 1, y: 1, m: 0),
-            Point(x: 0, y: 2, m: 1),
-            Point(x: 2, y: 2, m: 2),
-            Point(x: 1, y: 1, m: 0)]))
+        let expectedPoly2 = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(1, 1, 0),
+            XYM(0, 2, 1),
+            XYM(2, 2, 2),
+            XYM(1, 1, 0)]))
 
         do {
             switch try poly.makeValid() {
@@ -769,23 +769,23 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
         let multiLineString = try! MultiLineString(
             lineStrings: [
                 LineString(
-                    points: [
-                        Point(x: 0, y: 1, m: 0),
-                        Point(x: 2, y: 3, m: 1)]),
+                    coordinates: [
+                        XYM(0, 1, 0),
+                        XYM(2, 3, 1)]),
                 LineString(
-                    points: [
-                        Point(x: 4, y: 5, m: 2),
-                        Point(x: 6, y: 7, m: 3)])]).geometry
+                    coordinates: [
+                        XYM(4, 5, 2),
+                        XYM(6, 7, 3)])]).geometry
         let expected = try! MultiLineString(
             lineStrings: [
                 LineString(
-                    points: [
-                        Point(x: 4, y: 5, m: 2),
-                        Point(x: 6, y: 7, m: 3)]),
+                    coordinates: [
+                        XYM(4, 5, 2),
+                        XYM(6, 7, 3)]),
                 LineString(
-                    points: [
-                        Point(x: 0, y: 1, m: 0),
-                        Point(x: 2, y: 3, m: 1)])]).geometry
+                    coordinates: [
+                        XYM(0, 1, 0),
+                        XYM(2, 3, 1)])]).geometry
 
         XCTAssertEqual(try multiLineString.normalized(), expected)
     }
@@ -801,12 +801,12 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testEnvelopeWhenItIsAPolygon() {
-        let poly = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 1, y: 0, m: 0),
-            Point(x: 0, y: 1, m: 1),
-            Point(x: -1, y: 0, m: 2),
-            Point(x: 0, y: -1, m: 3),
-            Point(x: 1, y: 0, m: 0)]))
+        let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(1, 0, 0),
+            XYM(0, 1, 1),
+            XYM(-1, 0, 2),
+            XYM(0, -1, 3),
+            XYM(1, 0, 0)]))
         let expectedEnvelope = Envelope(minX: -1, maxX: 1, minY: -1, maxY: 1)
 
         // Envelope operations don't take into account M
@@ -831,12 +831,12 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testIntersectionBetweenLineAndPoly() {
-        let line = try! LineString(points: [
-            Point(x: -1, y: 2, m: 0),
-            Point(x: 2, y: -1, m: 1)])
-        let expectedLine = try! LineString(points: [
-            Point(x: 0, y: 1),
-            Point(x: 1, y: 0)])
+        let line = try! LineString(coordinates: [
+            XYM(-1, 2, 0),
+            XYM(2, -1, 1)])
+        let expectedLine = try! LineString(coordinates: [
+            XY(0, 1),
+            XY(1, 0)])
 
         // Topological operations currently only return XY geometry
         XCTAssertEqual(try? unitPoly.intersection(with: line), expectedLine.geometry)
@@ -853,18 +853,18 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testConvexHullPolygon() {
-        let polygon = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0, y: 0, m: 0),
-            Point(x: 1, y: 0, m: 1),
-            Point(x: 0.1, y: 0.1, m: 2),
-            Point(x: 0, y: 1, m: 3),
-            Point(x: 0, y: 0, m: 0)]))
+        let polygon = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(0, 0, 0),
+            XYM(1, 0, 1),
+            XYM(0.1, 0.1, 2),
+            XYM(0, 1, 3),
+            XYM(0, 0, 0)]))
         // not sure why the result's shell is cw instead of ccw; need to follow up with GEOS team
-        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0, y: 0),
-            Point(x: 0, y: 1),
-            Point(x: 1, y: 0),
-            Point(x: 0, y: 0)]))
+        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XY(0, 0),
+            XY(0, 1),
+            XY(1, 0),
+            XY(0, 0)]))
 
         // Convex Hull returns XY geometry
         XCTAssertEqual(try? polygon.convexHull(), expectedPolygon.geometry)
@@ -891,18 +891,18 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testMinimumRotatedRectangleLineAndPoint() {
-        let line = try! LineString(points: [
-            Point(x: 0, y: 1, m: 0),
-            Point(x: 1, y: 0, m: 1),
-            Point(x: 2, y: 1, m: 2)])
-        let point = Point(x: 1, y: 2, m: 3)
+        let line = try! LineString(coordinates: [
+            XYM(0, 1, 0),
+            XYM(1, 0, 1),
+            XYM(2, 1, 2)])
+        let point = Point(XYM(1, 2, 3))
         let collection = GeometryCollection(geometries: [line, point])
-        let expectedRectangle = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0, y: 1, m: 0),
-            Point(x: 1, y: 0, m: 1),
-            Point(x: 2, y: 1, m: 2),
-            Point(x: 1, y: 2, m: 3),
-            Point(x: 0, y: 1, m: 0)]))
+        let expectedRectangle = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(0, 1, 0),
+            XYM(1, 0, 1),
+            XYM(2, 1, 2),
+            XYM(1, 2, 3),
+            XYM(0, 1, 0)]))
 
         // Minimum rotated rectangle returns XY, topological test is XY only
         XCTAssertEqual(try? collection.minimumRotatedRectangle()
@@ -920,13 +920,13 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testMinimumWidthLine() {
-        let line = try! LineString(points: [
-            Point(x: 0, y: 0, m: 0),
-            Point(x: 1, y: 1, m: 1),
-            Point(x: 0, y: 2, m: 2)])
-        let expectedLine = try! LineString(points: [
-            Point(x: 0, y: 1),
-            Point(x: 1, y: 1)])
+        let line = try! LineString(coordinates: [
+            XYM(0, 0, 0),
+            XYM(1, 1, 1),
+            XYM(0, 2, 2)])
+        let expectedLine = try! LineString(coordinates: [
+            XY(0, 1),
+            XY(1, 1)])
 
         // Minimum width line is XY only
         XCTAssertEqual(try? line.minimumWidth(), expectedLine)
@@ -943,18 +943,18 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testDifferencePolygons() {
-        let poly = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0.5, y: 0, m: 0),
-            Point(x: 1.5, y: 0, m: 1),
-            Point(x: 1.5, y: 1, m: 2),
-            Point(x: 0.5, y: 1, m: 3),
-            Point(x: 0.5, y: 0, m: 0)]))
-        let expectedPoly = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 1, y: 0, m: 0),
-            Point(x: 1.5, y: 0, m: 1),
-            Point(x: 1.5, y: 1, m: 2),
-            Point(x: 1, y: 1, m: 3),
-            Point(x: 1, y: 0, m: 0)]))
+        let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(0.5, 0, 0),
+            XYM(1.5, 0, 1),
+            XYM(1.5, 1, 2),
+            XYM(0.5, 1, 3),
+            XYM(0.5, 0, 0)]))
+        let expectedPoly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(1, 0, 0),
+            XYM(1.5, 0, 1),
+            XYM(1.5, 1, 2),
+            XYM(1, 1, 3),
+            XYM(1, 0, 0)]))
 
         // Difference returns only XY geometry and topological tests are XY only
         XCTAssertEqual(try? poly.difference(with: unitPoly)?.isTopologicallyEquivalent(to: expectedPoly),
@@ -972,25 +972,25 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testSymmetricDifferencePolygons() throws {
-        let poly = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0.5, y: 0, m: 0),
-            Point(x: 1.5, y: 0, m: 1),
-            Point(x: 1.5, y: 1, m: 2),
-            Point(x: 0.5, y: 1, m: 3),
-            Point(x: 0.5, y: 0, m: 0)]))
+        let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(0.5, 0, 0),
+            XYM(1.5, 0, 1),
+            XYM(1.5, 1, 2),
+            XYM(0.5, 1, 3),
+            XYM(0.5, 0, 0)]))
         let expected = try! MultiPolygon(polygons: [
-            Polygon(exterior: Polygon.LinearRing(points: [
-                Point(x: 1, y: 0, m: 0),
-                Point(x: 1.5, y: 0, m: 1),
-                Point(x: 1.5, y: 1, m: 2),
-                Point(x: 1, y: 1, m: 3),
-                Point(x: 1, y: 0, m: 0)])),
-            Polygon(exterior: Polygon.LinearRing(points: [
-                Point(x: 0, y: 0, m: 0),
-                Point(x: 0.5, y: 0, m: 1),
-                Point(x: 0.5, y: 1, m: 2),
-                Point(x: 0, y: 1, m: 3),
-                Point(x: 0, y: 0, m: 0)]))])
+            Polygon(exterior: Polygon.LinearRing(coordinates: [
+                XYM(1, 0, 0),
+                XYM(1.5, 0, 1),
+                XYM(1.5, 1, 2),
+                XYM(1, 1, 3),
+                XYM(1, 0, 0)])),
+            Polygon(exterior: Polygon.LinearRing(coordinates: [
+                XYM(0, 0, 0),
+                XYM(0.5, 0, 1),
+                XYM(0.5, 1, 2),
+                XYM(0, 1, 3),
+                XYM(0, 0, 0)]))])
 
         let result = try XCTUnwrap(poly.symmetricDifference(with: unitPoly))
 
@@ -1006,7 +1006,7 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
 
     func testUnionPointAndLine() {
         let point = Point(x: 2, y: 0)
-        let pointWithM = Point(x: 2, y: 0, m: 7)
+        let pointWithM = Point(XYM(2, 0, 7))
 
         // Topological operations only return XY geometries.
         let expected = Geometry.geometryCollection(GeometryCollection(geometries: [LineString<XY>(lineString1), point]))
@@ -1015,18 +1015,18 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testUnionTwoPolygons() {
-        let unitPoly2 = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 1, y: 0, m: 0),
-            Point(x: 2, y: 0, m: 1),
-            Point(x: 2, y: 1, m: 2),
-            Point(x: 1, y: 1, m: 3),
-            Point(x: 1, y: 0, m: 0)]))
-        let expected = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0, y: 0, m: 0),
-            Point(x: 2, y: 0, m: 1),
-            Point(x: 2, y: 1, m: 2),
-            Point(x: 0, y: 1, m: 3),
-            Point(x: 0, y: 0, m: 0)]))
+        let unitPoly2 = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(1, 0, 0),
+            XYM(2, 0, 1),
+            XYM(2, 1, 2),
+            XYM(1, 1, 3),
+            XYM(1, 0, 0)]))
+        let expected = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(0, 0, 0),
+            XYM(2, 0, 1),
+            XYM(2, 1, 2),
+            XYM(0, 1, 3),
+            XYM(0, 0, 0)]))
 
         // Union produces XY geometry and topological equivalence only tests XY geometry
         XCTAssertEqual(try? unitPoly.union(with: unitPoly2).isTopologicallyEquivalent(to: expected), true)
@@ -1043,19 +1043,19 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testUnaryUnionCollectionOfTwoPolygons() {
-        let unitPoly2 = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 1, y: 0, m: 0),
-            Point(x: 2, y: 0, m: 1),
-            Point(x: 2, y: 1, m: 2),
-            Point(x: 1, y: 1, m: 3),
-            Point(x: 1, y: 0, m: 0)]))
+        let unitPoly2 = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(1, 0, 0),
+            XYM(2, 0, 1),
+            XYM(2, 1, 2),
+            XYM(1, 1, 3),
+            XYM(1, 0, 0)]))
         let collection = GeometryCollection(geometries: [unitPoly, unitPoly2])
-        let expected = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0, y: 0, m: 0),
-            Point(x: 2, y: 0, m: 1),
-            Point(x: 2, y: 1, m: 2),
-            Point(x: 0, y: 1, m: 3),
-            Point(x: 0, y: 0, m: 0)]))
+        let expected = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(0, 0, 0),
+            XYM(2, 0, 1),
+            XYM(2, 1, 2),
+            XYM(0, 1, 3),
+            XYM(0, 0, 0)]))
 
         // Topological equivalence only tests XY
         XCTAssertEqual(try? collection.unaryUnion().isTopologicallyEquivalent(to: expected), true)
@@ -1136,12 +1136,12 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
 
     func testPolygonize() {
         let multiLineString = try! MultiLineString(lineStrings: [
-            LineString(points: [Point(x: 0, y: 0, m: 0), Point(x: 1, y: 0, m: 1)]),
-            LineString(points: [Point(x: 1, y: 0, m: 2), Point(x: 0, y: 1, m: 3)]),
-            LineString(points: [Point(x: 0, y: 1, m: 4), Point(x: 0, y: 0, m: 0)])])
+            LineString(coordinates: [XYM(0, 0, 0), XYM(1, 0, 1)]),
+            LineString(coordinates: [XYM(1, 0, 2), XYM(0, 1, 3)]),
+            LineString(coordinates: [XYM(0, 1, 4), XYM(0, 0, 0)])])
 
-        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0, y: 0, m: 0), Point(x: 1, y: 0, m: 1), Point(x: 0, y: 1, m: 2), Point(x: 0, y: 0, m: 0)]))
+        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(0, 0, 0), XYM(1, 0, 1), XYM(0, 1, 2), XYM(0, 0, 0)]))
 
         // Topological equivalence only checks XY geometry
         XCTAssertTrue(try multiLineString.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
@@ -1153,28 +1153,28 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
 
     func testPolygonizeArray() {
         let lineStrings = try! [
-            LineString(points: [Point(x: 0, y: 0, m: 0), Point(x: 1, y: 0, m: 1)]),
-            LineString(points: [Point(x: 1, y: 0, m: 2), Point(x: 0, y: 1, m: 3)]),
-            LineString(points: [Point(x: 0, y: 1, m: 4), Point(x: 0, y: 0, m: 0)])]
+            LineString(coordinates: [XYM(0, 0, 0), XYM(1, 0, 1)]),
+            LineString(coordinates: [XYM(1, 0, 2), XYM(0, 1, 3)]),
+            LineString(coordinates: [XYM(0, 1, 4), XYM(0, 0, 0)])]
 
         // Topological equivalence only checks XY geometry
-        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(points: [
-            Point(x: 0, y: 0, m: 0), Point(x: 1, y: 0, m: 1), Point(x: 0, y: 1, m: 2), Point(x: 0, y: 0, m: 0)]))
+        let expectedPolygon = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYM(0, 0, 0), XYM(1, 0, 1), XYM(0, 1, 2), XYM(0, 0, 0)]))
 
         XCTAssertTrue(try lineStrings.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
     }
 
     func testLineMerge() {
         let multiLineString = try! MultiLineString(lineStrings: [
-            LineString(points: [Point(x: 0, y: 0, m: 1), Point(x: 1, y: 0, m: 4)]),
-            LineString(points: [Point(x: 1, y: 0, m: 2), Point(x: 0, y: 1, m: 5)]),
-            LineString(points: [Point(x: 0, y: 0, m: 3), Point(x: 2, y: 1, m: 6)])])
+            LineString(coordinates: [XYM(0, 0, 1), XYM(1, 0, 4)]),
+            LineString(coordinates: [XYM(1, 0, 2), XYM(0, 1, 5)]),
+            LineString(coordinates: [XYM(0, 0, 3), XYM(2, 1, 6)])])
 
-        let expectedLineString = try! LineString(points: [
-            Point(x: 2, y: 1),
-            Point(x: 0, y: 0),
-            Point(x: 1, y: 0),
-            Point(x: 0, y: 1)])
+        let expectedLineString = try! LineString(coordinates: [
+            XY(2, 1),
+            XY(0, 0),
+            XY(1, 0),
+            XY(0, 1)])
 
         let expected = Geometry.lineString(expectedLineString)
 
@@ -1184,13 +1184,13 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
 
     func testLineMergeDirected() {
         let multiLineString = try! MultiLineString(lineStrings: [
-            LineString(points: [Point(x: 0, y: 0, m: 1), Point(x: 1, y: 0, m: 4)]),
-            LineString(points: [Point(x: 1, y: 0, m: 2), Point(x: 0, y: 1, m: 5)]),
-            LineString(points: [Point(x: 0, y: 0, m: 3), Point(x: 2, y: 1, m: 6)])])
+            LineString(coordinates: [XYM(0, 0, 1), XYM(1, 0, 4)]),
+            LineString(coordinates: [XYM(1, 0, 2), XYM(0, 1, 5)]),
+            LineString(coordinates: [XYM(0, 0, 3), XYM(2, 1, 6)])])
 
         let expectedMultiLineString = try! MultiLineString(lineStrings: [
-            LineString(points: [Point(x: 0, y: 0), Point(x: 1, y: 0), Point(x: 0, y: 1)]),
-            LineString(points: [Point(x: 0, y: 0), Point(x: 2, y: 1)])])
+            LineString(coordinates: [XY(0, 0), XY(1, 0), XY(0, 1)]),
+            LineString(coordinates: [XY(0, 0), XY(2, 1)])])
 
         let expected = Geometry.multiLineString(expectedMultiLineString)
 
@@ -1212,12 +1212,12 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
 
     func testNegativeBufferWidthWithNonNilResult() throws {
         let expectedGeometry = try Geometry.polygon(Polygon(
-            exterior: Polygon.LinearRing(points: [
-                Point(x: 6, y: 1, m: 0),
-                Point(x: 4, y: 1, m: 1),
-                Point(x: 4, y: -1, m: 2),
-                Point(x: 6, y: -1, m: 3),
-                Point(x: 6, y: 1, m: 0)])))
+            exterior: Polygon.LinearRing(coordinates: [
+                XYM(6, 1, 0),
+                XYM(4, 1, 1),
+                XYM(4, -1, 2),
+                XYM(6, -1, 3),
+                XYM(6, 1, 0)])))
 
         let actualGeometry = try Polygon<XYM>.testValueWithoutHole.buffer(by: -1)
 
@@ -1241,12 +1241,12 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
 
     func testNegativeBufferWithStyleWidthWithNonNilResult() throws {
         let expectedGeometry = try Geometry.polygon(Polygon(
-            exterior: Polygon.LinearRing(points: [
-                Point(x: 6, y: 1, m: 0),
-                Point(x: 4, y: 1, m: 1),
-                Point(x: 4, y: -1, m: 2),
-                Point(x: 6, y: -1, m: 3),
-                Point(x: 6, y: 1, m: 0)])))
+            exterior: Polygon.LinearRing(coordinates: [
+                XYM(6, 1, 0),
+                XYM(4, 1, 1),
+                XYM(4, -1, 2),
+                XYM(6, -1, 3),
+                XYM(6, 1, 0)])))
 
         let actualGeometry = try Polygon<XY>.testValueWithoutHole.bufferWithStyle(width: -1)
 
@@ -1256,12 +1256,12 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
 
     func testBufferWithStyleWithFlatEndCap() throws {
         let expectedGeometry = try Geometry.polygon(Polygon(
-            exterior: Polygon.LinearRing(points: [
-                Point(x: 1, y: 1, m: 0),
-                Point(x: 1, y: -1, m: 1),
-                Point(x: 0, y: -1, m: 2),
-                Point(x: 0, y: 1, m: 3),
-                Point(x: 1, y: 1, m: 0)])))
+            exterior: Polygon.LinearRing(coordinates: [
+                XYM(1, 1, 0),
+                XYM(1, -1, 1),
+                XYM(0, -1, 2),
+                XYM(0, 1, 3),
+                XYM(1, 1, 0)])))
 
         let actualGeometry = try lineString1.bufferWithStyle(width: 1, endCapStyle: .flat)
 
@@ -1273,15 +1273,15 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testOffsetCurve() throws {
-        let lineString = try LineString(points: [
-            Point(x: 0, y: 0, m: 0),
-            Point(x: 10, y: 0, m: 1),
-            Point(x: 10, y: 10, m: 2)])
+        let lineString = try LineString(coordinates: [
+            XYM(0, 0, 0),
+            XYM(10, 0, 1),
+            XYM(10, 10, 2)])
 
-        let expextedLineString = try LineString(points: [
-            Point(x: 0, y: 5),
-            Point(x: 5, y: 5),
-            Point(x: 5, y: 10)])
+        let expextedLineString = try LineString(coordinates: [
+            XY(0, 5),
+            XY(5, 5),
+            XY(5, 10)])
 
         let actualGeometry = try lineString.offsetCurve(width: 5, joinStyle: .bevel)
 
@@ -1292,16 +1292,16 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
     }
 
     func testOffsetCurveWithNegativeWidth() throws {
-        let lineString = try LineString(points: [
-            Point(x: 0, y: 0, m: 0),
-            Point(x: 10, y: 0, m: 1),
-            Point(x: 10, y: 10, m: 2)])
+        let lineString = try LineString(coordinates: [
+            XYM(0, 0, 0),
+            XYM(10, 0, 1),
+            XYM(10, 10, 2)])
 
-        let expextedLineString = try LineString(points: [
-            Point(x: 0, y: -5),
-            Point(x: 10, y: -5),
-            Point(x: 15, y: 0),
-            Point(x: 15, y: 10)])
+        let expextedLineString = try LineString(coordinates: [
+            XY(0, -5),
+            XY(10, -5),
+            XY(15, 0),
+            XY(15, 10)])
 
         let actualGeometry = try lineString.offsetCurve(width: -5, joinStyle: .bevel)
 

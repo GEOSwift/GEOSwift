@@ -14,49 +14,53 @@ func makeGeometries<T>(geometry: GEOSObject) throws -> [T] where T: GEOSObjectIn
     }
 }
 
-func makePoints<C: CoordinateType>(from geometry: GEOSObject) throws -> [Point<C>] {
+func makeCoordinates<C: CoordinateType>(from geometry: GEOSObject) throws -> [C] {
     guard let sequence = GEOSGeom_getCoordSeq_r(geometry.context.handle, geometry.pointer) else {
         throw GEOSError.libraryError(errorMessages: geometry.context.errors)
     }
+    
     var count: UInt32 = 0
     // returns 0 on exception
     guard GEOSCoordSeq_getSize_r(geometry.context.handle, sequence, &count) != 0 else {
         throw GEOSError.libraryError(errorMessages: geometry.context.errors)
     }
-    return try Array(0..<count).map { (index) -> Point in
-        let coordinate = try C.bridge.getter(geometry.context, sequence, Int32(index))
-        return Point(coordinate)
+    
+    return try (0..<count).map { (index) -> C in
+        try C.bridge.getter(geometry.context, sequence, Int32(index))
     }
 }
 
 func makeCoordinateSequence<C: CoordinateType>(
     with context: GEOSContext,
-    points: [Point<C>]
+    coordinates: [C]
 ) throws -> OpaquePointer {
     guard let sequence = GEOSCoordSeq_createWithDimensions_r(
         context.handle,
-        UInt32(points.count),
+        UInt32(coordinates.count),
         Int32(C.hasZ),
         Int32(C.hasM)
     ) else {
         throw GEOSError.libraryError(errorMessages: context.errors)
     }
-    try points.enumerated().forEach { (i, point) in
-        try C.bridge.setter(context, sequence, Int32(i), point.coordinates)
+    
+    try coordinates.enumerated().forEach { (i, coordinate) in
+        try C.bridge.setter(context, sequence, Int32(i), coordinate)
     }
+    
     return sequence
 }
 
 func makeGEOSObject<C: CoordinateType>(
     with context: GEOSContext,
-    points: [Point<C>],
+    coordinates: [C],
     factory: (GEOSContext, OpaquePointer) -> OpaquePointer?
 ) throws -> GEOSObject {
-    let sequence = try makeCoordinateSequence(with: context, points: points)
+    let sequence = try makeCoordinateSequence(with: context, coordinates: coordinates)
     guard let geometry = factory(context, sequence) else {
         GEOSCoordSeq_destroy_r(context.handle, sequence)
         throw GEOSError.libraryError(errorMessages: context.errors)
     }
+    
     return GEOSObject(context: context, pointer: geometry)
 }
 
