@@ -35,30 +35,30 @@ public extension LineString {
 // swiftlint:disable force_try
 
 public extension LineString where C == XY {
-    init<D: CoordinateType>(_ linestring: LineString<D>) {
+    init<D: CoordinateType>(_ linestring: any LineStringConvertible<D>) {
         // It's safe to force try here since we've already validated the number of points
-        try! self.init(coordinates: linestring.coordinates.map(XY.init))
+        try! self.init(coordinates: linestring.lineString.coordinates.map(XY.init))
     }
 }
 
 public extension LineString where C == XYZ {
-    init<D: CoordinateType & HasZ>(_ linestring: LineString<D>) {
+    init<D: CoordinateType & HasZ>(_ linestring: any LineStringConvertible<D>) {
         // It's safe to force try here since we've already validated the number of points
-        try! self.init(coordinates: linestring.coordinates.map(XYZ.init))
+        try! self.init(coordinates: linestring.lineString.coordinates.map(XYZ.init))
     }
 }
 
 public extension LineString where C == XYZM {
-    init<D: CoordinateType & HasZ & HasM>(_ linestring: LineString<D>) {
+    init<D: CoordinateType & HasZ & HasM>(_ linestring: any LineStringConvertible<D>) {
         // It's safe to force try here since we've already validated the number of points
-        try! self.init(coordinates: linestring.coordinates.map(XYZM.init))
+        try! self.init(coordinates: linestring.lineString.coordinates.map(XYZM.init))
     }
 }
 
 public extension LineString where C == XYM {
-    init<D: CoordinateType & HasM>(_ linestring: LineString<D>) {
+    init<D: CoordinateType & HasM>(_ linestring: any LineStringConvertible<D>) {
         // It's safe to force try here since we've already validated the number of points
-        try! self.init(coordinates: linestring.coordinates.map(XYM.init))
+        try! self.init(coordinates: linestring.lineString.coordinates.map(XYM.init))
     }
 }
 
