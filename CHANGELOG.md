@@ -1,3 +1,9 @@
+## `main`
+* Introduce `CoordinateType`s for Z/M support and make geometries generic over `CoordinateType`.
+* Unnest `Feature.Id` as `FeatureId`.
+* Introduce `AnyGeometry` to type erase coordinate type information on geoemetry.
+* Introduce `GeoJSONCoordinate` to enable GeoJSON encoding/decoding only for XY and XYZ coordinates.
+
 ## 11.2.0
 
 * [#264](https://github.com/GEOSwift/GEOSwift/pull/264) Add initial support for prepared geometry
