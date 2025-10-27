@@ -6,6 +6,7 @@
 * Update `geos` dependency to 11.0.0 for MIT Licensing and upstream GEOS 3.14.1
 * The base data types for geometries are now `CoordinateType`s rather than `Point`s, though convenience initializers for points remain.
 * Enable `LineString` initialization from any `LineStringConvertible` with the appropriate dimensions.
+* Add documentation to core types.
 
 ## 11.2.0
 
