@@ -1,5 +1,8 @@
+/// Types that can be converted to a ``LineString`` (e.g. `Polygon.LinearRing`)
 public protocol LineStringConvertible<C> {
     associatedtype C: CoordinateType
+
+    /// The equivalent ``LineString`` for the type.
     var lineString: LineString<C> { get }
 }
 
