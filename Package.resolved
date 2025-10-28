@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/GEOSwift/geos.git",
       "state" : {
-        "revision" : "f00b49768024ccfbb0b04c4499a28348d0c5c162",
-        "version" : "10.0.0"
+        "revision" : "171c45f3a5cabb41a0ef18b09aaeaa41085c0c0e",
+        "version" : "11.0.0"
       }
     }
   ],
