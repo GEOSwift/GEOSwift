@@ -1,8 +1,6 @@
 ![GEOSwift](/README-images/GEOSwift.png)
 
 [![Swift Package Manager Compatible](https://img.shields.io/badge/SwiftPM-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager/)
-[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/GEOSwift.svg)](https://cocoapods.org/pods/GEOSwift)
-[![Supported Platforms](https://img.shields.io/cocoapods/p/GEOSwift.svg?style=flat)](https://github.com/GEOSwift/GEOSwift)
 [![Build Status](https://github.com/GEOSwift/GEOSwift/actions/workflows/main.yml/badge.svg)](https://github.com/GEOSwift/GEOSwift/actions/workflows/main.yml)
 
 Easily handle a geometric object model (points, linestrings, polygons etc.) and
@@ -32,19 +30,10 @@ migrating from version 4, see [VERSION_5.md](VERSION_5.md).
 * iOS 16.0, tvOS 16.0, macOS 13.0, watchOS 9.0, visionOS 1.0, Linux
 * Swift 5.9
 
-> GEOS is licensed under LGPL 2.1 and its compatibility with static linking is
-at least controversial. Use of geos without dynamic linking is discouraged.
+> [!Note]
+> GEOS is licensed under LGPL 2.1 and its compatibility with static linking is at least controversial. Use of geos without dynamic linking is discouraged.
 
 ## Installation
-
-### CocoaPods
-
-1. Update your `Podfile` to include:
-
-        use_frameworks!
-        pod 'GEOSwift'
-
-2. Run `$ pod install`
 
 ### Swift Package Manager
 
