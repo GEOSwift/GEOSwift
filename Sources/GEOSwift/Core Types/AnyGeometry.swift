@@ -33,6 +33,25 @@ public enum AnyGeometry: Hashable, Sendable {
         case .xyz, .xyzm: return true
         }
     }
+    
+    internal init(geosObject: GEOSObject) throws {
+        switch (geosObject.hasZ, geosObject.hasM) {
+        case (false, false):
+            try self.init(Geometry<XY>(geosObject: geosObject))
+            return
+        case (true, false):
+            try self.init(Geometry<XYZ>(geosObject: geosObject))
+            return
+        case (false, true):
+            try self.init(Geometry<XYM>(geosObject: geosObject))
+            return
+        case (true, true):
+            try self.init(Geometry<XYZM>(geosObject: geosObject))
+            return
+        default:
+            throw GEOSwiftError.invalidCoordinates // TODO: Better error?
+        }
+    }
 
     /// Whether the geometry has an M (measure) coordinate.
     public var hasM: Bool {
@@ -56,25 +75,6 @@ public enum AnyGeometry: Hashable, Sendable {
     
     public init(_ geometry: any GeometryConvertible<XYZM>) {
         self = .xyzm(geometry.geometry)
-    }
-    
-    internal init(geosObject: GEOSObject) throws {
-        switch (geosObject.hasZ, geosObject.hasM) {
-        case (false, false):
-            try self.init(Geometry<XY>(geosObject: geosObject))
-            return
-        case (true, false):
-            try self.init(Geometry<XYZ>(geosObject: geosObject))
-            return
-        case (false, true):
-            try self.init(Geometry<XYM>(geosObject: geosObject))
-            return
-        case (true, true):
-            try self.init(Geometry<XYZM>(geosObject: geosObject))
-            return
-        default:
-            throw GEOSwiftError.invalidCoordinates // TODO: Better error?
-        }
     }
 
     /// Converts the geometry to XY coordinates.

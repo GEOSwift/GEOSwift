@@ -16,6 +16,14 @@ public enum Geometry<C: CoordinateType>: Hashable, Sendable {
     case multiPolygon(MultiPolygon<C>)
     /// A ``GeometryCollection`` geometry
     case geometryCollection(GeometryCollection<C>)
+    
+    func asXY() -> Geometry<XY> where C == XY {
+        return self
+    }
+    
+    func asXY() -> Geometry<XY> {
+        return Geometry<XY>(self)
+    }
 }
 
 // MARK: Convenience Methods
