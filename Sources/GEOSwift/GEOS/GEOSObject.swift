@@ -19,7 +19,6 @@ protocol GEOSObjectConvertible {
     func geosObject(with context: GEOSContext) throws -> GEOSObject
 }
 
-// TODO: Make generic over coordinate or add a CoordinateType member?
 final class GEOSObject {
     let context: GEOSContext
     let pointer: OpaquePointer
