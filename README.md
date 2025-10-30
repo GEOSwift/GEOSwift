@@ -54,17 +54,20 @@ In certain cases, you may also need to explicitly include
 ### Geometry creation
 
 ```swift
-// Note that in decoding, you must explicitly declare the expected geometry coordinate type (e.g. Geometry<XY>)
+// If you know the expected geometry coordinate types, you can decode directly from the Geometry<> type
+let geometryXY = try Geometry<XY>(wkb: wkb) // All valid geometries will successfully decode as XY
+let pointXY = try Point<XY>(wkt: "LINESTRING(35 10, 45 45.5)") // Fails since it is not a POINT
+let pointXYZ = try Point<XYZ>(wkt: "POINT(10 45)") // Fails since the encoded geometry has no Z coordinate
 
-// 1. From Well Known Text (WKT) representation
-let point = try Point<XY>(wkt: "POINT(10 45)")
-let polygon = try Geometry<XY>(wkt: "POLYGON((35 10, 45 45.5, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))")
+// If you don't know the expected coordinate types of the encoded geometry, use a WKBReader/WKTReader
+let anyGeometry = try WKBReader().readAny(wkb: wkb) // Returns an `AnyGeometry` enum that you can use to recover the coordinate and geometry types.
+```
 
-// 2. From a Well Known Binary (WKB)
-let wkb: NSData = geometryWKB()
-let geometry2 = try Geometry<XY>(wkb: wkb)
+#### From GeoJSON
 
-// 3. From a GeoJSON file:
+```swift
+// When decoding GeoJSON, you must explicitly declare the expected geometry coordinate type (e.g. GeoJSON<XY>)
+
 let decoder = JSONDecoder()
 if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: "geojson"),
     let data = try? Data(contentsOf: geoJSONURL),
@@ -76,6 +79,15 @@ if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: 
 }
 ```
 
+#### Initializing Geometry types directly
+
+You can also initialize geometry types directly from coordinate types.
+
+```swift
+let pointXY = Point(x: 1, y: 2) // Equivalent to Point(XY(1, 2))
+let lineStringXY = LineString(coordinates: [XYZ(1, 2, 3), XYZ(4, 5, 6)]) // CoordinateTypes must be consistent in one geometry
+```
+
 ### Coordinate Dimensions
 
 GEOSwift, like GEOS, supports geometry with 2 (`XY`), 3 (`XYZ`/`XYM`), and 4 (`XYZM`) coordinates. There are some important
@@ -84,11 +96,12 @@ and geometric operations.
 
 * The `XY` coordinate type is generally the safest and most intuitive. If you don't *need* Z/M, prefer keeping things 2D.
 * With the exception of decoding, see below, you usually don't need to explicitly specialize the geometry to a specific
-  `CoordinateType`. The dimensionality is inferred from the initializer used (e.g. `Point(x: 1, y: 2)`, the base geometry 
-  that you are composing with (e.g. `MultiLine`, `GeometryCollection`), or the result of a geometric operation.
-* When decoding geometry from GeoJSON or WKB/WKT, you *must* specify the expected coordinate dimensions, e.g. 
-  `try Geometry<XY>(wkb: wkb)`. `XY` coordinates will always work assuming the geometry is valid. Higher dimensions will
+  `CoordinateType`. The dimensionality is infered from the initializer used (e.g. `Point(x: 1, y: 2)`, the base geometry 
+  that you are composing with (e.g. `MultiLine`, `GeometryCollection`), or the result of a goemtric operation.
+* When decoding geometry directly from GeoJSON or WKB/WKT, you *must* specifiy the expected coordinate dimensions, e.g. 
+  `try Geometry<XY>(wkb: wkb)` or `decoder.decode(GeoJSON<XY>.self, from: data)`. `XY` coordinates will always work assuming the geometry is valid. Higher dimensions will
   throw an error if they don't have the appropriate coordinates available to decode.
+* `WKBReader`/`WKTReader` can be used to read geometries of unknown coordinate types into an `AnyGeometry`.
 * GeoJSON does not support M coordinates, so you cannot decode from JSON into that coordinate type.
 * You can initialize a lower-dimensioned coordinate from a higher one assuming it has the relevant coordinates, e.g
   `let pointXY = Point<XY>(Point(x: 1, y: 2, z: 3))`. You cannot initialize a `XYM` type from a `XYZ` type or vice versa.
