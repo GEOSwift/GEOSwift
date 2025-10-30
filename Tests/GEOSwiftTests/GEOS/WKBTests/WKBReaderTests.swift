@@ -258,7 +258,12 @@ final class WKBReaderTests: XCTestCase {
     }
 
     func testReadAnyXYZMPolygon() throws {
-        let ring = try Polygon<XYZM>.LinearRing(coordinates: [XYZM(0, 0, 0, 0), XYZM(1, 0, 0, 0), XYZM(1, 1, 1, 1), XYZM(0, 0, 0, 0)])
+        let ring = try Polygon<XYZM>.LinearRing(coordinates: [
+            XYZM(0, 0, 0, 0),
+            XYZM(1, 0, 0, 0),
+            XYZM(1, 1, 1, 1),
+            XYZM(0, 0, 0, 0)
+        ])
         let polygon = Polygon(exterior: ring)
         let wkb = try polygon.wkb()
 

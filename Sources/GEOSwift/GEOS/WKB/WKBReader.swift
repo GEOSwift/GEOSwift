@@ -4,7 +4,7 @@ import geos
 public final class WKBReader {
     private let context: GEOSContext
     private let reader: OpaquePointer
-    
+
     public convenience init() throws {
         try self.init(context: GEOSContext())
     }
@@ -13,7 +13,7 @@ public final class WKBReader {
         guard let reader = GEOSWKBReader_create_r(context.handle) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
-        
+
         self.context = context
         self.reader = reader
     }
@@ -34,10 +34,10 @@ public final class WKBReader {
             }
             return pointer
         }
-        
+
         return GEOSObject(context: context, pointer: pointer)
     }
-    
+
     public func readAny(wkb: Data) throws -> AnyGeometry {
         return try AnyGeometry(geosObject: read(wkb))
     }

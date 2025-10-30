@@ -10,7 +10,7 @@ extension WKTInitializableInternal {
     public init(wkt: String) throws {
         let context = try GEOSContext()
         let reader = try WKTReader(context: context)
-        
+
         try self.init(geosObject: try reader.read(wkt))
     }
 }

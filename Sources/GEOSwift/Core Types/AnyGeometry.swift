@@ -33,7 +33,7 @@ public enum AnyGeometry: Hashable, Sendable {
         case .xyz, .xyzm: return true
         }
     }
-    
+
     internal init(geosObject: GEOSObject) throws {
         switch (geosObject.hasZ, geosObject.hasM) {
         case (false, false):
@@ -60,19 +60,19 @@ public enum AnyGeometry: Hashable, Sendable {
         case .xym, .xyzm: return true
         }
     }
-    
+
     public init(_ geometry: any GeometryConvertible<XY>) {
         self = .xy(geometry.geometry)
     }
-    
+
     public init(_ geometry: any GeometryConvertible<XYZ>) {
         self = .xyz(geometry.geometry)
     }
-    
+
     public init(_ geometry: any GeometryConvertible<XYM>) {
         self = .xym(geometry.geometry)
     }
-    
+
     public init(_ geometry: any GeometryConvertible<XYZM>) {
         self = .xyzm(geometry.geometry)
     }
@@ -102,7 +102,7 @@ public enum AnyGeometry: Hashable, Sendable {
             return geometry
         case .xyzm(let geometry):
             return Geometry(geometry)
-        case .xy(_), .xym(_):
+        case .xy, .xym:
             throw GEOSwiftError.cannotConvertCoordinateTypes
         }
     }
@@ -116,7 +116,7 @@ public enum AnyGeometry: Hashable, Sendable {
             return geometry
         case .xyzm(let geometry):
             return Geometry(geometry)
-        case .xy(_), .xyz(_):
+        case .xy, .xyz:
             throw GEOSwiftError.cannotConvertCoordinateTypes
         }
     }
@@ -128,7 +128,7 @@ public enum AnyGeometry: Hashable, Sendable {
         switch self {
         case .xyzm(let geometry):
             return geometry
-        case .xy(_), .xyz(_), .xym(_):
+        case .xy, .xyz, .xym:
             throw GEOSwiftError.cannotConvertCoordinateTypes
         }
     }
