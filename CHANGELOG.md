@@ -7,6 +7,8 @@
 * The base data types for geometries are now `CoordinateType`s rather than `Point`s, though convenience initializers for points remain.
 * Enable `LineString` initialization from any `LineStringConvertible` with the appropriate dimensions.
 * Add documentation to core types.
+* Add `WKBReader.readAny(wkb:)` to read `AnyGeometry` types when the `CoordinateType` is unknown.
+* Add `WKTReader.readAny(wkt:)` to read `AnyGeometry` types when the `CoordinateType` is unknown.
 
 ## 11.2.0
 
