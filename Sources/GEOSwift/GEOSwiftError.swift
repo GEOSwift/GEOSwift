@@ -8,4 +8,5 @@ public enum GEOSwiftError: Error, Hashable, Sendable {
     case tooFewRings
     case invalidFeatureId
     case unexpectedEnvelopeResult(AnyGeometry)
+    case cannotConvertCoordinateTypes
 }
