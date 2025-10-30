@@ -74,4 +74,22 @@ final class GEOSObject {
             return nil
         }
     }
+    
+    var hasZ: Bool? {
+        return Bool(GEOSHasZ_r(context.handle, pointer))
+    }
+    
+    var hasM: Bool? {
+        return Bool(GEOSHasM_r(context.handle, pointer))
+    }
+}
+
+fileprivate extension Bool {
+    init?(_ char: CChar) {
+        switch char {
+        case 0: self = false
+        case 1: self = true
+        default: return nil
+        }
+    }
 }
