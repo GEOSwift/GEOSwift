@@ -10,7 +10,7 @@ extension WKBInitializableInternal {
     public init(wkb: Data) throws {
         let context = try GEOSContext()
         let reader = try WKBReader(context: context)
-        
+
         try self.init(geosObject: try reader.read(wkb))
     }
 }

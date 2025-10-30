@@ -73,11 +73,11 @@ final class GEOSObject {
             return nil
         }
     }
-    
+
     var hasZ: Bool? {
         return Bool(GEOSHasZ_r(context.handle, pointer))
     }
-    
+
     var hasM: Bool? {
         return Bool(GEOSHasM_r(context.handle, pointer))
     }
