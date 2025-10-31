@@ -41,7 +41,7 @@ extension KeyedDecodingContainer {
 }
 
 public extension CodingUserInfoKey {
-    /// Set this key to true in your Decoder's `userInfo` to handle missing Z values as `nan`
+    /// Set this key to `true` in your Decoder's `userInfo` to handle missing Z values as `nan`
     /// instead of throwing an error.
     static let geoJSONSetMissingZNan = CodingUserInfoKey(rawValue: "GEOSwift.geoJSONSetMissingZNan")!
 }
