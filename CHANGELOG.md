@@ -9,6 +9,7 @@
 * Add documentation to core types.
 * Add `WKBReader.readAny(wkb:)` to read `AnyGeometry` types when the `CoordinateType` is unknown.
 * Add `WKTReader.readAny(wkt:)` to read `AnyGeometry` types when the `CoordinateType` is unknown.
+* Add `CodingUserInfo.geoJSONSetMissingZNan` to control the behavior or missing Z coordinates when decoding GeoJSON.
 
 ## 11.2.0
 
