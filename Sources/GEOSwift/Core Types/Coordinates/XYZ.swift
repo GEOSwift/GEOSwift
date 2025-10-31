@@ -48,14 +48,17 @@ public struct XYZ: CoordinateType, HasZ, GeoJSONCoordinate {
         let container = try decoder.singleValueContainer()
         let values = try container.decode([Double].self)
 
-        // Allow decoding from XYZ and XYZM coordinates
-        guard values.count == 3 || values.count == 4 else {
+        // Allow decoding from XYZ and XYZM coordinates or XY if setting geoJSONSetMissingZNan = tue
+        let setMissinZNan = decoder.userInfo[.geoJSONSetMissingZNan] as? Bool ?? false
+        let minimumCoordinateCount = setMissinZNan ? 2 : 3
+
+        guard values.count >= minimumCoordinateCount else {
             throw GEOSwiftError.invalidCoordinates
         }
 
         self.x = values[0]
         self.y = values[1]
-        self.z = values[2]
+        self.z = values.indices.contains(2) ? values[2] : .nan
     }
 
     public func encode(to encoder: Encoder) throws {
