@@ -23,7 +23,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, point.geometry)
     }
 
@@ -38,7 +38,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, lineString.geometry)
     }
 
@@ -54,7 +54,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, polygon.geometry)
     }
 
@@ -69,7 +69,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, multiPoint.geometry)
     }
 
@@ -89,7 +89,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, multiLineString.geometry)
     }
 
@@ -108,7 +108,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, multiPolygon.geometry)
     }
 
@@ -125,7 +125,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, collection.geometry)
     }
 
@@ -142,7 +142,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = try anyGeometry.asGeometryXYZ()
+        let recovered = try anyGeometry.asXYZ()
         XCTAssertEqual(recovered, point.geometry)
     }
 
@@ -157,7 +157,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = try anyGeometry.asGeometryXYZ()
+        let recovered = try anyGeometry.asXYZ()
         XCTAssertEqual(recovered, lineString.geometry)
     }
 
@@ -173,7 +173,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = try anyGeometry.asGeometryXYZ()
+        let recovered = try anyGeometry.asXYZ()
         XCTAssertEqual(recovered, polygon.geometry)
     }
 
@@ -190,7 +190,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYM()
+        let recovered = try anyGeometry.asXYM()
         XCTAssertEqual(recovered, point.geometry)
     }
 
@@ -205,7 +205,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYM()
+        let recovered = try anyGeometry.asXYM()
         XCTAssertEqual(recovered, lineString.geometry)
     }
 
@@ -221,7 +221,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYM()
+        let recovered = try anyGeometry.asXYM()
         XCTAssertEqual(recovered, polygon.geometry)
     }
 
@@ -238,7 +238,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYZM()
+        let recovered = try anyGeometry.asXYZM()
         XCTAssertEqual(recovered, point.geometry)
     }
 
@@ -253,7 +253,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYZM()
+        let recovered = try anyGeometry.asXYZM()
         XCTAssertEqual(recovered, lineString.geometry)
     }
 
@@ -274,7 +274,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYZM()
+        let recovered = try anyGeometry.asXYZM()
         XCTAssertEqual(recovered, polygon.geometry)
     }
 
@@ -320,7 +320,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         let expectedPoint = Point(x: 1.5, y: 2.5)
         XCTAssertEqual(recovered, expectedPoint.geometry)
     }
@@ -335,7 +335,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = try anyGeometry.asGeometryXYZ()
+        let recovered = try anyGeometry.asXYZ()
         let expectedLineString = try LineString(coordinates: [
             XYZ(0, 0, 10),
             XYZ(1, 1, 20),
@@ -354,7 +354,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYM()
+        let recovered = try anyGeometry.asXYM()
         let ring = try Polygon<XYM>.LinearRing(coordinates: [
             XYM(0, 0, 1),
             XYM(4, 0, 2),
@@ -376,7 +376,7 @@ final class WKTReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYZM()
+        let recovered = try anyGeometry.asXYZM()
         let expectedMultiPoint = MultiPoint(points: [
             Point(x: 1, y: 2, z: 3, m: 4),
             Point(x: 5, y: 6, z: 7, m: 8)
@@ -394,7 +394,7 @@ final class WKTReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkt: wkt)
 
         // Should succeed - same coordinate type
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, point.geometry)
     }
 
@@ -406,7 +406,7 @@ final class WKTReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkt: wkt)
 
         // Should succeed - can drop Z coordinate
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         let expectedPoint = Point(x: 1, y: 2)
         XCTAssertEqual(recovered, expectedPoint.geometry)
     }
@@ -419,7 +419,7 @@ final class WKTReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkt: wkt)
 
         // Should fail - cannot add Z coordinate
-        XCTAssertThrowsError(try anyGeometry.asGeometryXYZ()) { error in
+        XCTAssertThrowsError(try anyGeometry.asXYZ()) { error in
             XCTAssertEqual(error as? GEOSwiftError, .cannotConvertCoordinateTypes)
         }
     }
@@ -432,7 +432,7 @@ final class WKTReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkt: wkt)
 
         // Should fail - cannot add M coordinate
-        XCTAssertThrowsError(try anyGeometry.asGeometryXYM()) { error in
+        XCTAssertThrowsError(try anyGeometry.asXYM()) { error in
             XCTAssertEqual(error as? GEOSwiftError, .cannotConvertCoordinateTypes)
         }
     }
@@ -445,7 +445,7 @@ final class WKTReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkt: wkt)
 
         // Should succeed - can drop M coordinate
-        let recovered = try anyGeometry.asGeometryXYZ()
+        let recovered = try anyGeometry.asXYZ()
         let expectedPoint = Point(x: 1, y: 2, z: 3)
         XCTAssertEqual(recovered, expectedPoint.geometry)
     }
@@ -458,7 +458,7 @@ final class WKTReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkt: wkt)
 
         // Should succeed - can drop Z coordinate
-        let recovered = try anyGeometry.asGeometryXYM()
+        let recovered = try anyGeometry.asXYM()
         let expectedPoint = Point(x: 1, y: 2, m: 4)
         XCTAssertEqual(recovered, expectedPoint.geometry)
     }

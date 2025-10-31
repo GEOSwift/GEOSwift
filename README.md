@@ -61,6 +61,22 @@ let pointXYZ = try Point<XYZ>(wkt: "POINT(10 45)") // Fails since the encoded ge
 
 // If you don't know the expected coordinate types of the encoded geometry, use a WKBReader/WKTReader
 let anyGeometry = try WKBReader().readAny(wkb: wkb) // Returns an `AnyGeometry` enum that you can use to recover the coordinate and geometry types.
+switch anyGeometry {
+case .xyz(let geometry):
+    doSomethingWith(geometry)
+default:
+    throw error
+}
+
+// or
+
+let geometryXY = anyGeometry.asXY() // will always succeed
+switch geometryXY {
+case .point(let point):
+    doSomethingWith(point)
+default:
+    throw error
+}
 ```
 
 #### From GeoJSON

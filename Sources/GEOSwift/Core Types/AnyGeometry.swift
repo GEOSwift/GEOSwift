@@ -80,7 +80,7 @@ public enum AnyGeometry: Hashable, Sendable {
     /// Converts the geometry to XY coordinates.
     ///
     /// This conversion always succeeds by dropping any Z and/or M coordinates.
-    public func asGeometryXY() -> Geometry<XY> {
+    public func asXY() -> Geometry<XY> {
         switch self {
         case .xy(let geometry):
             return geometry
@@ -96,7 +96,7 @@ public enum AnyGeometry: Hashable, Sendable {
     /// Converts the geometry to XYZ coordinates.
     ///
     /// - Throws: `GEOSwiftError.cannotConvertCoordinateTypes` if the geometry doesn't have Z coordinates.
-    public func asGeometryXYZ() throws -> Geometry<XYZ> {
+    public func asXYZ() throws -> Geometry<XYZ> {
         switch self {
         case .xyz(let geometry):
             return geometry
@@ -110,7 +110,7 @@ public enum AnyGeometry: Hashable, Sendable {
     /// Converts the geometry to XYM coordinates.
     ///
     /// - Throws: `GEOSwiftError.cannotConvertCoordinateTypes` if the geometry doesn't have M coordinates.
-    public func asGeometryXYM() throws -> Geometry<XYM> {
+    public func asXYM() throws -> Geometry<XYM> {
         switch self {
         case .xym(let geometry):
             return geometry
@@ -124,7 +124,7 @@ public enum AnyGeometry: Hashable, Sendable {
     /// Converts the geometry to XYZM coordinates.
     ///
     /// - Throws: `GEOSwiftError.cannotConvertCoordinateTypes` if the geometry doesn't have both Z and M coordinates.
-    public func asGeometryXYZM() throws -> Geometry<XYZM> {
+    public func asXYZM() throws -> Geometry<XYZM> {
         switch self {
         case .xyzm(let geometry):
             return geometry

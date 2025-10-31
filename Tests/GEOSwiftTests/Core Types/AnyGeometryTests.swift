@@ -59,20 +59,20 @@ final class AnyGeometryTests: XCTestCase {
         XCTAssertEqual(anyPolygon.dimension, 2) // XY coordinate dimension
     }
 
-    // MARK: - Type Conversion Tests - asGeometryXY
+    // MARK: - Type Conversion Tests - asXY
 
     func testAsGeometryXYFromXY() {
         let point = Point(x: 1, y: 2)
         let anyGeometry = AnyGeometry(point)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, point.geometry)
     }
 
     func testAsGeometryXYFromXYZ() {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2, z: 3))
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
 
         // Verify it's converted to XY
         if case .point(let recoveredPoint) = recovered {
@@ -86,7 +86,7 @@ final class AnyGeometryTests: XCTestCase {
     func testAsGeometryXYFromXYM() {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2, m: 3))
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
 
         // Verify it's converted to XY
         if case .point(let recoveredPoint) = recovered {
@@ -100,7 +100,7 @@ final class AnyGeometryTests: XCTestCase {
     func testAsGeometryXYFromXYZM() {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2, z: 3, m: 4))
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
 
         // Verify it's converted to XY
         if case .point(let recoveredPoint) = recovered {
@@ -111,20 +111,20 @@ final class AnyGeometryTests: XCTestCase {
         }
     }
 
-    // MARK: - Type Conversion Tests - asGeometryXYZ
+    // MARK: - Type Conversion Tests - asXYZ
 
     func testAsGeometryXYZFromXYZ() throws {
         let point = Point(x: 1, y: 2, z: 3)
         let anyGeometry = AnyGeometry(point)
 
-        let recovered = try anyGeometry.asGeometryXYZ()
+        let recovered = try anyGeometry.asXYZ()
         XCTAssertEqual(recovered, point.geometry)
     }
 
     func testAsGeometryXYZFromXYZM() throws {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2, z: 3, m: 4))
 
-        let recovered = try anyGeometry.asGeometryXYZ()
+        let recovered = try anyGeometry.asXYZ()
 
         // Verify it's converted to XYZ
         if case .point(let recoveredPoint) = recovered {
@@ -139,7 +139,7 @@ final class AnyGeometryTests: XCTestCase {
     func testAsGeometryXYZFromXYThrows() {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2))
 
-        XCTAssertThrowsError(try anyGeometry.asGeometryXYZ()) { error in
+        XCTAssertThrowsError(try anyGeometry.asXYZ()) { error in
             XCTAssertEqual(error as? GEOSwiftError, .cannotConvertCoordinateTypes)
         }
     }
@@ -147,25 +147,25 @@ final class AnyGeometryTests: XCTestCase {
     func testAsGeometryXYZFromXYMThrows() {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2, m: 3))
 
-        XCTAssertThrowsError(try anyGeometry.asGeometryXYZ()) { error in
+        XCTAssertThrowsError(try anyGeometry.asXYZ()) { error in
             XCTAssertEqual(error as? GEOSwiftError, .cannotConvertCoordinateTypes)
         }
     }
 
-    // MARK: - Type Conversion Tests - asGeometryXYM
+    // MARK: - Type Conversion Tests - asXYM
 
     func testAsGeometryXYMFromXYM() throws {
         let point = Point(x: 1, y: 2, m: 3)
         let anyGeometry = AnyGeometry(point)
 
-        let recovered = try anyGeometry.asGeometryXYM()
+        let recovered = try anyGeometry.asXYM()
         XCTAssertEqual(recovered, point.geometry)
     }
 
     func testAsGeometryXYMFromXYZM() throws {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2, z: 3, m: 4))
 
-        let recovered = try anyGeometry.asGeometryXYM()
+        let recovered = try anyGeometry.asXYM()
 
         // Verify it's converted to XYM
         if case .point(let recoveredPoint) = recovered {
@@ -180,7 +180,7 @@ final class AnyGeometryTests: XCTestCase {
     func testAsGeometryXYMFromXYThrows() {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2))
 
-        XCTAssertThrowsError(try anyGeometry.asGeometryXYM()) { error in
+        XCTAssertThrowsError(try anyGeometry.asXYM()) { error in
             XCTAssertEqual(error as? GEOSwiftError, .cannotConvertCoordinateTypes)
         }
     }
@@ -188,25 +188,25 @@ final class AnyGeometryTests: XCTestCase {
     func testAsGeometryXYMFromXYZThrows() {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2, z: 3))
 
-        XCTAssertThrowsError(try anyGeometry.asGeometryXYM()) { error in
+        XCTAssertThrowsError(try anyGeometry.asXYM()) { error in
             XCTAssertEqual(error as? GEOSwiftError, .cannotConvertCoordinateTypes)
         }
     }
 
-    // MARK: - Type Conversion Tests - asGeometryXYZM
+    // MARK: - Type Conversion Tests - asXYZM
 
     func testAsGeometryXYZMFromXYZM() throws {
         let point = Point(x: 1, y: 2, z: 3, m: 4)
         let anyGeometry = AnyGeometry(point)
 
-        let recovered = try anyGeometry.asGeometryXYZM()
+        let recovered = try anyGeometry.asXYZM()
         XCTAssertEqual(recovered, point.geometry)
     }
 
     func testAsGeometryXYZMFromXYThrows() {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2))
 
-        XCTAssertThrowsError(try anyGeometry.asGeometryXYZM()) { error in
+        XCTAssertThrowsError(try anyGeometry.asXYZM()) { error in
             XCTAssertEqual(error as? GEOSwiftError, .cannotConvertCoordinateTypes)
         }
     }
@@ -214,7 +214,7 @@ final class AnyGeometryTests: XCTestCase {
     func testAsGeometryXYZMFromXYZThrows() {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2, z: 3))
 
-        XCTAssertThrowsError(try anyGeometry.asGeometryXYZM()) { error in
+        XCTAssertThrowsError(try anyGeometry.asXYZM()) { error in
             XCTAssertEqual(error as? GEOSwiftError, .cannotConvertCoordinateTypes)
         }
     }
@@ -222,7 +222,7 @@ final class AnyGeometryTests: XCTestCase {
     func testAsGeometryXYZMFromXYMThrows() {
         let anyGeometry = AnyGeometry(Point(x: 1, y: 2, m: 3))
 
-        XCTAssertThrowsError(try anyGeometry.asGeometryXYZM()) { error in
+        XCTAssertThrowsError(try anyGeometry.asXYZM()) { error in
             XCTAssertEqual(error as? GEOSwiftError, .cannotConvertCoordinateTypes)
         }
     }

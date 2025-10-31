@@ -23,7 +23,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, point.geometry)
     }
 
@@ -38,7 +38,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, lineString.geometry)
     }
 
@@ -54,7 +54,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, polygon.geometry)
     }
 
@@ -69,7 +69,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, multiPoint.geometry)
     }
 
@@ -89,7 +89,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, multiLineString.geometry)
     }
 
@@ -108,7 +108,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, multiPolygon.geometry)
     }
 
@@ -125,7 +125,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         XCTAssertEqual(recovered, collection.geometry)
     }
 
@@ -142,7 +142,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = try anyGeometry.asGeometryXYZ()
+        let recovered = try anyGeometry.asXYZ()
         XCTAssertEqual(recovered, point.geometry)
     }
 
@@ -157,7 +157,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = try anyGeometry.asGeometryXYZ()
+        let recovered = try anyGeometry.asXYZ()
         XCTAssertEqual(recovered, lineString.geometry)
     }
 
@@ -173,7 +173,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, false)
 
-        let recovered = try anyGeometry.asGeometryXYZ()
+        let recovered = try anyGeometry.asXYZ()
         XCTAssertEqual(recovered, polygon.geometry)
     }
 
@@ -190,7 +190,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYM()
+        let recovered = try anyGeometry.asXYM()
         XCTAssertEqual(recovered, point.geometry)
     }
 
@@ -205,7 +205,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYM()
+        let recovered = try anyGeometry.asXYM()
         XCTAssertEqual(recovered, lineString.geometry)
     }
 
@@ -221,7 +221,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, false)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYM()
+        let recovered = try anyGeometry.asXYM()
         XCTAssertEqual(recovered, polygon.geometry)
     }
 
@@ -238,7 +238,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYZM()
+        let recovered = try anyGeometry.asXYZM()
         XCTAssertEqual(recovered, point.geometry)
     }
 
@@ -253,7 +253,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYZM()
+        let recovered = try anyGeometry.asXYZM()
         XCTAssertEqual(recovered, lineString.geometry)
     }
 
@@ -274,7 +274,7 @@ final class WKBReaderTests: XCTestCase {
         XCTAssertEqual(anyGeometry.hasZ, true)
         XCTAssertEqual(anyGeometry.hasM, true)
 
-        let recovered = try anyGeometry.asGeometryXYZM()
+        let recovered = try anyGeometry.asXYZM()
         XCTAssertEqual(recovered, polygon.geometry)
     }
 
@@ -318,7 +318,7 @@ final class WKBReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkb: wkb)
 
         // Should succeed - same coordinate type
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         if case .point(let recoveredPoint) = recovered {
             XCTAssertEqual(recoveredPoint.x, 1)
             XCTAssertEqual(recoveredPoint.y, 2)
@@ -335,7 +335,7 @@ final class WKBReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkb: wkb)
 
         // Should succeed - can drop Z coordinate
-        let recovered = anyGeometry.asGeometryXY()
+        let recovered = anyGeometry.asXY()
         if case .point(let recoveredPoint) = recovered {
             XCTAssertEqual(recoveredPoint.x, 1)
             XCTAssertEqual(recoveredPoint.y, 2)
@@ -352,7 +352,7 @@ final class WKBReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkb: wkb)
 
         // Should fail - cannot add Z coordinate
-        XCTAssertThrowsError(try anyGeometry.asGeometryXYZ()) { error in
+        XCTAssertThrowsError(try anyGeometry.asXYZ()) { error in
             XCTAssertEqual(error as? GEOSwiftError, .cannotConvertCoordinateTypes)
         }
     }
@@ -365,7 +365,7 @@ final class WKBReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkb: wkb)
 
         // Should fail - cannot add M coordinate
-        XCTAssertThrowsError(try anyGeometry.asGeometryXYM()) { error in
+        XCTAssertThrowsError(try anyGeometry.asXYM()) { error in
             XCTAssertEqual(error as? GEOSwiftError, .cannotConvertCoordinateTypes)
         }
     }
@@ -378,7 +378,7 @@ final class WKBReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkb: wkb)
 
         // Should succeed - can drop M coordinate
-        let recovered = try anyGeometry.asGeometryXYZ()
+        let recovered = try anyGeometry.asXYZ()
         if case .point(let recoveredPoint) = recovered {
             XCTAssertEqual(recoveredPoint.x, 1)
             XCTAssertEqual(recoveredPoint.y, 2)
@@ -396,7 +396,7 @@ final class WKBReaderTests: XCTestCase {
         let anyGeometry = try reader.readAny(wkb: wkb)
 
         // Should succeed - can drop Z coordinate
-        let recovered = try anyGeometry.asGeometryXYM()
+        let recovered = try anyGeometry.asXYM()
         if case .point(let recoveredPoint) = recovered {
             XCTAssertEqual(recoveredPoint.x, 1)
             XCTAssertEqual(recoveredPoint.y, 2)
