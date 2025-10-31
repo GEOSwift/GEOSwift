@@ -53,6 +53,8 @@ In certain cases, you may also need to explicitly include
 
 ### Geometry creation
 
+#### From WKB/WKT
+
 ```swift
 // If you know the expected geometry coordinate types, you can decode directly from the Geometry<> type
 let geometryXY = try Geometry<XY>(wkb: wkb) // All valid geometries will successfully decode as XY
@@ -79,20 +81,41 @@ default:
 }
 ```
 
-#### From GeoJSON
+#### From GeoJSON (via `Codable`)
+
+When decoding from GeoJSON, you must specify the expected `CoordinateType` of the geometry.
+The two compatible `CoordinateType`s are `XY` and `XYZ`. GeoJSON does not support M coordinates. Decoding as
+`Geometry<XY>` will drop any Z values present. The behavior of decoding as `Geometry<XYZ>` depends on
+the `CodingUserInfo.geoJSONSetMissingZNan` value in the decoder's `userInfo`:
+* **`false`**: (default) Decoding will throw a `GEOSwiftError.invalidCoordinates` if no Z value exists.
+* **`true`**: Any missing Z values will be treated as `Double.nan`.
+
+This setting is useful if you are dealing with geometry with unknown dimensionality and you want to preserve Z
+where possible, or if you have geometry with mixed dimensionality.
+
+> [!NOTE]
+> Take special care working with `Double.nan` in Swift. It can often produce unexpected results such as 
+> `Double.nan != Double.nan` which may interfere with equality checks. Converting the geometry to `XY` using
+> the conversion initializers (e.g. `let geometryXY = Geometry<XY>(geometry)`) is a safe way to mitigate this
+> when Z is not needed. The underlying GEOS operations generally handle Z == NaN cases fine since Z is not
+> considered in topological operations.
 
 ```swift
 // When decoding GeoJSON, you must explicitly declare the expected geometry coordinate type (e.g. GeoJSON<XY>)
+var decoder = JSONDecoder()
+let json = #"{"coordinates":[1,2],"type":"Point"}"#
+let data = json.data(using: .utf8)!
 
-let decoder = JSONDecoder()
-if let geoJSONURL = Bundle.main.url(forResource: "multipolygon", withExtension: "geojson"),
-    let data = try? Data(contentsOf: geoJSONURL),
-    let geoJSON = try? decoder.decode(GeoJSON<XY>.self, from: data),
-    case let .feature(feature) = geoJSON,
-    let italy = feature.geometry
-{
-    italy
-}
+let geometryXY = try decoder.decode(Geometry<XY>.self, from: data) // This works
+let geometryXYZ = try decoder.decode(Geometry<XYZ>.self, from: data) // This throws an error because no Z value
+
+decoder.userInfo[.geoJSONSetMissingZNan] = true
+let geometryXYNan = try decoder.decode(Geometry<XYZ>.self, from: data) // This gives a NaN value for Z
+
+let jsonWithZ = #"{"coordinates":[1,2,3],"type":"Point"}"#
+let dataWithZ = jsonWithZ.data(using: .utf8)!
+
+let geometryDropZ = try decoder.decode(Geometry<XY>.self, from: dataWithZ) // Drops the Z coordinate
 ```
 
 #### Initializing Geometry types directly
