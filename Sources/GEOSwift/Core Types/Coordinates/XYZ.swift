@@ -49,8 +49,8 @@ public struct XYZ: CoordinateType, HasZ, GeoJSONCoordinate {
         let values = try container.decode([Double].self)
 
         // Allow decoding from XYZ and XYZM coordinates or XY if setting geoJSONSetMissingZNan = tue
-        let setMissinZNan = decoder.userInfo[.geoJSONSetMissingZNan] as? Bool ?? false
-        let minimumCoordinateCount = setMissinZNan ? 2 : 3
+        let setMissingZNan = decoder.userInfo[.geoJSONSetMissingZNan] as? Bool ?? false
+        let minimumCoordinateCount = setMissingZNan ? 2 : 3
 
         guard values.count >= minimumCoordinateCount else {
             throw GEOSwiftError.invalidCoordinates
