@@ -112,25 +112,61 @@ final class IntersectionTests_XYM: XCTestCase {
         XYM(0, 1, 3),
         XYM(0, 0, 4)]))
 
-    func testIntersectionBetweenLineAndPoly() {
-        let line = try! LineString(coordinates: [
-            XYM(-1, 2, 0),
-            XYM(2, -1, 1)])
-        let expectedLine = try! LineString(coordinates: [
-            XY(0, 1),
-            XY(1, 0)])
+    // MARK: - XYM ∩ XY → XYM
 
-        // Topological operations currently only return XY geometry
-        XCTAssertEqual(try? unitPoly.intersection(with: line), expectedLine.geometry)
+    func testIntersectionXYMWithXY() throws {
+        let lineXY = try! LineString(coordinates: [
+            XY(-1, 2),
+            XY(2, -1)])
+        let result: Geometry<XYM>? = try unitPoly.intersection(with: lineXY)
+        XCTAssertNotNil(result)
+        if case let .lineString(lineString) = result {
+            XCTAssertEqual(lineString.coordinates.count, 2)
+        }
     }
 
-    func testIntersectionAllPairs() {
+    // MARK: - XYM ∩ XYZ → XYZM
+
+    func testIntersectionXYMWithXYZ() throws {
+        let lineXYZ = try! LineString(coordinates: [
+            XYZ(-1, 2, 10),
+            XYZ(2, -1, 20)])
+        let result: Geometry<XYZM>? = try unitPoly.intersection(with: lineXYZ)
+        XCTAssertNotNil(result)
+        if case let .lineString(lineString) = result {
+            XCTAssertEqual(lineString.coordinates.count, 2)
+        }
+    }
+
+    // MARK: - XYM ∩ XYM → XYM
+
+    func testIntersectionXYMWithXYM() throws {
+        let line = try! LineString(coordinates: [
+            XYM(-1, 2, 100),
+            XYM(2, -1, 200)])
+        let result: Geometry<XYM>? = try unitPoly.intersection(with: line)
+        XCTAssertNotNil(result)
+        if case let .lineString(lineString) = result {
+            XCTAssertEqual(lineString.coordinates.count, 2)
+        }
+    }
+
+    func testIntersectionXYMWithXYMAllPairs() {
         for (g1, g2) in geometryConvertibles.allPairs {
-            do {
-                _ = try g1.intersection(with: g2)
-            } catch {
-                XCTFail("Unexpected error for \(g1) intersection(with: \(g2)) \(error)")
-            }
+            XCTAssertNoThrow(try g1.intersection(with: g2) as Geometry<XYM>?)
+        }
+    }
+
+    // MARK: - XYM ∩ XYZM → XYZM
+
+    func testIntersectionXYMWithXYZM() throws {
+        let lineXYZM = try! LineString(coordinates: [
+            XYZM(-1, 2, 10, 100),
+            XYZM(2, -1, 20, 200)])
+        let result: Geometry<XYZM>? = try unitPoly.intersection(with: lineXYZM)
+        XCTAssertNotNil(result)
+        if case let .lineString(lineString) = result {
+            XCTAssertEqual(lineString.coordinates.count, 2)
         }
     }
 }
