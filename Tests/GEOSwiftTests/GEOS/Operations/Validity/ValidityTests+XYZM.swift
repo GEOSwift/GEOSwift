@@ -163,10 +163,14 @@ final class ValidityTests_XYZM: XCTestCase {
         )
 
         guard
-            let result = try? polyWithSelfTouchingRingFormingHole.isValidDetail(allowSelfTouchingRingFormingHole: false),
+            let result = try? polyWithSelfTouchingRingFormingHole.isValidDetail(
+                allowSelfTouchingRingFormingHole: false
+            ),
             case let .invalid(reason, .some(.point(location))) = result,
             reason == "Ring Self-intersection",
-            XY(location.coordinates) == XY(0, 0) && location.coordinates.z.isNaN && location.coordinates.m.isNaN // A naïve comparison of location and result fails because NaN != NaN
+            // A naïve comparison of location and result fails because NaN != NaN
+            XY(location.coordinates) == XY(0, 0) && location.coordinates.z.isNaN &&
+                location.coordinates.m.isNaN
         else {
             XCTFail("Did not receive expected validation error.")
             return
