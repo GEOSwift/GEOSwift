@@ -89,8 +89,11 @@ public extension GeometryConvertible {
     
     // MARK: MakeValid
     
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
     func makeValid() throws -> Geometry<XY> {
+        try performUnaryTopologyOperation(GEOSMakeValid_r)
+    }
+    
+    func makeValid() throws -> Geometry<XYZ> where C: HasZ {
         try performUnaryTopologyOperation(GEOSMakeValid_r)
     }
 
