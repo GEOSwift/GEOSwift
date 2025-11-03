@@ -405,4 +405,201 @@ final class ValidityTests_XYZ: XCTestCase {
             XCTFail("Expected geometryCollection result, got \(result)")
         }
     }
+
+    // MARK: - Z Preservation Tests with Methods
+
+    func testMakeValidWithLineworkMethodPreservesZ() throws {
+        // Test that makeValid(method: .linework) preserves Z coordinates
+        let polyWithZ = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYZ(0, 0, 1),
+            XYZ(2, 0, 2),
+            XYZ(1, 1, 3),
+            XYZ(0, 2, 4),
+            XYZ(2, 2, 5),
+            XYZ(1, 1, 6),
+            XYZ(0, 0, 1)]))
+
+        let result: Geometry<XYZ> = try polyWithZ.makeValid(method: .linework)
+
+        // Verify the result is XYZ type
+        switch result {
+        case let .multiPolygon(multiPolygon):
+            // Check that we have Z coordinates in the output
+            for polygon in multiPolygon.polygons {
+                for coord in polygon.exterior.coordinates {
+                    XCTAssertFalse(coord.z.isNaN, "Z coordinate should not be NaN")
+                }
+            }
+        default:
+            XCTFail("Expected multiPolygon result for invalid polygon, got \(result)")
+        }
+    }
+
+    func testMakeValidWithStructureKeepCollapsedMethodPreservesZ() throws {
+        // Test that makeValid(method: .structure(keepCollapsed: true)) preserves Z
+        let polyWithZ = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYZ(0, 0, 1),
+            XYZ(2, 0, 2),
+            XYZ(1, 1, 3),
+            XYZ(0, 2, 4),
+            XYZ(2, 2, 5),
+            XYZ(1, 1, 6),
+            XYZ(0, 0, 1)]))
+
+        let result: Geometry<XYZ> = try polyWithZ.makeValid(method: .structure(keepCollapsed: true))
+
+        // Verify the result is XYZ type
+        switch result {
+        case let .multiPolygon(multiPolygon):
+            // Check that we have Z coordinates in the output
+            for polygon in multiPolygon.polygons {
+                for coord in polygon.exterior.coordinates {
+                    XCTAssertFalse(coord.z.isNaN, "Z coordinate should not be NaN")
+                }
+            }
+        default:
+            XCTFail("Expected multiPolygon result for invalid polygon, got \(result)")
+        }
+    }
+
+    func testMakeValidWithStructureDoNotKeepCollapsedMethodPreservesZ() throws {
+        // Test that makeValid(method: .structure(keepCollapsed: false)) preserves Z
+        let polyWithZ = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYZ(0, 0, 1),
+            XYZ(2, 0, 2),
+            XYZ(1, 1, 3),
+            XYZ(0, 2, 4),
+            XYZ(2, 2, 5),
+            XYZ(1, 1, 6),
+            XYZ(0, 0, 1)]))
+
+        let result: Geometry<XYZ> = try polyWithZ.makeValid(method: .structure(keepCollapsed: false))
+
+        // Verify the result is XYZ type
+        switch result {
+        case let .multiPolygon(multiPolygon):
+            // Check that we have Z coordinates in the output
+            for polygon in multiPolygon.polygons {
+                for coord in polygon.exterior.coordinates {
+                    XCTAssertFalse(coord.z.isNaN, "Z coordinate should not be NaN")
+                }
+            }
+        default:
+            XCTFail("Expected multiPolygon result for invalid polygon, got \(result)")
+        }
+    }
+
+    func testMakeValidWithLineworkMethodPreservesZForValidGeometry() throws {
+        // Test that makeValid(method: .linework) preserves Z for valid geometry
+        let validPolyWithZ = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYZ(0, 0, 10),
+            XYZ(1, 0, 20),
+            XYZ(1, 1, 30),
+            XYZ(0, 1, 40),
+            XYZ(0, 0, 10)]))
+
+        let result: Geometry<XYZ> = try validPolyWithZ.makeValid(method: .linework)
+
+        // Verify the result maintains Z coordinates
+        switch result {
+        case let .polygon(polygon):
+            let coords = polygon.exterior.coordinates
+            XCTAssertEqual(coords[0].z, 10, accuracy: 0.001)
+            XCTAssertEqual(coords[1].z, 20, accuracy: 0.001)
+            XCTAssertEqual(coords[2].z, 30, accuracy: 0.001)
+            XCTAssertEqual(coords[3].z, 40, accuracy: 0.001)
+        default:
+            XCTFail("Expected polygon result, got \(result)")
+        }
+    }
+
+    func testMakeValidWithStructureMethodPreservesZForValidGeometry() throws {
+        // Test that makeValid(method: .structure) preserves Z for valid geometry
+        let validPolyWithZ = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYZ(0, 0, 10),
+            XYZ(1, 0, 20),
+            XYZ(1, 1, 30),
+            XYZ(0, 1, 40),
+            XYZ(0, 0, 10)]))
+
+        let result: Geometry<XYZ> = try validPolyWithZ.makeValid(method: .structure(keepCollapsed: true))
+
+        // Verify the result maintains Z coordinates (vertices may be reordered by GEOS)
+        switch result {
+        case let .polygon(polygon):
+            let coords = polygon.exterior.coordinates
+            // Check that all Z coordinates are preserved (not NaN)
+            for coord in coords {
+                XCTAssertFalse(coord.z.isNaN, "Z coordinate should not be NaN")
+            }
+        default:
+            XCTFail("Expected polygon result, got \(result)")
+        }
+    }
+
+    func testMakeValidWithLineworkMethodPreservesZForPoint() throws {
+        // Test that makeValid(method: .linework) preserves Z for points
+        let pointWithZ = Point(XYZ(1, 2, 42))
+
+        let result: Geometry<XYZ> = try pointWithZ.makeValid(method: .linework)
+
+        switch result {
+        case let .point(point):
+            XCTAssertEqual(point.coordinates.z, 42, accuracy: 0.001)
+        default:
+            XCTFail("Expected point result, got \(result)")
+        }
+    }
+
+    func testMakeValidWithStructureMethodPreservesZForPoint() throws {
+        // Test that makeValid(method: .structure) preserves Z for points
+        let pointWithZ = Point(XYZ(1, 2, 42))
+
+        let result: Geometry<XYZ> = try pointWithZ.makeValid(method: .structure(keepCollapsed: false))
+
+        switch result {
+        case let .point(point):
+            XCTAssertEqual(point.coordinates.z, 42, accuracy: 0.001)
+        default:
+            XCTFail("Expected point result, got \(result)")
+        }
+    }
+
+    func testMakeValidWithLineworkMethodPreservesZForLineString() throws {
+        // Test that makeValid(method: .linework) preserves Z for line strings
+        let lineWithZ = try! LineString(coordinates: [
+            XYZ(0, 0, 5),
+            XYZ(1, 1, 10),
+            XYZ(2, 2, 15)])
+
+        let result: Geometry<XYZ> = try lineWithZ.makeValid(method: .linework)
+
+        switch result {
+        case let .lineString(line):
+            XCTAssertEqual(line.coordinates[0].z, 5, accuracy: 0.001)
+            XCTAssertEqual(line.coordinates[1].z, 10, accuracy: 0.001)
+            XCTAssertEqual(line.coordinates[2].z, 15, accuracy: 0.001)
+        default:
+            XCTFail("Expected lineString result, got \(result)")
+        }
+    }
+
+    func testMakeValidWithStructureMethodPreservesZForLineString() throws {
+        // Test that makeValid(method: .structure) preserves Z for line strings
+        let lineWithZ = try! LineString(coordinates: [
+            XYZ(0, 0, 5),
+            XYZ(1, 1, 10),
+            XYZ(2, 2, 15)])
+
+        let result: Geometry<XYZ> = try lineWithZ.makeValid(method: .structure(keepCollapsed: true))
+
+        switch result {
+        case let .lineString(line):
+            XCTAssertEqual(line.coordinates[0].z, 5, accuracy: 0.001)
+            XCTAssertEqual(line.coordinates[1].z, 10, accuracy: 0.001)
+            XCTAssertEqual(line.coordinates[2].z, 15, accuracy: 0.001)
+        default:
+            XCTFail("Expected lineString result, got \(result)")
+        }
+    }
 }
