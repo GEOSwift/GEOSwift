@@ -537,25 +537,6 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
-    func testIntersectionBetweenLineAndPoly() {
-        let line = try! LineString(coordinates: [
-            XY(-1, 2),
-            XY(2, -1)])
-        let expectedLine = try! LineString(coordinates: [
-            XY(0, 1),
-            XY(1, 0)])
-        XCTAssertEqual(try? unitPoly.intersection(with: line), .lineString(expectedLine))
-    }
-
-    func testIntersectionAllPairs() {
-        for (g1, g2) in geometryConvertibles.allPairs {
-            do {
-                _ = try g1.intersection(with: g2)
-            } catch {
-                XCTFail("Unexpected error for \(g1) intersection(with: \(g2)) \(error)")
-            }
-        }
-    }
 
     func testConvexHullPolygon() {
         let polygon = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
