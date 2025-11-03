@@ -659,7 +659,6 @@ final class GeometryConvertible_GEOSTests_XYM: XCTestCase {
         }
     }
 
-
     func testConvexHullPolygon() {
         let polygon = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
             XYM(0, 0, 0),
