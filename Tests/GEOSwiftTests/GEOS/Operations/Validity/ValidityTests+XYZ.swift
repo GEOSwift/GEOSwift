@@ -269,4 +269,140 @@ final class ValidityTests_XYZ: XCTestCase {
             }
         }
     }
+
+    // MARK: - Z Preservation Tests
+
+    func testMakeValidPreservesZ() throws {
+        // Test that makeValid() preserves Z coordinates when input has Z
+        let polyWithZ = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYZ(0, 0, 1),
+            XYZ(2, 0, 2),
+            XYZ(1, 1, 3),
+            XYZ(0, 2, 4),
+            XYZ(2, 2, 5),
+            XYZ(1, 1, 6),
+            XYZ(0, 0, 1)]))
+
+        let result: Geometry<XYZ> = try polyWithZ.makeValid()
+
+        // Verify the result is XYZ type
+        switch result {
+        case let .multiPolygon(multiPolygon):
+            // Check that we have Z coordinates in the output
+            for polygon in multiPolygon.polygons {
+                for coord in polygon.exterior.coordinates {
+                    XCTAssertFalse(coord.z.isNaN, "Z coordinate should not be NaN")
+                }
+            }
+        default:
+            XCTFail("Expected multiPolygon result for invalid polygon, got \(result)")
+        }
+    }
+
+    func testMakeValidPreservesZForValidGeometry() throws {
+        // Test that makeValid() preserves Z for already valid geometry
+        let validPolyWithZ = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
+            XYZ(0, 0, 10),
+            XYZ(1, 0, 20),
+            XYZ(1, 1, 30),
+            XYZ(0, 1, 40),
+            XYZ(0, 0, 10)]))
+
+        let result: Geometry<XYZ> = try validPolyWithZ.makeValid()
+
+        // Verify the result maintains Z coordinates
+        switch result {
+        case let .polygon(polygon):
+            let coords = polygon.exterior.coordinates
+            XCTAssertEqual(coords[0].z, 10, accuracy: 0.001)
+            XCTAssertEqual(coords[1].z, 20, accuracy: 0.001)
+            XCTAssertEqual(coords[2].z, 30, accuracy: 0.001)
+            XCTAssertEqual(coords[3].z, 40, accuracy: 0.001)
+        default:
+            XCTFail("Expected polygon result, got \(result)")
+        }
+    }
+
+    func testMakeValidPreservesZForPoint() throws {
+        // Test that makeValid() preserves Z for points
+        let pointWithZ = Point(XYZ(1, 2, 42))
+
+        let result: Geometry<XYZ> = try pointWithZ.makeValid()
+
+        switch result {
+        case let .point(point):
+            XCTAssertEqual(point.coordinates.z, 42, accuracy: 0.001)
+        default:
+            XCTFail("Expected point result, got \(result)")
+        }
+    }
+
+    func testMakeValidPreservesZForLineString() throws {
+        // Test that makeValid() preserves Z for line strings
+        let lineWithZ = try! LineString(coordinates: [
+            XYZ(0, 0, 5),
+            XYZ(1, 1, 10),
+            XYZ(2, 2, 15)])
+
+        let result: Geometry<XYZ> = try lineWithZ.makeValid()
+
+        switch result {
+        case let .lineString(line):
+            XCTAssertEqual(line.coordinates[0].z, 5, accuracy: 0.001)
+            XCTAssertEqual(line.coordinates[1].z, 10, accuracy: 0.001)
+            XCTAssertEqual(line.coordinates[2].z, 15, accuracy: 0.001)
+        default:
+            XCTFail("Expected lineString result, got \(result)")
+        }
+    }
+
+    func testMakeValidPreservesZForMultiPoint() throws {
+        // Test that makeValid() preserves Z for multi points
+        let multiPointWithZ = MultiPoint(points: [
+            Point(XYZ(0, 0, 100)),
+            Point(XYZ(1, 1, 200)),
+            Point(XYZ(2, 2, 300))])
+
+        let result: Geometry<XYZ> = try multiPointWithZ.makeValid()
+
+        switch result {
+        case let .multiPoint(multiPoint):
+            XCTAssertEqual(multiPoint.points[0].coordinates.z, 100, accuracy: 0.001)
+            XCTAssertEqual(multiPoint.points[1].coordinates.z, 200, accuracy: 0.001)
+            XCTAssertEqual(multiPoint.points[2].coordinates.z, 300, accuracy: 0.001)
+        default:
+            XCTFail("Expected multiPoint result, got \(result)")
+        }
+    }
+
+    func testMakeValidPreservesZForGeometryCollection() throws {
+        // Test that makeValid() preserves Z for geometry collections
+        let collectionWithZ = GeometryCollection(geometries: [
+            Geometry.point(Point(XYZ(0, 0, 50))),
+            Geometry.lineString(try! LineString(coordinates: [
+                XYZ(1, 1, 60),
+                XYZ(2, 2, 70)]))
+        ])
+
+        let result: Geometry<XYZ> = try collectionWithZ.makeValid()
+
+        switch result {
+        case let .geometryCollection(collection):
+            // Check point
+            if case let .point(point) = collection.geometries[0] {
+                XCTAssertEqual(point.coordinates.z, 50, accuracy: 0.001)
+            } else {
+                XCTFail("Expected point in collection")
+            }
+            // Check linestring
+            if case let .lineString(line) = collection.geometries[1] {
+                XCTAssertEqual(line.coordinates[0].z, 60, accuracy: 0.001)
+                XCTAssertEqual(line.coordinates[1].z, 70, accuracy: 0.001)
+            } else {
+                XCTFail("Expected lineString in collection")
+            }
+        default:
+            XCTFail("Expected geometryCollection result, got \(result)")
+        }
+    }
 }
