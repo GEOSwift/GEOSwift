@@ -16,7 +16,7 @@ import geos
 // - XY ∩ XY → XY
 // - XY ∩ XYZ → XYZ (Z values interpolated from the XYZ geometry)
 // - XYZ ∩ XYM → XYZM (Z interpolated from first, M set to NaN for new points)
-// - XYZM ∩ XY → XYZM (Z and M interpolated from the XYZM geometry)
+// - XYZM ∩ XY → XYZM (Z interpolated from first, M set to NaN for new points)
 //
 // This strategy ensures that coordinate dimensions are preserved whenever possible. Z values are
 // interpolated along the intersection geometry based on the input geometries' coordinate values.

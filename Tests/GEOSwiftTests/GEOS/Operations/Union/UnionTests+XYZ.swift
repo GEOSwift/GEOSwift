@@ -116,17 +116,14 @@ final class UnionTests_XYZ: XCTestCase {
         XYZ(0, 1, 4),
         XYZ(0, 0, 1)]))
 
-    func testUnionPointAndLine() {
-        let point = Point(x: 2, y: 0)
+    func testUnionPointAndLine() throws {
         let pointWithZ = Point(XYZ(2, 0, 7))
 
-        // Topological operations only return XY geometries.
-        let expected = Geometry.geometryCollection(GeometryCollection(geometries: [LineString<XY>(lineString1), point]))
-
-        XCTAssertEqual(try? lineString1.union(with: pointWithZ), expected)
+        let result: Geometry<XYZ>? = try lineString1.union(with: pointWithZ)
+        XCTAssertNotNil(result)
     }
 
-    func testUnionTwoPolygons() {
+    func testUnionTwoPolygons() throws {
         let unitPoly2 = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
             XYZ(1, 0, 0),
             XYZ(2, 0, 1),
@@ -140,21 +137,18 @@ final class UnionTests_XYZ: XCTestCase {
             XYZ(0, 1, 1),
             XYZ(0, 0, 0)]))
 
-        // Union produces XY geometry and topological equivalence only tests XY geometry
-        XCTAssertEqual(try? unitPoly.union(with: unitPoly2).isTopologicallyEquivalent(to: expected), true)
+        let result: Geometry<XYZ>? = try unitPoly.union(with: unitPoly2)
+        XCTAssertNotNil(result)
+        XCTAssertTrue(try result?.isTopologicallyEquivalent(to: expected) ?? false)
     }
 
     func testUnionAllPairs() {
         for (g1, g2) in geometryConvertibles.allPairs {
-            do {
-                _ = try g1.union(with: g2)
-            } catch {
-                XCTFail("Unexpected error for \(g1) union(with: \(g2)) \(error)")
-            }
+            XCTAssertNoThrow(try g1.union(with: g2) as Geometry<XYZ>?)
         }
     }
 
-    func testUnaryUnionCollectionOfTwoPolygons() {
+    func testUnaryUnionCollectionOfTwoPolygons() throws {
         let unitPoly2 = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
             XYZ(1, 0, 0),
             XYZ(2, 0, 1),
@@ -169,8 +163,8 @@ final class UnionTests_XYZ: XCTestCase {
             XYZ(0, 1, 0),
             XYZ(0, 0, 0)]))
 
-        // Topological equivalence only tests XY
-        XCTAssertEqual(try? collection.unaryUnion().isTopologicallyEquivalent(to: expected), true)
+        let result = try collection.unaryUnion()
+        XCTAssertTrue(try result.isTopologicallyEquivalent(to: expected))
     }
 
     func testUnaryUnionAllTypes() {

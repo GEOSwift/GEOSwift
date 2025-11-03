@@ -37,7 +37,7 @@ final class UnionTests: XCTestCase {
                        .geometryCollection(GeometryCollection(geometries: [lineString1, point])))
     }
 
-    func testUnionTwoPolygons() {
+    func testUnionTwoPolygons() throws {
         let unitPoly2 = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
             XY(1, 0),
             XY(2, 0),
@@ -50,7 +50,9 @@ final class UnionTests: XCTestCase {
             XY(2, 1),
             XY(0, 1),
             XY(0, 0)]))
-        XCTAssertEqual(try? unitPoly.union(with: unitPoly2).isTopologicallyEquivalent(to: expected), true)
+
+        let result = try unitPoly.union(with: unitPoly2)
+        XCTAssertTrue(try result?.isTopologicallyEquivalent(to: expected) ?? false)
     }
 
     func testUnionAllPairs() {
@@ -63,7 +65,7 @@ final class UnionTests: XCTestCase {
         }
     }
 
-    func testUnaryUnionCollectionOfTwoPolygons() {
+    func testUnaryUnionCollectionOfTwoPolygons() throws {
         let unitPoly2 = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
             XY(1, 0),
             XY(2, 0),
@@ -77,7 +79,9 @@ final class UnionTests: XCTestCase {
             XY(2, 1),
             XY(0, 1),
             XY(0, 0)]))
-        XCTAssertEqual(try? collection.unaryUnion().isTopologicallyEquivalent(to: expected), true)
+
+        let result = try collection.unaryUnion()
+        XCTAssertTrue(try result.isTopologicallyEquivalent(to: expected))
     }
 
     func testUnaryUnionAllTypes() {

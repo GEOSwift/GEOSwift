@@ -335,11 +335,6 @@ public extension GeometryConvertible {
         }
     }
 
-    // TODO: Provide higher dimensionality output where possible. Dimension Union.
-    func union(with geometry: any GeometryConvertible<C>) throws -> Geometry<XY> {
-        try performBinaryTopologyOperation(GEOSUnion_r, geometry: geometry)
-    }
-
     // verified preserves Z/M
     func unaryUnion() throws -> Geometry<C> {
         try performUnaryTopologyOperation(GEOSUnaryUnion_r)
