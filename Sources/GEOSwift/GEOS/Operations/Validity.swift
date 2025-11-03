@@ -3,13 +3,40 @@ import geos
 
 // MARK: - Input/Output types
 
+/// The result of a detailed validity check on a geometry.
+///
+/// This enum provides detailed information about why a geometry is invalid,
+/// including both a human-readable reason and the location of the invalidity.
 public enum IsValidDetailResult<C: CoordinateType>: Hashable, Sendable {
+    /// The geometry is valid according to OGC standards.
     case valid
+
+    /// The geometry is invalid.
+    ///
+    /// - Parameters:
+    ///   - reason: A human-readable description of why the geometry is invalid, or `nil` if unavailable.
+    ///   - location: The geometric location where the invalidity occurs, or `nil` if unavailable.
     case invalid(reason: String?, location: Geometry<C>?)
 }
 
+/// Methods for making an invalid geometry valid.
+///
+/// Different methods may produce different results for the same input geometry.
+/// The choice of method depends on your specific requirements for handling invalid geometries.
 public enum MakeValidMethod {
+    /// The linework method builds valid geometries by creating nodes at intersection points
+    /// and forming the result from the linework created.
+    ///
+    /// This method is suitable for creating valid linear networks or polygon boundaries.
     case linework
+
+    /// The structure method attempts to preserve the structure of the input geometry
+    /// while making it valid.
+    ///
+    /// - Parameter keepCollapsed: If `true`, collapsed geometries (e.g., a polygon collapsed
+    ///   to a line) are kept in the output. If `false`, collapsed geometries are removed.
+    ///
+    /// This method is more conservative and tries to maintain the original topology.
     case structure(keepCollapsed: Bool)
 
     var geosMethod: GEOSMakeValidMethods {
@@ -34,25 +61,81 @@ public enum MakeValidMethod {
 // MARK: - Validity operations
 
 public extension GeometryConvertible {
-    
+
     // MARK: IsValid
-    
+
+    /// Tests whether this geometry is valid according to OGC standards.
+    ///
+    /// Valid geometries have no self-intersections, appropriate boundary configurations,
+    /// and satisfy all geometric constraints for their type.
+    ///
+    /// - Returns: `true` if the geometry is valid, `false` otherwise.
+    /// - Throws: ``GEOSError`` if the validity check fails.
+    ///
+    /// ## Example
+    /// ```swift
+    /// let validPolygon = try Polygon(exterior: ...)
+    /// try validPolygon.isValid() // true
+    ///
+    /// let invalidPolygon = try Polygon(exterior: /* self-intersecting ring */)
+    /// try invalidPolygon.isValid() // false
+    /// ```
     func isValid() throws -> Bool {
         try evaluateUnaryPredicate(GEOSisValid_r)
     }
 
+    /// Returns a human-readable description of why this geometry is invalid.
+    ///
+    /// If the geometry is valid, returns "Valid Geometry".
+    /// If invalid, returns a description of the invalidity (e.g., "Self-intersection", "Ring Self-intersection").
+    ///
+    /// - Returns: A string describing the validity status or reason for invalidity.
+    /// - Throws: ``GEOSError`` if the validity check fails.
+    ///
+    /// ## Example
+    /// ```swift
+    /// let polygon = try Polygon(exterior: ...)
+    /// let reason = try polygon.isValidReason()
+    /// print(reason) // "Valid Geometry" or "Ring Self-intersection"
+    /// ```
     func isValidReason() throws -> String {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
-        
+
         guard let cString = GEOSisValidReason_r(context.handle, geosObject.pointer) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         defer { GEOSFree_r(context.handle, cString) }
-        
+
         return String(cString: cString)
     }
 
+    /// Returns detailed information about the validity of this geometry.
+    ///
+    /// This method provides more information than `isValid()` by including both
+    /// a human-readable reason for invalidity and the geometric location where
+    /// the invalidity occurs.
+    ///
+    /// - Parameter allowSelfTouchingRingFormingHole: If `true`, allows polygon rings
+    ///   to touch themselves to form holes (valid in some contexts). Default is `false`.
+    /// - Returns: An ``IsValidDetailResult`` indicating validity status and details.
+    /// - Throws: ``GEOSError`` if the validity check fails.
+    ///
+    /// ## Example
+    /// ```swift
+    /// let polygon = try Polygon(exterior: ...)
+    /// let result = try polygon.isValidDetail()
+    ///
+    /// switch result {
+    /// case .valid:
+    ///     print("Geometry is valid")
+    /// case .invalid(let reason, let location):
+    ///     print("Invalid: \(reason ?? "unknown")")
+    ///     if let loc = location {
+    ///         print("Problem at: \(loc)")
+    ///     }
+    /// }
+    /// ```
     func isValidDetail(allowSelfTouchingRingFormingHole: Bool = false) throws -> IsValidDetailResult<C> {
         let context = try GEOSContext()
         let geosObject = try self.geometry.geosObject(with: context)
@@ -88,11 +171,44 @@ public extension GeometryConvertible {
     }
     
     // MARK: MakeValid
-    
+
+    /// Attempts to make this geometry valid by applying GEOS repair algorithms.
+    ///
+    /// This method returns a new valid geometry based on the input. The output may be
+    /// a different geometry type than the input. For example, a self-intersecting polygon
+    /// might become a multi-polygon.
+    ///
+    /// - Returns: A valid `Geometry<XY>` derived from this geometry.
+    /// - Throws: `Error` if the operation fails.
+    ///
+    /// ## Example
+    /// ```swift
+    /// let invalidPolygon = try Polygon(exterior: /* self-intersecting ring */)
+    /// let validGeometry: Geometry<XY> = try invalidPolygon.makeValid()
+    /// // validGeometry might be a MultiPolygon with two valid polygons
+    /// ```
+    ///
+    /// - Note: For more control over the validation algorithm, use `makeValid(method:)`.
     func makeValid() throws -> Geometry<XY> {
         try performUnaryTopologyOperation(GEOSMakeValid_r)
     }
-    
+
+    /// Attempts to make this geometry valid by applying GEOS repair algorithms.
+    ///
+    /// This method returns a new valid geometry based on the input, preserving the
+    /// Z coordinate dimension. The output may be a different geometry type than the input.
+    ///
+    /// - Returns: A valid `Geometry<XYZ>` derived from this geometry.
+    /// - Throws: `Error` if the operation fails.
+    ///
+    /// ## Example
+    /// ```swift
+    /// let invalidPolygon = try Polygon(exterior: /* self-intersecting ring with Z values */)
+    /// let validGeometry: Geometry<XYZ> = try invalidPolygon.makeValid()
+    /// // Z coordinates are preserved in the output geometry
+    /// ```
+    ///
+    /// - Note: For more control over the validation algorithm, use `makeValid(method:)`.
     func makeValid() throws -> Geometry<XYZ> where C: HasZ {
         try performUnaryTopologyOperation(GEOSMakeValid_r)
     }
@@ -113,10 +229,56 @@ public extension GeometryConvertible {
         return try Geometry(geosObject: GEOSObject(context: context, pointer: pointer))
     }
 
+    /// Attempts to make this geometry valid using a specific validation method.
+    ///
+    /// This method provides more control over the validation algorithm compared to `makeValid()`.
+    /// Different methods may produce different results for the same invalid input.
+    ///
+    /// - Parameter method: The ``MakeValidMethod`` to use.
+    /// - Returns: A valid `Geometry<XY>` derived from this geometry.
+    /// - Throws: `Error` if the operation fails.
+    ///
+    /// ## Example
+    /// ```swift
+    /// let invalidPolygon = try Polygon(exterior: /* self-intersecting ring */)
+    ///
+    /// // Use linework method
+    /// let result1: Geometry<XY> = try invalidPolygon.makeValid(method: .linework)
+    ///
+    /// // Use structure method, keeping collapsed geometries
+    /// let result2: Geometry<XY> = try invalidPolygon.makeValid(method: .structure(keepCollapsed: true))
+    ///
+    /// // Use structure method, removing collapsed geometries
+    /// let result3: Geometry<XY> = try invalidPolygon.makeValid(method: .structure(keepCollapsed: false))
+    /// ```
+    ///
+    /// - SeeAlso: `MakeValidMethod` for details on available methods.
     func makeValid(method: MakeValidMethod) throws -> Geometry<XY> {
         return try _makeValid(method: method)
     }
-    
+
+    /// Attempts to make this geometry valid using a specific validation method.
+    ///
+    /// This method provides more control over the validation algorithm compared to `makeValid()`.
+    /// Different methods may produce different results for the same invalid input. The Z coordinate
+    /// dimension is preserved in the output.
+    ///
+    /// - Parameter method: The ``MakeValidMethod`` to use.
+    /// - Returns: A valid `Geometry<XYZ>` derived from this geometry.
+    /// - Throws: `Error` if the operation fails.
+    ///
+    /// ## Example
+    /// ```swift
+    /// let invalidPolygon = try Polygon(exterior: /* self-intersecting ring with Z values */)
+    ///
+    /// // Use linework method
+    /// let result1: Geometry<XYZ> = try invalidPolygon.makeValid(method: .linework)
+    ///
+    /// // Use structure method, keeping collapsed geometries
+    /// let result2: Geometry<XYZ> = try invalidPolygon.makeValid(method: .structure(keepCollapsed: true))
+    /// ```
+    ///
+    /// - SeeAlso: `MakeValidMethod` for details on available methods.
     func makeValid(method: MakeValidMethod) throws -> Geometry<XYZ> where C: HasZ {
         return try _makeValid(method: method)
     }
