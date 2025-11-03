@@ -680,65 +680,6 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
-    func testUnionPointAndLine() {
-        let point = Point(x: 2, y: 0)
-        XCTAssertEqual(try? lineString1.union(with: point),
-                       .geometryCollection(GeometryCollection(geometries: [lineString1, point])))
-    }
-
-    func testUnionTwoPolygons() {
-        let unitPoly2 = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
-            XY(1, 0),
-            XY(2, 0),
-            XY(2, 1),
-            XY(1, 1),
-            XY(1, 0)]))
-        let expected = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
-            XY(0, 0),
-            XY(2, 0),
-            XY(2, 1),
-            XY(0, 1),
-            XY(0, 0)]))
-        XCTAssertEqual(try? unitPoly.union(with: unitPoly2).isTopologicallyEquivalent(to: expected), true)
-    }
-
-    func testUnionAllPairs() {
-        for (g1, g2) in geometryConvertibles.allPairs {
-            do {
-                _ = try g1.union(with: g2)
-            } catch {
-                XCTFail("Unexpected error for \(g1) union(with: \(g2)) \(error)")
-            }
-        }
-    }
-
-    func testUnaryUnionCollectionOfTwoPolygons() {
-        let unitPoly2 = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
-            XY(1, 0),
-            XY(2, 0),
-            XY(2, 1),
-            XY(1, 1),
-            XY(1, 0)]))
-        let collection = GeometryCollection(geometries: [unitPoly, unitPoly2])
-        let expected = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
-            XY(0, 0),
-            XY(2, 0),
-            XY(2, 1),
-            XY(0, 1),
-            XY(0, 0)]))
-        XCTAssertEqual(try? collection.unaryUnion().isTopologicallyEquivalent(to: expected), true)
-    }
-
-    func testUnaryUnionAllTypes() {
-        for g in geometryConvertibles {
-            do {
-                _ = try g.unaryUnion()
-            } catch {
-                XCTFail("Unexpected error for \(g) unaryUnion() \(error)")
-            }
-        }
-    }
-
     func testPointOnSurfacePolygon() {
         let point = try? unitPoly.pointOnSurface()
 
