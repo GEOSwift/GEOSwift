@@ -97,11 +97,11 @@ public extension GeometryConvertible {
         try performUnaryTopologyOperation(GEOSMakeValid_r)
     }
 
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
-    func makeValid(method: MakeValidMethod) throws -> Geometry<XY> {
+    private func _makeValid<D: CoordinateType>(method: MakeValidMethod) throws -> Geometry<D> {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         let params = MakeValidParams(context: context, method: method)
+        
         guard let pointer = GEOSMakeValidWithParams_r(
             context.handle,
             geosObject.pointer,
@@ -109,7 +109,16 @@ public extension GeometryConvertible {
         ) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
+        
         return try Geometry(geosObject: GEOSObject(context: context, pointer: pointer))
+    }
+
+    func makeValid(method: MakeValidMethod) throws -> Geometry<XY> {
+        return try _makeValid(method: method)
+    }
+    
+    func makeValid(method: MakeValidMethod) throws -> Geometry<XYZ> where C: HasZ {
+        return try _makeValid(method: method)
     }
 }
 
