@@ -144,7 +144,7 @@ public extension GeometryConvertible {
             : 0
         var optionalReason: UnsafeMutablePointer<Int8>?
         var optionalLocation: OpaquePointer?
-        
+
         switch GEOSisValidDetail_r(
             context.handle, geosObject.pointer, flags, &optionalReason, &optionalLocation) {
         case 1: // Valid
@@ -169,7 +169,7 @@ public extension GeometryConvertible {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
     }
-    
+
     // MARK: MakeValid
 
     /// Attempts to make this geometry valid by applying GEOS repair algorithms.
@@ -217,7 +217,7 @@ public extension GeometryConvertible {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
         let params = MakeValidParams(context: context, method: method)
-        
+
         guard let pointer = GEOSMakeValidWithParams_r(
             context.handle,
             geosObject.pointer,
@@ -225,7 +225,7 @@ public extension GeometryConvertible {
         ) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
-        
+
         return try Geometry(geosObject: GEOSObject(context: context, pointer: pointer))
     }
 
