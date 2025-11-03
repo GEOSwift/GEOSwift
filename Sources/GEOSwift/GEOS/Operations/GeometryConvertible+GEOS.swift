@@ -214,7 +214,7 @@ public extension GeometryConvertible {
 
     // MARK: - Topology Operations
 
-    private func nilIfTooFewPoints<D: CoordinateType>(op: () throws -> Geometry<D>) throws -> Geometry<D>? {
+    internal func nilIfTooFewPoints<D: CoordinateType>(op: () throws -> Geometry<D>) throws -> Geometry<D>? {
         do {
             return try op()
         } catch GEOSwiftError.tooFewCoordinates {
@@ -237,10 +237,10 @@ public extension GeometryConvertible {
             return try T(geosObject: GEOSObject(context: context, pointer: pointer))
     }
 
-    private typealias BinaryOperation = (GEOSContextHandle_t, OpaquePointer, OpaquePointer) -> OpaquePointer?
+    internal typealias BinaryOperation = (GEOSContextHandle_t, OpaquePointer, OpaquePointer) -> OpaquePointer?
 
     // TODO: Need to refine this since the output dimensions are the minimum of the input dimensions
-    private func performBinaryTopologyOperation<D: CoordinateType, E: CoordinateType>(
+    internal func performBinaryTopologyOperation<D: CoordinateType, E: CoordinateType>(
         _ operation: BinaryOperation,
         geometry: any GeometryConvertible<D>
     ) throws -> Geometry<E> {
@@ -277,13 +277,6 @@ public extension GeometryConvertible {
             return Envelope(minX: minX, maxX: maxX, minY: minY, maxY: maxY)
         default:
             throw GEOSwiftError.unexpectedEnvelopeResult(AnyGeometry(geometry))
-        }
-    }
-
-    // TODO: Provide higher dimensionality output where possible. Dimension Union.
-    func intersection(with geometry: any GeometryConvertible<C>) throws -> Geometry<XY>? {
-        return try nilIfTooFewPoints {
-            try performBinaryTopologyOperation(GEOSIntersection_r, geometry: geometry)
         }
     }
 
