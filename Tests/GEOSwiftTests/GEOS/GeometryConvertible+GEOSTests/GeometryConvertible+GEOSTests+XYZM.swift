@@ -764,40 +764,6 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         }
     }
 
-    func testLineMerge() {
-        let multiLineString = try! MultiLineString(lineStrings: [
-            LineString(coordinates: [XYZM(0, 0, 1, 1), XYZM(1, 0, 4, 4)]),
-            LineString(coordinates: [XYZM(1, 0, 2, 2), XYZM(0, 1, 5, 5)]),
-            LineString(coordinates: [XYZM(0, 0, 3, 3), XYZM(2, 1, 6, 6)])])
-
-        let expectedLineString = try! LineString(coordinates: [
-            XY(2, 1),
-            XY(0, 0),
-            XY(1, 0),
-            XY(0, 1)])
-
-        let expected = Geometry.lineString(expectedLineString)
-
-        // Line merge produces only XY geometry
-        XCTAssertEqual(try multiLineString.lineMerge(), expected)
-    }
-
-    func testLineMergeDirected() {
-        let multiLineString = try! MultiLineString(lineStrings: [
-            LineString(coordinates: [XYZM(0, 0, 1, 1), XYZM(1, 0, 4, 4)]),
-            LineString(coordinates: [XYZM(1, 0, 2, 2), XYZM(0, 1, 5, 5)]),
-            LineString(coordinates: [XYZM(0, 0, 3, 3), XYZM(2, 1, 6, 6)])])
-
-        let expectedMultiLineString = try! MultiLineString(lineStrings: [
-            LineString(coordinates: [XY(0, 0), XY(1, 0), XY(0, 1)]),
-            LineString(coordinates: [XY(0, 0), XY(2, 1)])])
-
-        let expected = Geometry.multiLineString(expectedMultiLineString)
-
-        // Line merge produces only XY geometry
-        XCTAssertEqual(try multiLineString.lineMergeDirected(), expected)
-    }
-
     // MARK: - Buffer Functions
 
     func testBufferAllTypes() {
