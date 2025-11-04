@@ -3,20 +3,7 @@ import geos
 
 // MARK: - Symmetric Difference Operations
 
-// Symmetric difference operations for geometric objects.
-//
-// The symmetric difference operation computes a geometry representing the points that are in
-// either geometry but not in both. It is equivalent to the XOR (exclusive or) of two geometries,
-// or (A union B) minus (A intersection B).
-//
-// ## Return Types
-//
-// The symmetric difference operation can return different geometry types or nil:
-// - Returns `nil` if the result has too few points to form a valid geometry
-// - Returns a Point if the result consists of a single point
-// - Returns a LineString if the result is linear
-// - Returns a Polygon if the result is an area
-// - Returns a Multi* or GeometryCollection for complex results
+// Computes a geometry representing the points that are in either geometry but not in both.
 //
 // ## Z Coordinate Preservation
 //
@@ -36,22 +23,16 @@ import geos
 // For geometries with Z coordinates, Z values are taken from the corresponding
 // vertices in the input geometries. When new vertices are created through intersection,
 // Z values are interpolated.
-//
-// ## Notes
-//
-// - The symmetric difference operation is commutative: A.symmetricDifference(B) = B.symmetricDifference(A)
-// - The operation follows the OGC Simple Features specification
-// - The result represents the areas where the two geometries do not overlap
 
 public extension GeometryConvertible {
     /// Computes the symmetric difference between this geometry and another.
     ///
-    /// The symmetric difference is the set of points in either geometry but not in both.
-    /// This overload is used when neither geometry has Z coordinates.
+    /// See `GEOSSymDifference_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5c11e43cddf600366cff2a9cab98c53d).
     ///
     /// - Parameter geometry: The geometry to compute symmetric difference with (any dimension).
-    /// - Returns: The symmetric difference as an XY geometry, or `nil` if the result is empty or has too few points.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The symmetric difference as a ``Geometry``, or `nil` if the result is empty or has too few points.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -70,15 +51,15 @@ public extension GeometryConvertible {
         }
     }
 
-    /// Computes the symmetric difference when the second geometry has Z coordinates, returning an XYZ result.
+    /// Computes the symmetric difference between this geometry and another.
     ///
-    /// The symmetric difference is the set of points in either geometry but not in both.
-    /// This overload is used when the second operand has Z coordinates, regardless of whether the
-    /// first operand has Z. The result will have Z coordinates.
+    /// See `GEOSSymDifference_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5c11e43cddf600366cff2a9cab98c53d).
     ///
     /// - Parameter geometry: The geometry with Z coordinates to compute symmetric difference with.
-    /// - Returns: The symmetric difference as an XYZ geometry, or `nil` if the result is empty or has too few points.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The symmetric difference as a ``Geometry`` with XYZ coordinates, or `nil` if the result is empty or
+    ///   has too few points.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -91,11 +72,6 @@ public extension GeometryConvertible {
     /// let symDiff: Geometry<XYZ>? = try flatRect.symmetricDifference(with: terrain)
     /// // Returns an XYZ result with Z values from terrain where applicable
     /// ```
-    ///
-    /// ## Notes
-    /// - Works with any first operand dimension (XY, XYZ, XYM, XYZM) as long as second has Z.
-    /// - M coordinates are never preserved; only XYZ is returned.
-    /// - Z values for intersection points are interpolated from the input geometries.
     func symmetricDifference<D: CoordinateType>(
         with geometry: any GeometryConvertible<D>
     ) throws -> Geometry<XYZ>? where D: HasZ {
@@ -106,15 +82,15 @@ public extension GeometryConvertible {
 }
 
 public extension GeometryConvertible where C: HasZ {
-    /// Computes the symmetric difference when the first geometry has Z coordinates, returning an XYZ result.
+    /// Computes the symmetric difference between this geometry and another.
     ///
-    /// The symmetric difference is the set of points in either geometry but not in both.
-    /// This overload is used when the first operand (this geometry) has Z coordinates. The second
-    /// operand can have any dimension. The result will always have Z coordinates.
+    /// See `GEOSSymDifference_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5c11e43cddf600366cff2a9cab98c53d).
     ///
     /// - Parameter geometry: The geometry to compute symmetric difference with (any dimension).
-    /// - Returns: The symmetric difference as an XYZ geometry, or `nil` if the result is empty or has too few points.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The symmetric difference as a ``Geometry`` with XYZ coordinates, or `nil` if the result is empty or
+    ///   has too few points.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -127,11 +103,6 @@ public extension GeometryConvertible where C: HasZ {
     /// let symDiff = try terrain.symmetricDifference(with: flatRect)
     /// // Returns the non-overlapping regions, with Z values preserved
     /// ```
-    ///
-    /// ## Notes
-    /// - Available for geometries with Z coordinates (XYZ and XYZM) as the first operand.
-    /// - For XYZM geometries, M coordinates are not preserved; only XYZ is returned.
-    /// - Z values for intersection points are interpolated from both geometries.
     func symmetricDifference<D: CoordinateType>(
         with geometry: any GeometryConvertible<D>
     ) throws -> Geometry<XYZ>? {

@@ -3,10 +3,7 @@ import geos
 
 // MARK: - Union Operations
 
-// Union operations for geometric objects.
-//
-// The union operation computes the set-theoretic union of two geometries,
-// returning a new geometry representing all points that are in either input geometry.
+// Computes the set-theoretic union of two geometries.
 //
 // ## Dimension Union Strategy
 //
@@ -42,9 +39,12 @@ extension GeometryConvertible {
 public extension GeometryConvertible where C == XY {
     /// Computes the union of this XY geometry with another XY geometry.
     ///
+    /// See `GEOSUnion_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5689cad561ddd4528a1c5522d0de0543).
+    ///
     /// - Parameter geometry: The geometry to union with.
-    /// - Returns: The union as an XY geometry, or `nil` if the result is empty.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The union as a ``Geometry``, or `nil` if the result is empty.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -62,9 +62,12 @@ public extension GeometryConvertible where C == XY {
     ///
     /// The result will be an XYZ geometry with Z values interpolated from the XYZ input geometry.
     ///
+    /// See `GEOSUnion_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5689cad561ddd4528a1c5522d0de0543).
+    ///
     /// - Parameter geometry: The XYZ geometry to union with.
-    /// - Returns: The union as an XYZ geometry, or `nil` if the result is empty.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The union as a ``Geometry`` with XYZ coordinates, or `nil` if the result is empty.
+    /// - Throws: `Error` if the operation fails.
     func union(with geometry: any GeometryConvertible<XYZ>) throws -> Geometry<XYZ>? {
         return try _union(with: geometry)
     }
@@ -73,9 +76,12 @@ public extension GeometryConvertible where C == XY {
     ///
     /// The result will be an XYM geometry. M values are set to NaN where new union points are created.
     ///
+    /// See `GEOSUnion_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5689cad561ddd4528a1c5522d0de0543).
+    ///
     /// - Parameter geometry: The XYM geometry to union with.
-    /// - Returns: The union as an XYM geometry, or `nil` if the result is empty.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The union as a ``Geometry`` with XYM coordinates, or `nil` if the result is empty.
+    /// - Throws: `Error` if the operation fails.
     func union(with geometry: any GeometryConvertible<XYM>) throws -> Geometry<XYM>? {
         return try _union(with: geometry)
     }
@@ -85,9 +91,12 @@ public extension GeometryConvertible where C == XY {
     /// The result will be an XYZM geometry with Z values interpolated from the XYZM input geometry.
     /// M values are set to NaN where new union points are created.
     ///
+    /// See `GEOSUnion_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5689cad561ddd4528a1c5522d0de0543).
+    ///
     /// - Parameter geometry: The XYZM geometry to union with.
-    /// - Returns: The union as an XYZM geometry, or `nil` if the result is empty.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The union as a ``Geometry`` with XYZM coordinates, or `nil` if the result is empty.
+    /// - Throws: `Error` if the operation fails.
     func union(with geometry: any GeometryConvertible<XYZM>) throws -> Geometry<XYZM>? {
         return try _union(with: geometry)
     }
@@ -101,11 +110,14 @@ public extension GeometryConvertible where C == XYZ {
     /// The result will be an XYZ geometry with Z values interpolated from this XYZ geometry.
     /// If the other geometry has Z coordinates, both sets of Z values are used for interpolation.
     ///
-    /// - Parameter geometry: The geometry to union with (can be XY, XYZ, XYM, or XYZM).
-    /// - Returns: The union as an XYZ geometry, or `nil` if the result is empty.
-    /// - Throws: An error if the operation fails.
+    /// See `GEOSUnion_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5689cad561ddd4528a1c5522d0de0543).
     ///
-    /// ## Examples
+    /// - Parameter geometry: The geometry to union with (can be XY, XYZ, XYM, or XYZM).
+    /// - Returns: The union as a ``Geometry`` with XYZ coordinates, or `nil` if the result is empty.
+    /// - Throws: `Error` if the operation fails.
+    ///
+    /// ## Example
     /// ```swift
     /// let line3D = try LineString(coordinates: [XYZ(0, 0, 10), XYZ(2, 0, 20)])
     /// let poly2D = try Polygon(exterior: Polygon.LinearRing(coordinates: [
@@ -122,9 +134,12 @@ public extension GeometryConvertible where C == XYZ {
     /// The result will be an XYZM geometry with Z values interpolated from this XYZ geometry.
     /// M values are set to NaN where new union points are created.
     ///
+    /// See `GEOSUnion_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5689cad561ddd4528a1c5522d0de0543).
+    ///
     /// - Parameter geometry: A geometry with M coordinates (XYM or XYZM) to union with.
-    /// - Returns: The union as an XYZM geometry, or `nil` if the result is empty.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The union as a ``Geometry`` with XYZM coordinates, or `nil` if the result is empty.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -146,9 +161,12 @@ public extension GeometryConvertible where C == XYM {
     ///
     /// The result will be an XYM geometry. M values are set to NaN where new union points are created.
     ///
+    /// See `GEOSUnion_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5689cad561ddd4528a1c5522d0de0543).
+    ///
     /// - Parameter geometry: The geometry to union with (can be XY, XYZ, XYM, or XYZM).
-    /// - Returns: The union as an XYM geometry, or `nil` if the result is empty.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The union as a ``Geometry`` with XYM coordinates, or `nil` if the result is empty.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -167,9 +185,12 @@ public extension GeometryConvertible where C == XYM {
     /// The result will be an XYZM geometry with Z values interpolated from the other geometry.
     /// M values are set to NaN where new union points are created.
     ///
+    /// See `GEOSUnion_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5689cad561ddd4528a1c5522d0de0543).
+    ///
     /// - Parameter geometry: A geometry with Z coordinates (XYZ or XYZM) to union with.
-    /// - Returns: The union as an XYZM geometry, or `nil` if the result is empty.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The union as a ``Geometry`` with XYZM coordinates, or `nil` if the result is empty.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -193,9 +214,12 @@ public extension GeometryConvertible where C == XYZM {
     /// If the other geometry also has Z coordinates, both sets of Z values are used for interpolation.
     /// M values are set to NaN where new union points are created.
     ///
+    /// See `GEOSUnion_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a5689cad561ddd4528a1c5522d0de0543).
+    ///
     /// - Parameter geometry: The geometry to union with (can be XY, XYZ, XYM, or XYZM).
-    /// - Returns: The union as an XYZM geometry, or `nil` if the result is empty.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The union as a ``Geometry`` with XYZM coordinates, or `nil` if the result is empty.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
