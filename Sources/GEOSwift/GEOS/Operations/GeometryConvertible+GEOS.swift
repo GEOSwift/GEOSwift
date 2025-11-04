@@ -301,13 +301,6 @@ public extension GeometryConvertible {
         try performUnaryTopologyOperation(GEOSMinimumWidth_r)
     }
 
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
-    func symmetricDifference(with geometry: any GeometryConvertible<C>) throws -> Geometry<XY>? {
-        return try nilIfTooFewPoints {
-            try performBinaryTopologyOperation(GEOSSymDifference_r, geometry: geometry)
-        }
-    }
-
     // verified preserves Z/M
     func unaryUnion() throws -> Geometry<C> {
         try performUnaryTopologyOperation(GEOSUnaryUnion_r)
