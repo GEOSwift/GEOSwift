@@ -413,18 +413,6 @@ public extension GeometryConvertible {
         }
     }
 
-    // MARK: - Simplify Functions
-
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
-    func simplify(withTolerance tolerance: Double) throws -> Geometry<XY> {
-        let context = try GEOSContext()
-        let geosObject = try geometry.geosObject(with: context)
-        guard let resultPointer = GEOSSimplify_r(context.handle, geosObject.pointer, tolerance) else {
-            throw GEOSError.libraryError(errorMessages: context.errors)
-        }
-        return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
-    }
-
     // MARK: - Snapping
 
     // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
