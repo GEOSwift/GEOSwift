@@ -50,6 +50,20 @@ import geos
 // - For polygons with holes, only the exterior shell contributes to the hull.
 
 public extension GeometryConvertible {
+    private func _concaveHull<D: CoordinateType>(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry<D> {
+        let context = try GEOSContext()
+        let geosObject = try geometry.geosObject(with: context)
+        guard let resultPointer = GEOSConcaveHull_r(
+            context.handle,
+            geosObject.pointer,
+            ratio,
+            allowHoles ? 1 : 0
+        ) else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
+    }
+
     /// Computes the concave hull of this geometry, returning an XY result.
     ///
     /// The concave hull is a possibly concave geometry that contains all points in the input.
@@ -72,17 +86,7 @@ public extension GeometryConvertible {
     /// // Returns a polygon that more closely follows the point distribution
     /// ```
     func concaveHull(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry<XY> {
-        let context = try GEOSContext()
-        let geosObject = try geometry.geosObject(with: context)
-        guard let resultPointer = GEOSConcaveHull_r(
-            context.handle,
-            geosObject.pointer,
-            ratio,
-            allowHoles ? 1 : 0
-        ) else {
-            throw GEOSError.libraryError(errorMessages: context.errors)
-        }
-        return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
+        return try _concaveHull(withRatio: ratio, allowHoles: allowHoles)
     }
 
     /// Computes the concave hull of this geometry with Z coordinates, preserving the Z dimension.
@@ -112,16 +116,6 @@ public extension GeometryConvertible {
     /// - Available for geometries with Z coordinates (XYZ and XYZM).
     /// - For XYZM geometries, M coordinates are not preserved; only XYZ is returned.
     func concaveHull(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry<XYZ> where C: HasZ {
-        let context = try GEOSContext()
-        let geosObject = try geometry.geosObject(with: context)
-        guard let resultPointer = GEOSConcaveHull_r(
-            context.handle,
-            geosObject.pointer,
-            ratio,
-            allowHoles ? 1 : 0
-        ) else {
-            throw GEOSError.libraryError(errorMessages: context.errors)
-        }
-        return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
+        return try _concaveHull(withRatio: ratio, allowHoles: allowHoles)
     }
 }
