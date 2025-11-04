@@ -10,6 +10,18 @@
 * Add `WKBReader.readAny(wkb:)` to read `AnyGeometry` types when the `CoordinateType` is unknown.
 * Add `WKTReader.readAny(wkt:)` to read `AnyGeometry` types when the `CoordinateType` is unknown.
 * Add `CodingUserInfo.geoJSONSetMissingZNan` to control the behavior or missing Z coordinates when decoding GeoJSON.
+* Add Z-preerving behavior for `makeValid`
+* Add dimension union behavior for `intersection`
+* Add dimension union behavior for `union`
+* Add Z-preerving behavior for `convexHull`
+* Add Z-preerving behavior for `concaveHull`
+* Add Z-preerving behavior for `differece`
+* Add Z-preerving behavior for `symmetricDifference`
+* Add Z-preerving behavior for `polygonize`
+* Add Z-preerving behavior for `lineMerge`
+* Add Z-preerving behavior for `lineMergeDirected`
+* Add Z-preerving behavior for `simplify`
+* Add Z-preerving behavior for `snap`
 
 ## 11.2.0
 
