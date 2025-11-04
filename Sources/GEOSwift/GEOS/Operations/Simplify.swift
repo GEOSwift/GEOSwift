@@ -23,9 +23,11 @@ public extension GeometryConvertible {
     private func _simplify<D: CoordinateType>(withTolerance tolerance: Double) throws -> Geometry<D> {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
+
         guard let resultPointer = GEOSSimplify_r(context.handle, geosObject.pointer, tolerance) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
+
         return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
     }
 
