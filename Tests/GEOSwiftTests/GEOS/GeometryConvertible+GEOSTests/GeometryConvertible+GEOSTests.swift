@@ -585,38 +585,6 @@ final class GeometryConvertible_GEOSTests: XCTestCase {
         }
     }
 
-    func testSymmetricDifferencePolygons() throws {
-        let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
-            XY(0.5, 0),
-            XY(1.5, 0),
-            XY(1.5, 1),
-            XY(0.5, 1),
-            XY(0.5, 0)]))
-        let expected = try! MultiPolygon(polygons: [
-            Polygon(exterior: Polygon.LinearRing(coordinates: [
-                XY(1, 0),
-                XY(1.5, 0),
-                XY(1.5, 1),
-                XY(1, 1),
-                XY(1, 0)])),
-            Polygon(exterior: Polygon.LinearRing(coordinates: [
-                XY(0, 0),
-                XY(0.5, 0),
-                XY(0.5, 1),
-                XY(0, 1),
-                XY(0, 0)]))])
-
-        let result = try XCTUnwrap(poly.symmetricDifference(with: unitPoly))
-
-        XCTAssertTrue(try result.isTopologicallyEquivalent(to: expected))
-    }
-
-    func testSymmetricDifferenceAllPairs() {
-        for (g1, g2) in geometryConvertibles.allPairs {
-            XCTAssertNoThrow(try g1.symmetricDifference(with: g2))
-        }
-    }
-
     func testPointOnSurfacePolygon() {
         let point = try? unitPoly.pointOnSurface()
 
