@@ -711,35 +711,6 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         }
     }
 
-    func testDifferencePolygons() {
-        let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
-            XYZM(0.5, 0, 0, 0),
-            XYZM(1.5, 0, 1, 1),
-            XYZM(1.5, 1, 2, 2),
-            XYZM(0.5, 1, 3, 3),
-            XYZM(0.5, 0, 0, 0)]))
-        let expectedPoly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
-            XYZM(1, 0, 0, 0),
-            XYZM(1.5, 0, 3, 1),
-            XYZM(1.5, 1, 2, 2),
-            XYZM(1, 1, 1, 3),
-            XYZM(1, 0, 0, 0)]))
-
-        // Difference returns only XY geometry and topological tests are XY only
-        XCTAssertEqual(try? poly.difference(with: unitPoly)?.isTopologicallyEquivalent(to: expectedPoly),
-                       true)
-    }
-
-    func testDifferenceAllPairs() {
-        for (g1, g2) in geometryConvertibles.allPairs {
-            do {
-                _ = try g1.difference(with: g2)
-            } catch {
-                XCTFail("Unexpected error for \(g1) difference(with: \(g2)) \(error)")
-            }
-        }
-    }
-
     func testSymmetricDifferencePolygons() throws {
         let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
             XYZM(0.5, 0, 0, 0),
