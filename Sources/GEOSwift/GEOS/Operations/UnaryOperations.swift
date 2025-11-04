@@ -2,6 +2,28 @@ import Foundation
 import geos
 
 public extension GeometryConvertible {
+    func length() throws -> Double {
+        let context = try GEOSContext()
+        let geosObject = try geometry.geosObject(with: context)
+        var length: Double = 0
+        // returns 0 on exception
+        guard GEOSLength_r(context.handle, geosObject.pointer, &length) != 0 else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return length
+    }
+
+    func area() throws -> Double {
+        let context = try GEOSContext()
+        let geosObject = try geometry.geosObject(with: context)
+        var area: Double = 0
+        // returns 0 on exception
+        guard GEOSArea_r(context.handle, geosObject.pointer, &area) != 0 else {
+            throw GEOSError.libraryError(errorMessages: context.errors)
+        }
+        return area
+    }
+    
     func envelope() throws -> Envelope {
         let geometry: Geometry<XY> = try performUnaryTopologyOperation(GEOSEnvelope_r)
         switch geometry {
