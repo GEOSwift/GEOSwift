@@ -23,6 +23,7 @@ public extension GeometryConvertible {
     private func _concaveHull<D: CoordinateType>(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry<D> {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
+
         guard let resultPointer = GEOSConcaveHull_r(
             context.handle,
             geosObject.pointer,
@@ -31,6 +32,7 @@ public extension GeometryConvertible {
         ) else {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
+
         return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
     }
 
