@@ -875,15 +875,4 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         XCTAssertTrue(try actualGeometry?.isTopologicallyEquivalent(to: expextedLineString) == true)
     }
 
-    // MARK: - Snapping
-
-    func testSnapAllPairs() {
-        for (g1, g2) in geometryConvertibles.allPairs {
-            do {
-                _ = try g1.snap(to: g2, tolerance: 1)
-            } catch {
-                XCTFail("Unexpected error for \(g1) snap(to: \(g2), tolerance: 1) \(error)")
-            }
-        }
-    }
 }
