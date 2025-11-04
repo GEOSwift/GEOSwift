@@ -659,16 +659,6 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         }
     }
 
-    func testConcaveHullAllTypes() {
-        for g in geometryConvertibles {
-            do {
-                _ = try g.concaveHull(withRatio: .random(in: 0...1), allowHoles: .random())
-            } catch {
-                XCTFail("Unexpected error for \(g) convexHull() \(error)")
-            }
-        }
-    }
-
     func testMinimumRotatedRectangleLineAndPoint() {
         let line = try! LineString(coordinates: [
             XYZM(0, 1, 0, 0),

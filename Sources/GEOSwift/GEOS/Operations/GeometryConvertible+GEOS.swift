@@ -291,21 +291,6 @@ public extension GeometryConvertible {
         return try Geometry(geosObject: geosObject)
     }
 
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
-    func concaveHull(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry<XY> {
-        let context = try GEOSContext()
-        let geosObject = try geometry.geosObject(with: context)
-        guard let resultPointer = GEOSConcaveHull_r(
-            context.handle,
-            geosObject.pointer,
-            ratio,
-            allowHoles ? 1 : 0
-        ) else {
-            throw GEOSError.libraryError(errorMessages: context.errors)
-        }
-        return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
-    }
-
     // Always drops Z/M
     func minimumRotatedRectangle() throws -> Geometry<XY> {
         try performUnaryTopologyOperation(GEOSMinimumRotatedRectangle_r)
