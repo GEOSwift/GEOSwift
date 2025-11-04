@@ -341,11 +341,6 @@ public extension GeometryConvertible {
     }
 
     // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
-    func polygonize() throws -> GeometryCollection<XY> {
-        try [self].polygonize()
-    }
-
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
     func lineMerge() throws -> Geometry<XY> {
         try performUnaryTopologyOperation(GEOSLineMerge_r)
     }
@@ -456,21 +451,6 @@ public extension GeometryConvertible {
             throw GEOSError.libraryError(errorMessages: context.errors)
         }
         return try Geometry(geosObject: GEOSObject(context: context, pointer: pointer))
-    }
-}
-
-public extension Collection where Element: GeometryConvertible {
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
-    func polygonize() throws -> GeometryCollection<XY> {
-        let context = try GEOSContext()
-        let geosObjects = try map { try $0.geometry.geosObject(with: context) }
-        let pointer = withExtendedLifetime(geosObjects) { geosObjects in
-            GEOSPolygonize_r(context.handle, geosObjects.map { $0.pointer }, UInt32(geosObjects.count))
-        }
-        guard let pointer else {
-            throw GEOSError.libraryError(errorMessages: context.errors)
-        }
-        return try GeometryCollection(geosObject: GEOSObject(context: context, pointer: pointer))
     }
 }
 
