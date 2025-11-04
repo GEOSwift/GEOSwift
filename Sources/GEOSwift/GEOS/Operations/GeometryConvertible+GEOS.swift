@@ -413,23 +413,6 @@ public extension GeometryConvertible {
         }
     }
 
-    // MARK: - Snapping
-
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
-    func snap(to geometry: any GeometryConvertible<C>, tolerance: Double) throws -> Geometry<XY> {
-        let context = try GEOSContext()
-        let geosObject = try self.geometry.geosObject(with: context)
-        let otherGeosObject = try geometry.geometry.geosObject(with: context)
-        guard let pointer = GEOSSnap_r(
-            context.handle,
-            geosObject.pointer,
-            otherGeosObject.pointer,
-            tolerance
-        ) else {
-            throw GEOSError.libraryError(errorMessages: context.errors)
-        }
-        return try Geometry(geosObject: GEOSObject(context: context, pointer: pointer))
-    }
 }
 
 public enum BufferEndCapStyle: Hashable, Sendable {
