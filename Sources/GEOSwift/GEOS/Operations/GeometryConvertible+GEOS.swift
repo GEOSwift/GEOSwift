@@ -292,11 +292,6 @@ public extension GeometryConvertible {
     }
 
     // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
-    func convexHull() throws -> Geometry<XY> {
-        try performUnaryTopologyOperation(GEOSConvexHull_r)
-    }
-
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
     func concaveHull(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry<XY> {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
