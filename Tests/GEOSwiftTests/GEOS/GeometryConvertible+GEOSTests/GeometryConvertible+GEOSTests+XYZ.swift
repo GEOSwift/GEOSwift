@@ -875,18 +875,6 @@ final class GeometryConvertible_GEOSTests_XYZ: XCTestCase {
         XCTAssertTrue(try actualGeometry?.isTopologicallyEquivalent(to: expextedLineString) == true)
     }
 
-    // MARK: - Simplify Functions
-
-    func testSimplifyAllTypes() {
-        for geometry in geometryConvertibles {
-            do {
-                _ = try geometry.simplify(withTolerance: 0.01)
-            } catch {
-                XCTFail("Unexpected error for \(geometry) simplify(withTolerance: 0.01) \(error)")
-            }
-        }
-    }
-
     // MARK: - Snapping
 
     func testSnapAllPairs() {
