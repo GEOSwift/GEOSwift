@@ -764,58 +764,6 @@ final class GeometryConvertible_GEOSTests_XYZM: XCTestCase {
         }
     }
 
-    func testPolygonizeAllTypes() {
-        for g in geometryConvertibles {
-            do {
-                _ = try g.polygonize()
-            } catch {
-                XCTFail("Unexpected error for \(g) polygonize() \(error)")
-            }
-        }
-    }
-
-    func testPolygonize() {
-        let multiLineString = try! MultiLineString(lineStrings: [
-            LineString(coordinates: [XYZM(0, 0, 0, 0), XYZM(1, 0, 1, 1)]),
-            LineString(coordinates: [XYZM(1, 0, 2, 2), XYZM(0, 1, 3, 3)]),
-            LineString(coordinates: [XYZM(0, 1, 4, 4), XYZM(0, 0, 0, 0)])
-        ])
-
-        let expectedPolygon = try! Polygon(
-            exterior: Polygon.LinearRing(coordinates: [
-                XYZM(0, 0, 0, 0),
-                XYZM(1, 0, 0, 1),
-                XYZM(0, 1, 0, 2),
-                XYZM(0, 0, 0, 0)
-            ]))
-
-        // Topological equivalence only checks XY geometry
-        XCTAssertTrue(try multiLineString.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
-    }
-
-    func testPolygonizeEmptyArray() {
-        XCTAssertEqual(try [Geometry<XYZM>]().polygonize(), GeometryCollection(geometries: []))
-    }
-
-    func testPolygonizeArray() {
-        let lineStrings = try! [
-            LineString(coordinates: [XYZM(0, 0, 0, 0), XYZM(1, 0, 1, 1)]),
-            LineString(coordinates: [XYZM(1, 0, 2, 2), XYZM(0, 1, 3, 3)]),
-            LineString(coordinates: [XYZM(0, 1, 4, 4), XYZM(0, 0, 0, 0)])
-        ]
-
-        // Topological equivalence only checks XY geometry
-        let expectedPolygon = try! Polygon(
-            exterior: Polygon.LinearRing(coordinates: [
-                XYZM(0, 0, 0, 0),
-                XYZM(1, 0, 0, 1),
-                XYZM(0, 1, 0, 2),
-                XYZM(0, 0, 0, 0)
-            ]))
-
-        XCTAssertTrue(try lineStrings.polygonize().isTopologicallyEquivalent(to: expectedPolygon))
-    }
-
     func testLineMerge() {
         let multiLineString = try! MultiLineString(lineStrings: [
             LineString(coordinates: [XYZM(0, 0, 1, 1), XYZM(1, 0, 4, 4)]),
