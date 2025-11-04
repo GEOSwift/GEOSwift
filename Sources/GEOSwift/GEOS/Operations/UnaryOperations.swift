@@ -2,6 +2,28 @@ import Foundation
 import geos
 
 public extension GeometryConvertible {
+    internal func nilIfTooFewPoints<D: CoordinateType>(op: () throws -> Geometry<D>) throws -> Geometry<D>? {
+        do {
+            return try op()
+        } catch GEOSwiftError.tooFewCoordinates {
+            return nil
+        } catch {
+            throw error
+        }
+    }
+
+    internal typealias UnaryOperation = (GEOSContextHandle_t, OpaquePointer) -> OpaquePointer?
+
+    internal func performUnaryTopologyOperation<T>(_ operation: UnaryOperation) throws -> T
+        where T: GEOSObjectInitializable {
+            let context = try GEOSContext()
+            let geosObject = try geometry.geosObject(with: context)
+            guard let pointer = operation(context.handle, geosObject.pointer) else {
+                throw GEOSError.libraryError(errorMessages: context.errors)
+            }
+            return try T(geosObject: GEOSObject(context: context, pointer: pointer))
+    }
+
     func length() throws -> Double {
         let context = try GEOSContext()
         let geosObject = try geometry.geosObject(with: context)
@@ -23,7 +45,7 @@ public extension GeometryConvertible {
         }
         return area
     }
-    
+
     func envelope() throws -> Envelope {
         let geometry: Geometry<XY> = try performUnaryTopologyOperation(GEOSEnvelope_r)
         switch geometry {
