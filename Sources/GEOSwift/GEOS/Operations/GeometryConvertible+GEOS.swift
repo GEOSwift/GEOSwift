@@ -302,13 +302,6 @@ public extension GeometryConvertible {
     }
 
     // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
-    func difference(with geometry: any GeometryConvertible<C>) throws -> Geometry<XY>? {
-        return try nilIfTooFewPoints {
-            try performBinaryTopologyOperation(GEOSDifference_r, geometry: geometry)
-        }
-    }
-
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
     func symmetricDifference(with geometry: any GeometryConvertible<C>) throws -> Geometry<XY>? {
         return try nilIfTooFewPoints {
             try performBinaryTopologyOperation(GEOSSymDifference_r, geometry: geometry)
