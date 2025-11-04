@@ -340,16 +340,6 @@ public extension GeometryConvertible {
         return Circle(center: center, radius: radius)
     }
 
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
-    func lineMerge() throws -> Geometry<XY> {
-        try performUnaryTopologyOperation(GEOSLineMerge_r)
-    }
-
-    // TODO: Provide higher dimensionality output where possible. Preserves Z, drops M.
-    func lineMergeDirected() throws -> Geometry<XY> {
-        try performUnaryTopologyOperation(GEOSLineMergeDirected_r)
-    }
-
     // MARK: - Buffer Functions
 
     // XY only
