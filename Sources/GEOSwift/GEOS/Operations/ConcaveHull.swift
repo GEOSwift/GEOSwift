@@ -3,51 +3,21 @@ import geos
 
 // MARK: - Concave Hull Operations
 
-// Concave hull operations for geometric objects.
-//
-// The concave hull operation computes a possibly concave geometry that contains all points
-// in the input geometry. Unlike the convex hull, which is always convex (like stretching a
-// rubber band), the concave hull can have indentations and more closely follows the shape
-// of the input geometry.
-//
-// ## Return Types
-//
-// The concave hull can return different geometry types depending on the input:
-// - A point geometry returns a point
-// - A line with two points returns a line string
-// - Three or more points typically return a polygon (possibly concave)
-//
-// ## Ratio Parameter
-//
-// The ratio parameter controls the concaveness of the result:
-// - A ratio of 0 produces the convex hull
-// - A ratio of 1 produces maximum concaveness
-// - Values between 0 and 1 produce intermediate results
-// - Higher ratios allow tighter fitting around the input geometry
-//
-// ## Holes Parameter
-//
-// The allowHoles parameter controls whether the result can contain holes:
-// - When true, the algorithm may create holes in the resulting polygon
-// - When false, the result is guaranteed to have no holes
+// Computes a possibly concave geometry that contains all points in the input, allowing
+// tighter fitting than a convex hull through a configurable ratio parameter.
 //
 // ## Z Coordinate Preservation
 //
-// When operating on geometries with Z coordinates (XYZ or XYZM), the concave hull operation
-// preserves the Z dimension:
-// - XY geometries return an XY concave hull
-// - XYZ geometries return an XYZ concave hull with Z values from the input geometry
-// - XYM geometries return an XY concave hull (M coordinates are not preserved)
-// - XYZM geometries return an XYZ concave hull (M coordinates are not preserved)
+// The dimension of the result depends on the dimension of the input geometry:
+// - If the input has Z coordinates, the result will have Z coordinates
+// - If the input has no Z coordinates, the result will be XY only
+// - M coordinates are never preserved in the result
 //
-// For geometries with Z coordinates, the Z values of the hull vertices are taken from
-// the corresponding vertices in the input geometry.
-//
-// ## Notes
-//
-// - The concave hull is always a valid geometry.
-// - The operation uses the GEOS library's concave hull algorithm.
-// - For polygons with holes, only the exterior shell contributes to the hull.
+// Examples:
+// - XY geometries → XY concave hull
+// - XYZ geometries → XYZ concave hull
+// - XYM geometries → XY concave hull (M is dropped)
+// - XYZM geometries → XYZ concave hull (M is dropped)
 
 public extension GeometryConvertible {
     private func _concaveHull<D: CoordinateType>(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry<D> {
@@ -64,17 +34,17 @@ public extension GeometryConvertible {
         return try Geometry(geosObject: GEOSObject(context: context, pointer: resultPointer))
     }
 
-    /// Computes the concave hull of this geometry, returning an XY result.
+    /// Computes the concave hull of this geometry.
     ///
-    /// The concave hull is a possibly concave geometry that contains all points in the input.
-    /// The ratio parameter controls how tightly the hull fits the input geometry.
+    /// See `GEOSConcaveHull_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a0c9888f1483b30d6316555deee0fd3cd).
     ///
     /// - Parameters:
     ///   - ratio: A number between 0 and 1 controlling the concaveness. 0 produces the convex hull,
     ///            1 produces maximum concaveness.
     ///   - allowHoles: Whether to allow holes in the resulting polygon.
-    /// - Returns: The concave hull as an XY geometry.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: A concave hull ``Geometry``.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -89,17 +59,17 @@ public extension GeometryConvertible {
         return try _concaveHull(withRatio: ratio, allowHoles: allowHoles)
     }
 
-    /// Computes the concave hull of this geometry with Z coordinates, preserving the Z dimension.
+    /// Computes the concave hull of this geometry.
     ///
-    /// The concave hull is a possibly concave geometry that contains all points in the input.
-    /// Z coordinates from the input geometry are preserved in the result.
+    /// See `GEOSConcaveHull_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a0c9888f1483b30d6316555deee0fd3cd).
     ///
     /// - Parameters:
     ///   - ratio: A number between 0 and 1 controlling the concaveness. 0 produces the convex hull,
     ///            1 produces maximum concaveness.
     ///   - allowHoles: Whether to allow holes in the resulting polygon.
-    /// - Returns: The concave hull as an XYZ geometry.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: A concave hull ``Geometry`` with XYZ coordinates.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -111,10 +81,6 @@ public extension GeometryConvertible {
     /// let hull = try terrain.concaveHull(withRatio: 0.5, allowHoles: false)
     /// // Returns XYZ polygon with Z values from the vertices
     /// ```
-    ///
-    /// ## Notes
-    /// - Available for geometries with Z coordinates (XYZ and XYZM).
-    /// - For XYZM geometries, M coordinates are not preserved; only XYZ is returned.
     func concaveHull(withRatio ratio: Double, allowHoles: Bool) throws -> Geometry<XYZ> where C: HasZ {
         return try _concaveHull(withRatio: ratio, allowHoles: allowHoles)
     }

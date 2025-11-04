@@ -3,11 +3,8 @@ import geos
 
 // MARK: - Snap Operations
 
-// Snap operations for geometric objects.
-//
-// Snaps the vertices in the input geometry to the vertices of a reference geometry within a
-// specified tolerance distance. All vertices in the input geometry that are within the tolerance
-// distance of a vertex in the reference geometry will be snapped to that reference vertex.
+// Snaps the vertices and segments of a geometry to the vertices of a reference geometry within
+// a specified tolerance, using heuristics to avoid creating invalid topologies.
 //
 // ## Z Coordinate Preservation
 //
@@ -43,14 +40,22 @@ public extension GeometryConvertible {
         return try Geometry(geosObject: GEOSObject(context: context, pointer: pointer))
     }
 
-    /// Snaps the vertices of this geometry to the vertices of another geometry within the
-    /// specified tolerance.
+    /// Snaps the vertices and segments of this geometry to the vertices of another geometry.
+    ///
+    /// Heuristics are used to determine which vertices to snap to avoid creating invalid topologies.
+    /// Some potential snaps within the tolerance may be omitted for safety.
+    ///
+    /// See `GEOSSnap_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a6e5efd34016d94bf5dfe73301e10162f).
     ///
     /// - Parameters:
     ///   - geometry: The reference geometry to snap to.
     ///   - tolerance: The maximum distance for snapping vertices.
-    /// - Returns: A snapped Geometry with the same type as the input.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: A snapped ``Geometry``.
+    /// - Throws: `Error` if the operation fails.
+    ///
+    /// - Note: The caller is responsible for checking that the result is valid, as snap operations
+    ///   do not guarantee valid output geometries.
     ///
     /// ## Example
     /// ```swift
@@ -65,16 +70,22 @@ public extension GeometryConvertible {
 }
 
 public extension GeometryConvertible where C: HasZ {
-    /// Snaps the vertices of this geometry to the vertices of another geometry within the
-    /// specified tolerance, preserving Z coordinates.
+    /// Snaps the vertices and segments of this geometry to the vertices of another geometry.
     ///
-    /// For XYZM geometries, M coordinates are not preserved; only XYZ is returned.
+    /// Heuristics are used to determine which vertices to snap to avoid creating invalid topologies.
+    /// Some potential snaps within the tolerance may be omitted for safety.
+    ///
+    /// See `GEOSSnap_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a6e5efd34016d94bf5dfe73301e10162f).
     ///
     /// - Parameters:
     ///   - geometry: The reference geometry to snap to.
     ///   - tolerance: The maximum distance for snapping vertices.
-    /// - Returns: A snapped Geometry with XYZ coordinates.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: A snapped ``Geometry`` with XYZ coordinates.
+    /// - Throws: `Error` if the operation fails.
+    ///
+    /// - Note: The caller is responsible for checking that the result is valid, as snap operations
+    ///   do not guarantee valid output geometries.
     ///
     /// ## Example
     /// ```swift

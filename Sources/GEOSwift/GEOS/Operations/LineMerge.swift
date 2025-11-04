@@ -3,15 +3,7 @@ import geos
 
 // MARK: - Line Merge Operations
 
-// Line merge operations for geometric objects.
-//
-// Merges LineStrings by joining them at nodes which have cardinality 2. The operation consolidates
-// fragmented linework into longer, continuous LineStrings.
-//
-// Two merge modes are available:
-// - **lineMerge**: Joins lines at nodes with cardinality 2. Lines may have their direction reversed.
-// - **lineMergeDirected**: Joins lines at nodes with cardinality 2 where lines have the same direction.
-//   Lines do not have their direction reversed.
+// Merges LineStrings by joining them at nodes which have cardinality 2.
 //
 // ## Z Coordinate Preservation
 //
@@ -35,8 +27,11 @@ public extension GeometryConvertible {
     ///
     /// Lines may have their direction reversed during the merge process.
     ///
-    /// - Returns: A Geometry containing merged LineStrings (LineString or MultiLineString).
-    /// - Throws: An error if the operation fails.
+    /// See `GEOSLineMerge_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#af9a3b201bdef426ebdc93f64b0dc9f99).
+    ///
+    /// - Returns: A ``Geometry`` containing merged LineStrings (LineString or MultiLineString).
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -59,8 +54,11 @@ public extension GeometryConvertible {
     ///
     /// Lines do not have their direction reversed during the merge process.
     ///
-    /// - Returns: A Geometry containing merged LineStrings (LineString or MultiLineString).
-    /// - Throws: An error if the operation fails.
+    /// See `GEOSLineMergeDirected_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a4abb8a3e436650244a683f6a2aea1782).
+    ///
+    /// - Returns: A ``Geometry`` containing merged LineStrings (LineString or MultiLineString).
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -76,14 +74,15 @@ public extension GeometryConvertible {
 }
 
 public extension GeometryConvertible where C: HasZ {
-    /// Merges LineStrings by joining them at nodes which have cardinality 2, preserving
-    /// Z coordinates.
+    /// Merges LineStrings by joining them at nodes which have cardinality 2.
     ///
-    /// Lines may have their direction reversed during the merge process. For XYZM geometries,
-    /// M coordinates are not preserved; only XYZ is returned.
+    /// Lines may have their direction reversed during the merge process.
     ///
-    /// - Returns: A Geometry containing merged XYZ LineStrings (LineString or MultiLineString).
-    /// - Throws: An error if the operation fails.
+    /// See `GEOSLineMerge_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#af9a3b201bdef426ebdc93f64b0dc9f99).
+    ///
+    /// - Returns: A ``Geometry`` containing merged XYZ LineStrings (LineString or MultiLineString).
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -98,13 +97,15 @@ public extension GeometryConvertible where C: HasZ {
     }
 
     /// Merges LineStrings by joining them at nodes which have cardinality 2 where lines have
-    /// the same direction, preserving Z coordinates.
+    /// the same direction.
     ///
-    /// Lines do not have their direction reversed during the merge process. For XYZM geometries,
-    /// M coordinates are not preserved; only XYZ is returned.
+    /// Lines do not have their direction reversed during the merge process.
     ///
-    /// - Returns: A Geometry containing merged XYZ LineStrings (LineString or MultiLineString).
-    /// - Throws: An error if the operation fails.
+    /// See `GEOSLineMergeDirected_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#a4abb8a3e436650244a683f6a2aea1782).
+    ///
+    /// - Returns: A ``Geometry`` containing merged XYZ LineStrings (LineString or MultiLineString).
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift

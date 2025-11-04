@@ -3,19 +3,7 @@ import geos
 
 // MARK: - Difference Operations
 
-// Difference operations for geometric objects.
-//
-// The difference operation computes a geometry representing the points that are in this geometry
-// but not in the other geometry. It is equivalent to subtracting one geometry from another.
-//
-// ## Return Types
-//
-// The difference operation can return different geometry types or nil:
-// - Returns `nil` if the result has too few points to form a valid geometry
-// - Returns a Point if the result consists of a single point
-// - Returns a LineString if the result is linear
-// - Returns a Polygon if the result is an area
-// - Returns a Multi* or GeometryCollection for complex results
+// Computes the set of points in one geometry that are not in another geometry.
 //
 // ## Z Coordinate Preservation
 //
@@ -35,22 +23,16 @@ import geos
 // For geometries with Z coordinates, Z values are taken from the corresponding
 // vertices in the input geometries. When new vertices are created through intersection,
 // Z values are interpolated.
-//
-// ## Notes
-//
-// - The difference operation is not commutative: A.difference(B) ≠ B.difference(A)
-// - The operation follows the OGC Simple Features specification
-// - The result may be empty if this geometry is completely contained in the other geometry
 
 public extension GeometryConvertible {
     /// Computes the difference between this geometry and another.
     ///
-    /// The difference is the set of points in this geometry that are not in the other geometry.
-    /// This overload is used when neither geometry has Z coordinates.
+    /// See `GEOSDifference_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#ac4c13c9cdaa71b23a3c44a6d3f72c2c1).
     ///
     /// - Parameter geometry: The geometry to subtract from this geometry (any dimension).
-    /// - Returns: The difference as an XY geometry, or `nil` if the result is empty or has too few points.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The difference as a ``Geometry``, or `nil` if the result is empty or has too few points.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -67,15 +49,15 @@ public extension GeometryConvertible {
         }
     }
 
-    /// Computes the difference when the second geometry has Z coordinates, returning an XYZ result.
+    /// Computes the difference between this geometry and another.
     ///
-    /// The difference is the set of points in this geometry that are not in the other geometry.
-    /// This overload is used when the second operand has Z coordinates, regardless of whether the
-    /// first operand has Z. The result will have Z coordinates.
+    /// See `GEOSDifference_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#ac4c13c9cdaa71b23a3c44a6d3f72c2c1).
     ///
     /// - Parameter geometry: The geometry with Z coordinates to subtract from this geometry.
-    /// - Returns: The difference as an XYZ geometry, or `nil` if the result is empty or has too few points.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The difference as a ``Geometry`` with XYZ coordinates, or `nil` if the result is empty or has
+    ///   too few points.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -88,11 +70,6 @@ public extension GeometryConvertible {
     /// let diff: Geometry<XYZ>? = try flatRect.difference(with: terrain)
     /// // Returns an XYZ result with Z values from terrain where applicable
     /// ```
-    ///
-    /// ## Notes
-    /// - Works with any first operand dimension (XY, XYZ, XYM, XYZM) as long as second has Z.
-    /// - M coordinates are never preserved; only XYZ is returned.
-    /// - Z values for intersection points are interpolated from the input geometries.
     func difference<D: CoordinateType>(
         with geometry: any GeometryConvertible<D>
     ) throws -> Geometry<XYZ>? where D: HasZ {
@@ -103,15 +80,15 @@ public extension GeometryConvertible {
 }
 
 public extension GeometryConvertible where C: HasZ {
-    /// Computes the difference when the first geometry has Z coordinates, returning an XYZ result.
+    /// Computes the difference between this geometry and another.
     ///
-    /// The difference is the set of points in this geometry that are not in the other geometry.
-    /// This overload is used when the first operand (this geometry) has Z coordinates. The second
-    /// operand can have any dimension. The result will always have Z coordinates.
+    /// See `GEOSDifference_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html#ac4c13c9cdaa71b23a3c44a6d3f72c2c1).
     ///
     /// - Parameter geometry: The geometry to subtract from this geometry (any dimension).
-    /// - Returns: The difference as an XYZ geometry, or `nil` if the result is empty or has too few points.
-    /// - Throws: An error if the operation fails.
+    /// - Returns: The difference as a ``Geometry`` with XYZ coordinates, or `nil` if the result is empty or has
+    ///   too few points.
+    /// - Throws: `Error` if the operation fails.
     ///
     /// ## Example
     /// ```swift
@@ -124,11 +101,6 @@ public extension GeometryConvertible where C: HasZ {
     /// let diff = try terrain.difference(with: flatRect)
     /// // Returns terrain minus the overlapping area, with Z values preserved
     /// ```
-    ///
-    /// ## Notes
-    /// - Available for geometries with Z coordinates (XYZ and XYZM) as the first operand.
-    /// - For XYZM geometries, M coordinates are not preserved; only XYZ is returned.
-    /// - Z values for intersection points are interpolated from the first geometry.
     func difference<D: CoordinateType>(with geometry: any GeometryConvertible<D>) throws -> Geometry<XYZ>? {
         return try nilIfTooFewPoints {
             try performBinaryTopologyOperation(GEOSDifference_r, geometry: geometry)
