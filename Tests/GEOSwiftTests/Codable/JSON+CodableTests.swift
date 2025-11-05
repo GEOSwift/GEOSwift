@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-extension JSON {
+fileprivate extension JSON {
     static let testValue: JSON = [
         "a": ["y"],
         "b": true,

@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-extension Polygon.LinearRing where C == XY {
+fileprivate extension Polygon.LinearRing where C == XY {
     // counterclockwise
     static let testValueExterior2 = try! Polygon.LinearRing(coordinates: [
         XY(2, 2),
@@ -27,7 +27,7 @@ extension Polygon.LinearRing where C == XY {
         XY(7, 2)])
 }
 
-extension Polygon where C == XY {
+fileprivate extension Polygon where C == XY {
     static let testValueWithHole = Polygon(
         exterior: Polygon<XY>.LinearRing.testValueExterior2,
         holes: [Polygon<XY>.LinearRing.testValueHole1])
@@ -40,44 +40,6 @@ extension Polygon where C == XY {
         + #"-2],[7,2]]],"type":"Polygon"}"#
 }
 
-fileprivate extension Polygon.LinearRing where C == XYZ {
-    // counterclockwise
-    static let testValueExterior2 = try! Polygon.LinearRing(coordinates: [
-        XYZ(2, 2, 1),
-        XYZ(-2, 2, 2),
-        XYZ(-2, -2, 3),
-        XYZ(2, -2, 4),
-        XYZ(2, 2, 5)])
-
-    // clockwise
-    static let testValueHole1 = try! Polygon.LinearRing(coordinates: [
-        XYZ(1, 1, 6),
-        XYZ(1, -1, 7),
-        XYZ(-1, -1, 8),
-        XYZ(-1, 1, 9),
-        XYZ(1, 1, 10)])
-
-    // counterclockwise
-    static let testValueExterior7 = try! Polygon.LinearRing(coordinates: [
-        XYZ(7, 2, 11),
-        XYZ(3, 2, 12),
-        XYZ(3, -2, 13),
-        XYZ(7, -2, 14),
-        XYZ(7, 2, 15)])
-}
-
-fileprivate extension Polygon where C == XYZ {
-    static let testValueWithHole = Polygon(
-        exterior: Polygon<XYZ>.LinearRing.testValueExterior2,
-        holes: [Polygon<XYZ>.LinearRing.testValueHole1])
-    static let testJsonWithHole = #"{"coordinates":[[[2,2,1],[-2,2,2],[-2,-2,3],[2,-"#
-        + #"2,4],[2,2,5]],[[1,1,6],[1,-1,7],[-1,-1,8],[-1,1,9],[1,1,10]]],"type":"Polygon"}"#
-
-    static let testValueWithoutHole = Polygon(
-        exterior: Polygon<XYZ>.LinearRing.testValueExterior7)
-    static let testJsonWithoutHole = #"{"coordinates":[[[7,2,11],[3,2,12],[3,-2,13],[7,"#
-        + #"-2,14],[7,2,15]]],"type":"Polygon"}"#
-}
 
 final class Polygon_CodableTestsXY: CodableTestCase {
     func testCodableWithoutHoles() {
@@ -112,16 +74,26 @@ final class Polygon_CodableTestsXY: CodableTestCase {
 }
 
 final class Polygon_CodableTestsXYZ: CodableTestCase {
+    // JSON strings matching Fixtures polygons
+    // polygonWithHole: exterior [[2,2,0],[-2,2,0],[-2,-2,0],[2,-2,0],[2,2,1]]
+    //                  hole [[1,1,0],[1,-1,0],[-1,-1,0],[-1,1,0],[1,1,1]]
+    static let testJsonWithHole = #"{"coordinates":[[[2,2,0],[-2,2,0],[-2,-2,0],[2,-"#
+        + #"2,0],[2,2,1]],[[1,1,0],[1,-1,0],[-1,-1,0],[-1,1,0],[1,1,1]]],"type":"Polygon"}"#
+
+    // polygonWithoutHole: exterior [[7,2,0],[3,2,0],[3,-2,0],[7,-2,0],[7,2,1]]
+    static let testJsonWithoutHole = #"{"coordinates":[[[7,2,0],[3,2,0],[3,-2,0],[7,"#
+        + #"-2,0],[7,2,1]]],"type":"Polygon"}"#
+
     func testCodableWithoutHoles() {
         verifyCodable(
-            with: Polygon<XYZ>.testValueWithoutHole,
-            json: Polygon<XYZ>.testJsonWithoutHole)
+            with: Polygon<XYZ>(Fixtures.polygonWithoutHole),
+            json: Self.testJsonWithoutHole)
     }
 
     func testCodableWithHole() {
         verifyCodable(
-            with: Polygon<XYZ>.testValueWithHole,
-            json: Polygon<XYZ>.testJsonWithHole)
+            with: Polygon<XYZ>(Fixtures.polygonWithHole),
+            json: Self.testJsonWithHole)
     }
 
     func testDecodingPolygonWithTooFewRings() {

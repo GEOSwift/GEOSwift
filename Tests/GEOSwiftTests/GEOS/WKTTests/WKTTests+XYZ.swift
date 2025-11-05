@@ -1,88 +1,22 @@
 import XCTest
 import GEOSwift
 
-// MARK: - Test Value Extensions for XYZ
-
-private extension Point where C == XYZ {
-    static let testValue1 = Point(x: 1, y: 2, z: 0)
-    static let testValue3 = Point(x: 3, y: 4, z: 1)
-    static let testValue5 = Point(x: 5, y: 6, z: 2)
-    static let testValue7 = Point(x: 7, y: 8, z: 3)
-}
-
-private extension LineString where C == XYZ {
-    static let testValue1 = try! LineString(points: [.testValue1, .testValue3])
-    static let testValue5 = try! LineString(points: [.testValue5, .testValue7])
-}
-
-private extension Polygon.LinearRing where C == XYZ {
-    // counterclockwise
-    static let testValueExterior2 = try! Polygon.LinearRing(coordinates: [
-        XYZ(2, 2, 0),
-        XYZ(-2, 2, 1),
-        XYZ(-2, -2, 2),
-        XYZ(2, -2, 3),
-        XYZ(2, 2, 4)])
-
-    // clockwise
-    static let testValueHole1 = try! Polygon.LinearRing(coordinates: [
-        XYZ(1, 1, 4),
-        XYZ(1, -1, 3),
-        XYZ(-1, -1, 2),
-        XYZ(-1, 1, 1),
-        XYZ(1, 1, 0)])
-
-    // counterclockwise
-    static let testValueExterior7 = try! Polygon.LinearRing(coordinates: [
-        XYZ(7, 2, 5),
-        XYZ(3, 2, 6),
-        XYZ(3, -2, 7),
-        XYZ(7, -2, 8),
-        XYZ(7, 2, 9)])
-}
-
-private extension Polygon where C == XYZ {
-    static let testValueWithHole = Polygon(
-        exterior: Polygon<XYZ>.LinearRing.testValueExterior2,
-        holes: [Polygon<XYZ>.LinearRing.testValueHole1])
-
-    static let testValueWithoutHole = Polygon(
-        exterior: Polygon<XYZ>.LinearRing.testValueExterior7)
-}
-
-private extension MultiPoint where C == XYZ {
-    static let testValue = MultiPoint(points: [.testValue1, .testValue3])
-}
-
-private extension MultiLineString where C == XYZ {
-    static let testValue = MultiLineString(
-        lineStrings: [.testValue1, .testValue5])
-}
-
-private extension MultiPolygon where C == XYZ {
-    static let testValue = MultiPolygon(
-        polygons: [.testValueWithHole, .testValueWithoutHole])
-}
-
-private extension GeometryCollection where C == XYZ {
-    static let testValue = GeometryCollection(
-        geometries: [
-            Point<XYZ>.testValue1,
-            MultiPoint<XYZ>.testValue,
-            LineString<XYZ>.testValue1,
-            MultiLineString<XYZ>.testValue,
-            Polygon<XYZ>.testValueWithHole,
-            MultiPolygon<XYZ>.testValue])
-
-    static let testValueWithRecursion = GeometryCollection(
-        geometries: [GeometryCollection<XYZ>.testValue])
-}
-
 // MARK: - Tests
 
 final class WKTTestsXYZ: XCTestCase {
 
     typealias WKTCompatible = WKTConvertible & WKTInitializable & Equatable
+
+    // Convert XYZM fixtures to XYZ using copy constructors
+    let point1 = Point<XYZ>(Fixtures.point1)
+    let lineString1 = LineString<XYZ>(Fixtures.lineString1)
+    let linearRingHole1 = Polygon<XYZ>.LinearRing(Fixtures.linearRingHole1)
+    let polygonWithHole = Polygon<XYZ>(Fixtures.polygonWithHole)
+    let multiPoint = MultiPoint<XYZ>(Fixtures.multiPoint)
+    let multiLineString = MultiLineString<XYZ>(Fixtures.multiLineString)
+    let multiPolygon = MultiPolygon<XYZ>(Fixtures.multiPolygon)
+    let geometryCollection = GeometryCollection<XYZ>(Fixtures.geometryCollection)
+    let recursiveGeometryCollection = GeometryCollection<XYZ>(Fixtures.recursiveGeometryCollection)
 
     func verifyGeometryRoundtripToWKT<T>(_ value: T, line: UInt = #line) where T: WKTCompatible {
         do {
@@ -96,29 +30,29 @@ final class WKTTestsXYZ: XCTestCase {
 
     func testGeometryRoundtripToWKT() {
         let values: [Geometry<XYZ>] = [
-            .point(.testValue1),
-            .lineString(.testValue1),
-            .polygon(.testValueWithHole),
-            .multiPoint(.testValue),
-            .multiLineString(.testValue),
-            .multiPolygon(.testValue),
-            .geometryCollection(.testValue),
-            .geometryCollection(.testValueWithRecursion)]
+            .point(point1),
+            .lineString(lineString1),
+            .polygon(polygonWithHole),
+            .multiPoint(multiPoint),
+            .multiLineString(multiLineString),
+            .multiPolygon(multiPolygon),
+            .geometryCollection(geometryCollection),
+            .geometryCollection(recursiveGeometryCollection)]
         for value in values {
             verifyGeometryRoundtripToWKT(value)
         }
     }
 
     func testGeometryTypesRoundtripToWKT() {
-        verifyGeometryRoundtripToWKT(Point<XYZ>.testValue1)
-        verifyGeometryRoundtripToWKT(LineString<XYZ>.testValue1)
-        verifyGeometryRoundtripToWKT(Polygon<XYZ>.LinearRing.testValueHole1)
-        verifyGeometryRoundtripToWKT(Polygon<XYZ>.testValueWithHole)
-        verifyGeometryRoundtripToWKT(MultiPoint<XYZ>.testValue)
-        verifyGeometryRoundtripToWKT(MultiLineString<XYZ>.testValue)
-        verifyGeometryRoundtripToWKT(MultiPolygon<XYZ>.testValue)
-        verifyGeometryRoundtripToWKT(GeometryCollection<XYZ>.testValue)
-        verifyGeometryRoundtripToWKT(GeometryCollection<XYZ>.testValueWithRecursion)
+        verifyGeometryRoundtripToWKT(point1)
+        verifyGeometryRoundtripToWKT(lineString1)
+        verifyGeometryRoundtripToWKT(linearRingHole1)
+        verifyGeometryRoundtripToWKT(polygonWithHole)
+        verifyGeometryRoundtripToWKT(multiPoint)
+        verifyGeometryRoundtripToWKT(multiLineString)
+        verifyGeometryRoundtripToWKT(multiPolygon)
+        verifyGeometryRoundtripToWKT(geometryCollection)
+        verifyGeometryRoundtripToWKT(recursiveGeometryCollection)
     }
 
     func verifyInitWithInvalidWKT<T>(type: T.Type, line: UInt = #line) where T: WKTInitializable {

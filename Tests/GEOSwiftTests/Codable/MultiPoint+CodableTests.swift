@@ -1,18 +1,11 @@
 import XCTest
 import GEOSwift
 
-extension MultiPoint where C == XY {
-    static let testValue = MultiPoint(points: [.testValue1, .testValue3])
+fileprivate extension MultiPoint where C == XY {
+    static let testValue = MultiPoint(points: [Point(x: 1, y: 2), Point(x: 3, y: 4)])
     static let testJson = #"{"coordinates":[[1,2],[3,4]],"type":"MultiPoint"}"#
 }
 
-fileprivate extension MultiPoint where C == XYZ {
-    static let testValue = MultiPoint(points: [
-        Point(x: 1, y: 2, z: 3),
-        Point(x: 4, y: 5, z: 6)
-    ])
-    static let testJson = #"{"coordinates":[[1,2,3],[4,5,6]],"type":"MultiPoint"}"#
-}
 
 final class MultiPoint_CodableTestsXY: CodableTestCase {
     func testCodable() {
@@ -33,8 +26,12 @@ final class MultiPoint_CodableTestsXY: CodableTestCase {
 }
 
 final class MultiPoint_CodableTestsXYZ: CodableTestCase {
+    // JSON string matching Fixtures.multiPoint
+    // Contains point1 [1,2,0] and point3 [3,4,1]
+    static let testJson = #"{"coordinates":[[1,2,0],[3,4,1]],"type":"MultiPoint"}"#
+
     func testCodable() {
-        verifyCodable(with: MultiPoint<XYZ>.testValue, json: MultiPoint<XYZ>.testJson)
+        verifyCodable(with: MultiPoint<XYZ>(Fixtures.multiPoint), json: Self.testJson)
     }
 
     func testDecodableThrowsWithTypeMismatch() {

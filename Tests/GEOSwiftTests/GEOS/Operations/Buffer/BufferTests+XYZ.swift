@@ -1,30 +1,33 @@
 import XCTest
 import GEOSwift
 
-// MARK: - Test Value Extensions for XYZ
-
-private extension Point where C == XYZ {
-    static let testValue1 = Point(XYZ(1, 2, 0))
-}
-
-private extension Polygon.LinearRing where C == XYZ {
-    // counterclockwise
-    static let testValueExterior7 = try! Polygon.LinearRing(coordinates: [
-        XYZ(7, 2, 5),
-        XYZ(3, 2, 6),
-        XYZ(3, -2, 7),
-        XYZ(7, -2, 8),
-        XYZ(7, 2, 9)])
-}
-
-private extension Polygon where C == XYZ {
-    static let testValueWithoutHole = Polygon(
-        exterior: Polygon<XYZ>.LinearRing.testValueExterior7)
-}
-
 final class BufferTests_XYZ: XCTestCase {
+    // Convert XYZM fixtures to XYZ using copy constructors
+    let point1 = Point<XYZ>(Fixtures.point1)
+    let polygonWithoutHole = Polygon<XYZ>(Fixtures.polygonWithoutHole)
+
+    // Geometry convertibles array needs to be converted element-by-element
+    lazy var geometryConvertibles: [any GeometryConvertible<XYZ>] = [
+        point1,
+        Geometry.point(point1),
+        MultiPoint<XYZ>(Fixtures.multiPoint),
+        Geometry.multiPoint(MultiPoint<XYZ>(Fixtures.multiPoint)),
+        LineString<XYZ>(Fixtures.lineString1),
+        Geometry.lineString(LineString<XYZ>(Fixtures.lineString1)),
+        MultiLineString<XYZ>(Fixtures.multiLineString),
+        Geometry.multiLineString(MultiLineString<XYZ>(Fixtures.multiLineString)),
+        Polygon<XYZ>.LinearRing(Fixtures.linearRingHole1),
+        Polygon<XYZ>(Fixtures.polygonWithHole),
+        Geometry.polygon(Polygon<XYZ>(Fixtures.polygonWithHole)),
+        MultiPolygon<XYZ>(Fixtures.multiPolygon),
+        Geometry.multiPolygon(MultiPolygon<XYZ>(Fixtures.multiPolygon)),
+        GeometryCollection<XYZ>(Fixtures.geometryCollection),
+        GeometryCollection<XYZ>(Fixtures.recursiveGeometryCollection),
+        Geometry.geometryCollection(GeometryCollection<XYZ>(Fixtures.geometryCollection))
+    ]
+
     func testBufferAllTypes() {
-        for geometry in GEOSTestFixtures_XYZ.geometryConvertibles {
+        for geometry in geometryConvertibles {
             do {
                 _ = try geometry.buffer(by: 0.5)
             } catch {
@@ -42,18 +45,18 @@ final class BufferTests_XYZ: XCTestCase {
                 XYZ(6, -1, 3),
                 XYZ(6, 1, 0)])))
 
-        let actualGeometry = try Polygon<XYZ>.testValueWithoutHole.buffer(by: -1)
+        let actualGeometry = try polygonWithoutHole.buffer(by: -1)
 
         // Polygonize produces XY geometry and topological equivalence just checks XY geometry
         try XCTAssertTrue(actualGeometry?.isTopologicallyEquivalent(to: expectedGeometry) ?? false)
     }
 
     func testNegativeBufferWidthWithNilResult() throws {
-        try XCTAssertNil(Point<XYZ>.testValue1.buffer(by: -1))
+        try XCTAssertNil(point1.buffer(by: -1))
     }
 
     func testBufferWithStyleAllTypes() {
-        for geometry in GEOSTestFixtures_XYZ.geometryConvertibles {
+        for geometry in geometryConvertibles {
             do {
                 _ = try geometry.bufferWithStyle(width: 0.5)
             } catch {
@@ -71,7 +74,7 @@ final class BufferTests_XYZ: XCTestCase {
                 XYZ(6, -1, 3),
                 XYZ(6, 1, 0)])))
 
-        let actualGeometry = try Polygon<XY>.testValueWithoutHole.bufferWithStyle(width: -1)
+        let actualGeometry = try polygonWithoutHole.bufferWithStyle(width: -1)
 
         // Topological equivalence only checks XY
         try XCTAssertTrue(actualGeometry?.isTopologicallyEquivalent(to: expectedGeometry) ?? false)
@@ -96,7 +99,7 @@ final class BufferTests_XYZ: XCTestCase {
     }
 
     func testBufferWithStyleNegativeBufferWidthWithNilResult() throws {
-        try XCTAssertNil(Point<XYZ>.testValue1.bufferWithStyle(width: -1))
+        try XCTAssertNil(point1.bufferWithStyle(width: -1))
     }
 
     func testOffsetCurve() throws {

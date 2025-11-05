@@ -2,94 +2,85 @@ import XCTest
 import GEOSwift
 
 final class UnaryOperationsTests: XCTestCase {
-    let lineString0 = try! LineString(coordinates: Array(repeating: XY(0, 0), count: 2))
-    let lineString1 = try! LineString(coordinates: [
-        XY(0, 0),
-        XY(1, 0)])
-    let lineString2 = try! LineString(coordinates: [
-        XY(0, 0),
-        XY(1, 0),
-        XY(1, 1)])
-    let multiLineString0 = MultiLineString<XY>(lineStrings: [])
-    lazy var multiLineString1 = MultiLineString(lineStrings: [lineString1])
-    lazy var multiLineString2 = MultiLineString(lineStrings: [lineString1, lineString2])
-    let linearRing0 = try! Polygon.LinearRing(coordinates: Array(repeating: XY(0, 0), count: 4))
-    let linearRing1 = try! Polygon.LinearRing(coordinates: [
-        XY(0, 0),
-        XY(1, 0),
-        XY(1, 1),
-        XY(0, 1),
-        XY(0, 0)])
-    lazy var collection = GeometryCollection(
-        geometries: [
-            Point.testValue1,
-            MultiPoint.testValue,
-            lineString1,
-            multiLineString1,
-            Polygon.testValueWithoutHole,
-            MultiPolygon.testValue])
-    lazy var recursiveCollection = GeometryCollection(
-        geometries: [collection])
-    let geometryConvertibles: [any GeometryConvertible<XY>] = [
-        Point.testValue1,
-        Geometry.point(.testValue1),
-        MultiPoint.testValue,
-        Geometry.multiPoint(.testValue),
-        LineString.testValue1,
-        Geometry.lineString(.testValue1),
-        MultiLineString.testValue,
-        Geometry.multiLineString(.testValue),
-        Polygon.LinearRing.testValueHole1,
-        Polygon.testValueWithHole,
-        Geometry.polygon(.testValueWithHole),
-        MultiPolygon.testValue,
-        Geometry.multiPolygon(.testValue),
-        GeometryCollection.testValue,
-        GeometryCollection.testValueWithRecursion,
-        Geometry.geometryCollection(.testValue)]
-    let unitPoly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
-        XY(0, 0),
-        XY(1, 0),
-        XY(1, 1),
-        XY(0, 1),
-        XY(0, 0)]))
+    // Convert XYZM fixtures to XY using copy constructors
+    let point1 = Point<XY>(Fixtures.point1)
+    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
+    let lineString1 = LineString<XY>(Fixtures.lineString1)
+    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
+    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
+    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
+    let polygonWithoutHole = Polygon<XY>(Fixtures.polygonWithoutHole)
+    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
+    let geometryCollection = GeometryCollection<XY>(Fixtures.geometryCollection)
+    let recursiveGeometryCollection = GeometryCollection<XY>(Fixtures.recursiveGeometryCollection)
+    let unitPoly = Polygon<XY>(Fixtures.unitPolygon)
+
+    // Length test fixtures
+    let lineString0 = LineString<XY>(Fixtures.lineString0)
+    let lineStringLength1 = LineString<XY>(Fixtures.lineStringLength1)
+    let lineStringLength2 = LineString<XY>(Fixtures.lineStringLength2)
+    let multiLineString0 = MultiLineString<XY>(Fixtures.multiLineString0)
+    let multiLineStringLength1 = MultiLineString<XY>(Fixtures.multiLineStringLength1)
+    let multiLineStringLength3 = MultiLineString<XY>(Fixtures.multiLineStringLength3)
+    let linearRing0 = Polygon<XY>.LinearRing(Fixtures.linearRing0)
+    let linearRingLength4 = Polygon<XY>.LinearRing(Fixtures.linearRingLength4)
+    let collection = GeometryCollection<XY>(Fixtures.collection)
+    let recursiveCollection = GeometryCollection<XY>(Fixtures.recursiveCollection)
+
+    lazy var geometryConvertibles: [any GeometryConvertible<XY>] = [
+        point1,
+        Geometry.point(point1),
+        multiPoint,
+        Geometry.multiPoint(multiPoint),
+        lineString1,
+        Geometry.lineString(lineString1),
+        multiLineString,
+        Geometry.multiLineString(multiLineString),
+        linearRingHole1,
+        polygonWithHole,
+        Geometry.polygon(polygonWithHole),
+        multiPolygon,
+        Geometry.multiPolygon(multiPolygon),
+        geometryCollection,
+        recursiveGeometryCollection,
+        Geometry.geometryCollection(geometryCollection)]
 
     // MARK: - Length
 
     // points have length 0
     func testLength_Points() {
-        XCTAssertEqual(try? Point.testValue1.length(), 0)
-        XCTAssertEqual(try? MultiPoint.testValue.length(), 0)
-        XCTAssertEqual(try? Geometry.point(.testValue1).length(), 0)
-        XCTAssertEqual(try? Geometry.multiPoint(.testValue).length(), 0)
+        XCTAssertEqual(try? point1.length(), 0)
+        XCTAssertEqual(try? multiPoint.length(), 0)
+        XCTAssertEqual(try? Geometry.point(point1).length(), 0)
+        XCTAssertEqual(try? Geometry.multiPoint(multiPoint).length(), 0)
     }
 
     // lines have lengths
     func testLength_Lines() {
         XCTAssertEqual(try? lineString0.length(), 0)
-        XCTAssertEqual(try? lineString1.length(), 1)
-        XCTAssertEqual(try? lineString2.length(), 2)
+        XCTAssertEqual(try? lineStringLength1.length(), 1)
+        XCTAssertEqual(try? lineStringLength2.length(), 2)
         XCTAssertEqual(try? multiLineString0.length(), 0)
-        XCTAssertEqual(try? multiLineString1.length(), 1)
-        XCTAssertEqual(try? multiLineString2.length(), 3)
+        XCTAssertEqual(try? multiLineStringLength1.length(), 1)
+        XCTAssertEqual(try? multiLineStringLength3.length(), 3)
         XCTAssertEqual(try? linearRing0.length(), 0)
-        XCTAssertEqual(try? linearRing1.length(), 4)
+        XCTAssertEqual(try? linearRingLength4.length(), 4)
         XCTAssertEqual(try? Geometry.lineString(lineString0).length(), 0)
-        XCTAssertEqual(try? Geometry.lineString(lineString1).length(), 1)
-        XCTAssertEqual(try? Geometry.lineString(lineString2).length(), 2)
+        XCTAssertEqual(try? Geometry.lineString(lineStringLength1).length(), 1)
+        XCTAssertEqual(try? Geometry.lineString(lineStringLength2).length(), 2)
         XCTAssertEqual(try? Geometry.multiLineString(multiLineString0).length(), 0)
-        XCTAssertEqual(try? Geometry.multiLineString(multiLineString1).length(), 1)
-        XCTAssertEqual(try? Geometry.multiLineString(multiLineString2).length(), 3)
+        XCTAssertEqual(try? Geometry.multiLineString(multiLineStringLength1).length(), 1)
+        XCTAssertEqual(try? Geometry.multiLineString(multiLineStringLength3).length(), 3)
     }
 
     // Polygon lengths equal the sum of their exterior & interior ring lengths
     func testLength_Polygons() {
-        XCTAssertEqual(try? Polygon.testValueWithoutHole.length(), 16)
-        XCTAssertEqual(try? Polygon.testValueWithHole.length(), 24)
-        XCTAssertEqual(try? MultiPolygon.testValue.length(), 40)
-        XCTAssertEqual(try? Geometry.polygon(.testValueWithoutHole).length(), 16)
-        XCTAssertEqual(try? Geometry.polygon(.testValueWithHole).length(), 24)
-        XCTAssertEqual(try? Geometry.multiPolygon(.testValue).length(), 40)
+        XCTAssertEqual(try? polygonWithoutHole.length(), 16)
+        XCTAssertEqual(try? polygonWithHole.length(), 24)
+        XCTAssertEqual(try? multiPolygon.length(), 40)
+        XCTAssertEqual(try? Geometry.polygon(polygonWithoutHole).length(), 16)
+        XCTAssertEqual(try? Geometry.polygon(polygonWithHole).length(), 24)
+        XCTAssertEqual(try? Geometry.multiPolygon(multiPolygon).length(), 40)
     }
 
     // Geometry Collection length is equal to the sum of the elements' lengths
@@ -168,7 +159,7 @@ final class UnaryOperationsTests: XCTestCase {
 
     func testEnvelopeWhenItIsAPoint() {
         let expectedEnvelope = Envelope(minX: 1, maxX: 1, minY: 2, maxY: 2)
-        XCTAssertEqual(try? Point.testValue1.envelope(), expectedEnvelope)
+        XCTAssertEqual(try? point1.envelope(), expectedEnvelope)
     }
 
     func testEnvelopeAllTypes() {
@@ -272,7 +263,7 @@ final class UnaryOperationsTests: XCTestCase {
     // MARK: - Minimum Bounding Circle
 
     func testMinimumBoundingCircleLineString() {
-        XCTAssertEqual(try lineString1.minimumBoundingCircle(),
+        XCTAssertEqual(try lineStringLength1.minimumBoundingCircle(),
                        Circle(center: Point(x: 0.5, y: 0), radius: 0.5))
     }
 

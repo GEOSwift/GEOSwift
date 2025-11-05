@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-extension Point where C == XY {
+fileprivate extension Point where C == XY {
     static let testValue1 = Point(x: 1, y: 2)
     static let testJson1 = #"{"coordinates":[1,2],"type":"Point"}"#
 
@@ -10,17 +10,6 @@ extension Point where C == XY {
     static let testValue5 = Point(x: 5, y: 6)
 
     static let testValue7 = Point(x: 7, y: 8)
-}
-
-fileprivate extension Point where C == XYZ {
-    static let testValue1 = Point(x: 1, y: 2, z: 3)
-    static let testJson1 = #"{"coordinates":[1,2,3],"type":"Point"}"#
-
-    static let testValue3 = Point(x: 4, y: 5, z: 6)
-
-    static let testValue5 = Point(x: 7, y: 8, z: 9)
-
-    static let testValue7 = Point(x: 10, y: 11, z: 12)
 }
 
 final class Point_CodableTestsXY: CodableTestCase {
@@ -48,8 +37,11 @@ final class Point_CodableTestsXY: CodableTestCase {
 }
 
 final class Point_CodableTestsXYZ: CodableTestCase {
+    // JSON string matching Fixtures.point1 (XYZM(1,2,0,0) -> XYZ(1,2,0))
+    static let testJson1 = #"{"coordinates":[1,2,0],"type":"Point"}"#
+
     func testCodable() {
-        verifyCodable(with: Point<XYZ>.testValue1, json: Point<XYZ>.testJson1)
+        verifyCodable(with: Point<XYZ>(Fixtures.point1), json: Self.testJson1)
     }
 
     func testDecodableThrowsWithLessThanTwoValues() {

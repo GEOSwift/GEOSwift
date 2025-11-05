@@ -2,23 +2,16 @@ import XCTest
 import GEOSwift
 
 final class IntersectionTests: XCTestCase {
-    let geometryConvertibles: [any GeometryConvertible<XY>] = [
-        Point.testValue1,
-        Geometry.point(.testValue1),
-        MultiPoint.testValue,
-        Geometry.multiPoint(.testValue),
-        LineString.testValue1,
-        Geometry.lineString(.testValue1),
-        MultiLineString.testValue,
-        Geometry.multiLineString(.testValue),
-        Polygon.LinearRing.testValueHole1,
-        Polygon.testValueWithHole,
-        Geometry.polygon(.testValueWithHole),
-        MultiPolygon.testValue,
-        Geometry.multiPolygon(.testValue),
-        GeometryCollection.testValue,
-        GeometryCollection.testValueWithRecursion,
-        Geometry.geometryCollection(.testValue)]
+    // Convert XYZM fixtures to XY using copy constructors
+    let point1 = Point<XY>(Fixtures.point1)
+    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
+    let lineString1 = LineString<XY>(Fixtures.lineString1)
+    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
+    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
+    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
+    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
+    let geometryCollection = GeometryCollection<XY>(Fixtures.geometryCollection)
+    let recursiveGeometryCollection = GeometryCollection<XY>(Fixtures.recursiveGeometryCollection)
 
     let unitPoly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
         XY(0, 0),
@@ -26,6 +19,24 @@ final class IntersectionTests: XCTestCase {
         XY(1, 1),
         XY(0, 1),
         XY(0, 0)]))
+
+    lazy var geometryConvertibles: [any GeometryConvertible<XY>] = [
+        point1,
+        Geometry.point(point1),
+        multiPoint,
+        Geometry.multiPoint(multiPoint),
+        lineString1,
+        Geometry.lineString(lineString1),
+        multiLineString,
+        Geometry.multiLineString(multiLineString),
+        linearRingHole1,
+        polygonWithHole,
+        Geometry.polygon(polygonWithHole),
+        multiPolygon,
+        Geometry.multiPolygon(multiPolygon),
+        geometryCollection,
+        recursiveGeometryCollection,
+        Geometry.geometryCollection(geometryCollection)]
 
     // MARK: - XY ∩ XY → XY
 

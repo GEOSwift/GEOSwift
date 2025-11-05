@@ -5,6 +5,17 @@ final class WKTTests: XCTestCase {
 
     typealias WKTCompatible = WKTConvertible & WKTInitializable & Equatable
 
+    // Convert XYZM fixtures to XY using copy constructors
+    let point1 = Point<XY>(Fixtures.point1)
+    let lineString1 = LineString<XY>(Fixtures.lineString1)
+    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
+    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
+    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
+    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
+    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
+    let geometryCollection = GeometryCollection<XY>(Fixtures.geometryCollection)
+    let recursiveGeometryCollection = GeometryCollection<XY>(Fixtures.recursiveGeometryCollection)
+
     func verifyGeometryRoundtripToWKT<T>(_ value: T, line: UInt = #line) where T: WKTCompatible {
         do {
             let wkt = try value.wkt()
@@ -17,29 +28,29 @@ final class WKTTests: XCTestCase {
 
     func testGeometryRoundtripToWKT() {
         let values: [Geometry<XY>] = [
-            .point(.testValue1),
-            .lineString(.testValue1),
-            .polygon(.testValueWithHole),
-            .multiPoint(.testValue),
-            .multiLineString(.testValue),
-            .multiPolygon(.testValue),
-            .geometryCollection(.testValue),
-            .geometryCollection(.testValueWithRecursion)]
+            .point(point1),
+            .lineString(lineString1),
+            .polygon(polygonWithHole),
+            .multiPoint(multiPoint),
+            .multiLineString(multiLineString),
+            .multiPolygon(multiPolygon),
+            .geometryCollection(geometryCollection),
+            .geometryCollection(recursiveGeometryCollection)]
         for value in values {
             verifyGeometryRoundtripToWKT(value)
         }
     }
 
     func testGeometryTypesRoundtripToWKT() {
-        verifyGeometryRoundtripToWKT(Point<XY>.testValue1)
-        verifyGeometryRoundtripToWKT(LineString<XY>.testValue1)
-        verifyGeometryRoundtripToWKT(Polygon<XY>.LinearRing.testValueHole1)
-        verifyGeometryRoundtripToWKT(Polygon<XY>.testValueWithHole)
-        verifyGeometryRoundtripToWKT(MultiPoint<XY>.testValue)
-        verifyGeometryRoundtripToWKT(MultiLineString<XY>.testValue)
-        verifyGeometryRoundtripToWKT(MultiPolygon<XY>.testValue)
-        verifyGeometryRoundtripToWKT(GeometryCollection<XY>.testValue)
-        verifyGeometryRoundtripToWKT(GeometryCollection<XY>.testValueWithRecursion)
+        verifyGeometryRoundtripToWKT(point1)
+        verifyGeometryRoundtripToWKT(lineString1)
+        verifyGeometryRoundtripToWKT(linearRingHole1)
+        verifyGeometryRoundtripToWKT(polygonWithHole)
+        verifyGeometryRoundtripToWKT(multiPoint)
+        verifyGeometryRoundtripToWKT(multiLineString)
+        verifyGeometryRoundtripToWKT(multiPolygon)
+        verifyGeometryRoundtripToWKT(geometryCollection)
+        verifyGeometryRoundtripToWKT(recursiveGeometryCollection)
     }
 
     func verifyInitWithInvalidWKT<T>(type: T.Type, line: UInt = #line) where T: WKTInitializable {
