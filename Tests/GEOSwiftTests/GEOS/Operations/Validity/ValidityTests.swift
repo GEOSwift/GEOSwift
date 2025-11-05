@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class ValidityTests: OperationsTestCase_XY {
+final class ValidityTests: GEOSTestCase_XY {
 
     // MARK: - IsValid Tests
 

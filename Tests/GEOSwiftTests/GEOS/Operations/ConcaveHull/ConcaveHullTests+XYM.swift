@@ -3,7 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class ConcaveHullTests_XYM: OperationsTestCase_XYM {
+final class ConcaveHullTests_XYM: GEOSTestCase_XYM {
 
     func testConcaveHullAllTypes() {
         for g in geometryConvertibles {

@@ -1,18 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class WKBTestsXYZ: XCTestCase {
-    // Convert XYZM fixtures to XYZ using copy constructors
-    let point1 = Point<XYZ>(Fixtures.point1)
-    let lineString1 = LineString<XYZ>(Fixtures.lineString1)
-    let polygonWithHole = Polygon<XYZ>(Fixtures.polygonWithHole)
-    let multiPoint = MultiPoint<XYZ>(Fixtures.multiPoint)
-    let multiLineString = MultiLineString<XYZ>(Fixtures.multiLineString)
-    let multiPolygon = MultiPolygon<XYZ>(Fixtures.multiPolygon)
-    let geometryCollection = GeometryCollection<XYZ>(Fixtures.geometryCollection)
-    let recursiveGeometryCollection = GeometryCollection<XYZ>(Fixtures.recursiveGeometryCollection)
-    let linearRingHole1 = Polygon<XYZ>.LinearRing(Fixtures.linearRingHole1)
-
+final class WKBTestsXYZ: GEOSTestCase_XYZ {
     typealias WKBCompatible = WKBConvertible & WKBInitializable & Equatable
 
     func verifyGeometryRoundtripToWKB<T>(_ value: T, line: UInt = #line) where T: WKBCompatible {

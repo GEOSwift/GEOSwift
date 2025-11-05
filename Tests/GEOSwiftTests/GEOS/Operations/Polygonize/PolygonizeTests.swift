@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class PolygonizeTests: OperationsTestCase_XY {
+final class PolygonizeTests: GEOSTestCase_XY {
 
     func testPolygonizeAllTypes() {
         for g in geometryConvertibles {

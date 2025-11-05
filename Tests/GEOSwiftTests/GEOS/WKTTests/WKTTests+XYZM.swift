@@ -1,20 +1,8 @@
 import XCTest
 import GEOSwift
 
-final class WKTTestsXYZM: XCTestCase {
-
+final class WKTTestsXYZM: GEOSTestCase_XYZM {
     typealias WKTCompatible = WKTConvertible & WKTInitializable & Equatable
-
-    // Use XYZM fixtures directly (no conversion needed)
-    let point1 = Fixtures.point1
-    let lineString1 = Fixtures.lineString1
-    let linearRingHole1 = Fixtures.linearRingHole1
-    let polygonWithHole = Fixtures.polygonWithHole
-    let multiPoint = Fixtures.multiPoint
-    let multiLineString = Fixtures.multiLineString
-    let multiPolygon = Fixtures.multiPolygon
-    let geometryCollection = Fixtures.geometryCollection
-    let recursiveGeometryCollection = Fixtures.recursiveGeometryCollection
 
     func verifyGeometryRoundtripToWKT<T>(_ value: T, line: UInt = #line) where T: WKTCompatible {
         do {

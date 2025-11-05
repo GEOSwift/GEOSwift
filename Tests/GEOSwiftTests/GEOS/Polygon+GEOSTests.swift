@@ -1,12 +1,7 @@
 import XCTest
 @testable import GEOSwift
 
-final class Polygon_LinearRing_GEOSTests: GEOSContextTestCase {
-    // Convert XYZM fixtures to XY using copy constructors
-    let point1 = Point<XY>(Fixtures.point1)
-    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
-    let linearRingExterior2 = Polygon<XY>.LinearRing(Fixtures.linearRingExterior2)
-    let linearRingExterior7 = Polygon<XY>.LinearRing(Fixtures.linearRingExterior7)
+final class Polygon_LinearRing_GEOSTests: GEOSTestCase_XY {
 
     func testRoundtripToGEOS() {
         let linearRings: [Polygon.LinearRing] = [
@@ -29,11 +24,7 @@ final class Polygon_LinearRing_GEOSTests: GEOSContextTestCase {
     }
 }
 
-final class Polygon_GEOSTests: GEOSContextTestCase {
-    // Convert XYZM fixtures to XY using copy constructors
-    let point1 = Point<XY>(Fixtures.point1)
-    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
-    let polygonWithoutHole = Polygon<XY>(Fixtures.polygonWithoutHole)
+final class Polygon_GEOSTests: GEOSTestCase_XY {
 
     func testRoundtripToGEOS() {
         let polygons: [Polygon] = [polygonWithHole, polygonWithoutHole]

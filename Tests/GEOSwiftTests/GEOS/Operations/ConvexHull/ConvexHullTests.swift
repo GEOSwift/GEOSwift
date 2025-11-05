@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class ConvexHullTests: OperationsTestCase_XY {
+final class ConvexHullTests: GEOSTestCase_XY {
 
     func testConvexHullPolygon() {
         let polygon = try! Polygon(exterior: Polygon.LinearRing(coordinates: [

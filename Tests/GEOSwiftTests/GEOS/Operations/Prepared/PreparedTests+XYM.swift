@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class PreparedTests_XYM: OperationsTestCase_XYM {
+final class PreparedTests_XYM: GEOSTestCase_XYM {
 
     func testMakePreparedAllTypes() {
         for g in geometryConvertibles {

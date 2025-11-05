@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class IntersectionTests: OperationsTestCase_XY {
+final class IntersectionTests: GEOSTestCase_XY {
 
     // MARK: - XY ∩ XY → XY
 

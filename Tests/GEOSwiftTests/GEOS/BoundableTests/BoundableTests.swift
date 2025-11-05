@@ -1,15 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class BoundableTests: XCTestCase {
-    let point1 = Point<XY>(Fixtures.point1)
-    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
-    let lineString1 = LineString<XY>(Fixtures.lineString1)
-    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
-    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
-    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
-    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
-
+final class BoundableTests: GEOSTestCase_XY {
     lazy var boundables: [any Boundable<XY>] = [
         point1,
         multiPoint,

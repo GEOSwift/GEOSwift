@@ -3,7 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class UnionTests_XYZM: OperationsTestCase_XYZM {
+final class UnionTests_XYZM: GEOSTestCase_XYZM {
 
     func testUnionPointAndLine() throws {
         let pointWithZM = Point(XYZM(2, 0, 7, 7))

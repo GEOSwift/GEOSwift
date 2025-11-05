@@ -1,7 +1,7 @@
 import XCTest
 @testable import GEOSwift
 
-final class EnvelopeTests: XCTestCase {
+final class EnvelopeTests: GEOSTestCase_XY {
     let envelope = Envelope(minX: 0, maxX: 1, minY: 2, maxY: 3)
 
     func testMinXMaxY() {

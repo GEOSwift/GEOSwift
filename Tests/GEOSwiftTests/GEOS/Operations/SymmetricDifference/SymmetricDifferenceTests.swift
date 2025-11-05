@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class SymmetricDifferenceTests: OperationsTestCase_XY {
+final class SymmetricDifferenceTests: GEOSTestCase_XY {
 
     func testSymmetricDifferencePolygons() throws {
         let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [

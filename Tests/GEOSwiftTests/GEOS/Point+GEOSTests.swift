@@ -1,10 +1,7 @@
 import XCTest
 @testable import GEOSwift
 
-final class Point_GEOSTests: GEOSContextTestCase {
-    // Convert XYZM fixtures to XY using copy constructors
-    let point1 = Point<XY>(Fixtures.point1)
-    let lineString1 = LineString<XY>(Fixtures.lineString1)
+final class Point_GEOSTests: GEOSTestCase_XY {
 
     func testRoundtripToGEOS() {
         verifyRoundtripToGEOS(value: point1)

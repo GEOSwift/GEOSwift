@@ -3,7 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class ValidityTests_XYZ: OperationsTestCase_XYZ {
+final class ValidityTests_XYZ: GEOSTestCase_XYZ {
 
     // MARK: - IsValid Tests
 

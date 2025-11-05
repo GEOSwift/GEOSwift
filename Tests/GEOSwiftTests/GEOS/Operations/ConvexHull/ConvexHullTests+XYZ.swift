@@ -3,7 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class ConvexHullTests_XYZ: OperationsTestCase_XYZ {
+final class ConvexHullTests_XYZ: GEOSTestCase_XYZ {
 
     func testConvexHullPolygon() {
         let polygon = try! Polygon(exterior: Polygon.LinearRing(coordinates: [

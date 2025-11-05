@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class LineMergeTestsXYZM: OperationsTestCase_XYZM {
+final class LineMergeTestsXYZM: GEOSTestCase_XYZM {
     func testLineMerge() {
         let multiLineString = try! MultiLineString(lineStrings: [
             LineString(coordinates: [XYZM(0, 0, 1, 1), XYZM(1, 0, 4, 4)]),

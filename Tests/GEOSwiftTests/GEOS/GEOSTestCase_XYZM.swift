@@ -1,9 +1,9 @@
 import XCTest
 import GEOSwift
 
-/// Base test case for Operations tests using XYZM coordinates.
-/// Provides all common fixtures directly from Fixtures (no conversion needed).
-class OperationsTestCase_XYZM: XCTestCase {
+/// Base test case for GEOS tests using XYZM coordinates.
+/// Provides all common fixtures directly from Fixtures (no conversion needed), plus GEOSContext management.
+class GEOSTestCase_XYZM: GEOSContextTestCase {
     // MARK: - Points
 
     let point1 = Fixtures.point1
