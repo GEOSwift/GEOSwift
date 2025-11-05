@@ -17,7 +17,6 @@ fileprivate extension MultiPolygon where C == XY {
         + #"],[7,2]]]],"type":"MultiPolygon"}"#
 }
 
-
 final class MultiPolygon_CodableTestsXY: CodableTestCase {
     func testCodable() {
         verifyCodable(with: MultiPolygon<XY>.testValue, json: MultiPolygon<XY>.testJson)

@@ -47,7 +47,8 @@ final class Geometry_CodableTestsXY: CodableTestCase {
                 XY(2, 2), XY(-2, 2), XY(-2, -2), XY(2, -2), XY(2, 2)]),
             holes: [try! Polygon.LinearRing(coordinates: [
                 XY(1, 1), XY(1, -1), XY(-1, -1), XY(-1, 1), XY(1, 1)])])
-        let json = #"{"coordinates":[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],"type":"Polygon"}"#
+        let json = #"{"coordinates":[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],"#
+            + #"[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],"type":"Polygon"}"#
 
         verifyCodable(
             with: Geometry.polygon(polygon),
@@ -65,7 +66,9 @@ final class Geometry_CodableTestsXY: CodableTestCase {
                 Polygon(
                     exterior: try! Polygon.LinearRing(coordinates: [
                         XY(7, 2), XY(3, 2), XY(3, -2), XY(7, -2), XY(7, 2)]))])
-        let json = #"{"coordinates":[[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],[[[7,2],[3,2],[3,-2],[7,-2],[7,2]]]],"type":"MultiPolygon"}"#
+        let json = #"{"coordinates":[[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],"#
+            + #"[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],[[[7,2],[3,2],[3,-2],[7,-2],[7,2]]]],"#
+            + #""type":"MultiPolygon"}"#
 
         verifyCodable(
             with: Geometry.multiPolygon(multiPolygon),
@@ -101,8 +104,11 @@ final class Geometry_CodableTestsXY: CodableTestCase {
             + #"{"coordinates":[[1,2],[3,4]],"type":"MultiPoint"},"#
             + #"{"coordinates":[[1,2],[3,4]],"type":"LineString"},"#
             + #"{"coordinates":[[[1,2],[3,4]],[[5,6],[7,8]]],"type":"MultiLineString"},"#
-            + #"{"coordinates":[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],"type":"Polygon"},"#
-            + #"{"coordinates":[[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],[[[7,2],[3,2],[3,-2],[7,-2],[7,2]]]],"type":"MultiPolygon"}],"type":"GeometryCollection"}"#
+            + #"{"coordinates":[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],"#
+            + #"[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],"type":"Polygon"},"#
+            + #"{"coordinates":[[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],"#
+            + #"[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],[[[7,2],[3,2],[3,-2],[7,-2],[7,2]]]],"#
+            + #""type":"MultiPolygon"}],"type":"GeometryCollection"}"#
 
         verifyCodable(
             with: Geometry.geometryCollection(geometryCollection),
