@@ -3,46 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class UnaryOperationsTests_XYZ: XCTestCase {
-    // Convert XYZM fixtures to XYZ using copy constructors
-    let lineString0 = LineString<XYZ>(Fixtures.lineString0)
-    let lineString1 = LineString<XYZ>(Fixtures.lineStringLength1)
-    let lineString2 = LineString<XYZ>(Fixtures.lineStringLength2)
-    let multiLineString0 = MultiLineString<XYZ>(Fixtures.multiLineString0)
-    let multiLineString1 = MultiLineString<XYZ>(Fixtures.multiLineStringLength1)
-    let multiLineString2 = MultiLineString<XYZ>(Fixtures.multiLineStringLength3)
-    let linearRing0 = Polygon<XYZ>.LinearRing(Fixtures.linearRing0)
-    let linearRing1 = Polygon<XYZ>.LinearRing(Fixtures.linearRingLength4)
-    let collection = GeometryCollection<XYZ>(Fixtures.collection)
-    let recursiveCollection = GeometryCollection<XYZ>(Fixtures.recursiveCollection)
-    let unitPoly = Polygon<XYZ>(Fixtures.unitPolygon)
-
-    // Additional fixtures for convenience
-    let point1 = Point<XYZ>(Fixtures.point1)
-    let multiPoint = MultiPoint<XYZ>(Fixtures.multiPoint)
-    let polygonWithHole = Polygon<XYZ>(Fixtures.polygonWithHole)
-    let polygonWithoutHole = Polygon<XYZ>(Fixtures.polygonWithoutHole)
-    let multiPolygon = MultiPolygon<XYZ>(Fixtures.multiPolygon)
-
-    // Geometry convertibles array needs to be converted element-by-element
-    lazy var geometryConvertibles: [any GeometryConvertible<XYZ>] = [
-        point1,
-        Geometry.point(point1),
-        multiPoint,
-        Geometry.multiPoint(multiPoint),
-        LineString<XYZ>(Fixtures.lineString1),
-        Geometry.lineString(LineString<XYZ>(Fixtures.lineString1)),
-        MultiLineString<XYZ>(Fixtures.multiLineString),
-        Geometry.multiLineString(MultiLineString<XYZ>(Fixtures.multiLineString)),
-        Polygon<XYZ>.LinearRing(Fixtures.linearRingHole1),
-        polygonWithHole,
-        Geometry.polygon(polygonWithHole),
-        multiPolygon,
-        Geometry.multiPolygon(multiPolygon),
-        GeometryCollection<XYZ>(Fixtures.geometryCollection),
-        GeometryCollection<XYZ>(Fixtures.recursiveGeometryCollection),
-        Geometry.geometryCollection(GeometryCollection<XYZ>(Fixtures.geometryCollection))
-    ]
+final class UnaryOperationsTests_XYZ: OperationsTestCase_XYZ {
 
     // MARK: - Length
 

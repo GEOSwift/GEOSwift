@@ -1,49 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class UnaryOperationsTests: XCTestCase {
-    // Convert XYZM fixtures to XY using copy constructors
-    let point1 = Point<XY>(Fixtures.point1)
-    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
-    let lineString1 = LineString<XY>(Fixtures.lineString1)
-    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
-    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
-    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
-    let polygonWithoutHole = Polygon<XY>(Fixtures.polygonWithoutHole)
-    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
-    let geometryCollection = GeometryCollection<XY>(Fixtures.geometryCollection)
-    let recursiveGeometryCollection = GeometryCollection<XY>(Fixtures.recursiveGeometryCollection)
-    let unitPoly = Polygon<XY>(Fixtures.unitPolygon)
-
-    // Length test fixtures
-    let lineString0 = LineString<XY>(Fixtures.lineString0)
-    let lineStringLength1 = LineString<XY>(Fixtures.lineStringLength1)
-    let lineStringLength2 = LineString<XY>(Fixtures.lineStringLength2)
-    let multiLineString0 = MultiLineString<XY>(Fixtures.multiLineString0)
-    let multiLineStringLength1 = MultiLineString<XY>(Fixtures.multiLineStringLength1)
-    let multiLineStringLength3 = MultiLineString<XY>(Fixtures.multiLineStringLength3)
-    let linearRing0 = Polygon<XY>.LinearRing(Fixtures.linearRing0)
-    let linearRingLength4 = Polygon<XY>.LinearRing(Fixtures.linearRingLength4)
-    let collection = GeometryCollection<XY>(Fixtures.collection)
-    let recursiveCollection = GeometryCollection<XY>(Fixtures.recursiveCollection)
-
-    lazy var geometryConvertibles: [any GeometryConvertible<XY>] = [
-        point1,
-        Geometry.point(point1),
-        multiPoint,
-        Geometry.multiPoint(multiPoint),
-        lineString1,
-        Geometry.lineString(lineString1),
-        multiLineString,
-        Geometry.multiLineString(multiLineString),
-        linearRingHole1,
-        polygonWithHole,
-        Geometry.polygon(polygonWithHole),
-        multiPolygon,
-        Geometry.multiPolygon(multiPolygon),
-        geometryCollection,
-        recursiveGeometryCollection,
-        Geometry.geometryCollection(geometryCollection)]
+final class UnaryOperationsTests: OperationsTestCase_XY {
 
     // MARK: - Length
 

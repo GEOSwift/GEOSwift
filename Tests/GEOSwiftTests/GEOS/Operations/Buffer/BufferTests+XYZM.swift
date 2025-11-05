@@ -1,13 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class BufferTests_XYZM: XCTestCase {
-    // Use XYZM fixtures directly
-    let point1 = Fixtures.point1
-    let polygonWithoutHole = Fixtures.polygonWithoutHole
-
-    // Geometry convertibles array from Fixtures
-    lazy var geometryConvertibles: [any GeometryConvertible<XYZM>] = Fixtures.allGeometryConvertibles
+final class BufferTests_XYZM: OperationsTestCase_XYZM {
 
     func testBufferAllTypes() {
         for geometry in geometryConvertibles {

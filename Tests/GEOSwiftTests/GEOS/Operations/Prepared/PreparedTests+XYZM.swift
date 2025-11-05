@@ -1,9 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class PreparedTests_XYZM: XCTestCase {
-    // Geometry convertibles array from Fixtures
-    lazy var geometryConvertibles: [any GeometryConvertible<XYZM>] = Fixtures.allGeometryConvertibles
+final class PreparedTests_XYZM: OperationsTestCase_XYZM {
 
     func testMakePreparedAllTypes() {
         for g in geometryConvertibles {

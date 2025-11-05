@@ -1,13 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class UnaryPredicatesTests_XYZM: XCTestCase {
-    // Use XYZM fixtures directly
-    let linearRingHole1 = Fixtures.linearRingHole1
-
-    // Geometry convertibles can be used directly from Fixtures
-    let geometryConvertibles: [any GeometryConvertible<XYZM>] = Fixtures.allGeometryConvertibles
-
+final class UnaryPredicatesTests_XYZM: OperationsTestCase_XYZM {
     // MARK: - Unary Predicates
 
     func testIsEmpty() {

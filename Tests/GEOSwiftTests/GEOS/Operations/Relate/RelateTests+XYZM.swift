@@ -1,9 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class RelateTests_XYZM: XCTestCase {
-    // Geometry convertibles array from Fixtures
-    lazy var geometryConvertibles: [any GeometryConvertible<XYZM>] = Fixtures.allGeometryConvertibles
+final class RelateTests_XYZM: OperationsTestCase_XYZM {
 
     func testRelateMaskBetweenPoints() {
         let point1 = Point(XYZM(1, 1, 1, 1))

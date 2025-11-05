@@ -3,46 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class UnaryOperationsTests_XYM: XCTestCase {
-    // Convert XYZM fixtures to XYM using copy constructors
-    let lineString0 = LineString<XYM>(Fixtures.lineString0)
-    let lineString1 = LineString<XYM>(Fixtures.lineStringLength1)
-    let lineString2 = LineString<XYM>(Fixtures.lineStringLength2)
-    let multiLineString0 = MultiLineString<XYM>(Fixtures.multiLineString0)
-    let multiLineString1 = MultiLineString<XYM>(Fixtures.multiLineStringLength1)
-    let multiLineString2 = MultiLineString<XYM>(Fixtures.multiLineStringLength3)
-    let linearRing0 = Polygon<XYM>.LinearRing(Fixtures.linearRing0)
-    let linearRing1 = Polygon<XYM>.LinearRing(Fixtures.linearRingLength4)
-    let collection = GeometryCollection<XYM>(Fixtures.collection)
-    let recursiveCollection = GeometryCollection<XYM>(Fixtures.recursiveCollection)
-    let unitPoly = Polygon<XYM>(Fixtures.unitPolygon)
-
-    // Additional fixtures for convenience
-    let point1 = Point<XYM>(Fixtures.point1)
-    let multiPoint = MultiPoint<XYM>(Fixtures.multiPoint)
-    let polygonWithHole = Polygon<XYM>(Fixtures.polygonWithHole)
-    let polygonWithoutHole = Polygon<XYM>(Fixtures.polygonWithoutHole)
-    let multiPolygon = MultiPolygon<XYM>(Fixtures.multiPolygon)
-
-    // Geometry convertibles array needs to be converted element-by-element
-    lazy var geometryConvertibles: [any GeometryConvertible<XYM>] = [
-        point1,
-        Geometry.point(point1),
-        multiPoint,
-        Geometry.multiPoint(multiPoint),
-        LineString<XYM>(Fixtures.lineString1),
-        Geometry.lineString(LineString<XYM>(Fixtures.lineString1)),
-        MultiLineString<XYM>(Fixtures.multiLineString),
-        Geometry.multiLineString(MultiLineString<XYM>(Fixtures.multiLineString)),
-        Polygon<XYM>.LinearRing(Fixtures.linearRingHole1),
-        polygonWithHole,
-        Geometry.polygon(polygonWithHole),
-        multiPolygon,
-        Geometry.multiPolygon(multiPolygon),
-        GeometryCollection<XYM>(Fixtures.geometryCollection),
-        GeometryCollection<XYM>(Fixtures.recursiveGeometryCollection),
-        Geometry.geometryCollection(GeometryCollection<XYM>(Fixtures.geometryCollection))
-    ]
+final class UnaryOperationsTests_XYM: OperationsTestCase_XYM {
 
     // MARK: - Length
 

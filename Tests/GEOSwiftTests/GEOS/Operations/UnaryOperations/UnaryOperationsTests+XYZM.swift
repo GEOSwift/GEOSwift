@@ -3,47 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class UnaryOperationsTests_XYZM: XCTestCase {
-    // Convert XYZM fixtures to XYZM using copy constructors
-    let lineString0 = LineString<XYZM>(Fixtures.lineString0)
-    let lineString1 = LineString<XYZM>(Fixtures.lineStringLength1)
-    let lineString2 = LineString<XYZM>(Fixtures.lineStringLength2)
-    let multiLineString0 = MultiLineString<XYZM>(Fixtures.multiLineString0)
-    let multiLineString1 = MultiLineString<XYZM>(Fixtures.multiLineStringLength1)
-    let multiLineString2 = MultiLineString<XYZM>(Fixtures.multiLineStringLength3)
-    let linearRing0 = Polygon<XYZM>.LinearRing(Fixtures.linearRing0)
-    let linearRing1 = Polygon<XYZM>.LinearRing(Fixtures.linearRingLength4)
-    let collection = GeometryCollection<XYZM>(Fixtures.collection)
-    let recursiveCollection = GeometryCollection<XYZM>(Fixtures.recursiveCollection)
-    let unitPoly = Polygon<XYZM>(Fixtures.unitPolygon)
-
-    // Additional fixtures for convenience
-    let point1 = Point<XYZM>(Fixtures.point1)
-    let multiPoint = MultiPoint<XYZM>(Fixtures.multiPoint)
-    let polygonWithHole = Polygon<XYZM>(Fixtures.polygonWithHole)
-    let polygonWithoutHole = Polygon<XYZM>(Fixtures.polygonWithoutHole)
-    let multiPolygon = MultiPolygon<XYZM>(Fixtures.multiPolygon)
-
-    // Geometry convertibles array needs to be converted element-by-element
-    lazy var geometryConvertibles: [any GeometryConvertible<XYZM>] = [
-        point1,
-        Geometry.point(point1),
-        multiPoint,
-        Geometry.multiPoint(multiPoint),
-        LineString<XYZM>(Fixtures.lineString1),
-        Geometry.lineString(LineString<XYZM>(Fixtures.lineString1)),
-        MultiLineString<XYZM>(Fixtures.multiLineString),
-        Geometry.multiLineString(MultiLineString<XYZM>(Fixtures.multiLineString)),
-        Polygon<XYZM>.LinearRing(Fixtures.linearRingHole1),
-        polygonWithHole,
-        Geometry.polygon(polygonWithHole),
-        multiPolygon,
-        Geometry.multiPolygon(multiPolygon),
-        GeometryCollection<XYZM>(Fixtures.geometryCollection),
-        GeometryCollection<XYZM>(Fixtures.recursiveGeometryCollection),
-        Geometry.geometryCollection(GeometryCollection<XYZM>(Fixtures.geometryCollection))
-    ]
-
+final class UnaryOperationsTests_XYZM: OperationsTestCase_XYZM {
     // MARK: - Length
 
     // points have length 0

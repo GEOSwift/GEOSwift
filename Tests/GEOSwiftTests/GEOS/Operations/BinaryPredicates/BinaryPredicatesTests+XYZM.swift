@@ -3,38 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class BinaryPredicatesTests_XYZM: XCTestCase {
-    // Use XYZM fixtures directly
-    let point1 = Fixtures.point1
-    let lineString1 = Fixtures.lineString1
-    let linearRingHole1 = Fixtures.linearRingHole1
-    let polygonWithHole = Fixtures.polygonWithHole
-    let multiPoint = Fixtures.multiPoint
-    let multiLineString = Fixtures.multiLineString
-    let multiPolygon = Fixtures.multiPolygon
-    let geometryCollection = Fixtures.geometryCollection
-    let recursiveGeometryCollection = Fixtures.recursiveGeometryCollection
-    let unitPoly = Fixtures.unitPolygon
-
-    // Geometry convertibles array
-    lazy var geometryConvertibles: [any GeometryConvertible<XYZM>] = [
-        point1,
-        Geometry.point(point1),
-        multiPoint,
-        Geometry.multiPoint(multiPoint),
-        lineString1,
-        Geometry.lineString(lineString1),
-        multiLineString,
-        Geometry.multiLineString(multiLineString),
-        linearRingHole1,
-        polygonWithHole,
-        Geometry.polygon(polygonWithHole),
-        multiPolygon,
-        Geometry.multiPolygon(multiPolygon),
-        geometryCollection,
-        recursiveGeometryCollection,
-        Geometry.geometryCollection(geometryCollection)
-    ]
+final class BinaryPredicatesTests_XYZM: OperationsTestCase_XYZM {
 
     // MARK: - isTopologicallyEquivalent
 

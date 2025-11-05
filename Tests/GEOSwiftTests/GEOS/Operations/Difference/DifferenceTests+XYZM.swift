@@ -3,36 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class DifferenceTests_XYZM: XCTestCase {
-    // Use XYZM fixtures directly
-    let point1 = Fixtures.point1
-    let multiPoint = Fixtures.multiPoint
-    let lineString1 = Fixtures.lineString1
-    let multiLineString = Fixtures.multiLineString
-    let linearRingHole1 = Fixtures.linearRingHole1
-    let polygonWithHole = Fixtures.polygonWithHole
-    let multiPolygon = Fixtures.multiPolygon
-    let geometryCollection = Fixtures.geometryCollection
-    let unitPoly = Fixtures.unitPolygon
-
-    lazy var geometryConvertibles: [any GeometryConvertible<XYZM>] = [
-        point1,
-        Geometry.point(point1),
-        multiPoint,
-        Geometry.multiPoint(multiPoint),
-        lineString1,
-        Geometry.lineString(lineString1),
-        multiLineString,
-        Geometry.multiLineString(multiLineString),
-        linearRingHole1,
-        polygonWithHole,
-        Geometry.polygon(polygonWithHole),
-        multiPolygon,
-        Geometry.multiPolygon(multiPolygon),
-        geometryCollection,
-        Fixtures.recursiveGeometryCollection,
-        Geometry.geometryCollection(geometryCollection)
-    ]
+final class DifferenceTests_XYZM: OperationsTestCase_XYZM {
 
     func testDifferencePolygons() {
         let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [

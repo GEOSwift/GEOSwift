@@ -3,38 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class BinaryPredicatesTests_XYZ: XCTestCase {
-    // Convert XYZM fixtures to XYZ using copy constructors
-    let point1 = Point<XYZ>(Fixtures.point1)
-    let lineString1 = LineString<XYZ>(Fixtures.lineString1)
-    let linearRingHole1 = Polygon<XYZ>.LinearRing(Fixtures.linearRingHole1)
-    let polygonWithHole = Polygon<XYZ>(Fixtures.polygonWithHole)
-    let multiPoint = MultiPoint<XYZ>(Fixtures.multiPoint)
-    let multiLineString = MultiLineString<XYZ>(Fixtures.multiLineString)
-    let multiPolygon = MultiPolygon<XYZ>(Fixtures.multiPolygon)
-    let geometryCollection = GeometryCollection<XYZ>(Fixtures.geometryCollection)
-    let recursiveGeometryCollection = GeometryCollection<XYZ>(Fixtures.recursiveGeometryCollection)
-    let unitPoly = Polygon<XYZ>(Fixtures.unitPolygon)
-
-    // Geometry convertibles array needs to be converted element-by-element
-    lazy var geometryConvertibles: [any GeometryConvertible<XYZ>] = [
-        point1,
-        Geometry.point(point1),
-        multiPoint,
-        Geometry.multiPoint(multiPoint),
-        lineString1,
-        Geometry.lineString(lineString1),
-        multiLineString,
-        Geometry.multiLineString(multiLineString),
-        linearRingHole1,
-        polygonWithHole,
-        Geometry.polygon(polygonWithHole),
-        multiPolygon,
-        Geometry.multiPolygon(multiPolygon),
-        geometryCollection,
-        recursiveGeometryCollection,
-        Geometry.geometryCollection(geometryCollection)
-    ]
+final class BinaryPredicatesTests_XYZ: OperationsTestCase_XYZ {
 
     // MARK: - isTopologicallyEquivalent
 
