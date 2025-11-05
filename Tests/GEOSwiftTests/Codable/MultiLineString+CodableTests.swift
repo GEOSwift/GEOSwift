@@ -10,7 +10,6 @@ fileprivate extension MultiLineString where C == XY {
         + #"":"MultiLineString"}"#
 }
 
-
 final class MultiLineString_CodableTestsXY: CodableTestCase {
     func testCodable() {
         verifyCodable(

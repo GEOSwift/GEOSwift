@@ -30,15 +30,17 @@ fileprivate extension GeometryCollection where C == XY {
         + #"{"coordinates":[[1,2],[3,4]],"type":"MultiPoint"},"#
         + #"{"coordinates":[[1,2],[3,4]],"type":"LineString"},"#
         + #"{"coordinates":[[[1,2],[3,4]],[[5,6],[7,8]]],"type":"MultiLineString"},"#
-        + #"{"coordinates":[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],"type":"Polygon"},"#
-        + #"{"coordinates":[[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],[[[7,2],[3,2],[3,-2],[7,-2],[7,2]]]],"type":"MultiPolygon"}],"type":"GeometryCollection"}"#
+        + #"{"coordinates":[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],"#
+        + #"[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],"type":"Polygon"},"#
+        + #"{"coordinates":[[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],"#
+        + #"[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],[[[7,2],[3,2],[3,-2],[7,-2],[7,2]]]],"#
+        + #""type":"MultiPolygon"}],"type":"GeometryCollection"}"#
 
     static let testValueWithRecursion = GeometryCollection(
         geometries: [GeometryCollection.testValue])
     static let testJsonWithRecursion = #"{"geometries":[\#(testJson)],"type":""#
         + #"GeometryCollection"}"#
 }
-
 
 final class GeometryCollection_CodableTestsXY: CodableTestCase {
     func testCodable() {
@@ -75,8 +77,11 @@ final class GeometryCollection_CodableTestsXYZ: CodableTestCase {
         + #"{"coordinates":[[1,2,0],[3,4,1]],"type":"MultiPoint"},"# // multiPoint
         + #"{"coordinates":[[1,2,0],[3,4,1]],"type":"LineString"},"# // lineString1
         + #"{"coordinates":[[[1,2,0],[3,4,1]],[[5,6,2],[7,8,3]]],"type":"MultiLineString"},"# // multiLineString
-        + #"{"coordinates":[[[2,2,0],[-2,2,0],[-2,-2,0],[2,-2,0],[2,2,1]],[[1,1,0],[1,-1,0],[-1,-1,0],[-1,1,0],[1,1,1]]],"type":"Polygon"},"# // polygonWithHole
-        + #"{"coordinates":[[[[2,2,0],[-2,2,0],[-2,-2,0],[2,-2,0],[2,2,1]],[[1,1,0],[1,-1,0],[-1,-1,0],[-1,1,0],[1,1,1]]],[[[7,2,0],[3,2,0],[3,-2,0],[7,-2,0],[7,2,1]]]],"type":"MultiPolygon"}"# // multiPolygon
+        + #"{"coordinates":[[[2,2,0],[-2,2,0],[-2,-2,0],[2,-2,0],[2,2,1]],"#
+        + #"[[1,1,0],[1,-1,0],[-1,-1,0],[-1,1,0],[1,1,1]]],"type":"Polygon"},"# // polygonWithHole
+        + #"{"coordinates":[[[[2,2,0],[-2,2,0],[-2,-2,0],[2,-2,0],[2,2,1]],"#
+        + #"[[1,1,0],[1,-1,0],[-1,-1,0],[-1,1,0],[1,1,1]]],"#
+        + #"[[[7,2,0],[3,2,0],[3,-2,0],[7,-2,0],[7,2,1]]]],"type":"MultiPolygon"}"# // multiPolygon
         + #"],"type":"GeometryCollection"}"#
 
     static let testJsonWithRecursion = #"{"geometries":[\#(testJson)],"type":""#

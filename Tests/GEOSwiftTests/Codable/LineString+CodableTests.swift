@@ -8,7 +8,6 @@ fileprivate extension LineString where C == XY {
     static let testValue5 = try! LineString(coordinates: [XY(5, 6), XY(7, 8)])
 }
 
-
 final class LineString_CodableTestsXY: CodableTestCase {
     func testCodable() {
         verifyCodable(with: LineString<XY>.testValue1, json: LineString<XY>.testJson1)

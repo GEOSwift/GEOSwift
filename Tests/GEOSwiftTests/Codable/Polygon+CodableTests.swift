@@ -40,7 +40,6 @@ fileprivate extension Polygon where C == XY {
         + #"-2],[7,2]]],"type":"Polygon"}"#
 }
 
-
 final class Polygon_CodableTestsXY: CodableTestCase {
     func testCodableWithoutHoles() {
         verifyCodable(
