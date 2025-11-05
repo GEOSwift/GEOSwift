@@ -1,3 +1,4 @@
+/// The [GeoJSON types](https://datatracker.ietf.org/doc/html/rfc7946#section-3).
 public enum GeoJSONType: String, Hashable, Sendable, Codable {
     case point = "Point"
     case multiPoint = "MultiPoint"
