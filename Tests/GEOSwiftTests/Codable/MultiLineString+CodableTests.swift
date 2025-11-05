@@ -1,22 +1,15 @@
 import XCTest
 import GEOSwift
 
-extension MultiLineString where C == XY {
-    static let testValue = MultiLineString(
-        lineStrings: [.testValue1, .testValue5])
+fileprivate extension MultiLineString where C == XY {
+    static let testValue = MultiLineString(lineStrings: [
+        try! LineString(coordinates: [XY(1, 2), XY(3, 4)]),
+        try! LineString(coordinates: [XY(5, 6), XY(7, 8)])
+    ])
     static let testJson = #"{"coordinates":[[[1,2],[3,4]],[[5,6],[7,8]]],"type"#
         + #"":"MultiLineString"}"#
 }
 
-fileprivate extension MultiLineString where C == XYZ {
-    static let testValue = MultiLineString(
-        lineStrings: [
-            try! LineString(points: [Point(x: 1, y: 2, z: 3), Point(x: 4, y: 5, z: 6)]),
-            try! LineString(points: [Point(x: 7, y: 8, z: 9), Point(x: 10, y: 11, z: 12)])
-        ])
-    static let testJson = #"{"coordinates":[[[1,2,3],[4,5,6]],[[7,8,9],[10,11,12]]],"type"#
-        + #"":"MultiLineString"}"#
-}
 
 final class MultiLineString_CodableTestsXY: CodableTestCase {
     func testCodable() {
@@ -39,10 +32,15 @@ final class MultiLineString_CodableTestsXY: CodableTestCase {
 }
 
 final class MultiLineString_CodableTestsXYZ: CodableTestCase {
+    // JSON string matching Fixtures.multiLineString
+    // Contains lineString1 [[1,2,0],[3,4,1]] and lineString5 [[5,6,2],[7,8,3]]
+    static let testJson = #"{"coordinates":[[[1,2,0],[3,4,1]],[[5,6,2],[7,8,3]]],"type"#
+        + #"":"MultiLineString"}"#
+
     func testCodable() {
         verifyCodable(
-            with: MultiLineString<XYZ>.testValue,
-            json: MultiLineString<XYZ>.testJson)
+            with: MultiLineString<XYZ>(Fixtures.multiLineString),
+            json: Self.testJson)
     }
 
     func testDecodableThrowsWithTypeMismatch() {

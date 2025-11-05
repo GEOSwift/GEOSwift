@@ -1,116 +1,38 @@
 import XCTest
 import GEOSwift
 
-// MARK: - Test Value Extensions for XYZ
-
-private extension Point where C == XYZ {
-    static let testValue1 = Point(XYZ(1, 2, 100))
-    static let testValue3 = Point(XYZ(3, 4, 150))
-    static let testValue5 = Point(XYZ(5, 6, 200))
-    static let testValue7 = Point(XYZ(7, 8, 250))
-}
-
-private extension LineString where C == XYZ {
-    static let testValue1 = try! LineString(coordinates: [
-        Point<XYZ>.testValue1.coordinates,
-        Point<XYZ>.testValue3.coordinates
-    ])
-    static let testValue5 = try! LineString(coordinates: [
-        Point<XYZ>.testValue5.coordinates,
-        Point<XYZ>.testValue7.coordinates
-    ])
-}
-
-private extension Polygon.LinearRing where C == XYZ {
-    // counterclockwise
-    static let testValueExterior2 = try! Polygon.LinearRing(coordinates: [
-        XYZ(2, 2, 100),
-        XYZ(-2, 2, 150),
-        XYZ(-2, -2, 200),
-        XYZ(2, -2, 250),
-        XYZ(2, 2, 100)])
-
-    // clockwise
-    static let testValueHole1 = try! Polygon.LinearRing(coordinates: [
-        XYZ(1, 1, 125),
-        XYZ(1, -1, 175),
-        XYZ(-1, -1, 225),
-        XYZ(-1, 1, 275),
-        XYZ(1, 1, 125)])
-
-    // counterclockwise
-    static let testValueExterior7 = try! Polygon.LinearRing(coordinates: [
-        XYZ(7, 2, 300),
-        XYZ(3, 2, 350),
-        XYZ(3, -2, 400),
-        XYZ(7, -2, 450),
-        XYZ(7, 2, 300)])
-}
-
-private extension Polygon where C == XYZ {
-    static let testValueWithHole = Polygon(
-        exterior: Polygon<XYZ>.LinearRing.testValueExterior2,
-        holes: [Polygon<XYZ>.LinearRing.testValueHole1])
-
-    static let testValueWithoutHole = Polygon(
-        exterior: Polygon<XYZ>.LinearRing.testValueExterior7)
-}
-
-private extension MultiPoint where C == XYZ {
-    static let testValue = MultiPoint(points: [.testValue1, .testValue3])
-}
-
-private extension MultiLineString where C == XYZ {
-    static let testValue = MultiLineString(
-        lineStrings: [.testValue1, .testValue5])
-}
-
-private extension MultiPolygon where C == XYZ {
-    static let testValue = MultiPolygon(
-        polygons: [.testValueWithHole, .testValueWithoutHole])
-}
-
-private extension GeometryCollection where C == XYZ {
-    static let testValue = GeometryCollection(
-        geometries: [
-            Point<XYZ>.testValue1,
-            MultiPoint<XYZ>.testValue,
-            LineString<XYZ>.testValue1,
-            MultiLineString<XYZ>.testValue,
-            Polygon<XYZ>.testValueWithHole,
-            MultiPolygon<XYZ>.testValue])
-
-    static let testValueWithRecursion = GeometryCollection(
-        geometries: [GeometryCollection<XYZ>.testValue])
-}
-
 // MARK: - Tests
 
 final class SymmetricDifferenceTests_XYZ: XCTestCase {
-    let unitPoly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
-        XYZ(0, 0, 1),
-        XYZ(1, 0, 2),
-        XYZ(1, 1, 3),
-        XYZ(0, 1, 4),
-        XYZ(0, 0, 1)]))
+    // Convert XYZM fixtures to XYZ using copy constructors
+    let point1 = Point<XYZ>(Fixtures.point1)
+    let multiPoint = MultiPoint<XYZ>(Fixtures.multiPoint)
+    let lineString1 = LineString<XYZ>(Fixtures.lineString1)
+    let multiLineString = MultiLineString<XYZ>(Fixtures.multiLineString)
+    let linearRingHole1 = Polygon<XYZ>.LinearRing(Fixtures.linearRingHole1)
+    let polygonWithHole = Polygon<XYZ>(Fixtures.polygonWithHole)
+    let multiPolygon = MultiPolygon<XYZ>(Fixtures.multiPolygon)
+    let geometryCollection = GeometryCollection<XYZ>(Fixtures.geometryCollection)
+    let unitPoly = Polygon<XYZ>(Fixtures.unitPolygon)
 
-    let geometryConvertibles: [any GeometryConvertible<XYZ>] = [
-        Point<XYZ>.testValue1,
-        Geometry.point(Point<XYZ>.testValue1),
-        MultiPoint<XYZ>.testValue,
-        Geometry.multiPoint(MultiPoint<XYZ>.testValue),
-        LineString<XYZ>.testValue1,
-        Geometry.lineString(LineString<XYZ>.testValue1),
-        MultiLineString<XYZ>.testValue,
-        Geometry.multiLineString(MultiLineString<XYZ>.testValue),
-        Polygon<XYZ>.LinearRing.testValueHole1,
-        Polygon<XYZ>.testValueWithHole,
-        Geometry.polygon(Polygon<XYZ>.testValueWithHole),
-        MultiPolygon<XYZ>.testValue,
-        Geometry.multiPolygon(MultiPolygon<XYZ>.testValue),
-        GeometryCollection<XYZ>.testValue,
-        GeometryCollection<XYZ>.testValueWithRecursion,
-        Geometry.geometryCollection(GeometryCollection<XYZ>.testValue)]
+    lazy var geometryConvertibles: [any GeometryConvertible<XYZ>] = [
+        point1,
+        Geometry.point(point1),
+        multiPoint,
+        Geometry.multiPoint(multiPoint),
+        lineString1,
+        Geometry.lineString(lineString1),
+        multiLineString,
+        Geometry.multiLineString(multiLineString),
+        linearRingHole1,
+        polygonWithHole,
+        Geometry.polygon(polygonWithHole),
+        multiPolygon,
+        Geometry.multiPolygon(multiPolygon),
+        geometryCollection,
+        GeometryCollection<XYZ>(Fixtures.recursiveGeometryCollection),
+        Geometry.geometryCollection(geometryCollection)
+    ]
 
     func testSymmetricDifferencePolygons() throws {
         let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [

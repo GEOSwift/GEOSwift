@@ -1,18 +1,21 @@
 import XCTest
 import GEOSwift
 
-extension Feature where C == XY {
+fileprivate extension Feature where C == XY {
+    static let testPoint = Point(x: 1, y: 2)
+    static let testPointJson = #"{"coordinates":[1,2],"type":"Point"}"#
+
     static let testValueWithNumberId = Feature(
-        geometry: Point.testValue1,
+        geometry: testPoint,
         properties: ["a": .string("b")],
         id: .number(0))
-    static let testJsonWithNumberId = #"{"geometry":\#(Point.testJson1),"id":0,"properties"#
+    static let testJsonWithNumberId = #"{"geometry":\#(testPointJson),"id":0,"properties"#
         + #"":{"a":"b"},"type":"Feature"}"#
     static let testValueWithStringId = Feature(
-        geometry: Point.testValue1,
+        geometry: testPoint,
         properties: ["a": .string("b")],
         id: .string("a"))
-    static let testJsonWithStringId = #"{"geometry":\#(Point.testJson1),"id":"a","properties"#
+    static let testJsonWithStringId = #"{"geometry":\#(testPointJson),"id":"a","properties"#
         + #"":{"a":"b"},"type":"Feature"}"#
     static let testValueWithNils = Feature(
         geometry: nil,

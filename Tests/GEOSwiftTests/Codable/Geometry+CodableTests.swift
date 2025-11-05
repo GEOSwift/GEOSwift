@@ -3,45 +3,110 @@ import GEOSwift
 
 final class Geometry_CodableTestsXY: CodableTestCase {
     func testCodablePoint() {
+        let point = Point<XY>(x: 1, y: 2)
+        let json = #"{"coordinates":[1,2],"type":"Point"}"#
+
         verifyCodable(
-            with: Geometry.point(.testValue1),
-            json: Point.testJson1)
+            with: Geometry.point(point),
+            json: json)
     }
 
     func testCodableMultiPoint() {
+        let multiPoint = MultiPoint(points: [Point(x: 1, y: 2), Point(x: 3, y: 4)])
+        let json = #"{"coordinates":[[1,2],[3,4]],"type":"MultiPoint"}"#
+
         verifyCodable(
-            with: Geometry.multiPoint(.testValue),
-            json: MultiPoint.testJson)
+            with: Geometry.multiPoint(multiPoint),
+            json: json)
     }
 
     func testCodableLineString() {
+        let lineString = try! LineString(coordinates: [XY(1, 2), XY(3, 4)])
+        let json = #"{"coordinates":[[1,2],[3,4]],"type":"LineString"}"#
+
         verifyCodable(
-            with: Geometry.lineString(.testValue1),
-            json: LineString.testJson1)
+            with: Geometry.lineString(lineString),
+            json: json)
     }
 
     func testCodableMultiLineString() {
+        let multiLineString = MultiLineString(
+            lineStrings: [
+                try! LineString(coordinates: [XY(1, 2), XY(3, 4)]),
+                try! LineString(coordinates: [XY(5, 6), XY(7, 8)])])
+        let json = #"{"coordinates":[[[1,2],[3,4]],[[5,6],[7,8]]],"type":"MultiLineString"}"#
+
         verifyCodable(
-            with: Geometry.multiLineString(.testValue),
-            json: MultiLineString.testJson)
+            with: Geometry.multiLineString(multiLineString),
+            json: json)
     }
 
     func testCodablePolygon() {
+        let polygon = Polygon(
+            exterior: try! Polygon.LinearRing(coordinates: [
+                XY(2, 2), XY(-2, 2), XY(-2, -2), XY(2, -2), XY(2, 2)]),
+            holes: [try! Polygon.LinearRing(coordinates: [
+                XY(1, 1), XY(1, -1), XY(-1, -1), XY(-1, 1), XY(1, 1)])])
+        let json = #"{"coordinates":[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],"type":"Polygon"}"#
+
         verifyCodable(
-            with: Geometry.polygon(.testValueWithHole),
-            json: Polygon.testJsonWithHole)
+            with: Geometry.polygon(polygon),
+            json: json)
     }
 
     func testCodableMultiPolygon() {
+        let multiPolygon = MultiPolygon(
+            polygons: [
+                Polygon(
+                    exterior: try! Polygon.LinearRing(coordinates: [
+                        XY(2, 2), XY(-2, 2), XY(-2, -2), XY(2, -2), XY(2, 2)]),
+                    holes: [try! Polygon.LinearRing(coordinates: [
+                        XY(1, 1), XY(1, -1), XY(-1, -1), XY(-1, 1), XY(1, 1)])]),
+                Polygon(
+                    exterior: try! Polygon.LinearRing(coordinates: [
+                        XY(7, 2), XY(3, 2), XY(3, -2), XY(7, -2), XY(7, 2)]))])
+        let json = #"{"coordinates":[[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],[[[7,2],[3,2],[3,-2],[7,-2],[7,2]]]],"type":"MultiPolygon"}"#
+
         verifyCodable(
-            with: Geometry.multiPolygon(.testValue),
-            json: MultiPolygon.testJson)
+            with: Geometry.multiPolygon(multiPolygon),
+            json: json)
     }
 
     func testCodableGeometryCollection() {
+        let geometryCollection = GeometryCollection(
+            geometries: [
+                Point(x: 1, y: 2),
+                MultiPoint(points: [Point(x: 1, y: 2), Point(x: 3, y: 4)]),
+                try! LineString(coordinates: [XY(1, 2), XY(3, 4)]),
+                MultiLineString(
+                    lineStrings: [
+                        try! LineString(coordinates: [XY(1, 2), XY(3, 4)]),
+                        try! LineString(coordinates: [XY(5, 6), XY(7, 8)])]),
+                Polygon(
+                    exterior: try! Polygon.LinearRing(coordinates: [
+                        XY(2, 2), XY(-2, 2), XY(-2, -2), XY(2, -2), XY(2, 2)]),
+                    holes: [try! Polygon.LinearRing(coordinates: [
+                        XY(1, 1), XY(1, -1), XY(-1, -1), XY(-1, 1), XY(1, 1)])]),
+                MultiPolygon(
+                    polygons: [
+                        Polygon(
+                            exterior: try! Polygon.LinearRing(coordinates: [
+                                XY(2, 2), XY(-2, 2), XY(-2, -2), XY(2, -2), XY(2, 2)]),
+                            holes: [try! Polygon.LinearRing(coordinates: [
+                                XY(1, 1), XY(1, -1), XY(-1, -1), XY(-1, 1), XY(1, 1)])]),
+                        Polygon(
+                            exterior: try! Polygon.LinearRing(coordinates: [
+                                XY(7, 2), XY(3, 2), XY(3, -2), XY(7, -2), XY(7, 2)]))])])
+        let json = #"{"geometries":[{"coordinates":[1,2],"type":"Point"},"#
+            + #"{"coordinates":[[1,2],[3,4]],"type":"MultiPoint"},"#
+            + #"{"coordinates":[[1,2],[3,4]],"type":"LineString"},"#
+            + #"{"coordinates":[[[1,2],[3,4]],[[5,6],[7,8]]],"type":"MultiLineString"},"#
+            + #"{"coordinates":[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],"type":"Polygon"},"#
+            + #"{"coordinates":[[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],[[[7,2],[3,2],[3,-2],[7,-2],[7,2]]]],"type":"MultiPolygon"}],"type":"GeometryCollection"}"#
+
         verifyCodable(
-            with: Geometry.geometryCollection(.testValue),
-            json: GeometryCollection.testJson)
+            with: Geometry.geometryCollection(geometryCollection),
+            json: json)
     }
 
     func testDecodingInvalidType() {

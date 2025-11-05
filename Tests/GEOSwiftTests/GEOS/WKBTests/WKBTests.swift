@@ -2,6 +2,16 @@ import XCTest
 import GEOSwift
 
 final class WKBTests: XCTestCase {
+    // Convert XYZM fixtures to XY using copy constructors
+    let point1 = Point<XY>(Fixtures.point1)
+    let lineString1 = LineString<XY>(Fixtures.lineString1)
+    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
+    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
+    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
+    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
+    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
+    let geometryCollection = GeometryCollection<XY>(Fixtures.geometryCollection)
+    let recursiveGeometryCollection = GeometryCollection<XY>(Fixtures.recursiveGeometryCollection)
 
     typealias WKBCompatible = WKBConvertible & WKBInitializable & Equatable
 
@@ -17,36 +27,36 @@ final class WKBTests: XCTestCase {
 
     func testGeometryRoundtripToWKB() {
         let values: [Geometry<XY>] = [
-            .point(.testValue1),
-            .lineString(.testValue1),
-            .polygon(.testValueWithHole),
-            .multiPoint(.testValue),
-            .multiLineString(.testValue),
-            .multiPolygon(.testValue),
-            .geometryCollection(.testValue),
-            .geometryCollection(.testValueWithRecursion)]
+            .point(point1),
+            .lineString(lineString1),
+            .polygon(polygonWithHole),
+            .multiPoint(multiPoint),
+            .multiLineString(multiLineString),
+            .multiPolygon(multiPolygon),
+            .geometryCollection(geometryCollection),
+            .geometryCollection(recursiveGeometryCollection)]
         for value in values {
             verifyGeometryRoundtripToWKB(value)
         }
     }
 
     func testGeometryTypesRoundtripToWKB() {
-        verifyGeometryRoundtripToWKB(Point<XY>.testValue1)
-        verifyGeometryRoundtripToWKB(LineString<XY>.testValue1)
-        verifyGeometryRoundtripToWKB(Polygon<XY>.testValueWithHole)
-        verifyGeometryRoundtripToWKB(MultiPoint<XY>.testValue)
-        verifyGeometryRoundtripToWKB(MultiLineString<XY>.testValue)
-        verifyGeometryRoundtripToWKB(MultiPolygon<XY>.testValue)
-        verifyGeometryRoundtripToWKB(GeometryCollection<XY>.testValue)
-        verifyGeometryRoundtripToWKB(GeometryCollection<XY>.testValueWithRecursion)
+        verifyGeometryRoundtripToWKB(point1)
+        verifyGeometryRoundtripToWKB(lineString1)
+        verifyGeometryRoundtripToWKB(polygonWithHole)
+        verifyGeometryRoundtripToWKB(multiPoint)
+        verifyGeometryRoundtripToWKB(multiLineString)
+        verifyGeometryRoundtripToWKB(multiPolygon)
+        verifyGeometryRoundtripToWKB(geometryCollection)
+        verifyGeometryRoundtripToWKB(recursiveGeometryCollection)
     }
 
     func testLinearRingRoundtripToWKB() {
-        let value = Polygon<XY>.LinearRing.testValueHole1
+        let value = linearRingHole1
         do {
             let wkb = try value.wkb()
             let actual = try LineString<XY>(wkb: wkb)
-            XCTAssertEqual(actual, LineString(value))
+            XCTAssertEqual(actual, LineString<XY>(value))
         } catch {
             XCTFail("Unexpected error: \(error)")
         }

@@ -1,86 +1,19 @@
 import XCTest
 import GEOSwift
 
-// MARK: - Test Value Extensions for XYM
-
-private extension Point where C == XYM {
-    static let testValue1 = Point(x: 1, y: 2, m: 0)
-    static let testValue3 = Point(x: 3, y: 4, m: 1)
-    static let testValue5 = Point(x: 5, y: 6, m: 2)
-    static let testValue7 = Point(x: 7, y: 8, m: 3)
-}
-
-private extension LineString where C == XYM {
-    static let testValue1 = try! LineString(points: [.testValue1, .testValue3])
-    static let testValue5 = try! LineString(points: [.testValue5, .testValue7])
-}
-
-private extension Polygon.LinearRing where C == XYM {
-    // counterclockwise
-    static let testValueExterior2 = try! Polygon.LinearRing(coordinates: [
-        XYM(2, 2, 0),
-        XYM(-2, 2, 0),
-        XYM(-2, -2, 0),
-        XYM(2, -2, 0),
-        XYM(2, 2, 1)])
-
-    // clockwise
-    static let testValueHole1 = try! Polygon.LinearRing(coordinates: [
-        XYM(1, 1, 0),
-        XYM(1, -1, 0),
-        XYM(-1, -1, 0),
-        XYM(-1, 1, 0),
-        XYM(1, 1, 1)])
-
-    // counterclockwise
-    static let testValueExterior7 = try! Polygon.LinearRing(coordinates: [
-        XYM(7, 2, 0),
-        XYM(3, 2, 0),
-        XYM(3, -2, 0),
-        XYM(7, -2, 0),
-        XYM(7, 2, 1)])
-}
-
-private extension Polygon where C == XYM {
-    static let testValueWithHole = Polygon(
-        exterior: Polygon<XYM>.LinearRing.testValueExterior2,
-        holes: [Polygon<XYM>.LinearRing.testValueHole1])
-
-    static let testValueWithoutHole = Polygon(
-        exterior: Polygon<XYM>.LinearRing.testValueExterior7)
-}
-
-private extension MultiPoint where C == XYM {
-    static let testValue = MultiPoint(points: [.testValue1, .testValue3])
-}
-
-private extension MultiLineString where C == XYM {
-    static let testValue = MultiLineString(
-        lineStrings: [.testValue1, .testValue5])
-}
-
-private extension MultiPolygon where C == XYM {
-    static let testValue = MultiPolygon(
-        polygons: [.testValueWithHole, .testValueWithoutHole])
-}
-
-private extension GeometryCollection where C == XYM {
-    static let testValue = GeometryCollection(
-        geometries: [
-            Point<XYM>.testValue1,
-            MultiPoint<XYM>.testValue,
-            LineString<XYM>.testValue1,
-            MultiLineString<XYM>.testValue,
-            Polygon<XYM>.testValueWithHole,
-            MultiPolygon<XYM>.testValue])
-
-    static let testValueWithRecursion = GeometryCollection(
-        geometries: [GeometryCollection<XYM>.testValue])
-}
-
 // MARK: - Tests
 
 final class WKBTestsXYM: XCTestCase {
+    // Convert XYZM fixtures to XYM using copy constructors
+    let point1 = Point<XYM>(Fixtures.point1)
+    let lineString1 = LineString<XYM>(Fixtures.lineString1)
+    let polygonWithHole = Polygon<XYM>(Fixtures.polygonWithHole)
+    let multiPoint = MultiPoint<XYM>(Fixtures.multiPoint)
+    let multiLineString = MultiLineString<XYM>(Fixtures.multiLineString)
+    let multiPolygon = MultiPolygon<XYM>(Fixtures.multiPolygon)
+    let geometryCollection = GeometryCollection<XYM>(Fixtures.geometryCollection)
+    let recursiveGeometryCollection = GeometryCollection<XYM>(Fixtures.recursiveGeometryCollection)
+    let linearRingHole1 = Polygon<XYM>.LinearRing(Fixtures.linearRingHole1)
 
     typealias WKBCompatible = WKBConvertible & WKBInitializable & Equatable
 
@@ -96,36 +29,35 @@ final class WKBTestsXYM: XCTestCase {
 
     func testGeometryRoundtripToWKB() {
         let values: [Geometry<XYM>] = [
-            .point(.testValue1),
-            .lineString(.testValue1),
-            .polygon(.testValueWithHole),
-            .multiPoint(.testValue),
-            .multiLineString(.testValue),
-            .multiPolygon(.testValue),
-            .geometryCollection(.testValue),
-            .geometryCollection(.testValueWithRecursion)]
+            .point(point1),
+            .lineString(lineString1),
+            .polygon(polygonWithHole),
+            .multiPoint(multiPoint),
+            .multiLineString(multiLineString),
+            .multiPolygon(multiPolygon),
+            .geometryCollection(geometryCollection),
+            .geometryCollection(recursiveGeometryCollection)]
         for value in values {
             verifyGeometryRoundtripToWKB(value)
         }
     }
 
     func testGeometryTypesRoundtripToWKB() {
-        verifyGeometryRoundtripToWKB(Point<XYM>.testValue1)
-        verifyGeometryRoundtripToWKB(LineString<XYM>.testValue1)
-        verifyGeometryRoundtripToWKB(Polygon<XYM>.testValueWithHole)
-        verifyGeometryRoundtripToWKB(MultiPoint<XYM>.testValue)
-        verifyGeometryRoundtripToWKB(MultiLineString<XYM>.testValue)
-        verifyGeometryRoundtripToWKB(MultiPolygon<XYM>.testValue)
-        verifyGeometryRoundtripToWKB(GeometryCollection<XYM>.testValue)
-        verifyGeometryRoundtripToWKB(GeometryCollection<XYM>.testValueWithRecursion)
+        verifyGeometryRoundtripToWKB(point1)
+        verifyGeometryRoundtripToWKB(lineString1)
+        verifyGeometryRoundtripToWKB(polygonWithHole)
+        verifyGeometryRoundtripToWKB(multiPoint)
+        verifyGeometryRoundtripToWKB(multiLineString)
+        verifyGeometryRoundtripToWKB(multiPolygon)
+        verifyGeometryRoundtripToWKB(geometryCollection)
+        verifyGeometryRoundtripToWKB(recursiveGeometryCollection)
     }
 
     func testLinearRingRoundtripToWKB() {
-        let value = Polygon<XYM>.LinearRing.testValueHole1
         do {
-            let wkb = try value.wkb()
+            let wkb = try linearRingHole1.wkb()
             let actual = try LineString<XYM>(wkb: wkb)
-            XCTAssertEqual(actual, LineString(value))
+            XCTAssertEqual(actual, LineString(linearRingHole1))
         } catch {
             XCTFail("Unexpected error: \(error)")
         }

@@ -2,8 +2,28 @@ import XCTest
 import GEOSwift
 
 final class UnaryPredicatesTests_XYM: XCTestCase {
-    let geometryConvertibles: [any GeometryConvertible<XYM>] = GEOSTestFixtures_XYM.geometryConvertibles
-    let linearRing1 = GEOSTestFixtures_XYM.linearRing1
+    // Convert XYZM fixtures to XYM using copy constructors
+    let linearRingHole1 = Polygon<XYM>.LinearRing(Fixtures.linearRingHole1)
+
+    // Geometry convertibles array needs to be converted element-by-element
+    lazy var geometryConvertibles: [any GeometryConvertible<XYM>] = [
+        Point<XYM>(Fixtures.point1),
+        Geometry.point(Point<XYM>(Fixtures.point1)),
+        MultiPoint<XYM>(Fixtures.multiPoint),
+        Geometry.multiPoint(MultiPoint<XYM>(Fixtures.multiPoint)),
+        LineString<XYM>(Fixtures.lineString1),
+        Geometry.lineString(LineString<XYM>(Fixtures.lineString1)),
+        MultiLineString<XYM>(Fixtures.multiLineString),
+        Geometry.multiLineString(MultiLineString<XYM>(Fixtures.multiLineString)),
+        Polygon<XYM>.LinearRing(Fixtures.linearRingHole1),
+        Polygon<XYM>(Fixtures.polygonWithHole),
+        Geometry.polygon(Polygon<XYM>(Fixtures.polygonWithHole)),
+        MultiPolygon<XYM>(Fixtures.multiPolygon),
+        Geometry.multiPolygon(MultiPolygon<XYM>(Fixtures.multiPolygon)),
+        GeometryCollection<XYM>(Fixtures.geometryCollection),
+        GeometryCollection<XYM>(Fixtures.recursiveGeometryCollection),
+        Geometry.geometryCollection(GeometryCollection<XYM>(Fixtures.geometryCollection))
+    ]
 
     // MARK: - Unary Predicates
 
@@ -28,7 +48,7 @@ final class UnaryPredicatesTests_XYM: XCTestCase {
     }
 
     func testIsRing() {
-        var lineString = LineString(linearRing1)
+        var lineString = LineString(linearRingHole1)
 
         XCTAssertTrue(try lineString.isRing())
 

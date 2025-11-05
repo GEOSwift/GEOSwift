@@ -1,11 +1,28 @@
 import XCTest
 import GEOSwift
 
-extension FeatureCollection where C == XY {
+fileprivate extension FeatureCollection where C == XY {
+    static let testPoint = Point(x: 1, y: 2)
+    static let testPointJson = #"{"coordinates":[1,2],"type":"Point"}"#
+
+    static let testFeatureWithNumberId = Feature(
+        geometry: testPoint,
+        properties: ["a": .string("b")],
+        id: .number(0))
+    static let testFeatureJsonWithNumberId = #"{"geometry":\#(testPointJson),"id":0,"properties"#
+        + #"":{"a":"b"},"type":"Feature"}"#
+
+    static let testFeatureWithNils = Feature<XY>(
+        geometry: nil,
+        properties: nil,
+        id: nil)
+    static let testFeatureJsonWithNils = #"{"geometry":null,"properties":null,"type":"#
+        + #""Feature"}"#
+
     static let testValue = FeatureCollection(
-        features: [.testValueWithNumberId, .testValueWithNils])
-    static let testJson = #"{"features":[\#(Feature.testJsonWithNumberId),"#
-        + #"\#(Feature.testJsonWithNils)],"type":"FeatureCollection"}"#
+        features: [testFeatureWithNumberId, testFeatureWithNils])
+    static let testJson = #"{"features":[\#(testFeatureJsonWithNumberId),"#
+        + #"\#(testFeatureJsonWithNils)],"type":"FeatureCollection"}"#
 }
 
 final class FeatureCollection_CodableTests: CodableTestCase {

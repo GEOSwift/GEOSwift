@@ -1,36 +1,22 @@
 import XCTest
 import GEOSwift
 
-extension MultiPolygon where C == XY {
+fileprivate extension MultiPolygon where C == XY {
     static let testValue = MultiPolygon(
-        polygons: [.testValueWithHole, .testValueWithoutHole])
+        polygons: [
+            Polygon(
+                exterior: try! Polygon.LinearRing(coordinates: [
+                    XY(2, 2), XY(-2, 2), XY(-2, -2), XY(2, -2), XY(2, 2)]),
+                holes: [try! Polygon.LinearRing(coordinates: [
+                    XY(1, 1), XY(1, -1), XY(-1, -1), XY(-1, 1), XY(1, 1)])]),
+            Polygon(
+                exterior: try! Polygon.LinearRing(coordinates: [
+                    XY(7, 2), XY(3, 2), XY(3, -2), XY(7, -2), XY(7, 2)]))])
     static let testJson = #"{"coordinates":[[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2"#
         + #"]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],[[[7,2],[3,2],[3,-2],[7,-2"#
         + #"],[7,2]]]],"type":"MultiPolygon"}"#
 }
 
-fileprivate extension MultiPolygon where C == XYZ {
-    static let testValue = MultiPolygon(
-        polygons: [
-            Polygon(exterior: try! Polygon.LinearRing(coordinates: [
-                XYZ(0, 0, 1),
-                XYZ(4, 0, 2),
-                XYZ(4, 4, 3),
-                XYZ(0, 4, 4),
-                XYZ(0, 0, 1)
-            ])),
-            Polygon(exterior: try! Polygon.LinearRing(coordinates: [
-                XYZ(5, 5, 5),
-                XYZ(9, 5, 6),
-                XYZ(9, 9, 7),
-                XYZ(5, 9, 8),
-                XYZ(5, 5, 5)
-            ]))
-        ])
-    static let testJson = #"{"coordinates":[[[[0,0,1],[4,0,2],[4,4,3],[0,4,4],"#
-        + #"[0,0,1]]],[[[5,5,5],[9,5,6],[9,9,7],[5,9,8],[5,5,5]]]],"#
-        + #""type":"MultiPolygon"}"#
-}
 
 final class MultiPolygon_CodableTestsXY: CodableTestCase {
     func testCodable() {
@@ -51,8 +37,14 @@ final class MultiPolygon_CodableTestsXY: CodableTestCase {
 }
 
 final class MultiPolygon_CodableTestsXYZ: CodableTestCase {
+    // JSON string matching Fixtures.multiPolygon
+    // Contains polygonWithHole and polygonWithoutHole
+    static let testJson = #"{"coordinates":[[[[2,2,0],[-2,2,0],[-2,-2,0],[2,-2,0],"#
+        + #"[2,2,1]],[[1,1,0],[1,-1,0],[-1,-1,0],[-1,1,0],[1,1,1]]],[[[7,2,0],[3,2,0"#
+        + #"],[3,-2,0],[7,-2,0],[7,2,1]]]],"type":"MultiPolygon"}"#
+
     func testCodable() {
-        verifyCodable(with: MultiPolygon<XYZ>.testValue, json: MultiPolygon<XYZ>.testJson)
+        verifyCodable(with: MultiPolygon<XYZ>(Fixtures.multiPolygon), json: Self.testJson)
     }
 
     func testDecodableThrowsWithTypeMismatch() {

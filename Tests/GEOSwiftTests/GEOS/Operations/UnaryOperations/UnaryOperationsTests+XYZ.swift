@@ -1,152 +1,57 @@
 import XCTest
 import GEOSwift
 
-// MARK: - Test Value Extensions for XYZ
-
-private extension Point where C == XYZ {
-    static let testValue1 = Point(XYZ(1, 2, 0))
-    static let testValue3 = Point(XYZ(3, 4, 1))
-    static let testValue5 = Point(XYZ(5, 6, 2))
-    static let testValue7 = Point(XYZ(7, 8, 3))
-}
-
-private extension LineString where C == XYZ {
-    static let testValue1 = try! LineString(coordinates: [
-        Point<XYZ>.testValue1.coordinates,
-        Point<XYZ>.testValue3.coordinates
-    ])
-    static let testValue5 = try! LineString(coordinates: [
-        Point<XYZ>.testValue5.coordinates,
-        Point<XYZ>.testValue7.coordinates
-    ])
-}
-
-private extension Polygon.LinearRing where C == XYZ {
-    // counterclockwise
-    static let testValueExterior2 = try! Polygon.LinearRing(coordinates: [
-        XYZ(2, 2, 0),
-        XYZ(-2, 2, 1),
-        XYZ(-2, -2, 2),
-        XYZ(2, -2, 3),
-        XYZ(2, 2, 4)])
-
-    // clockwise
-    static let testValueHole1 = try! Polygon.LinearRing(coordinates: [
-        XYZ(1, 1, 4),
-        XYZ(1, -1, 3),
-        XYZ(-1, -1, 2),
-        XYZ(-1, 1, 1),
-        XYZ(1, 1, 0)])
-
-    // counterclockwise
-    static let testValueExterior7 = try! Polygon.LinearRing(coordinates: [
-        XYZ(7, 2, 5),
-        XYZ(3, 2, 6),
-        XYZ(3, -2, 7),
-        XYZ(7, -2, 8),
-        XYZ(7, 2, 9)])
-}
-
-private extension Polygon where C == XYZ {
-    static let testValueWithHole = Polygon(
-        exterior: Polygon<XYZ>.LinearRing.testValueExterior2,
-        holes: [Polygon<XYZ>.LinearRing.testValueHole1])
-
-    static let testValueWithoutHole = Polygon(
-        exterior: Polygon<XYZ>.LinearRing.testValueExterior7)
-}
-
-private extension MultiPoint where C == XYZ {
-    static let testValue = MultiPoint(points: [.testValue1, .testValue3])
-}
-
-private extension MultiLineString where C == XYZ {
-    static let testValue = MultiLineString(
-        lineStrings: [.testValue1, .testValue5])
-}
-
-private extension MultiPolygon where C == XYZ {
-    static let testValue = MultiPolygon(
-        polygons: [.testValueWithHole, .testValueWithoutHole])
-}
-
-private extension GeometryCollection where C == XYZ {
-    static let testValue = GeometryCollection(
-        geometries: [
-            Point<XYZ>.testValue1,
-            MultiPoint<XYZ>.testValue,
-            LineString<XYZ>.testValue1,
-            MultiLineString<XYZ>.testValue,
-            Polygon<XYZ>.testValueWithHole,
-            MultiPolygon<XYZ>.testValue])
-
-    static let testValueWithRecursion = GeometryCollection(
-        geometries: [GeometryCollection<XYZ>.testValue])
-}
-
 // MARK: - Tests
 
 final class UnaryOperationsTests_XYZ: XCTestCase {
-    let lineString0 = try! LineString(coordinates: Array(repeating: XYZ(0, 0, 0), count: 2))
-    let lineString1 = try! LineString(coordinates: [
-        XYZ(0, 0, 0),
-        XYZ(1, 0, 0)])
-    let lineString2 = try! LineString(coordinates: [
-        XYZ(0, 0, 0),
-        XYZ(1, 0, 1),
-        XYZ(1, 1, 1)])
-    let multiLineString0 = MultiLineString<XYZ>(lineStrings: [])
-    lazy var multiLineString1 = MultiLineString(lineStrings: [lineString1])
-    lazy var multiLineString2 = MultiLineString(lineStrings: [lineString1, lineString2])
-    let linearRing0 = try! Polygon.LinearRing(coordinates: Array(repeating: XYZ(0, 0, 0), count: 4))
-    let linearRing1 = try! Polygon.LinearRing(coordinates: [
-        XYZ(0, 0, 0),
-        XYZ(1, 0, 0),
-        XYZ(1, 1, 0),
-        XYZ(0, 1, 0),
-        XYZ(0, 0, 0)])
-    lazy var collection = GeometryCollection(
-        geometries: [
-            Point<XYZ>.testValue1,
-            MultiPoint<XYZ>.testValue,
-            lineString1,
-            multiLineString1,
-            Polygon<XYZ>.testValueWithoutHole,
-            MultiPolygon<XYZ>.testValue])
-    lazy var recursiveCollection = GeometryCollection(
-        geometries: [collection])
-    let geometryConvertibles: [any GeometryConvertible<XYZ>] = [
-        Point<XYZ>.testValue1,
-        Geometry.point(Point<XYZ>.testValue1),
-        MultiPoint<XYZ>.testValue,
-        Geometry.multiPoint(MultiPoint<XYZ>.testValue),
-        LineString<XYZ>.testValue1,
-        Geometry.lineString(LineString<XYZ>.testValue1),
-        MultiLineString<XYZ>.testValue,
-        Geometry.multiLineString(MultiLineString<XYZ>.testValue),
-        Polygon<XYZ>.LinearRing.testValueHole1,
-        Polygon<XYZ>.testValueWithHole,
-        Geometry.polygon(Polygon<XYZ>.testValueWithHole),
-        MultiPolygon<XYZ>.testValue,
-        Geometry.multiPolygon(MultiPolygon<XYZ>.testValue),
-        GeometryCollection<XYZ>.testValue,
-        GeometryCollection<XYZ>.testValueWithRecursion,
-        Geometry.geometryCollection(GeometryCollection<XYZ>.testValue)]
-    let unitPoly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [
-        XYZ(0, 0, 1),
-        XYZ(1, 0, 2),
-        XYZ(1, 1, 3),
-        XYZ(0, 1, 4),
-        XYZ(0, 0, 1)]))
+    // Convert XYZM fixtures to XYZ using copy constructors
+    let lineString0 = LineString<XYZ>(Fixtures.lineString0)
+    let lineString1 = LineString<XYZ>(Fixtures.lineStringLength1)
+    let lineString2 = LineString<XYZ>(Fixtures.lineStringLength2)
+    let multiLineString0 = MultiLineString<XYZ>(Fixtures.multiLineString0)
+    let multiLineString1 = MultiLineString<XYZ>(Fixtures.multiLineStringLength1)
+    let multiLineString2 = MultiLineString<XYZ>(Fixtures.multiLineStringLength3)
+    let linearRing0 = Polygon<XYZ>.LinearRing(Fixtures.linearRing0)
+    let linearRing1 = Polygon<XYZ>.LinearRing(Fixtures.linearRingLength4)
+    let collection = GeometryCollection<XYZ>(Fixtures.collection)
+    let recursiveCollection = GeometryCollection<XYZ>(Fixtures.recursiveCollection)
+    let unitPoly = Polygon<XYZ>(Fixtures.unitPolygon)
+
+    // Additional fixtures for convenience
+    let point1 = Point<XYZ>(Fixtures.point1)
+    let multiPoint = MultiPoint<XYZ>(Fixtures.multiPoint)
+    let polygonWithHole = Polygon<XYZ>(Fixtures.polygonWithHole)
+    let polygonWithoutHole = Polygon<XYZ>(Fixtures.polygonWithoutHole)
+    let multiPolygon = MultiPolygon<XYZ>(Fixtures.multiPolygon)
+
+    // Geometry convertibles array needs to be converted element-by-element
+    lazy var geometryConvertibles: [any GeometryConvertible<XYZ>] = [
+        point1,
+        Geometry.point(point1),
+        multiPoint,
+        Geometry.multiPoint(multiPoint),
+        LineString<XYZ>(Fixtures.lineString1),
+        Geometry.lineString(LineString<XYZ>(Fixtures.lineString1)),
+        MultiLineString<XYZ>(Fixtures.multiLineString),
+        Geometry.multiLineString(MultiLineString<XYZ>(Fixtures.multiLineString)),
+        Polygon<XYZ>.LinearRing(Fixtures.linearRingHole1),
+        polygonWithHole,
+        Geometry.polygon(polygonWithHole),
+        multiPolygon,
+        Geometry.multiPolygon(multiPolygon),
+        GeometryCollection<XYZ>(Fixtures.geometryCollection),
+        GeometryCollection<XYZ>(Fixtures.recursiveGeometryCollection),
+        Geometry.geometryCollection(GeometryCollection<XYZ>(Fixtures.geometryCollection))
+    ]
 
     // MARK: - Length
 
     // points have length 0
     func testLength_Points() {
-        XCTAssertEqual(try? Point<XYZ>.testValue1.length(), 0)
-        XCTAssertEqual(try? MultiPoint<XYZ>.testValue.length(), 0)
-        XCTAssertEqual(try? Geometry.point(Point<XYZ>.testValue1).length(), 0)
-        XCTAssertEqual(try? Geometry.multiPoint(MultiPoint<XYZ>.testValue).length(), 0)
+        XCTAssertEqual(try? point1.length(), 0)
+        XCTAssertEqual(try? multiPoint.length(), 0)
+        XCTAssertEqual(try? Geometry.point(point1).length(), 0)
+        XCTAssertEqual(try? Geometry.multiPoint(multiPoint).length(), 0)
     }
 
     // lines have lengths
@@ -169,12 +74,12 @@ final class UnaryOperationsTests_XYZ: XCTestCase {
 
     // Polygon lengths equal the sum of their exterior & interior ring lengths
     func testLength_Polygons() {
-        XCTAssertEqual(try? Polygon<XYZ>.testValueWithoutHole.length(), 16)
-        XCTAssertEqual(try? Polygon<XYZ>.testValueWithHole.length(), 24)
-        XCTAssertEqual(try? MultiPolygon<XYZ>.testValue.length(), 40)
-        XCTAssertEqual(try? Geometry.polygon(Polygon<XYZ>.testValueWithoutHole).length(), 16)
-        XCTAssertEqual(try? Geometry.polygon(Polygon<XYZ>.testValueWithHole).length(), 24)
-        XCTAssertEqual(try? Geometry.multiPolygon(MultiPolygon<XYZ>.testValue).length(), 40)
+        XCTAssertEqual(try? polygonWithoutHole.length(), 16)
+        XCTAssertEqual(try? polygonWithHole.length(), 24)
+        XCTAssertEqual(try? multiPolygon.length(), 40)
+        XCTAssertEqual(try? Geometry.polygon(polygonWithoutHole).length(), 16)
+        XCTAssertEqual(try? Geometry.polygon(polygonWithHole).length(), 24)
+        XCTAssertEqual(try? Geometry.multiPolygon(multiPolygon).length(), 40)
     }
 
     // Geometry Collection length is equal to the sum of the elements' lengths
@@ -257,7 +162,7 @@ final class UnaryOperationsTests_XYZ: XCTestCase {
         let expectedEnvelope = Envelope(minX: 1, maxX: 1, minY: 2, maxY: 2)
 
         // Envelope operations don't take into account Z
-        XCTAssertEqual(try? Point<XYZ>.testValue1.envelope(), expectedEnvelope)
+        XCTAssertEqual(try? point1.envelope(), expectedEnvelope)
     }
 
     func testEnvelopeAllTypes() {

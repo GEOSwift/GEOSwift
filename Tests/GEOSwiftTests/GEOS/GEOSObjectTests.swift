@@ -3,6 +3,15 @@ import geos
 @testable import GEOSwift
 
 final class GEOSObjectTests: GEOSContextTestCase {
+    let point1 = Point<XY>(Fixtures.point1)
+    let lineString1 = LineString<XY>(Fixtures.lineString1)
+    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
+    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
+    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
+    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
+    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
+    let geometryCollection = GeometryCollection<XY>(Fixtures.geometryCollection)
+
     func testInitWithContext() {
         let point = GEOSGeom_createEmptyPoint_r(context.handle)!
 
@@ -40,34 +49,34 @@ final class GEOSObjectTests: GEOSContextTestCase {
     }
 
     func testTypePoint() {
-        XCTAssertEqual(try? Point.testValue1.geosObject(with: context).type, .point)
+        XCTAssertEqual(try? point1.geosObject(with: context).type, .point)
     }
 
     func testTypeLineString() {
-        XCTAssertEqual(try? LineString.testValue1.geosObject(with: context).type, .lineString)
+        XCTAssertEqual(try? lineString1.geosObject(with: context).type, .lineString)
     }
 
     func testTypeLinearRing() {
-        XCTAssertEqual(try? Polygon.LinearRing.testValueHole1.geosObject(with: context).type, .linearRing)
+        XCTAssertEqual(try? linearRingHole1.geosObject(with: context).type, .linearRing)
     }
 
     func testTypePolygon() {
-        XCTAssertEqual(try? Polygon.testValueWithHole.geosObject(with: context).type, .polygon)
+        XCTAssertEqual(try? polygonWithHole.geosObject(with: context).type, .polygon)
     }
 
     func testTypeMultiPoint() {
-        XCTAssertEqual(try? MultiPoint.testValue.geosObject(with: context).type, .multiPoint)
+        XCTAssertEqual(try? multiPoint.geosObject(with: context).type, .multiPoint)
     }
 
     func testTypeMultiLineString() {
-        XCTAssertEqual(try? MultiLineString.testValue.geosObject(with: context).type, .multiLineString)
+        XCTAssertEqual(try? multiLineString.geosObject(with: context).type, .multiLineString)
     }
 
     func testTypeMultiPolygon() {
-        XCTAssertEqual(try? MultiPolygon.testValue.geosObject(with: context).type, .multiPolygon)
+        XCTAssertEqual(try? multiPolygon.geosObject(with: context).type, .multiPolygon)
     }
 
     func testTypeGeometryCollection() {
-        XCTAssertEqual(try? GeometryCollection.testValue.geosObject(with: context).type, .geometryCollection)
+        XCTAssertEqual(try? geometryCollection.geosObject(with: context).type, .geometryCollection)
     }
 }

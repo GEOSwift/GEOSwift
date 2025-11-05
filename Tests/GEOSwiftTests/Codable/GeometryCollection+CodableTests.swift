@@ -1,19 +1,37 @@
 import XCTest
 import GEOSwift
 
-extension GeometryCollection where C == XY {
+fileprivate extension GeometryCollection where C == XY {
     static let testValue = GeometryCollection(
         geometries: [
-            Point.testValue1,
-            MultiPoint.testValue,
-            LineString.testValue1,
-            MultiLineString.testValue,
-            Polygon.testValueWithHole,
-            MultiPolygon.testValue])
-    static let testJson = #"{"geometries":[\#(Point.testJson1),"#
-        + #"\#(MultiPoint.testJson),\#(LineString.testJson1),"#
-        + #"\#(MultiLineString.testJson),\#(Polygon.testJsonWithHole),"#
-        + #"\#(MultiPolygon.testJson)],"type":"GeometryCollection"}"#
+            Point(x: 1, y: 2),
+            MultiPoint(points: [Point(x: 1, y: 2), Point(x: 3, y: 4)]),
+            try! LineString(coordinates: [XY(1, 2), XY(3, 4)]),
+            MultiLineString(
+                lineStrings: [
+                    try! LineString(coordinates: [XY(1, 2), XY(3, 4)]),
+                    try! LineString(coordinates: [XY(5, 6), XY(7, 8)])]),
+            Polygon(
+                exterior: try! Polygon.LinearRing(coordinates: [
+                    XY(2, 2), XY(-2, 2), XY(-2, -2), XY(2, -2), XY(2, 2)]),
+                holes: [try! Polygon.LinearRing(coordinates: [
+                    XY(1, 1), XY(1, -1), XY(-1, -1), XY(-1, 1), XY(1, 1)])]),
+            MultiPolygon(
+                polygons: [
+                    Polygon(
+                        exterior: try! Polygon.LinearRing(coordinates: [
+                            XY(2, 2), XY(-2, 2), XY(-2, -2), XY(2, -2), XY(2, 2)]),
+                        holes: [try! Polygon.LinearRing(coordinates: [
+                            XY(1, 1), XY(1, -1), XY(-1, -1), XY(-1, 1), XY(1, 1)])]),
+                    Polygon(
+                        exterior: try! Polygon.LinearRing(coordinates: [
+                            XY(7, 2), XY(3, 2), XY(3, -2), XY(7, -2), XY(7, 2)]))])])
+    static let testJson = #"{"geometries":[{"coordinates":[1,2],"type":"Point"},"#
+        + #"{"coordinates":[[1,2],[3,4]],"type":"MultiPoint"},"#
+        + #"{"coordinates":[[1,2],[3,4]],"type":"LineString"},"#
+        + #"{"coordinates":[[[1,2],[3,4]],[[5,6],[7,8]]],"type":"MultiLineString"},"#
+        + #"{"coordinates":[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],"type":"Polygon"},"#
+        + #"{"coordinates":[[[[2,2],[-2,2],[-2,-2],[2,-2],[2,2]],[[1,1],[1,-1],[-1,-1],[-1,1],[1,1]]],[[[7,2],[3,2],[3,-2],[7,-2],[7,2]]]],"type":"MultiPolygon"}],"type":"GeometryCollection"}"#
 
     static let testValueWithRecursion = GeometryCollection(
         geometries: [GeometryCollection.testValue])
@@ -21,23 +39,6 @@ extension GeometryCollection where C == XY {
         + #"GeometryCollection"}"#
 }
 
-fileprivate extension GeometryCollection where C == XYZ {
-    static let testValue = GeometryCollection(
-        geometries: [
-            Point(x: 1, y: 2, z: 3),
-            try! LineString(points: [
-                Point(x: 1, y: 2, z: 3),
-                Point(x: 4, y: 5, z: 6)
-            ])])
-    static let testJson = #"{"geometries":[{"coordinates":[1,2,3],"type":"Point"},"#
-        + #"{"coordinates":[[1,2,3],[4,5,6]],"type":"LineString"}],"#
-        + #""type":"GeometryCollection"}"#
-
-    static let testValueWithRecursion = GeometryCollection(
-        geometries: [GeometryCollection.testValue])
-    static let testJsonWithRecursion = #"{"geometries":[\#(testJson)],"type":""#
-        + #"GeometryCollection"}"#
-}
 
 final class GeometryCollection_CodableTestsXY: CodableTestCase {
     func testCodable() {
@@ -66,16 +67,31 @@ final class GeometryCollection_CodableTestsXY: CodableTestCase {
 }
 
 final class GeometryCollection_CodableTestsXYZ: CodableTestCase {
+    // JSON string matching Fixtures.geometryCollection
+    // Contains: point1, multiPoint, lineString1, multiLineString, polygonWithHole, multiPolygon
+    static let testJson =
+        #"{"geometries":["#
+        + #"{"coordinates":[1,2,0],"type":"Point"},"# // point1
+        + #"{"coordinates":[[1,2,0],[3,4,1]],"type":"MultiPoint"},"# // multiPoint
+        + #"{"coordinates":[[1,2,0],[3,4,1]],"type":"LineString"},"# // lineString1
+        + #"{"coordinates":[[[1,2,0],[3,4,1]],[[5,6,2],[7,8,3]]],"type":"MultiLineString"},"# // multiLineString
+        + #"{"coordinates":[[[2,2,0],[-2,2,0],[-2,-2,0],[2,-2,0],[2,2,1]],[[1,1,0],[1,-1,0],[-1,-1,0],[-1,1,0],[1,1,1]]],"type":"Polygon"},"# // polygonWithHole
+        + #"{"coordinates":[[[[2,2,0],[-2,2,0],[-2,-2,0],[2,-2,0],[2,2,1]],[[1,1,0],[1,-1,0],[-1,-1,0],[-1,1,0],[1,1,1]]],[[[7,2,0],[3,2,0],[3,-2,0],[7,-2,0],[7,2,1]]]],"type":"MultiPolygon"}"# // multiPolygon
+        + #"],"type":"GeometryCollection"}"#
+
+    static let testJsonWithRecursion = #"{"geometries":[\#(testJson)],"type":""#
+        + #"GeometryCollection"}"#
+
     func testCodable() {
         verifyCodable(
-            with: GeometryCollection<XYZ>.testValue,
-            json: GeometryCollection<XYZ>.testJson)
+            with: GeometryCollection<XYZ>(Fixtures.geometryCollection),
+            json: Self.testJson)
     }
 
     func testCodableWithRecursion() {
         verifyCodable(
-            with: GeometryCollection<XYZ>.testValueWithRecursion,
-            json: GeometryCollection<XYZ>.testJsonWithRecursion)
+            with: GeometryCollection<XYZ>(Fixtures.recursiveGeometryCollection),
+            json: Self.testJsonWithRecursion)
     }
 
     func testDecodableThrowsWithTypeMismatch() {

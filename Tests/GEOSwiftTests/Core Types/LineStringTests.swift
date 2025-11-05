@@ -2,6 +2,9 @@ import XCTest
 import GEOSwift
 
 final class LineStringTestsXY: XCTestCase {
+    // Convert XYZM fixtures to XY using copy constructors
+    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
+
     func testInitWithTooFewCoordinates() {
         let coordinates: [XY] = [XY(0, 0)]
 
@@ -33,9 +36,9 @@ final class LineStringTestsXY: XCTestCase {
     }
 
     func testInitWithLinearRing() {
-        let lineString = LineString(.testValueHole1)
+        let lineString = LineString(linearRingHole1)
 
-        XCTAssertEqual(lineString.coordinates, Polygon.LinearRing.testValueHole1.coordinates)
+        XCTAssertEqual(lineString.coordinates, linearRingHole1.coordinates)
     }
 
     func testInitWithPoints() throws {

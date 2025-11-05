@@ -1,23 +1,13 @@
 import XCTest
 import GEOSwift
 
-extension LineString where C == XY {
-    static let testValue1 = try! LineString(points: [.testValue1, .testValue3])
+fileprivate extension LineString where C == XY {
+    static let testValue1 = try! LineString(coordinates: [XY(1, 2), XY(3, 4)])
     static let testJson1 = #"{"coordinates":[[1,2],[3,4]],"type":"LineString"}"#
 
-    static let testValue5 = try! LineString(points: [.testValue5, .testValue7])
+    static let testValue5 = try! LineString(coordinates: [XY(5, 6), XY(7, 8)])
 }
 
-fileprivate extension LineString where C == XYZ {
-    static let testValue1 = try! LineString(points: [
-        Point(x: 1, y: 2, z: 3),
-        Point(x: 4, y: 5, z: 6)])
-    static let testJson1 = #"{"coordinates":[[1,2,3],[4,5,6]],"type":"LineString"}"#
-
-    static let testValue5 = try! LineString(points: [
-        Point(x: 7, y: 8, z: 9),
-        Point(x: 10, y: 11, z: 12)])
-}
 
 final class LineString_CodableTestsXY: CodableTestCase {
     func testCodable() {
@@ -38,8 +28,11 @@ final class LineString_CodableTestsXY: CodableTestCase {
 }
 
 final class LineString_CodableTestsXYZ: CodableTestCase {
+    // JSON string matching Fixtures.lineString1 (XYZ(1,2,0), XYZ(3,4,1))
+    static let testJson1 = #"{"coordinates":[[1,2,0],[3,4,1]],"type":"LineString"}"#
+
     func testCodable() {
-        verifyCodable(with: LineString<XYZ>.testValue1, json: LineString<XYZ>.testJson1)
+        verifyCodable(with: LineString<XYZ>(Fixtures.lineString1), json: Self.testJson1)
     }
 
     func testDecodableThrowsWithTypeMismatch() {

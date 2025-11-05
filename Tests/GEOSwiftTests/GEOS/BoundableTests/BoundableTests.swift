@@ -2,14 +2,22 @@ import XCTest
 import GEOSwift
 
 final class BoundableTests: XCTestCase {
-    let boundables: [any Boundable<XY>] = [
-        Point.testValue1,
-        MultiPoint.testValue,
-        LineString.testValue1,
-        MultiLineString.testValue,
-        Polygon.LinearRing.testValueHole1,
-        Polygon.testValueWithHole,
-        MultiPolygon.testValue]
+    let point1 = Point<XY>(Fixtures.point1)
+    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
+    let lineString1 = LineString<XY>(Fixtures.lineString1)
+    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
+    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
+    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
+    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
+
+    lazy var boundables: [any Boundable<XY>] = [
+        point1,
+        multiPoint,
+        lineString1,
+        multiLineString,
+        linearRingHole1,
+        polygonWithHole,
+        multiPolygon]
 
     func testBoundaryLine() {
         let line = try! LineString(coordinates: [XY(0, 0), XY(1, 0)])

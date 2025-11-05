@@ -2,8 +2,11 @@ import XCTest
 import GEOSwift
 
 final class UnaryPredicatesTests_XYZM: XCTestCase {
-    let geometryConvertibles: [any GeometryConvertible<XYZM>] = GEOSTestFixtures_XYZM.geometryConvertibles
-    let linearRing1 = GEOSTestFixtures_XYZM.linearRing1
+    // Use XYZM fixtures directly
+    let linearRingHole1 = Fixtures.linearRingHole1
+
+    // Geometry convertibles can be used directly from Fixtures
+    let geometryConvertibles: [any GeometryConvertible<XYZM>] = Fixtures.allGeometryConvertibles
 
     // MARK: - Unary Predicates
 
@@ -28,7 +31,7 @@ final class UnaryPredicatesTests_XYZM: XCTestCase {
     }
 
     func testIsRing() {
-        var lineString = LineString(linearRing1)
+        var lineString = LineString(linearRingHole1)
 
         XCTAssertTrue(try lineString.isRing())
 

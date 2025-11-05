@@ -2,49 +2,59 @@ import XCTest
 import GEOSwift
 
 final class GeometryConvertibleTests: XCTestCase {
+    // Convert XYZM fixtures to XY using copy constructors
+    let point1 = Point<XY>(Fixtures.point1)
+    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
+    let lineString1 = LineString<XY>(Fixtures.lineString1)
+    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
+    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
+    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
+    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
+    let geometryCollection = GeometryCollection<XY>(Fixtures.geometryCollection)
+
     func testPointGeometry() {
-        XCTAssertEqual(Point.testValue1.geometry, .point(.testValue1))
+        XCTAssertEqual(point1.geometry, .point(point1))
     }
 
     func testMultiPointGeometry() {
-        XCTAssertEqual(MultiPoint.testValue.geometry, .multiPoint(.testValue))
+        XCTAssertEqual(multiPoint.geometry, .multiPoint(multiPoint))
     }
 
     func testLineStringGeometry() {
-        XCTAssertEqual(LineString.testValue1.geometry, .lineString(.testValue1))
+        XCTAssertEqual(lineString1.geometry, .lineString(lineString1))
     }
 
     func testMultiLineStringGeometry() {
-        XCTAssertEqual(MultiLineString.testValue.geometry, .multiLineString(.testValue))
+        XCTAssertEqual(multiLineString.geometry, .multiLineString(multiLineString))
     }
 
     func testPolygon_LinearRingGeometry() {
         XCTAssertEqual(
-            Polygon.LinearRing.testValueHole1.geometry,
-            .lineString(LineString(Polygon.LinearRing.testValueHole1)))
+            linearRingHole1.geometry,
+            .lineString(LineString(linearRingHole1)))
     }
 
     func testPolygonGeometry() {
-        XCTAssertEqual(Polygon.testValueWithHole.geometry, .polygon(.testValueWithHole))
+        XCTAssertEqual(polygonWithHole.geometry, .polygon(polygonWithHole))
     }
 
     func testMultiPolygonGeometry() {
-        XCTAssertEqual(MultiPolygon.testValue.geometry, .multiPolygon(.testValue))
+        XCTAssertEqual(multiPolygon.geometry, .multiPolygon(multiPolygon))
     }
 
     func testGeometryCollectionGeometry() {
-        XCTAssertEqual(GeometryCollection.testValue.geometry, .geometryCollection(.testValue))
+        XCTAssertEqual(geometryCollection.geometry, .geometryCollection(geometryCollection))
     }
 
     func testGeometryGeometry() {
-        let geometries: [Geometry] = [
-            .point(.testValue1),
-            .multiPoint(.testValue),
-            .lineString(.testValue1),
-            .multiLineString(.testValue),
-            .polygon(.testValueWithHole),
-            .multiPolygon(.testValue),
-            .geometryCollection(.testValue)]
+        let geometries: [Geometry<XY>] = [
+            .point(point1),
+            .multiPoint(multiPoint),
+            .lineString(lineString1),
+            .multiLineString(multiLineString),
+            .polygon(polygonWithHole),
+            .multiPolygon(multiPolygon),
+            .geometryCollection(geometryCollection)]
         for geometry in geometries {
             XCTAssertEqual(geometry.geometry, geometry)
         }
