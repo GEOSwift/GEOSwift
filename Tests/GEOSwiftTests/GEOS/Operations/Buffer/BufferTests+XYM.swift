@@ -1,30 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class BufferTests_XYM: XCTestCase {
-    // Convert XYZM fixtures to XYM using copy constructors
-    let point1 = Point<XYM>(Fixtures.point1)
-    let polygonWithoutHole = Polygon<XYM>(Fixtures.polygonWithoutHole)
-
-    // Geometry convertibles array needs to be converted element-by-element
-    lazy var geometryConvertibles: [any GeometryConvertible<XYM>] = [
-        point1,
-        Geometry.point(point1),
-        MultiPoint<XYM>(Fixtures.multiPoint),
-        Geometry.multiPoint(MultiPoint<XYM>(Fixtures.multiPoint)),
-        LineString<XYM>(Fixtures.lineString1),
-        Geometry.lineString(LineString<XYM>(Fixtures.lineString1)),
-        MultiLineString<XYM>(Fixtures.multiLineString),
-        Geometry.multiLineString(MultiLineString<XYM>(Fixtures.multiLineString)),
-        Polygon<XYM>.LinearRing(Fixtures.linearRingHole1),
-        Polygon<XYM>(Fixtures.polygonWithHole),
-        Geometry.polygon(Polygon<XYM>(Fixtures.polygonWithHole)),
-        MultiPolygon<XYM>(Fixtures.multiPolygon),
-        Geometry.multiPolygon(MultiPolygon<XYM>(Fixtures.multiPolygon)),
-        GeometryCollection<XYM>(Fixtures.geometryCollection),
-        GeometryCollection<XYM>(Fixtures.recursiveGeometryCollection),
-        Geometry.geometryCollection(GeometryCollection<XYM>(Fixtures.geometryCollection))
-    ]
+final class BufferTests_XYM: OperationsTestCase_XYM {
 
     func testBufferAllTypes() {
         for geometry in geometryConvertibles {

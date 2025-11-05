@@ -3,35 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class PolygonizeTests_XYZM: XCTestCase {
-    // Use XYZM fixtures directly (no conversion needed)
-    let point1 = Fixtures.point1
-    let multiPoint = Fixtures.multiPoint
-    let lineString1 = Fixtures.lineString1
-    let multiLineString = Fixtures.multiLineString
-    let linearRingHole1 = Fixtures.linearRingHole1
-    let polygonWithHole = Fixtures.polygonWithHole
-    let multiPolygon = Fixtures.multiPolygon
-    let geometryCollection = Fixtures.geometryCollection
-
-    lazy var geometryConvertibles: [any GeometryConvertible<XYZM>] = [
-        point1,
-        Geometry.point(point1),
-        multiPoint,
-        Geometry.multiPoint(multiPoint),
-        lineString1,
-        Geometry.lineString(lineString1),
-        multiLineString,
-        Geometry.multiLineString(multiLineString),
-        linearRingHole1,
-        polygonWithHole,
-        Geometry.polygon(polygonWithHole),
-        multiPolygon,
-        Geometry.multiPolygon(multiPolygon),
-        geometryCollection,
-        Fixtures.recursiveGeometryCollection,
-        Geometry.geometryCollection(geometryCollection)
-    ]
+final class PolygonizeTests_XYZM: OperationsTestCase_XYZM {
 
     func testPolygonizeAllTypes() {
         for g in geometryConvertibles {

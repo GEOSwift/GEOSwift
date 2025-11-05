@@ -3,36 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class DifferenceTests_XYZ: XCTestCase {
-    // Convert XYZM fixtures to XYZ using copy constructors
-    let point1 = Point<XYZ>(Fixtures.point1)
-    let multiPoint = MultiPoint<XYZ>(Fixtures.multiPoint)
-    let lineString1 = LineString<XYZ>(Fixtures.lineString1)
-    let multiLineString = MultiLineString<XYZ>(Fixtures.multiLineString)
-    let linearRingHole1 = Polygon<XYZ>.LinearRing(Fixtures.linearRingHole1)
-    let polygonWithHole = Polygon<XYZ>(Fixtures.polygonWithHole)
-    let multiPolygon = MultiPolygon<XYZ>(Fixtures.multiPolygon)
-    let geometryCollection = GeometryCollection<XYZ>(Fixtures.geometryCollection)
-    let unitPoly = Polygon<XYZ>(Fixtures.unitPolygon)
-
-    lazy var geometryConvertibles: [any GeometryConvertible<XYZ>] = [
-        point1,
-        Geometry.point(point1),
-        multiPoint,
-        Geometry.multiPoint(multiPoint),
-        lineString1,
-        Geometry.lineString(lineString1),
-        multiLineString,
-        Geometry.multiLineString(multiLineString),
-        linearRingHole1,
-        polygonWithHole,
-        Geometry.polygon(polygonWithHole),
-        multiPolygon,
-        Geometry.multiPolygon(multiPolygon),
-        geometryCollection,
-        GeometryCollection<XYZ>(Fixtures.recursiveGeometryCollection),
-        Geometry.geometryCollection(geometryCollection)
-    ]
+final class DifferenceTests_XYZ: OperationsTestCase_XYZ {
 
     func testDifferencePolygons() {
         let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [

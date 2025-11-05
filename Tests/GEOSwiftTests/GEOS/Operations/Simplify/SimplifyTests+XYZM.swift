@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class SimplifyTestsXYZM: XCTestCase {
+final class SimplifyTestsXYZM: OperationsTestCase_XYZM {
     func testSimplifyLineString() throws {
         let lineString = try! LineString(coordinates: [
             XYZM(0, 0, 10, 1), XYZM(1, 0.1, 20, 2), XYZM(2, -0.1, 30, 3), XYZM(3, 0, 40, 4)])
