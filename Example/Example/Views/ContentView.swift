@@ -35,12 +35,12 @@ struct ContentView: View {
                                 .opacity(geometry.selected ? 1 : 0.4)
                                 .foregroundColor(colorForUUID(geometry.identifiableGeometry.id))
                         }
-                        ForEach(1...Int(gridGeometry.size.height / 50), id: \.self) { i in
+                        ForEach(gridLabelRange(for: gridGeometry.size.height), id: \.self) { i in
                             Text("\(i * 50)")
                                 .font(.caption)
                                 .position(x: 12, y: gridGeometry.size.height - CGFloat(i) * 50 + 8)
                         }
-                        ForEach(1...Int(gridGeometry.size.width / 50), id: \.self) { i in
+                        ForEach(gridLabelRange(for: gridGeometry.size.width), id: \.self) { i in
                             Text("\(i * 50)")
                                 .font(.caption)
                                 .position(x: CGFloat(i) * 50 - 12, y: gridGeometry.size.height - 8)
@@ -86,6 +86,12 @@ struct ContentView: View {
         .alert(isPresented: $geometryModel.hasError) {
             Alert(title: Text("Geometry Error"), message: Text(geometryModel.errorMessage), dismissButton: .default(Text("OK")))
         }
+    }
+    
+    private func gridLabelRange(for dimension: CGFloat) -> ClosedRange<Int> {
+        guard dimension >= 1 else { return 1...1 }
+        
+        return 1...Int(dimension / 50)
     }
 }
 
