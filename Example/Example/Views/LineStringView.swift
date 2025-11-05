@@ -13,15 +13,15 @@ struct LineStringView: View {
             Path { path in
                 path.move(
                     to: CGPoint(
-                        x: identifiableLineString.lineString.points[0].x,
-                        y: height - identifiableLineString.lineString.points[0].y
+                        x: identifiableLineString.lineString.coordinates[0].x,
+                        y: height - identifiableLineString.lineString.coordinates[0].y
                     )
                 )
-                identifiableLineString.lineString.points.forEach { point in
+                identifiableLineString.lineString.coordinates.forEach { coordinate in
                     path.addLine(
                         to: CGPoint(
-                            x: point.x,
-                            y: height - point.y
+                            x: coordinate.x,
+                            y: height - coordinate.y
                         )
                     )
                 }
