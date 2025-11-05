@@ -3,7 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class BinaryOperationsTests_XYZM: OperationsTestCase_XYZM {
+final class BinaryOperationsTests_XYZM: GEOSTestCase_XYZM {
 
     func testDistanceBetweenPoints() {
         let point1 = Point(XYZM(0, 0, 0, 0))

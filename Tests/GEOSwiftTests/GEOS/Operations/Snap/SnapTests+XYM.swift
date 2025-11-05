@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class SnapTestsXYM: OperationsTestCase_XYM {
+final class SnapTestsXYM: GEOSTestCase_XYM {
     func testSnapLineStrings() throws {
         let line1 = try! LineString(coordinates: [XYM(0, 0, 1), XYM(10, 0, 2)])
         let line2 = try! LineString(coordinates: [XYM(0, 0.5, 3), XYM(10, 0, 4)])

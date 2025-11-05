@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class UnaryOperationsTests: OperationsTestCase_XY {
+final class UnaryOperationsTests: GEOSTestCase_XY {
 
     // MARK: - Length
 

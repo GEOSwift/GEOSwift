@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class RelateTests: OperationsTestCase_XY {
+final class RelateTests: GEOSTestCase_XY {
 
     func testRelateMaskBetweenPoints() {
         let point1 = Point(x: 1, y: 1)

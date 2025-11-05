@@ -1,9 +1,7 @@
 import XCTest
 @testable import GEOSwift
 
-final class MultiPolygon_GEOSTests: GEOSContextTestCase {
-    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
-    let point1 = Point<XY>(Fixtures.point1)
+final class MultiPolygon_GEOSTests: GEOSTestCase_XY {
 
     func testRoundtripToGEOS() {
         verifyRoundtripToGEOS(value: multiPolygon)

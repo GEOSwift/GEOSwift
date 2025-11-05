@@ -3,7 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class UnaryOperationsTests_XYM: OperationsTestCase_XYM {
+final class UnaryOperationsTests_XYM: GEOSTestCase_XYM {
 
     // MARK: - Length
 

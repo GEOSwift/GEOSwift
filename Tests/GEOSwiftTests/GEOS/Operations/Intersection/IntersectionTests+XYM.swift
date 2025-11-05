@@ -3,7 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class IntersectionTests_XYM: OperationsTestCase_XYM {
+final class IntersectionTests_XYM: GEOSTestCase_XYM {
 
     // MARK: - XYM ∩ XY → XYM
 

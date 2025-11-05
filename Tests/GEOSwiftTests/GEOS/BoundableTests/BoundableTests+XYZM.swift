@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class BoundableTests_XYZM: XCTestCase {
+final class BoundableTests_XYZM: GEOSTestCase_XYZM {
     let boundables: [any Boundable<XYZM>] = [
         Point(x: 1, y: 2, z: 0, m: 0),
         MultiPoint(points: [Point(x: 1, y: 2, z: 0, m: 0), Point(x: 3, y: 4, z: 1, m: 1)]),

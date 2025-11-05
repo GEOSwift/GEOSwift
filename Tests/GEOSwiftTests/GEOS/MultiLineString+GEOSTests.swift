@@ -1,9 +1,7 @@
 import XCTest
 @testable import GEOSwift
 
-final class MultiLineString_GEOSTests: GEOSContextTestCase {
-    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
-    let point1 = Point<XY>(Fixtures.point1)
+final class MultiLineString_GEOSTests: GEOSTestCase_XY {
 
     func testRoundtripToGEOS() {
         verifyRoundtripToGEOS(value: multiLineString)

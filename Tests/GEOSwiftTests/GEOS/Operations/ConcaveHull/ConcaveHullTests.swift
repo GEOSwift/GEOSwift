@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class ConcaveHullTests: OperationsTestCase_XY {
+final class ConcaveHullTests: GEOSTestCase_XY {
 
     func testConcaveHullAllTypes() {
         for g in geometryConvertibles {

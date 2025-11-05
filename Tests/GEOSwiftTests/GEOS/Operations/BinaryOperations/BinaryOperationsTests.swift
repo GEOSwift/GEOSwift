@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class BinaryOperationsTests: OperationsTestCase_XY {
+final class BinaryOperationsTests: GEOSTestCase_XY {
 
     func testDistanceBetweenPoints() {
         let point1 = Point(x: 0, y: 0)

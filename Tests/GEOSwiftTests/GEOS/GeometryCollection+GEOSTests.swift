@@ -1,10 +1,7 @@
 import XCTest
 @testable import GEOSwift
 
-final class GeometryCollection_GEOSTests: GEOSContextTestCase {
-    let geometryCollection = GeometryCollection<XY>(Fixtures.geometryCollection)
-    let recursiveGeometryCollection = GeometryCollection<XY>(Fixtures.recursiveGeometryCollection)
-    let point1 = Point<XY>(Fixtures.point1)
+final class GeometryCollection_GEOSTests: GEOSTestCase_XY {
 
     func testRoundtripToGEOS() {
         verifyRoundtripToGEOS(value: geometryCollection)

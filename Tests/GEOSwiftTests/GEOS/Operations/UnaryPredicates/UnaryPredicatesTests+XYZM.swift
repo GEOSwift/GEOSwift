@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class UnaryPredicatesTests_XYZM: OperationsTestCase_XYZM {
+final class UnaryPredicatesTests_XYZM: GEOSTestCase_XYZM {
     // MARK: - Unary Predicates
 
     func testIsEmpty() {

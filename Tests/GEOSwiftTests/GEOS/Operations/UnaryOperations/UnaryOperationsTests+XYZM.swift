@@ -3,7 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class UnaryOperationsTests_XYZM: OperationsTestCase_XYZM {
+final class UnaryOperationsTests_XYZM: GEOSTestCase_XYZM {
     // MARK: - Length
 
     // points have length 0

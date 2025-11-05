@@ -2,15 +2,7 @@ import XCTest
 import geos
 @testable import GEOSwift
 
-final class GEOSObjectTests: GEOSContextTestCase {
-    let point1 = Point<XY>(Fixtures.point1)
-    let lineString1 = LineString<XY>(Fixtures.lineString1)
-    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
-    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
-    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
-    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
-    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
-    let geometryCollection = GeometryCollection<XY>(Fixtures.geometryCollection)
+final class GEOSObjectTests: GEOSTestCase_XY {
 
     func testInitWithContext() {
         let point = GEOSGeom_createEmptyPoint_r(context.handle)!

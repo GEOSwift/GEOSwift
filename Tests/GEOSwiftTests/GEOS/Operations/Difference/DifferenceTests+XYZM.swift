@@ -3,7 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class DifferenceTests_XYZM: OperationsTestCase_XYZM {
+final class DifferenceTests_XYZM: GEOSTestCase_XYZM {
 
     func testDifferencePolygons() {
         let poly = try! Polygon(exterior: Polygon.LinearRing(coordinates: [

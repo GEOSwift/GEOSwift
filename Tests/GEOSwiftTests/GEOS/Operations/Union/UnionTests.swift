@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class UnionTests: OperationsTestCase_XY {
+final class UnionTests: GEOSTestCase_XY {
 
     func testUnionPointAndLine() {
         let point = Point(x: 2, y: 0)

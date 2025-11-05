@@ -3,7 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class PolygonizeTests_XYM: OperationsTestCase_XYM {
+final class PolygonizeTests_XYM: GEOSTestCase_XYM {
 
     func testPolygonizeAllTypes() {
         for g in geometryConvertibles {

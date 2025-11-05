@@ -1,15 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class SimplicityTestableTests: XCTestCase {
-    // Convert XYZM fixtures to XY using copy constructors
-    let point1 = Point<XY>(Fixtures.point1)
-    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
-    let lineString1 = LineString<XY>(Fixtures.lineString1)
-    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
-    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
-    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
-    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
+final class SimplicityTestableTests: GEOSTestCase_XY {
 
     lazy var simplicityTestables: [any SimplicityTestable] = [
         point1,

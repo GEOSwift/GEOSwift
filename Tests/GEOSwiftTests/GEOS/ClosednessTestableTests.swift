@@ -1,10 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class ClosednessTestableTests: XCTestCase {
-    let lineString1 = LineString<XY>(Fixtures.lineString1)
-    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
-    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
+final class ClosednessTestableTests: GEOSTestCase_XY {
 
     lazy var closednessTestables: [any ClosednessTestable<XY>] = [
         lineString1,

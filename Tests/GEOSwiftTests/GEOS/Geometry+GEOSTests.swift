@@ -1,15 +1,7 @@
 import XCTest
 @testable import GEOSwift
 
-final class Geometry_GEOSTests: GEOSContextTestCase {
-    let point1 = Point<XY>(Fixtures.point1)
-    let multiPoint = MultiPoint<XY>(Fixtures.multiPoint)
-    let lineString1 = LineString<XY>(Fixtures.lineString1)
-    let multiLineString = MultiLineString<XY>(Fixtures.multiLineString)
-    let polygonWithHole = Polygon<XY>(Fixtures.polygonWithHole)
-    let multiPolygon = MultiPolygon<XY>(Fixtures.multiPolygon)
-    let geometryCollection = GeometryCollection<XY>(Fixtures.geometryCollection)
-    let linearRingHole1 = Polygon<XY>.LinearRing(Fixtures.linearRingHole1)
+final class Geometry_GEOSTests: GEOSTestCase_XY {
 
     func testRoundtripToGEOS() {
         let values: [Geometry] = [

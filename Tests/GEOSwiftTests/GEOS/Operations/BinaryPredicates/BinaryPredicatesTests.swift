@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class BinaryPredicatesTests: OperationsTestCase_XY {
+final class BinaryPredicatesTests: GEOSTestCase_XY {
 
     // MARK: - isTopologicallyEquivalent
 

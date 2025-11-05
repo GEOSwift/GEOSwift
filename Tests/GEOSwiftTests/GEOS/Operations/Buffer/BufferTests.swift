@@ -1,7 +1,7 @@
 import XCTest
 import GEOSwift
 
-final class BufferTests: OperationsTestCase_XY {
+final class BufferTests: GEOSTestCase_XY {
 
     func testBufferAllTypes() {
         for geometry in geometryConvertibles {

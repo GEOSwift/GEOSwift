@@ -3,7 +3,7 @@ import GEOSwift
 
 // MARK: - Tests
 
-final class BinaryPredicatesTests_XYM: OperationsTestCase_XYM {
+final class BinaryPredicatesTests_XYM: GEOSTestCase_XYM {
 
     // MARK: - isTopologicallyEquivalent
 
