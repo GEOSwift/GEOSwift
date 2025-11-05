@@ -29,7 +29,7 @@ enum IdentifiableGeometry: Identifiable, Hashable {
         }
     }
     
-    var geometry: GeometryConvertible {
+    var geometry: any GeometryConvertible<XY> {
         switch self {
         case .point(let identifiablePoint):
             return identifiablePoint.point
@@ -48,7 +48,7 @@ enum IdentifiableGeometry: Identifiable, Hashable {
         }
     }
     
-    init(_ geometry: Geometry) {
+    init(_ geometry: Geometry<XY>) {
         switch geometry {
         case .point(let point):
             self = .point(IdentifiablePoint(point: point))

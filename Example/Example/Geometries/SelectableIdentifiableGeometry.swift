@@ -12,7 +12,7 @@ struct SelectableIdentifiableGeometry: Identifiable, Hashable {
         self.selected = false
     }
     
-    public init(_ geometry: Geometry) {
+    public init(_ geometry: Geometry<XY>) {
         self.identifiableGeometry = IdentifiableGeometry(geometry)
         self.id = self.identifiableGeometry.id
         self.selected = false

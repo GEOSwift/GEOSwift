@@ -14,36 +14,36 @@ struct PolygonView: View {
             Path { path in
                 path.move(
                     to: CGPoint(
-                        x: identifiablePolygon.polygon.exterior.points[0].x,
-                        y: height-identifiablePolygon.polygon.exterior.points[0].y
+                        x: identifiablePolygon.polygon.exterior.coordinates[0].x,
+                        y: height-identifiablePolygon.polygon.exterior.coordinates[0].y
                     )
                 )
-                identifiablePolygon.polygon.exterior.points.forEach { point in
+                identifiablePolygon.polygon.exterior.coordinates.forEach { coordinate in
                     path.addLine(
                         to: CGPoint(
-                            x: point.x,
-                            y: height-point.y
+                            x: coordinate.x,
+                            y: height-coordinate.y
                         )
                     )
-                    pointsToLabel.append(IdentifiablePoint(point: point)) 
+                    pointsToLabel.append(IdentifiablePoint(point: Point(coordinate)))
                 }
             }
             Path { path in
                 identifiablePolygon.polygon.holes.forEach{ hole in
                     path.move(
                         to: CGPoint(
-                            x: hole.points[0].x,
-                            y: height - hole.points[0].y
+                            x: hole.coordinates[0].x,
+                            y: height - hole.coordinates[0].y
                         )
                     )
-                    hole.points.forEach { point in
+                    hole.coordinates.forEach { coordinate in
                         path.addLine(
                             to: CGPoint(
-                                x: point.x,
-                                y: height - point.y
+                                x: coordinate.x,
+                                y: height - coordinate.y
                             )
                         )
-                        pointsToLabel.append(IdentifiablePoint(point: point))
+                        pointsToLabel.append(IdentifiablePoint(point: Point(coordinate)))
                     }
                 }
             }
