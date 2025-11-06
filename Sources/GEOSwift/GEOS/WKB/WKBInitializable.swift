@@ -1,6 +1,19 @@
 import Foundation
 
+/// A protocol for geometries that can be initialized from Well-Known Binary (WKB) format.
+///
+/// WKB is a binary representation standard for geometric objects defined by the OGC.
+///
+/// See `GEOSWKBReader_read_r` in the
+/// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html).
 public protocol WKBInitializable {
+    /// Creates a geometry from Well-Known Binary (WKB) data.
+    ///
+    /// See `GEOSWKBReader_read_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html).
+    ///
+    /// - Parameter wkb: The WKB data to parse.
+    /// - Throws: `Error` if the WKB data is invalid or cannot be parsed.
     init(wkb: Data) throws
 }
 

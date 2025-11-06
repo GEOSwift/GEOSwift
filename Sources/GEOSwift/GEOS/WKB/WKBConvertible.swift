@@ -1,7 +1,20 @@
 import Foundation
 import geos
 
+/// A protocol for geometries that can be converted to Well-Known Binary (WKB) format.
+///
+/// WKB is a binary representation standard for geometric objects defined by the OGC.
+///
+/// See `GEOSWKBWriter_write_r` in the
+/// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html).
 public protocol WKBConvertible {
+    /// Converts this geometry to Well-Known Binary (WKB) format.
+    ///
+    /// See `GEOSWKBWriter_write_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html).
+    ///
+    /// - Returns: The WKB representation as `Data`.
+    /// - Throws: `Error` if the conversion fails.
     func wkb() throws -> Data
 }
 

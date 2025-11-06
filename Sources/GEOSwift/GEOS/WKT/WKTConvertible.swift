@@ -1,20 +1,33 @@
 import Foundation
 import geos
 
+/// A protocol for geometries that can be converted to Well-Known Text (WKT) format.
+///
+/// WKT is a text representation standard for geometric objects defined by the OGC.
+///
+/// See `GEOSWKTWriter_write_r` in the
+/// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html).
 public protocol WKTConvertible {
-    /// Serializes the `WKTConvertible` to a WKT string representation using the geos-default configuration
-    /// options for `trim` and `roundingPrecision`.
-    /// - Returns: A WKT string representation of the `WKTConvertible`.
+    /// Converts this geometry to Well-Known Text (WKT) format using default options.
+    ///
+    /// See `GEOSWKTWriter_write_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html).
+    ///
+    /// - Returns: The WKT string representation.
+    /// - Throws: `Error` if the conversion fails.
     func wkt() throws -> String
 
-    /// Serializes the `WKTConvertible` to a WKT string representation
+    /// Converts this geometry to Well-Known Text (WKT) format with custom formatting options.
+    ///
+    /// See `GEOSWKTWriter_write_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html).
+    ///
     /// - Parameters:
-    ///   - trim: If `true`, digits after the decimal point that are unnecessary for lossless round-tripping
-    ///     are removed.
-    ///   - roundingPrecision: If `trim` is `true`, determines the maximum number of digits after the decimal
-    ///     point. If `trim` is false, determines the number of digits after the decimal point. Pass a
-    ///     negative value to default to the rounding precision determined by the underlying precision model.
-    /// - Returns: A WKT string representation of the `WKTConvertible`.
+    ///   - trim: If `true`, removes unnecessary digits after the decimal point.
+    ///   - roundingPrecision: Maximum number of digits after the decimal point when `trim` is `true`,
+    ///     or exact number when `trim` is `false`. Use a negative value for the precision model default.
+    /// - Returns: The WKT string representation.
+    /// - Throws: `Error` if the conversion fails.
     func wkt(trim: Bool, roundingPrecision: Int32) throws -> String
 }
 

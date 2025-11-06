@@ -1,5 +1,6 @@
 import geos
 
+/// Geometric types that are able to return a geometry representing their boundary.
 public protocol Boundable<C>: GeometryConvertible {
     func boundary() throws -> Geometry<C>
 }

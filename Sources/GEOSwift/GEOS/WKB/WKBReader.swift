@@ -1,10 +1,17 @@
 import Foundation
 import geos
 
+/// A reader for parsing Well-Known Binary (WKB) format.
+///
+/// See `GEOSWKBReader_read_r` in the
+/// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html).
 public final class WKBReader {
     private let context: GEOSContext
     private let reader: OpaquePointer
 
+    /// Creates a new WKB reader.
+    ///
+    /// - Throws: `Error` if the reader cannot be created.
     public convenience init() throws {
         try self.init(context: GEOSContext())
     }
@@ -38,6 +45,14 @@ public final class WKBReader {
         return GEOSObject(context: context, pointer: pointer)
     }
 
+    /// Reads a geometry from Well-Known Binary (WKB) data.
+    ///
+    /// See `GEOSWKBReader_read_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html).
+    ///
+    /// - Parameter wkb: The WKB data to parse.
+    /// - Returns: The parsed geometry as ``AnyGeometry``.
+    /// - Throws: `Error` if the WKB data is invalid or cannot be parsed.
     public func readAny(wkb: Data) throws -> AnyGeometry {
         return try AnyGeometry(geosObject: read(wkb))
     }

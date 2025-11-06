@@ -1,6 +1,19 @@
 import geos
 
+/// A protocol for geometries that can be tested for simplicity.
+///
+/// A geometry is simple if it has no self-intersections or anomalous points.
+///
+/// See `GEOSisSimple_r` in the
+/// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html).
 public protocol SimplicityTestable: GeometryConvertible {
+    /// Returns whether this geometry is simple.
+    ///
+    /// See `GEOSisSimple_r` in the
+    /// [GEOS C API](https://libgeos.org/doxygen/geos__c_8h.html).
+    ///
+    /// - Returns: `true` if the geometry is simple, `false` otherwise.
+    /// - Throws: `Error` if the simplicity test fails.
     func isSimple() throws -> Bool
 }
 
