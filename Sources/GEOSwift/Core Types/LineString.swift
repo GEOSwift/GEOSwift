@@ -44,6 +44,7 @@ public extension LineString {
     /// - parameters:
     ///   - points: An array of points. Must contain at least 2 points.
     /// - throws: ``GEOSwiftError/tooFewCoordinates`` if fewer than 2 points are provided.
+    @available(*, deprecated, message: "Use init(coordinates:) instead.")
     init(points: [Point<C>]) throws {
         try self.init(coordinates: points.map(\.coordinates))
     }

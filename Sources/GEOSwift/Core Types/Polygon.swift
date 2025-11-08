@@ -62,6 +62,7 @@ public extension Polygon.LinearRing {
     ///   - points: An array of points. Must contain at least 4 points and the first and last must be equal.
     /// - throws: ``GEOSwiftError/tooFewCoordinates`` if fewer than 4 points are provided, or
     ///           ``GEOSwiftError/ringNotClosed`` if the first and last points' ``XY`` coordinates are not equal.
+    @available(*, deprecated, message: "Use init(coordinates:) instead.")
     init(points: [Point<C>]) throws {
         try self.init(coordinates: points.map(\.coordinates))
     }
