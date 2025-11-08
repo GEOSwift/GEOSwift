@@ -19,7 +19,7 @@ import GEOSwift
 let point = Point(x: 4.5, y: 4.5)
 
 // Create a polygon
-let polygon = try Polygon(wkt: "POLYGON((0 0, 0 5, 5 5, 5 0, 0 0))")
+let polygon = try Polygon<XY>(wkt: "POLYGON((0 0, 0 5, 5 5, 5 0, 0 0))")
 
 // Check if the point is within the polygon
 let isInside = try point.within(polygon) // true
@@ -197,9 +197,11 @@ GEOSwift lets you perform a set of operations on these two geometries:
 
 ![Topological operations](/README-images/topological-operations.png)
 
+#### Code Examples
+
 ```swift
-let polygon1 = try Polygon(wkt: "POLYGON((0 0, 0 5, 5 5, 5 0, 0 0))")
-let polygon2 = try Polygon(wkt: "POLYGON((2 2, 2 7, 7 7, 7 2, 2 2))")
+let polygon1 = try Polygon<XY>(wkt: "POLYGON((0 0, 0 5, 5 5, 5 0, 0 0))")
+let polygon2 = try Polygon<XY>(wkt: "POLYGON((2 2, 2 7, 7 7, 7 2, 2 2))")
 
 // Intersection - the area where both polygons overlap
 let intersection = try polygon1.intersection(with: polygon2)
@@ -234,10 +236,12 @@ GEOSwift provides spatial predicates to test relationships between geometries:
 * **overlaps**: returns true if this geometric object "spatially overlaps" another geometry.
 * **relate**: returns true if this geometric object is spatially related to another geometry by testing for intersections between the interior, boundary and exterior of the two geometric objects as specified by the values in the intersectionPatternMatrix.
 
+#### Code Examples
+
 ```swift
 let point = Point(x: 4.5, y: 4.5)
-let polygon = try Polygon(wkt: "POLYGON((0 0, 0 5, 5 5, 5 0, 0 0))")
-let line = try LineString(wkt: "LINESTRING(0 0, 10 10)")
+let polygon = try Polygon<XY>(wkt: "POLYGON((0 0, 0 5, 5 5, 5 0, 0 0))")
+let line = try LineString<XY>(wkt: "LINESTRING(0 0, 10 10)")
 
 // Check if point is within polygon
 let isWithin = try point.within(polygon) // true
