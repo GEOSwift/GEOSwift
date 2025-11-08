@@ -202,6 +202,18 @@ found inside `GEOSwiftMapKit` workspace. Open the workspace in Xcode, build the
 
 ![Playground](/README-images/playground.png)
 
+### Migrating from 11.x.x
+
+GEOSwift 12.0.0 introduced a few changes that you may need to incorporate to upgrade. Though in
+some cases, convenience methods were retained to ease migration.
+* `Geometry` and geometric types are now generic over `CoordinateType`. Specifying `XY` as the
+  `CoordinateType` will give you largely the same behavior as 11.x.x. You can also use the copy
+  constructors to down-convert the dimensions of a type (`let point = Point<XY>(pointXZYM)`).
+* The new base type for forming geometries is a `CoordinateType` (e.g. `XY`) rather than `Point`s.
+  Initializing with points is still supported but is now deprecated.
+* The `AnyGeometry` object is used in a few cases to wrap geometries where the `CoordinateType` isn't
+  known at compile-time. You can unwrap this at run-time.
+
 ## Contributing
 
 To make a contribution:
