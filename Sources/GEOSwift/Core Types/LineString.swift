@@ -12,6 +12,7 @@ public struct LineString<C: CoordinateType>: Hashable, Sendable {
 
     /// The last coordinate of the `LineString`
     public var lastCoordinate: C {
+        // This is safe to unwrap as the initializer has verified count
         coordinates.last!
     }
 
