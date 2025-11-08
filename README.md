@@ -230,10 +230,11 @@ To make a contribution:
 
 ## Maintainer
 
-* Andrew Hershberger ([@macdrevx](https://github.com/macdrevx))
+* Scott Hoyt ([@scottrhoyt](https://github.com/scottrhoyt))
 
 ## Past Maintainers
 
+* Andrew Hershberger ([@macdrevx](https://github.com/macdrevx))
 * Virgilio Favero Neto ([@vfn](https://github.com/vfn))
 * Andrea Cremaschi ([@andreacremaschi](https://twitter.com/andreacremaschi))
   (original author)
