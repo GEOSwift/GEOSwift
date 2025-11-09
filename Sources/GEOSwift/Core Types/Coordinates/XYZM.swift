@@ -48,6 +48,16 @@ public struct XYZM: CoordinateType, HasZ, HasM {
         self.m = coordinate.m
     }
 
+    /// Initialize an `XYZM` coordinate from a tuple of (x, y, z, m) values.
+    /// - parameters:
+    ///   - coordinate: A tuple containing (x, y, z, m) coordinates.
+    public init(_ coordinate: (Double, Double, Double, Double)) {
+        self.x = coordinate.0
+        self.y = coordinate.1
+        self.z = coordinate.2
+        self.m = coordinate.3
+    }
+
     // MARK: Codable
 
     public init(from decoder: Decoder) throws {

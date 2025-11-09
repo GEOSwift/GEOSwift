@@ -36,6 +36,14 @@ public struct XY: CoordinateType, GeoJSONCoordinate {
         self.y = coordinate.y
     }
 
+    /// Initialize an `XY` coordinate from a tuple of (x, y) values.
+    /// - parameters:
+    ///   - coordinate: A tuple containing (x, y) coordinates.
+    public init(_ coordinate: (Double, Double)) {
+        self.x = coordinate.0
+        self.y = coordinate.1
+    }
+
     // MARK: Codable
 
     public init(from decoder: Decoder) throws {

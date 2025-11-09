@@ -42,6 +42,15 @@ public struct XYM: CoordinateType, HasM {
         self.m = coordinate.m
     }
 
+    /// Initialize an `XYM` coordinate from a tuple of (x, y, m) values.
+    /// - parameters:
+    ///   - coordinate: A tuple containing (x, y, m) coordinates.
+    public init(_ coordinate: (Double, Double, Double)) {
+        self.x = coordinate.0
+        self.y = coordinate.1
+        self.m = coordinate.2
+    }
+
     // MARK: Codable
 
     public init(from decoder: Decoder) throws {
