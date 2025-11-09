@@ -23,6 +23,7 @@
 * Add Z-preerving behavior for `simplify`
 * Add Z-preerving behavior for `snap`
 * Add `clip(by:)` operation via `GEOSClipByRect_r`
+* Add tuple-based initialization for `CoordinateType`s, `Point`, `LineString`, and `Polygon`.
 
 ## 11.2.0
 
