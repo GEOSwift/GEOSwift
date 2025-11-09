@@ -118,6 +118,38 @@ final class PolygonTestsXY: XCTestCase {
         XCTAssertEqual(polygon2.exterior.coordinates[1].x, 1)
         XCTAssertEqual(polygon2.exterior.coordinates[1].y, 0)
     }
+
+    func testInitLinearRingWithTuples() throws {
+        let ring = try Polygon<XY>.LinearRing(coordinates: [(0.0, 0.0), (1.0, 0.0), (1.0, 1.0), (0.0, 0.0)])
+
+        XCTAssertEqual(ring.coordinates.count, 4)
+        XCTAssertEqual(ring.coordinates[0].x, 0.0)
+        XCTAssertEqual(ring.coordinates[0].y, 0.0)
+        XCTAssertEqual(ring.coordinates[1].x, 1.0)
+        XCTAssertEqual(ring.coordinates[1].y, 0.0)
+    }
+
+    func testInitPolygonWithTuplesExteriorAndHoles() throws {
+        let polygon = try Polygon<XY>(
+            exterior: [(0.0, 0.0), (4.0, 0.0), (4.0, 4.0), (0.0, 0.0)],
+            holes: [[(1.0, 1.0), (2.0, 1.0), (2.0, 2.0), (1.0, 1.0)]]
+        )
+
+        XCTAssertEqual(polygon.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon.holes.count, 1)
+        XCTAssertEqual(polygon.holes[0].coordinates.count, 4)
+    }
+
+    func testInitPolygonWithTuplesSequenceOfSequences() throws {
+        let polygon = try Polygon<XY>(coordinates: [
+            [(0.0, 0.0), (4.0, 0.0), (4.0, 4.0), (0.0, 0.0)],
+            [(1.0, 1.0), (2.0, 1.0), (2.0, 2.0), (1.0, 1.0)]
+        ])
+
+        XCTAssertEqual(polygon.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon.holes.count, 1)
+        XCTAssertEqual(polygon.holes[0].coordinates.count, 4)
+    }
 }
 
 final class PolygonTestsXYZ: XCTestCase {
@@ -142,6 +174,39 @@ final class PolygonTestsXYZ: XCTestCase {
         XCTAssertEqual(polygon2.exterior.coordinates[3].x, 0)
         XCTAssertEqual(polygon2.exterior.coordinates[3].y, 0)
         XCTAssertEqual(polygon2.exterior.coordinates[3].z, 7)
+    }
+
+    func testInitLinearRingWithTuples() throws {
+        let ring = try Polygon<XYZ>.LinearRing(
+            coordinates: [(0.0, 0.0, 1.0), (1.0, 0.0, 2.0), (1.0, 1.0, 3.0), (0.0, 0.0, 4.0)]
+        )
+
+        XCTAssertEqual(ring.coordinates.count, 4)
+        XCTAssertEqual(ring.coordinates[0].x, 0.0)
+        XCTAssertEqual(ring.coordinates[0].y, 0.0)
+        XCTAssertEqual(ring.coordinates[0].z, 1.0)
+    }
+
+    func testInitPolygonWithTuplesExteriorAndHoles() throws {
+        let polygon = try Polygon<XYZ>(
+            exterior: [(0.0, 0.0, 0.0), (4.0, 0.0, 1.0), (4.0, 4.0, 2.0), (0.0, 0.0, 3.0)],
+            holes: [[(1.0, 1.0, 1.0), (2.0, 1.0, 2.0), (2.0, 2.0, 3.0), (1.0, 1.0, 4.0)]]
+        )
+
+        XCTAssertEqual(polygon.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon.holes.count, 1)
+        XCTAssertEqual(polygon.holes[0].coordinates.count, 4)
+    }
+
+    func testInitPolygonWithTuplesSequenceOfSequences() throws {
+        let polygon = try Polygon<XYZ>(coordinates: [
+            [(0.0, 0.0, 0.0), (4.0, 0.0, 1.0), (4.0, 4.0, 2.0), (0.0, 0.0, 3.0)],
+            [(1.0, 1.0, 1.0), (2.0, 1.0, 2.0), (2.0, 2.0, 3.0), (1.0, 1.0, 4.0)]
+        ])
+
+        XCTAssertEqual(polygon.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon.holes.count, 1)
+        XCTAssertEqual(polygon.holes[0].coordinates.count, 4)
     }
 }
 
@@ -195,5 +260,39 @@ final class PolygonTestsXYZM: XCTestCase {
         XCTAssertEqual(polygon2.exterior.coordinates[3].y, 0)
         XCTAssertEqual(polygon2.exterior.coordinates[3].z, 7)
         XCTAssertEqual(polygon2.exterior.coordinates[3].m, 8)
+    }
+
+    func testInitLinearRingWithTuples() throws {
+        let ring = try Polygon<XYZM>.LinearRing(
+            coordinates: [(0.0, 0.0, 1.0, 2.0), (1.0, 0.0, 3.0, 4.0), (1.0, 1.0, 5.0, 6.0), (0.0, 0.0, 7.0, 8.0)]
+        )
+
+        XCTAssertEqual(ring.coordinates.count, 4)
+        XCTAssertEqual(ring.coordinates[0].x, 0.0)
+        XCTAssertEqual(ring.coordinates[0].y, 0.0)
+        XCTAssertEqual(ring.coordinates[0].z, 1.0)
+        XCTAssertEqual(ring.coordinates[0].m, 2.0)
+    }
+
+    func testInitPolygonWithTuplesExteriorAndHoles() throws {
+        let polygon = try Polygon<XYZM>(
+            exterior: [(0.0, 0.0, 0.0, 0.0), (4.0, 0.0, 1.0, 1.0), (4.0, 4.0, 2.0, 2.0), (0.0, 0.0, 3.0, 3.0)],
+            holes: [[(1.0, 1.0, 1.0, 1.0), (2.0, 1.0, 2.0, 2.0), (2.0, 2.0, 3.0, 3.0), (1.0, 1.0, 4.0, 4.0)]]
+        )
+
+        XCTAssertEqual(polygon.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon.holes.count, 1)
+        XCTAssertEqual(polygon.holes[0].coordinates.count, 4)
+    }
+
+    func testInitPolygonWithTuplesSequenceOfSequences() throws {
+        let polygon = try Polygon<XYZM>(coordinates: [
+            [(0.0, 0.0, 0.0, 0.0), (4.0, 0.0, 1.0, 1.0), (4.0, 4.0, 2.0, 2.0), (0.0, 0.0, 3.0, 3.0)],
+            [(1.0, 1.0, 1.0, 1.0), (2.0, 1.0, 2.0, 2.0), (2.0, 2.0, 3.0, 3.0), (1.0, 1.0, 4.0, 4.0)]
+        ])
+
+        XCTAssertEqual(polygon.exterior.coordinates.count, 4)
+        XCTAssertEqual(polygon.holes.count, 1)
+        XCTAssertEqual(polygon.holes[0].coordinates.count, 4)
     }
 }

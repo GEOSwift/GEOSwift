@@ -77,6 +77,16 @@ public extension Polygon.LinearRing where C == XY {
         // It is safe to force try here since we've already validated number of points
         try! self.init(coordinates: ring.coordinates.map(XY.init))
     }
+
+    /// Initialize a `LinearRing<XY>` from a sequence of (x, y) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of (x, y) values. Must contain at least 4 coordinates and the first
+    ///                  and last must be equal.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if fewer than 4 coordinates are provided, or
+    ///           ``GEOSwiftError/ringNotClosed`` if the first and last coordinates are not equal.
+    init<S: Sequence>(coordinates: S) throws where S.Element == (Double, Double) {
+        try self.init(coordinates: coordinates.map(XY.init))
+    }
 }
 
 public extension Polygon where C == XY {
@@ -89,6 +99,31 @@ public extension Polygon where C == XY {
             holes: polygon.holes.map(Polygon<XY>.LinearRing.init)
         )
     }
+
+    /// Initialize a `Polygon<XY>` from an exterior ring and holes specified as sequences of (x, y) values.
+    /// - parameters:
+    ///   - exterior: A sequence of (x, y) values defining the exterior ring.
+    ///   - holes: A sequence of sequences, each defining an interior hole.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if any ring has fewer than 4 coordinates, or
+    ///           ``GEOSwiftError/ringNotClosed`` if any ring is not closed.
+    init<S: Sequence>(exterior: S, holes: any Sequence<S>) throws where S.Element == (Double, Double) {
+        try self.init(exterior: LinearRing(coordinates: exterior), holes: holes.map(LinearRing.init))
+    }
+
+    /// Initialize a `Polygon<XY>` from a sequence of rings specified as sequences of (x, y) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of sequences where the first is the exterior ring and the rest are holes.
+    /// - throws: ``GEOSwiftError/tooFewRings`` if no rings are provided,
+    ///           ``GEOSwiftError/tooFewCoordinates`` if any ring has fewer than 4 coordinates, or
+    ///           ``GEOSwiftError/ringNotClosed`` if any ring is not closed.
+    init<S: Sequence>(coordinates: any Sequence<S>) throws where S.Element == (Double, Double) {
+        let coordinatesArray = Array(coordinates)
+        guard let exterior = coordinatesArray.first else {
+            throw GEOSwiftError.tooFewRings
+        }
+
+        try self.init(exterior: exterior, holes: coordinatesArray.dropFirst())
+    }
 }
 
 public extension Polygon.LinearRing where C == XYZ {
@@ -98,6 +133,16 @@ public extension Polygon.LinearRing where C == XYZ {
     init<D: CoordinateType & HasZ>(_ ring: Polygon<D>.LinearRing) {
         // It is safe to force try here since we've already validated number of points
         try! self.init(coordinates: ring.coordinates.map(XYZ.init))
+    }
+
+    /// Initialize a `LinearRing<XYZ>` from a sequence of (x, y, z) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of (x, y, z) values. Must contain at least 4 coordinates and the first
+    ///                  and last must be equal.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if fewer than 4 coordinates are provided, or
+    ///           ``GEOSwiftError/ringNotClosed`` if the first and last coordinates are not equal.
+    init<S: Sequence>(coordinates: S) throws where S.Element == (Double, Double, Double) {
+        try self.init(coordinates: coordinates.map(XYZ.init))
     }
 }
 
@@ -111,6 +156,31 @@ public extension Polygon where C == XYZ {
             holes: polygon.holes.map(Polygon<XYZ>.LinearRing.init)
         )
     }
+
+    /// Initialize a `Polygon<XYZ>` from an exterior ring and holes specified as sequences of (x, y, z) values.
+    /// - parameters:
+    ///   - exterior: A sequence of (x, y, z) values defining the exterior ring.
+    ///   - holes: A sequence of sequences, each defining an interior hole.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if any ring has fewer than 4 coordinates, or
+    ///           ``GEOSwiftError/ringNotClosed`` if any ring is not closed.
+    init<S: Sequence>(exterior: S, holes: any Sequence<S>) throws where S.Element == (Double, Double, Double) {
+        try self.init(exterior: LinearRing(coordinates: exterior), holes: holes.map(LinearRing.init))
+    }
+
+    /// Initialize a `Polygon<XYZ>` from a sequence of rings specified as sequences of (x, y, z) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of sequences where the first is the exterior ring and the rest are holes.
+    /// - throws: ``GEOSwiftError/tooFewRings`` if no rings are provided,
+    ///           ``GEOSwiftError/tooFewCoordinates`` if any ring has fewer than 4 coordinates, or
+    ///           ``GEOSwiftError/ringNotClosed`` if any ring is not closed.
+    init<S: Sequence>(coordinates: any Sequence<S>) throws where S.Element == (Double, Double, Double) {
+        let coordinatesArray = Array(coordinates)
+        guard let exterior = coordinatesArray.first else {
+            throw GEOSwiftError.tooFewRings
+        }
+
+        try self.init(exterior: exterior, holes: coordinatesArray.dropFirst())
+    }
 }
 
 public extension Polygon.LinearRing where C == XYZM {
@@ -120,6 +190,16 @@ public extension Polygon.LinearRing where C == XYZM {
     init<D: CoordinateType & HasZ & HasM>(_ ring: Polygon<D>.LinearRing) {
         // It is safe to force try here since we've already validated number of points
         try! self.init(coordinates: ring.coordinates.map(XYZM.init))
+    }
+
+    /// Initialize a `LinearRing<XYZM>` from a sequence of (x, y, z, m) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of (x, y, z, m) values. Must contain at least 4 coordinates and the first
+    ///                  and last must be equal.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if fewer than 4 coordinates are provided, or
+    ///           ``GEOSwiftError/ringNotClosed`` if the first and last coordinates are not equal.
+    init<S: Sequence>(coordinates: S) throws where S.Element == (Double, Double, Double, Double) {
+        try self.init(coordinates: coordinates.map(XYZM.init))
     }
 }
 
@@ -132,6 +212,31 @@ public extension Polygon where C == XYZM {
             exterior: Polygon<XYZM>.LinearRing(polygon.exterior),
             holes: polygon.holes.map(Polygon<XYZM>.LinearRing.init)
         )
+    }
+
+    /// Initialize a `Polygon<XYZM>` from an exterior ring and holes specified as sequences of (x, y, z, m) values.
+    /// - parameters:
+    ///   - exterior: A sequence of (x, y, z, m) values defining the exterior ring.
+    ///   - holes: A sequence of sequences, each defining an interior hole.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if any ring has fewer than 4 coordinates, or
+    ///           ``GEOSwiftError/ringNotClosed`` if any ring is not closed.
+    init<S: Sequence>(exterior: S, holes: any Sequence<S>) throws where S.Element == (Double, Double, Double, Double) {
+        try self.init(exterior: LinearRing(coordinates: exterior), holes: holes.map(LinearRing.init))
+    }
+
+    /// Initialize a `Polygon<XYZM>` from a sequence of rings specified as sequences of (x, y, z, m) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of sequences where the first is the exterior ring and the rest are holes.
+    /// - throws: ``GEOSwiftError/tooFewRings`` if no rings are provided,
+    ///           ``GEOSwiftError/tooFewCoordinates`` if any ring has fewer than 4 coordinates, or
+    ///           ``GEOSwiftError/ringNotClosed`` if any ring is not closed.
+    init<S: Sequence>(coordinates: any Sequence<S>) throws where S.Element == (Double, Double, Double, Double) {
+        let coordinatesArray = Array(coordinates)
+        guard let exterior = coordinatesArray.first else {
+            throw GEOSwiftError.tooFewRings
+        }
+
+        try self.init(exterior: exterior, holes: coordinatesArray.dropFirst())
     }
 }
 
