@@ -59,6 +59,14 @@ public extension LineString where C == XY {
         // It's safe to force try here since we've already validated the number of points
         try! self.init(coordinates: linestring.lineString.coordinates.map(XY.init))
     }
+
+    /// Initialize a `LineString<XY>` from a sequence of (x, y) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of (x, y) values. Must contain at least 2 coordinates.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if fewer than 2 coordinates are provided.
+    init<S: Sequence>(coordinates: S) throws where S.Element == (Double, Double) {
+        try self.init(coordinates: coordinates.map(XY.init))
+    }
 }
 
 public extension LineString where C == XYZ {
@@ -69,6 +77,14 @@ public extension LineString where C == XYZ {
         // It's safe to force try here since we've already validated the number of points
         try! self.init(coordinates: linestring.lineString.coordinates.map(XYZ.init))
     }
+
+    /// Initialize a `LineString<XYZ>` from a sequence of (x, y, z) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of (x, y, z) values. Must contain at least 2 coordinates.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if fewer than 2 coordinates are provided.
+    init<S: Sequence>(coordinates: S) throws where S.Element == (Double, Double, Double) {
+        try self.init(coordinates: coordinates.map(XYZ.init))
+    }
 }
 
 public extension LineString where C == XYZM {
@@ -78,6 +94,14 @@ public extension LineString where C == XYZM {
     init<D: CoordinateType & HasZ & HasM>(_ linestring: any LineStringConvertible<D>) {
         // It's safe to force try here since we've already validated the number of points
         try! self.init(coordinates: linestring.lineString.coordinates.map(XYZM.init))
+    }
+
+    /// Initialize a `LineString<XYZM>` from a sequence of (x, y, z, m) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of (x, y, z, m) values. Must contain at least 2 coordinates.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if fewer than 2 coordinates are provided.
+    init<S: Sequence>(coordinates: S) throws where S.Element == (Double, Double, Double, Double) {
+        try self.init(coordinates: coordinates.map(XYZM.init))
     }
 }
 

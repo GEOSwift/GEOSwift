@@ -87,6 +87,29 @@ final class LineStringTestsXY: XCTestCase {
         XCTAssertEqual(lineString2.coordinates[1].x, 5)
         XCTAssertEqual(lineString2.coordinates[1].y, 6)
     }
+
+    func testInitWithTupleSequence() throws {
+        let lineString = try LineString<XY>(coordinates: [(1.0, 2.0), (3.0, 4.0), (5.0, 6.0)])
+
+        XCTAssertEqual(lineString.coordinates.count, 3)
+        XCTAssertEqual(lineString.coordinates[0].x, 1.0)
+        XCTAssertEqual(lineString.coordinates[0].y, 2.0)
+        XCTAssertEqual(lineString.coordinates[1].x, 3.0)
+        XCTAssertEqual(lineString.coordinates[1].y, 4.0)
+        XCTAssertEqual(lineString.coordinates[2].x, 5.0)
+        XCTAssertEqual(lineString.coordinates[2].y, 6.0)
+    }
+
+    func testInitWithTupleSequenceTooFew() {
+        do {
+            _ = try LineString<XY>(coordinates: [(1.0, 2.0)])
+            XCTFail("Expected constructor to throw")
+        } catch GEOSwiftError.tooFewCoordinates {
+            // Pass
+        } catch {
+            XCTFail("Expected GEOSwiftError.tooFewCoordinates, but got \(error)")
+        }
+    }
 }
 
 final class LineStringTestsXYZ: XCTestCase {
@@ -102,6 +125,29 @@ final class LineStringTestsXYZ: XCTestCase {
         XCTAssertEqual(lineString2.coordinates[1].x, 5)
         XCTAssertEqual(lineString2.coordinates[1].y, 6)
         XCTAssertEqual(lineString2.coordinates[1].z, 7)
+    }
+
+    func testInitWithTupleSequence() throws {
+        let lineString = try LineString<XYZ>(coordinates: [(1.0, 2.0, 3.0), (4.0, 5.0, 6.0)])
+
+        XCTAssertEqual(lineString.coordinates.count, 2)
+        XCTAssertEqual(lineString.coordinates[0].x, 1.0)
+        XCTAssertEqual(lineString.coordinates[0].y, 2.0)
+        XCTAssertEqual(lineString.coordinates[0].z, 3.0)
+        XCTAssertEqual(lineString.coordinates[1].x, 4.0)
+        XCTAssertEqual(lineString.coordinates[1].y, 5.0)
+        XCTAssertEqual(lineString.coordinates[1].z, 6.0)
+    }
+
+    func testInitWithTupleSequenceTooFew() {
+        do {
+            _ = try LineString<XYZ>(coordinates: [(1.0, 2.0, 3.0)])
+            XCTFail("Expected constructor to throw")
+        } catch GEOSwiftError.tooFewCoordinates {
+            // Pass
+        } catch {
+            XCTFail("Expected GEOSwiftError.tooFewCoordinates, but got \(error)")
+        }
     }
 }
 
@@ -136,5 +182,30 @@ final class LineStringTestsXYZM: XCTestCase {
         XCTAssertEqual(lineString2.coordinates[1].y, 6)
         XCTAssertEqual(lineString2.coordinates[1].z, 7)
         XCTAssertEqual(lineString2.coordinates[1].m, 8)
+    }
+
+    func testInitWithTupleSequence() throws {
+        let lineString = try LineString<XYZM>(coordinates: [(1.0, 2.0, 3.0, 4.0), (5.0, 6.0, 7.0, 8.0)])
+
+        XCTAssertEqual(lineString.coordinates.count, 2)
+        XCTAssertEqual(lineString.coordinates[0].x, 1.0)
+        XCTAssertEqual(lineString.coordinates[0].y, 2.0)
+        XCTAssertEqual(lineString.coordinates[0].z, 3.0)
+        XCTAssertEqual(lineString.coordinates[0].m, 4.0)
+        XCTAssertEqual(lineString.coordinates[1].x, 5.0)
+        XCTAssertEqual(lineString.coordinates[1].y, 6.0)
+        XCTAssertEqual(lineString.coordinates[1].z, 7.0)
+        XCTAssertEqual(lineString.coordinates[1].m, 8.0)
+    }
+
+    func testInitWithTupleSequenceTooFew() {
+        do {
+            _ = try LineString<XYZM>(coordinates: [(1.0, 2.0, 3.0, 4.0)])
+            XCTFail("Expected constructor to throw")
+        } catch GEOSwiftError.tooFewCoordinates {
+            // Pass
+        } catch {
+            XCTFail("Expected GEOSwiftError.tooFewCoordinates, but got \(error)")
+        }
     }
 }
