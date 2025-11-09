@@ -22,6 +22,7 @@
 * Add Z-preerving behavior for `lineMergeDirected`
 * Add Z-preerving behavior for `simplify`
 * Add Z-preerving behavior for `snap`
+* Add `clip(by:)` operation via `GEOSClipByRect_r`
 
 ## 11.2.0
 
