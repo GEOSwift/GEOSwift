@@ -16,6 +16,20 @@ final class PointTestsXY: XCTestCase {
         XCTAssertEqual(point.y, 2)
     }
 
+    func testInitWithTuple() {
+        let coord = XY((3.0, 4.0))
+
+        XCTAssertEqual(coord.x, 3.0)
+        XCTAssertEqual(coord.y, 4.0)
+    }
+
+    func testInitPointWithTuple() {
+        let point = Point<XY>((5.0, 6.0))
+
+        XCTAssertEqual(point.x, 5.0)
+        XCTAssertEqual(point.y, 6.0)
+    }
+
     func testInitWithXYZ() {
         let point1 = Point(x: 1, y: 2, z: 3)
         let point2 = Point<XY>(point1)
@@ -58,6 +72,22 @@ final class PointTestsXYZ: XCTestCase {
         XCTAssertEqual(point.z, 3)
     }
 
+    func testInitWithTuple() {
+        let coord = XYZ((3.0, 4.0, 5.0))
+
+        XCTAssertEqual(coord.x, 3.0)
+        XCTAssertEqual(coord.y, 4.0)
+        XCTAssertEqual(coord.z, 5.0)
+    }
+
+    func testInitPointWithTuple() {
+        let point = Point<XYZ>((7.0, 8.0, 9.0))
+
+        XCTAssertEqual(point.x, 7.0)
+        XCTAssertEqual(point.y, 8.0)
+        XCTAssertEqual(point.z, 9.0)
+    }
+
     func testInitWithXYZM() {
         let point1 = Point(x: 1, y: 2, z: 3, m: 4)
         let point2 = Point<XYZ>(point1)
@@ -83,6 +113,14 @@ final class PointTestsXYM: XCTestCase {
         XCTAssertEqual(point.x, 1)
         XCTAssertEqual(point.y, 2)
         XCTAssertEqual(point.m, 3)
+    }
+
+    func testInitWithTuple() {
+        let coord = XYM((3.0, 4.0, 5.0))
+
+        XCTAssertEqual(coord.x, 3.0)
+        XCTAssertEqual(coord.y, 4.0)
+        XCTAssertEqual(coord.m, 5.0)
     }
 
     func testInitWithXYZM() {
@@ -112,5 +150,23 @@ final class PointTestsXYZM: XCTestCase {
         XCTAssertEqual(point.y, 2)
         XCTAssertEqual(point.z, 3)
         XCTAssertEqual(point.m, 4)
+    }
+
+    func testInitWithTuple() {
+        let coord = XYZM((3.0, 4.0, 5.0, 6.0))
+
+        XCTAssertEqual(coord.x, 3.0)
+        XCTAssertEqual(coord.y, 4.0)
+        XCTAssertEqual(coord.z, 5.0)
+        XCTAssertEqual(coord.m, 6.0)
+    }
+
+    func testInitPointWithTuple() {
+        let point = Point<XYZM>((10.0, 11.0, 12.0, 13.0))
+
+        XCTAssertEqual(point.x, 10.0)
+        XCTAssertEqual(point.y, 11.0)
+        XCTAssertEqual(point.z, 12.0)
+        XCTAssertEqual(point.m, 13.0)
     }
 }

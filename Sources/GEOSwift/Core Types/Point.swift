@@ -41,6 +41,13 @@ public extension Point where C == XY {
     init<D: CoordinateType>(_ point: Point<D>) {
         self.init(XY(point.coordinates))
     }
+
+    /// Initialize a `Point<XY>` from a tuple of (x, y) values.
+    /// - parameters:
+    ///   - coordinate: A tuple containing (x, y) coordinates.
+    init(_ coordinate: (Double, Double)) {
+        self.init(XY(coordinate))
+    }
 }
 
 public extension Point where C == XYZ {
@@ -58,6 +65,13 @@ public extension Point where C == XYZ {
     ///   - point: The `Point` to copy coordinates from.
     init<D: CoordinateType & HasZ>(_ point: Point<D>) {
         self.init(XYZ(point.coordinates))
+    }
+
+    /// Initialize a `Point<XYZ>` from a tuple of (x, y, z) values.
+    /// - parameters:
+    ///   - coordinate: A tuple containing (x, y, z) coordinates.
+    init(_ coordinate: (Double, Double, Double)) {
+        self.init(XYZ(coordinate))
     }
 }
 
@@ -77,6 +91,13 @@ public extension Point where C == XYZM {
     ///   - point: The `Point` to copy coordinates from.
     init<D: CoordinateType & HasZ & HasM>(_ point: Point<D>) {
         self.init(XYZM(point.coordinates))
+    }
+
+    /// Initialize a `Point<XYZM>` from a tuple of (x, y, z, m) values.
+    /// - parameters:
+    ///   - coordinate: A tuple containing (x, y, z, m) coordinates.
+    init(_ coordinate: (Double, Double, Double, Double)) {
+        self.init(XYZM(coordinate))
     }
 }
 
