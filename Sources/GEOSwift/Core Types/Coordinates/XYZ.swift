@@ -42,6 +42,15 @@ public struct XYZ: CoordinateType, HasZ, GeoJSONCoordinate {
         self.z = coordinate.z
     }
 
+    /// Initialize an `XYZ` coordinate from a tuple of (x, y, z) values.
+    /// - parameters:
+    ///   - coordinate: A tuple containing (x, y, z) coordinates.
+    public init(_ coordinate: (Double, Double, Double)) {
+        self.x = coordinate.0
+        self.y = coordinate.1
+        self.z = coordinate.2
+    }
+
     // MARK: Codable
 
     public init(from decoder: Decoder) throws {
