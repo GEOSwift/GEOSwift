@@ -147,11 +147,36 @@ let geometryDropZ = try decoder.decode(Geometry<XY>.self, from: dataWithZ) // Dr
 
 #### Initializing Geometry types directly
 
-You can also initialize geometry types directly from coordinate types.
+There are several different ways to initialize geometry types directly.
 
 ```swift
-let pointXY = Point(x: 1, y: 2) // Equivalent to Point(XY(1, 2))
-let lineStringXY = LineString(coordinates: [XYZ(1, 2, 3), XYZ(4, 5, 6)]) // CoordinateTypes must be consistent in one geometry
+// Using coordinate types directly
+let lineString1 = LineString(coordinates: [
+    XYZ(1, 2, 3), 
+    XYZ(4, 5, 6)
+])
+
+// Using implied coordinate types via tuples (not available for XYM)
+let lineString2 = LineString(coordinates: [
+    (1, 2, 3), 
+    (4, 5, 6)
+])
+
+// Using convenience initializers
+let point1 = Point(x: 1, y: 2, z: 3)
+let point2 = Point(x: 4, y: 5, z: 6)
+let lineString3 = LineString(point: [point1, point2])
+
+// Using copy constructors to downcast coordinate types
+let lineStringXYZM = LineString(coordinates: [
+    (1, 2, 3, 0),
+    (4, 5, 6, 0)
+])
+let lineString4 = LineString<XYZ>(lineStringXYZM)
+
+lineString1 == lineString2 // true
+lineString1 == lineString3 // true
+lineString1 == lineString4 // true
 ```
 
 ### Coordinate Dimensions (`CoordinateType`)
@@ -161,14 +186,10 @@ things to know about using various coordinate types, mixing dimensionalities, an
 and geometric operations.
 
 * The `XY` coordinate type is generally the safest and most intuitive. If you don't *need* Z/M, prefer keeping things 2D.
-* With the exception of decoding, see below, you usually don't need to explicitly specialize the geometry to a specific
-  `CoordinateType`. The dimensionality is infered from the initializer used (e.g. `Point(x: 1, y: 2)`, the base geometry
-  that you are composing with (e.g. `MultiLine`, `GeometryCollection`), or the result of a goemtric operation.
 * When decoding geometry directly from GeoJSON or WKB/WKT, you have three options:
   * Explicitly type the expected `CoordinateType` e.g. `try Geometry<XYZ>(wkb: wkb)` or `decoder.decode(GeoJSON<XYZ>.self, from: data)`. This will error if there are fewer ordinates than needed present in the data.
-  * Use `readAny` for WKB/WKT or `CodingUserInfo.geoJSONSetMissingZNan` for GeoJSON to decode unknown `CoordinateType`s.
+  * Use `readAny` on `[WKB|WKT]Reader` or `CodingUserInfo.geoJSONSetMissingZNan` for GeoJSON to decode unknown `CoordinateType`s.
   * Decode as `XY` geometry which will always work for valid geometries by dropping Z/M ordinates.
-* `WKBReader`/`WKTReader` can be used to read geometries of unknown coordinate types into an `AnyGeometry`.
 * GeoJSON does not support M coordinates, so you cannot decode from JSON into `XYM`/`XYZM` geometries.
 * You can initialize a lower-dimensioned coordinate from a higher one assuming it has the relevant coordinates, e.g
   `let pointXY = Point<XY>(Point(x: 1, y: 2, z: 3))`. You cannot initialize a `XYM` type from a `XYZ` type or vice versa.
