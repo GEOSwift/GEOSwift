@@ -60,6 +60,24 @@ final class MultiPointTestsXY: XCTestCase {
         XCTAssertEqual(multiPoint2.points[2].x, 9)
         XCTAssertEqual(multiPoint2.points[2].y, 10)
     }
+
+    func testInitWithCoordinates() {
+        let multiPoint = MultiPoint(coordinates: [XY(1, 2), XY(3, 4)])
+
+        XCTAssertEqual(multiPoint.points, [Point(XY(1, 2)), Point(XY(3, 4))])
+    }
+
+    func testInitWithTupleSequence() {
+        let multiPoint = MultiPoint<XY>(coordinates: [(1.0, 2.0), (3.0, 4.0)])
+
+        XCTAssertEqual(multiPoint.points, [Point(XY(1, 2)), Point(XY(3, 4))])
+    }
+
+    func testInitWithEmptyTupleSequence() {
+        let multiPoint = MultiPoint<XY>(coordinates: [(Double, Double)]())
+
+        XCTAssertEqual(multiPoint.points, [])
+    }
 }
 
 final class MultiPointTestsXYZ: XCTestCase {
@@ -82,6 +100,18 @@ final class MultiPointTestsXYZ: XCTestCase {
         XCTAssertEqual(multiPoint2.points[2].y, 10)
         XCTAssertEqual(multiPoint2.points[2].z, 11)
     }
+
+    func testInitWithCoordinates() {
+        let multiPoint = MultiPoint(coordinates: [XYZ(1, 2, 3), XYZ(4, 5, 6)])
+
+        XCTAssertEqual(multiPoint.points, [Point(XYZ(1, 2, 3)), Point(XYZ(4, 5, 6))])
+    }
+
+    func testInitWithTupleSequence() {
+        let multiPoint = MultiPoint<XYZ>(coordinates: [(1.0, 2.0, 3.0), (4.0, 5.0, 6.0)])
+
+        XCTAssertEqual(multiPoint.points, [Point(XYZ(1, 2, 3)), Point(XYZ(4, 5, 6))])
+    }
 }
 
 final class MultiPointTestsXYM: XCTestCase {
@@ -103,6 +133,12 @@ final class MultiPointTestsXYM: XCTestCase {
         XCTAssertEqual(multiPoint2.points[2].x, 9)
         XCTAssertEqual(multiPoint2.points[2].y, 10)
         XCTAssertEqual(multiPoint2.points[2].m, 12)
+    }
+
+    func testInitWithCoordinates() {
+        let multiPoint = MultiPoint(coordinates: [XYM(1, 2, 3), XYM(4, 5, 6)])
+
+        XCTAssertEqual(multiPoint.points, [Point(XYM(1, 2, 3)), Point(XYM(4, 5, 6))])
     }
 }
 
@@ -128,5 +164,17 @@ final class MultiPointTestsXYZM: XCTestCase {
         XCTAssertEqual(multiPoint2.points[2].y, 10)
         XCTAssertEqual(multiPoint2.points[2].z, 11)
         XCTAssertEqual(multiPoint2.points[2].m, 12)
+    }
+
+    func testInitWithCoordinates() {
+        let multiPoint = MultiPoint(coordinates: [XYZM(1, 2, 3, 4), XYZM(5, 6, 7, 8)])
+
+        XCTAssertEqual(multiPoint.points, [Point(XYZM(1, 2, 3, 4)), Point(XYZM(5, 6, 7, 8))])
+    }
+
+    func testInitWithTupleSequence() {
+        let multiPoint = MultiPoint<XYZM>(coordinates: [(1.0, 2.0, 3.0, 4.0), (5.0, 6.0, 7.0, 8.0)])
+
+        XCTAssertEqual(multiPoint.points, [Point(XYZM(1, 2, 3, 4)), Point(XYZM(5, 6, 7, 8))])
     }
 }
