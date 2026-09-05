@@ -41,6 +41,7 @@ final class LineStringTestsXY: XCTestCase {
         XCTAssertEqual(lineString.coordinates, linearRingHole1.coordinates)
     }
 
+    @available(*, deprecated, message: "Tests the deprecated init(points:).")
     func testInitWithPoints() throws {
         let points = makePoints(withCount: 2)
         let lineString = try LineString(points: points)

@@ -155,9 +155,9 @@ final class Geometry_CodableTestsXYZ: CodableTestCase {
     }
 
     func testCodableLineString() {
-        let lineString = try! LineString(points: [
-            Point(x: 1, y: 2, z: 3),
-            Point(x: 4, y: 5, z: 6)])
+        let lineString = try! LineString(coordinates: [
+            XYZ(1, 2, 3),
+            XYZ(4, 5, 6)])
         let json = #"{"coordinates":[[1,2,3],[4,5,6]],"type":"LineString"}"#
         verifyCodable(with: Geometry.lineString(lineString), json: json)
     }
@@ -165,12 +165,12 @@ final class Geometry_CodableTestsXYZ: CodableTestCase {
     func testCodableMultiLineString() {
         let multiLineString = MultiLineString(
             lineStrings: [
-                try! LineString(points: [
-                    Point(x: 1, y: 2, z: 3),
-                    Point(x: 4, y: 5, z: 6)]),
-                try! LineString(points: [
-                    Point(x: 7, y: 8, z: 9),
-                    Point(x: 10, y: 11, z: 12)])])
+                try! LineString(coordinates: [
+                    XYZ(1, 2, 3),
+                    XYZ(4, 5, 6)]),
+                try! LineString(coordinates: [
+                    XYZ(7, 8, 9),
+                    XYZ(10, 11, 12)])])
         let json = #"{"coordinates":[[[1,2,3],[4,5,6]],[[7,8,9],[10,11,12]]],"type"#
             + #"":"MultiLineString"}"#
         verifyCodable(with: Geometry.multiLineString(multiLineString), json: json)
@@ -218,9 +218,9 @@ final class Geometry_CodableTestsXYZ: CodableTestCase {
 
     func testCodableGeometryCollection() {
         let point = Point<XYZ>(x: 1, y: 2, z: 3)
-        let lineString = try! LineString(points: [
-            Point(x: 1, y: 2, z: 3),
-            Point(x: 4, y: 5, z: 6)])
+        let lineString = try! LineString(coordinates: [
+            XYZ(1, 2, 3),
+            XYZ(4, 5, 6)])
         let geometryCollection = GeometryCollection(geometries: [point, lineString])
         let json = #"{"geometries":[{"coordinates":[1,2,3],"type":"Point"},"#
             + #"{"coordinates":[[1,2,3],[4,5,6]],"type":"LineString"}],"#
