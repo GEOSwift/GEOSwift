@@ -4,7 +4,7 @@
 * Introduce `AnyGeometry` to type erase coordinate type information on geoemetry.
 * Introduce `GeoJSONCoordinate` to enable GeoJSON encoding/decoding only for XY and XYZ coordinates.
 * Update `geos` dependency to 11.0.0 for MIT Licensing and upstream GEOS 3.14.1
-* The base data types for geometries are now `CoordinateType`s rather than `Point`s, though convenience initializers for points remain.
+* The base data types for geometries are now `CoordinateType`s rather than `Point`s, though convenience initializers for points remain, some now deprecated.
 * Enable `LineString` initialization from any `LineStringConvertible` with the appropriate dimensions.
 * Add documentation to core types.
 * Add `WKBReader.readAny(wkb:)` to read `AnyGeometry` types when the `CoordinateType` is unknown.
@@ -24,6 +24,8 @@
 * Add Z-preerving behavior for `snap`
 * Add `clip(by:)` operation via `GEOSClipByRect_r`
 * Add tuple-based initialization for `CoordinateType`s, `Point`, `LineString`, and `Polygon`.
+* Deprecate `LineString.init(points:)` and `Polygon.LinearRing.init(points:)` in favor of `init(coordinates:)`.
+* Enable `LineString` and `Polygon.LinearRing` initialization from any `Sequence` of `Point`s.
 
 ## 11.2.0
 
