@@ -150,6 +150,17 @@ final class PolygonTestsXY: XCTestCase {
         XCTAssertEqual(polygon.holes.count, 1)
         XCTAssertEqual(polygon.holes[0].coordinates.count, 4)
     }
+
+    func testInitPolygonWithTuplesNoRings() {
+        do {
+            _ = try Polygon<XY>(coordinates: [[(Double, Double)]]())
+            XCTFail("Expected constructor to throw")
+        } catch GEOSwiftError.tooFewRings {
+            // Pass
+        } catch {
+            XCTFail("Expected GEOSwiftError.tooFewRings, but got \(error)")
+        }
+    }
 }
 
 final class PolygonTestsXYZ: XCTestCase {
@@ -207,6 +218,17 @@ final class PolygonTestsXYZ: XCTestCase {
         XCTAssertEqual(polygon.exterior.coordinates.count, 4)
         XCTAssertEqual(polygon.holes.count, 1)
         XCTAssertEqual(polygon.holes[0].coordinates.count, 4)
+    }
+
+    func testInitPolygonWithTuplesNoRings() {
+        do {
+            _ = try Polygon<XYZ>(coordinates: [[(Double, Double, Double)]]())
+            XCTFail("Expected constructor to throw")
+        } catch GEOSwiftError.tooFewRings {
+            // Pass
+        } catch {
+            XCTFail("Expected GEOSwiftError.tooFewRings, but got \(error)")
+        }
     }
 }
 
@@ -294,5 +316,16 @@ final class PolygonTestsXYZM: XCTestCase {
         XCTAssertEqual(polygon.exterior.coordinates.count, 4)
         XCTAssertEqual(polygon.holes.count, 1)
         XCTAssertEqual(polygon.holes[0].coordinates.count, 4)
+    }
+
+    func testInitPolygonWithTuplesNoRings() {
+        do {
+            _ = try Polygon<XYZM>(coordinates: [[(Double, Double, Double, Double)]]())
+            XCTFail("Expected constructor to throw")
+        } catch GEOSwiftError.tooFewRings {
+            // Pass
+        } catch {
+            XCTFail("Expected GEOSwiftError.tooFewRings, but got \(error)")
+        }
     }
 }
