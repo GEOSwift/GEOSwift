@@ -22,7 +22,7 @@ let point = Point(x: 4.5, y: 4.5)
 let polygon = try Polygon<XY>(wkt: "POLYGON((0 0, 0 5, 5 5, 5 0, 0 0))")
 
 // Check if the point is within the polygon
-let isInside = try point.within(polygon) // true
+let isInside = try point.isWithin(polygon) // true
 ```
 
 ## Table of Contents
@@ -83,28 +83,30 @@ In certain cases, you may also need to explicitly include
 #### From WKB/WKT
 
 ```swift
+let wkb = try Point(x: 10, y: 45, z: 100).wkb()
+
 // If you know the expected geometry coordinate types, you can decode directly from the Geometry<> type
 let geometryXY = try Geometry<XY>(wkb: wkb) // All valid geometries will successfully decode as XY
-let pointXY = try Point<XY>(wkt: "LINESTRING(35 10, 45 45.5)") // Fails since it is not a POINT
-let pointXYZ = try Point<XYZ>(wkt: "POINT(10 45)") // Fails since the encoded geometry has no Z coordinate
+let pointXY = try Point<XY>(wkt: "LINESTRING(35 10, 45 45.5)") // Throws, since it is not a POINT
+let pointXYZ = try Point<XYZ>(wkt: "POINT(10 45)") // Throws, since the encoded geometry has no Z coordinate
 
-// If you don't know the expected coordinate types of the encoded geometry, use a WKBReader/WKTReader
-let anyGeometry = try WKBReader().readAny(wkb: wkb) // Returns an `AnyGeometry` enum that you can use to recover the coordinate and geometry types.
+// If you don't know the expected coordinate types of the encoded geometry, use a WKBReader/WKTReader.
+// `readAny` returns an `AnyGeometry` enum that you can use to recover the coordinate and geometry types.
+let anyGeometry = try WKBReader().readAny(wkb: wkb)
 switch anyGeometry {
 case .xyz(let geometry):
-    doSomethingWith(geometry)
+    print("An XYZ geometry: \(geometry)")
 default:
-    throw error
+    print("Expected XYZ coordinates")
 }
 
-// or
+// or, erase the coordinate type down to XY, which always succeeds
 
-let geometryXY = anyGeometry.asXY() // will always succeed
-switch geometryXY {
+switch anyGeometry.asXY() {
 case .point(let point):
-    doSomethingWith(point)
+    print("A point: \(point)")
 default:
-    throw error
+    print("Expected a point")
 }
 ```
 
@@ -151,24 +153,24 @@ There are several different ways to initialize geometry types directly.
 
 ```swift
 // Using coordinate types directly
-let lineString1 = LineString(coordinates: [
-    XYZ(1, 2, 3), 
+let lineString1 = try LineString(coordinates: [
+    XYZ(1, 2, 3),
     XYZ(4, 5, 6)
 ])
 
 // Using implied coordinate types via tuples (not available for XYM)
-let lineString2 = LineString(coordinates: [
-    (1, 2, 3), 
+let lineString2 = try LineString(coordinates: [
+    (1, 2, 3),
     (4, 5, 6)
 ])
 
-// Using convenience initializers
+// Using points (deprecated; prefer one of the coordinate-based initializers above)
 let point1 = Point(x: 1, y: 2, z: 3)
 let point2 = Point(x: 4, y: 5, z: 6)
-let lineString3 = LineString(point: [point1, point2])
+let lineString3 = try LineString(points: [point1, point2])
 
 // Using copy constructors to downcast coordinate types
-let lineStringXYZM = LineString(coordinates: [
+let lineStringXYZM = try LineString(coordinates: [
     (1, 2, 3, 0),
     (4, 5, 6, 0)
 ])
@@ -247,15 +249,17 @@ let hull = try polygon1.convexHull()
 
 GEOSwift provides spatial predicates to test relationships between geometries:
 
-* **equals**: returns true if this geometric object is "spatially equal" to another geometry.
-* **disjoint**: returns true if this geometric object is "spatially disjoint" from another geometry.
-* **intersects**: returns true if this geometric object "spatially intersects" another geometry.
-* **touches**: returns true if this geometric object "spatially touches" another geometry.
-* **crosses**: returns true if this geometric object "spatially crosses" another geometry.
-* **within**: returns true if this geometric object is "spatially within" another geometry.
-* **contains**: returns true if this geometric object "spatially contains" another geometry.
-* **overlaps**: returns true if this geometric object "spatially overlaps" another geometry.
-* **relate**: returns true if this geometric object is spatially related to another geometry by testing for intersections between the interior, boundary and exterior of the two geometric objects as specified by the values in the intersectionPatternMatrix.
+* **`isTopologicallyEquivalent(to:)`**: returns true if this geometric object is "spatially equal" to another geometry.
+* **`isDisjoint(with:)`**: returns true if this geometric object is "spatially disjoint" from another geometry.
+* **`intersects(_:)`**: returns true if this geometric object "spatially intersects" another geometry.
+* **`touches(_:)`**: returns true if this geometric object "spatially touches" another geometry.
+* **`crosses(_:)`**: returns true if this geometric object "spatially crosses" another geometry.
+* **`isWithin(_:)`**: returns true if this geometric object is "spatially within" another geometry.
+* **`contains(_:)`**: returns true if this geometric object "spatially contains" another geometry.
+* **`overlaps(_:)`**: returns true if this geometric object "spatially overlaps" another geometry.
+* **`covers(_:)`**: returns true if no point of the other geometry lies outside this geometric object.
+* **`isCovered(by:)`**: returns true if no point of this geometric object lies outside the other geometry.
+* **`relate(_:mask:)`**: returns true if this geometric object is spatially related to another geometry by testing for intersections between the interior, boundary and exterior of the two geometric objects as specified by the values in the intersectionPatternMatrix.
 
 #### Code Examples
 
@@ -265,7 +269,7 @@ let polygon = try Polygon<XY>(wkt: "POLYGON((0 0, 0 5, 5 5, 5 0, 0 0))")
 let line = try LineString<XY>(wkt: "LINESTRING(0 0, 10 10)")
 
 // Check if point is within polygon
-let isWithin = try point.within(polygon) // true
+let isWithin = try point.isWithin(polygon) // true
 
 // Check if geometries intersect
 let intersects = try line.intersects(polygon) // true
@@ -275,7 +279,7 @@ let contains = try polygon.contains(point) // true
 
 // Check if geometries are disjoint (don't intersect)
 let point2 = Point(x: 10, y: 10)
-let disjoint = try point2.disjoint(polygon) // true
+let disjoint = try point2.isDisjoint(with: polygon) // true
 ```
 
 ### Playground
@@ -293,7 +297,7 @@ GEOSwift 12.0.0 introduced a few changes that you may need to incorporate to upg
 some cases, convenience methods were retained to ease migration.
 * `Geometry` and geometric types are now generic over `CoordinateType`. Specifying `XY` as the
   `CoordinateType` will give you largely the same behavior as 11.x.x. You can also use the copy
-  constructors to down-convert the dimensions of a type (`let point = Point<XY>(pointXZYM)`).
+  constructors to down-convert the dimensions of a type (`let point = Point<XY>(pointXYZM)`).
 * The new base type for forming geometries is a `CoordinateType` (e.g. `XY`) rather than `Point`s.
   Initializing with points is still supported but is now deprecated.
 * The `AnyGeometry` object is used in a few cases to wrap geometries where the `CoordinateType` isn't
