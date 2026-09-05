@@ -16,6 +16,16 @@ public struct MultiLineString<C: CoordinateType>: Hashable, Sendable {
 // MARK: Convenience Methods
 
 public extension MultiLineString where C == XY {
+    /// Initialize a `MultiLineString<XY>` from sequences of (x, y) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of sequences, each defining one linestring. Each must
+    ///                  contain at least 2 coordinates.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if any linestring has fewer than 2
+    ///           coordinates.
+    init<S: Sequence>(coordinates: any Sequence<S>) throws where S.Element == (Double, Double) {
+        self.init(lineStrings: try coordinates.map { try LineString(coordinates: $0) })
+    }
+
     /// Initialize a `MultiLineString<XY>` from another `MultiLineString`.
     /// - parameters:
     ///   - multiLineString: The multilinestring to copy linestrings from.
@@ -25,6 +35,16 @@ public extension MultiLineString where C == XY {
 }
 
 public extension MultiLineString where C == XYZ {
+    /// Initialize a `MultiLineString<XYZ>` from sequences of (x, y, z) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of sequences, each defining one linestring. Each must
+    ///                  contain at least 2 coordinates.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if any linestring has fewer than 2
+    ///           coordinates.
+    init<S: Sequence>(coordinates: any Sequence<S>) throws where S.Element == (Double, Double, Double) {
+        self.init(lineStrings: try coordinates.map { try LineString(coordinates: $0) })
+    }
+
     /// Initialize a `MultiLineString<XYZ>` from another `MultiLineString` with Z coordinates.
     /// - parameters:
     ///   - multiLineString: The multilinestring to copy linestrings from.
@@ -34,6 +54,16 @@ public extension MultiLineString where C == XYZ {
 }
 
 public extension MultiLineString where C == XYZM {
+    /// Initialize a `MultiLineString<XYZM>` from sequences of (x, y, z, m) values.
+    /// - parameters:
+    ///   - coordinates: A sequence of sequences, each defining one linestring. Each must
+    ///                  contain at least 2 coordinates.
+    /// - throws: ``GEOSwiftError/tooFewCoordinates`` if any linestring has fewer than 2
+    ///           coordinates.
+    init<S: Sequence>(coordinates: any Sequence<S>) throws where S.Element == (Double, Double, Double, Double) {
+        self.init(lineStrings: try coordinates.map { try LineString(coordinates: $0) })
+    }
+
     /// Initialize a `MultiLineString<XYZM>` from another `MultiLineString` with Z and M coordinates.
     /// - parameters:
     ///   - multiLineString: The multilinestring to copy linestrings from.
