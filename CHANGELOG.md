@@ -1,4 +1,5 @@
-## `main`
+## 12.0.0
+
 * Introduce `CoordinateType`s for Z/M support and make geometries generic over `CoordinateType`.
 * Unnest `Feature.Id` as `FeatureId`.
 * Introduce `AnyGeometry` to type erase coordinate type information on geoemetry.
