@@ -5,8 +5,4 @@ extension MultiPoint: CodableGeometry, Codable where C: GeoJSONCoordinate {
     var coordinates: [C] {
         points.map { $0.coordinates }
     }
-
-    init(coordinates: [C]) throws {
-        self.init(points: coordinates.map(Point.init(_:)))
-    }
 }
