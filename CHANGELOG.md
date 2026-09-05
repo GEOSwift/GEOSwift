@@ -26,6 +26,7 @@
 * Add tuple-based initialization for `CoordinateType`s, `Point`, `LineString`, and `Polygon`.
 * Deprecate `LineString.init(points:)` and `Polygon.LinearRing.init(points:)` in favor of `init(coordinates:)`.
 * Enable `LineString` and `Polygon.LinearRing` initialization from any `Sequence` of `Point`s.
+* Add `MultiPoint.init(coordinates:)` for all `CoordinateType`s, and tuple-based initialization for `MultiPoint` and `MultiLineString`.
 
 ## 11.2.0
 
